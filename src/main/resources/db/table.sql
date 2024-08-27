@@ -1,6 +1,3 @@
-create database jam;
-
-use jam;
 
 CREATE TABLE `user_tb` (
     `user_id` int PRIMARY KEY AUTO_INCREMENT NOT NULL COMMENT 'auto',

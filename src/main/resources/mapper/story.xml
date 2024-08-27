@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jam.repository.interfaces.StoryRepository">
+
+	<insert id="insertStory">
+		insert into story_tb (book_id, user_id, number, type,
+		title, upload_day, save, cost, content)
+		values (#{bookId}, #{userId},
+		#{number}, #{type}, #{author}, #{title},
+		#{uploadDay}, #{save},
+		#{cost}, #{content})
+	</insert>
+
+	<select id="findAllStoryByBookId"
+		resultType="com.jam.repository.model.Story">
+		select number, type, story.title, story.created_at, cost,
+		story.views
+		from story_tb as story
+		join book_tb as book on story.book_id
+		= book.book_id
+		where story.book_id = #{bookId}
+	</select>
+
+	<select id="outputStoryContentByNumber"
+		resultType="com.jam.repository.model.Story">
+		select title, content, number
+		from story_tb
+		where number =
+		#{number}
+	</select>
+
+	<update id="updateStory">
+		update stroy_tb set
+		title = #{title}, content =
+		#{content}, book_cover_image =
+		#{bookCoverImage}, upload_day =
+		#{uploadDay}
+		where stroy_id = #{storyId}
+	</update>
+
+	<update id="storyViewCountUp">
+		UPDATE story_tb
+		SET view = view + 1
+		WHERE story_id = #{storyId}
+	</update>
+
+	<delete id="deleteStory">
+		delete story_tb where story_id = #{storyId}
+	</delete>
+
+</mapper>

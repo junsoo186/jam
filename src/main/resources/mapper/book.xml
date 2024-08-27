@@ -1,3 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jam.repository.interfaces.BookRepository">
+
+	<insert id="insertBook">
+		insert into book_tb (user_id, title, author_comment,
+		author, book_cover_image, category_id, genre_id, tag_id, age)
+		values(#{userId}, #{title}, #{authorComment}, #{author},
+		#{bookCoverImage}, #{categoryId}, #{genreId}, #{tagId}, #{age})
+	</insert>
+
+	<select id="AllBookList"
+		resultType="com.jam.repository.model.Book">
+		select title, author, book_cover_image,
+		category_id,
+		genre_id, tag_id, likes
+		from book_tb
+		limit #{limit} offset #{offset}
+	</select>
+
+	<select id="detailBookByBookId"
+		resultType="com.jam.repository.model.Book">
+		select title, author, author_comment, introduction,
+		book_cover_image, category_id, genre_id, tag_id, serial_day, likes, age
+		from book_tb
+		where book_id = #{bookId};
+	</select>
+
+	<update id="updateBook">
+		update book_tb set
+		title = #{title}, author_comment =
+		#{authorComment}, book_cover_image =
+		#{bookCoverImage},
+		categoriy_id =
+		#{categoriyId}, genre_id = #{genreId}, tag_id = #{tagId},
+		serial_day =
+		#{serialDay}, age = #{age}
+		where book_id = #{bookId}
+	</update>
+
+	<update id="bookViewCountUp">
+		update book_tb set
+		SET view = view + 1
+		where book_id =
+		#{bookId}
+	</update>
+
+	<delete id="deleteBook">
+		delete book_tb where book_id = #{bookId}
+	</delete>
+
+</mapper>
