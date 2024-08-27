@@ -8,18 +8,72 @@
 </head>
 <body>
 
-<form action="/user/sign-in" method="post">
-		<div class="">
-			<label for="username">Id:</label>
-			<input type="text" class="" placeholder="Enter username" id="username" name="username" value="사용자">
-		</div>
-		<div class="">
-			<label for="pwd">Password:</label>
-			<input type="password" class="" placeholder="Enter password" id="pwd" name="password" value="1234">
-		</div>
-		<button type="submit" class="btn">로그인</button>
-		<a href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=da70bb7a1f4babcdcd8957d9785e99c4&redirect_uri=http://localhost:8080/user/kakao">fffffff</a>
-	</form>
+  <h1>회원가입</h1>
+    <form action="register" method="post">
+        <div>
+            <label for="name">이름:</label>
+            <input type="text" id="name" name="name" required>
+        </div>
+        
+        <div>
+            <label for="year">년:</label>
+            <input type="text" id="year" name="year" required>
+            <label for="month">월:</label>
+            <input type="text" id="month" name="month" required>
+            <label for="day">일:</label>
+            <input type="text" id="day" name="day" required>
+        </div>
+        
+        <div>
+            <label for="gender">성별:</label>
+            <input type="text" id="gender" name="gender" required>
+        </div>
+        
+        <div>
+            <label for="email">이메일:</label>
+            <input type="email" id="email" name="email" required>
+        </div>
+        
+        <div>
+            <label for="password">비밀번호:</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+        
+        <div>
+            <label>통신사:</label>
+            <input type="radio" id="skt" name="carrier" value="SKT" required>
+            <label for="skt">SKT</label>
+            <input type="radio" id="kt" name="carrier" value="KT">
+            <label for="kt">KT</label>
+            <input type="radio" id="lgup" name="carrier" value="LGU+">
+            <label for="lgup">LGU+</label>
+        </div>
+        
+        <div>
+            <label for="phoneNumber">휴대폰 번호:</label>
+            <input type="text" id="phoneNumber" name="phoneNumber" required>
+            <button type="button" onclick="sendSMS()">발송</button>
+        </div>
+        
+        <div>
+            <label for="verificationCode">인증번호:</label>
+            <input type="text" id="verificationCode" name="verificationCode" required>
+            <button type="button" onclick="verifyCode()">인증</button>
+        </div>
+        
+        <div>
+            <label for="nickname">닉네임:</label>
+            <input type="text" id="nickname" name="nickname" required>
+        </div>
+        
+        <div>
+            <button type="submit">가입하기</button>
+        </div>
+    </form>
+    
+    <a href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=da70bb7a1f4babcdcd8957d9785e99c4&redirect_uri=http://localhost:8080/user/kakao">fffffff</a>
+    
+
 
 </body>
 </html>
