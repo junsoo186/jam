@@ -13,36 +13,29 @@
         </section>
 
         <section>
-            <form action="list" method="post">
+            <form action="workInsert" method="post">
 
                 <table>
                     <tr>
                         <th>작품명</th>
                         <td>
-                            <input type="text" class="inputs title">
+                            <input type="text" class="inputs title" id="title">
                         </td>
                     </tr>
                     
-                    <tr>
-                        <th>작성자</th>
+                    <!-- <tr>
+                        <th>분류</th>
                         <td>
                             <input type="text" class="inputs username" readonly>
                         </td>
-                    </tr>
-                    
-                    <tr>
-                        <th>첨부파일</th>
-                        <td>
-                            <input type="file" class="file" accept="image/*" > 
-                            <!-- 이미지 파일만 받을 수 있도록 설정  accept="image/*" -->
-                        </td>
-                    </tr>
-                    
+                    </tr> -->
+                   
+                   
                     <tr>
                         <th>내용</th>
                         <td>
                             <div class="img-box">이미지 미리보기</div>
-                            <textarea name="" id="" class="content"></textarea>
+                            <textarea name="" id="content" class="contents"></textarea>
                         </td>
                     </tr>
                     

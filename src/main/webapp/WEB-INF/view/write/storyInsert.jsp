@@ -7,18 +7,12 @@
 <title>Insert title here</title>
 </head>
 <body>
-    <div class="btn-area">
-        <form action="workInsert" method="get">
-        	<button type="submit" id="btnInsert" >신규 작품 등록</button>
-        </form>
-    </div>
-    <div class="btn-area">
-        <form action="storyInsert" method="get">
+	<h1>회차 생성</h1>
+	
+	    <div class="btn-area">
+        <form action="storyInsert" method="post">
         	<button type="submit" id="btnInsert" >회차 등록</button>
         </form>
     </div>
-	
-<script>
-</script>
 </body>
 </html>
