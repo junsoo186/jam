@@ -18,7 +18,7 @@
 			</div>
 			<div class="nav-item">
 				<label><a href="">글쓰기</a></label>
-				<label class="nav-login">로그인</label>
+				<label  class="nav-login"><a href="/user/sign-up">로그인</a></label>
 			</div>
 		</nav>
 		

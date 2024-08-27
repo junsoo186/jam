@@ -140,7 +140,7 @@ public class UserController {
 	    
 	    session.setAttribute("principal", user);
 	    
-		return "redirect:/index";
+		return "redirect:/user/sign-up";
 	}
 
 }

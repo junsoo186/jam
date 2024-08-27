@@ -18,7 +18,7 @@ public class UserService {
 	 */
 	public void createUser(User dto) {
 		int result = 0;
-		System.out.println("dtp : " +dto);
+		System.out.println("dto : " +dto);
 		result = userRepository.insert(dto);
 		
 		if(result == 1) {
