@@ -27,5 +27,5 @@ public class Story {
 	private String save;
 	private Integer cost;
 	private Integer views;
-	private String content;
+	private String contents;
 }
