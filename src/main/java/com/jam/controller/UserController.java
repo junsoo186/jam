@@ -10,6 +10,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,7 +44,9 @@ public class UserController {
 	}
 
 	@PostMapping("/sign-up")
-	public String signUp() {
+	public String signUp(User dto) {
+		
+		userService.createUser(dto);
 		return "redirect:/user/sign-in";
 	}
 
@@ -66,7 +69,7 @@ public class UserController {
 	
 	@GetMapping("/kakao")
 //	@ResponseBody
-	public String getMethodName(@RequestParam(name = "code") String code) {
+	public String getMethodName(@RequestParam(name = "code") String code, Model model) {
 		// 토큰 확인 전에 확인할 수 있는 카카오 코드 (인가 코드)
 		System.out.println("code : " + code); 
 		
@@ -127,20 +130,29 @@ public class UserController {
 	    User user = User.builder()
 	    		// name, birth_date, gender, address, nick_name, phone_number, email, password, admin_check
 	    		.name(kakaoProfile.getProperties().getNickname() + "_" + kakaoProfile.getId())
-	    		.birthDate(birthDate)
-	    		.gender("M")
-	    		.address("부산시 @@구")
+	    	//	.birthDate(birthDate)
+	    	//	.gender("M")
+	    	//	.address("부산시 @@구")
 	    		.nickName("OAuth_" + kakaoProfile.getProperties().getNickname())
-	    		.phoneNumber("010-7777-7777")
-	    		.email("test@kakao.test.com")
-	    		.password("1234")
-	    		.adminCheck("user")
+	    	//	.phoneNumber("010-7777-7777")
+	    	//	.email("test@kakao.test.com")
+	    	//	.password("1234")
+	    	//	.adminCheck("user")
 	    		.build();
-	    userService.createUser(user);
 	    
-	    session.setAttribute("principal", user);
+	    model.addAttribute("name", user.getName());
+	    System.out.println("name : " +user.getNickName());
 	    
-		return "redirect:/index";
+	    model.addAttribute("nickName", user.getNickName());
+	    System.out.println("nickName" + user.getNickName());
+	    
+	  //  userService.createUser(user);
+	  //  session.setAttribute("principal", user);
+	    
+	 // return "redirect:/index";
+	 // return "redirect:/user/sign-in";
+	    
+	    return "user/signIn";
 	}
 
 }

@@ -9,10 +9,11 @@
 <body>
 
   <h1>회원가입</h1>
-    <form action="register" method="post">
+    <form action="/user/sign-up" method="post">
         <div>
             <label for="name">이름:</label>
-            <input type="text" id="name" name="name" required>
+            <input type="text" id="name" name="name" required value="${nickName}">
+           
         </div>
         
         <div>
@@ -25,7 +26,7 @@
         </div>
         
         <div>
-            <label for="gender">성별:</label>
+            <label for="gender">성별:</label>~
             <input type="text" id="gender" name="gender" required>
         </div>
         
