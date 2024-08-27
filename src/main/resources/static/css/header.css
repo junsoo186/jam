@@ -1,0 +1,90 @@
+@charset "UTF-8";
+.top-area {
+    background-color: #f8f9fa;
+    padding: 10px 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* 네비게이션 바 스타일 */
+.top-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+.top-logo a {
+    display: block;
+    width: 100px;
+    height: 50px;
+    background-image: url("/images/layout/jam.png"); 
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+
+.nav-item {
+    display: flex;
+    align-items: center;
+}
+
+.nav-item label {
+    margin-left: 20px;
+}
+
+.nav-login {
+    cursor: pointer;
+}
+
+
+.center-search {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+
+.search-container {
+    position: relative;
+    width: 300px; 
+}
+
+.search-box {
+    width: 100%; 
+    padding: 10px 40px 10px 15px;
+    border: 1px solid #ced4da;
+    border-radius: 25px;
+}
+
+/* 검색 버튼 스타일 */
+.btn-search {
+    position: absolute;
+    right: 0px;
+    top: 50%;
+    width: 38px;
+    height: 38px;
+    background-image: url("/images/layout/search.png"); 
+    background-size: cover;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    transform: translateY(-50%);
+}
+
+.center-category ul {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.center-category li {
+    margin: 0 15px;
+}
+
+.center-category a {
+    text-decoration: none;
+    color: #495057;
+    font-weight: bold;
+}

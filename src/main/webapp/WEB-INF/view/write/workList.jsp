@@ -8,11 +8,16 @@
 </head>
 <body>
     <div class="btn-area">
-        <form action="insert" method="get">
+        <form action="workInsert" method="get">
         	<button type="submit" id="btnInsert" >신규 작품 등록</button>
         </form>
     </div>
-
+    <div class="btn-area">
+        <form action="storyInsert" method="get">
+        	<button type="submit" id="btnInsert" >회차 등록</button>
+        </form>
+    </div>
+	
 <script>
 </script>
 </body>
