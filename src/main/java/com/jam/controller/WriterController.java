@@ -70,10 +70,32 @@ public class WriterController {
 		return "redirect:/write/storyContents";
 	}
 	
-	@GetMapping("/storyList")
-	public String handleStoryList() {
+	@GetMapping("/workDetail")
+	public String handleWorkDetail() {
 
-		return "write/storyList";
+		return "write/workDetail";
 	}
+	@GetMapping("/workUpdate")
+	public String handleWorkUpdate() {
+		
+		return "write/workUpdate";
+	}
+	@PostMapping("/workUpdate")
+	public String workUpdateProc() {
 
+		return "redirect:/write/workDetail";
+		
+		
+	}
+	@GetMapping("/storyUpdate")
+	public String handleStoryUpdate() {
+		return "write/storyUpdate";
+	}
+	
+	
+	@PostMapping("/storyUpdate")
+	public String storyUpdateProc() {
+
+		return "redirect:/write/storyContents";
+	}
 }

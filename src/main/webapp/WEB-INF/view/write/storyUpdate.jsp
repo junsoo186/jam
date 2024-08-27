@@ -7,6 +7,12 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h1>회차목록</h1>
+	<h1>스토리 수정</h1>
+
+	<div class="btn-area">
+		<form action="storyUpdate" method="post">
+			<button type="submit" id="btnInsert">수정 완료</button>
+		</form>
+	</div>
 </body>
 </html>
