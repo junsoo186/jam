@@ -7,6 +7,6 @@
 <title>메인화면</title>
 </head>
 <body>
-
+	<h1>메인화면입니다</h1>
 </body>
 </html>
