@@ -1,3 +1,7 @@
+create database jam;
+
+use jam;
+
 CREATE TABLE `user_tb` (
     `user_id` int PRIMARY KEY AUTO_INCREMENT NOT NULL COMMENT 'auto',
     `name` varchar(20) NOT NULL,
