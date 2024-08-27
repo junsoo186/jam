@@ -4,11 +4,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>메인화면</title>
+<title>Insert title here</title>
 </head>
 <body>
-	<h1>메인화면입니다</h1>
-	
-	
+    <h1>작품 수정</h1>
 </body>
 </html>

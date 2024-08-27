@@ -1,0 +1,2 @@
+insert into user_tb (name, birth_date, gender, address, nick_name, phone_number, email, password, admin_check)
+values('이름테스트','20240827', 'm', '부산시 @@구', '닉네임테스트', '010-1234-5678', 'test@test.com', '1234', 'user');
