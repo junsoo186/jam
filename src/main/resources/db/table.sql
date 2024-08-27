@@ -38,12 +38,32 @@ CREATE TABLE `book_tb` (
     `category_id` int NOT NULL COMMENT '참조: category_tb.category_id',
     `genre_id` int NOT NULL COMMENT '참조: genre_tb.genre_id',
     `tag_id` int NOT NULL COMMENT '참조: tag_tb.tag_id',
+    `introduction` text NOT NULL COMMENT '책 소개글',
     `created_at` timestamp NOT NULL DEFAULT current_timestamp,
-    `like` int NULL DEFAULT 0 COMMENT '좋아요',
+    `likes` int NULL DEFAULT 0 COMMENT '좋아요',
+    `age` ENUM('전체', '7','12', '15', '19') NOT NULL COMMENT '등급 표시제',
+    `serial_day` varchar(10) NOT NULL DEFAULT '비 정기 연재' COMMENT '좋아요',
     FOREIGN KEY (`user_id`) REFERENCES `user_tb`(`user_id`),
     FOREIGN KEY (`category_id`) REFERENCES `category_tb`(`category_id`),
     FOREIGN KEY (`genre_id`) REFERENCES `genre_tb`(`genre_id`),
     FOREIGN KEY (`tag_id`) REFERENCES `tag_tb`(`tag_id`)
+);
+
+CREATE TABLE `story_tb` (
+    `story_id` int PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    `book_id` int NOT NULL COMMENT '외래 키, book_tb 참조',
+    `user_id` int NOT NULL COMMENT '외래 키, user_tb 참조',
+    `number` int NOT NULL COMMENT '회차',
+    `type` varchar(20) NOT NULL COMMENT '프롤로그,무료,유료',
+    `title` varchar(20) NOT NULL COMMENT '회차 제목',
+    `upload_day` date NOT NULL COMMENT '예약 일자',
+    `created_at` timestamp NOT NULL DEFAULT current_timestamp,
+    `save` varchar(10) NOT NULL DEFAULT 'Y' COMMENT 'Y,N',
+    `cost` bigint NOT NULL DEFAULT 0,
+    `views` int NOT NULL DEFAULT 0,
+    `content` text NOT NULL COMMENT '소설 내용',
+    FOREIGN KEY (`book_id`) REFERENCES `book_tb`(`book_id`),
+    FOREIGN KEY (`user_id`) REFERENCES `user_tb`(`user_id`)
 );
 
 CREATE TABLE `user_de_tb` (
@@ -59,11 +79,11 @@ CREATE TABLE `project_tb` (
     `title` varchar(50) NOT NULL COMMENT '프로젝트 제목',
     `contents` text NOT NULL COMMENT '프로젝트 내용',
     `category_id` INT NOT NULL,
+    `collected_amount` bigint NOT NULL DEFAULT 0 COMMENT '현재 모인 금액',
     `goal` bigint NOT NULL COMMENT '프로젝트 목표',
-    `date_start` date NOT NULL COMMENT '프로젝트 시작일',
     `date_end` date NOT NULL COMMENT '프로젝트 마감일',
     `project_image` text NULL,
-    `created_at` timestamp NOT NULL DEFAULT current_timestamp,
+    `created_at` timestamp NOT NULL DEFAULT current_timestamp COMMENT '프로젝트 시작일',
     `staff_agree` enum('N','Y') NOT NULL DEFAULT 'N' COMMENT 'Y:N',
     FOREIGN KEY (`user_id`) REFERENCES `user_tb` (`user_id`),
     FOREIGN KEY (`category_id`) REFERENCES `category_tb` (`category_id`)
@@ -73,13 +93,15 @@ CREATE TABLE `book_rent_histry_tb` (
     `book_rent_history_id` int PRIMARY KEY AUTO_INCREMENT NOT NULL COMMENT 'auto',
     `user_id` int NOT NULL COMMENT '외래 키, user_tb 참조',
     `book_id` int NOT NULL COMMENT '외래 키, book_tb 참조',
+    `story_id` int NOT NULL COMMENT '외래 키, book_tb 참조',
     `book_point` int NOT NULL COMMENT '대여 포인트',
     `account_amount` int NOT NULL COMMENT '구매 포인트',
     `before_point` int NOT NULL DEFAULT 0 COMMENT '사용자 보유 포인트',
     `after_point` int NOT NULL COMMENT '사용자 구매 후 포인트',
     `created_at` timestamp NOT NULL DEFAULT current_timestamp,
     FOREIGN KEY (`user_id`) REFERENCES `user_tb`(`user_id`),
-    FOREIGN KEY (`book_id`) REFERENCES `book_tb`(`book_id`)
+    FOREIGN KEY (`book_id`) REFERENCES `book_tb`(`book_id`),
+    FOREIGN KEY (`story_id`) REFERENCES `story_tb`(`story_id`)
 );
 
 CREATE TABLE `event_tb` (
@@ -200,24 +222,6 @@ CREATE TABLE `black_user_tb` (
     `user_id` int NOT NULL,
     `black_user_id` int NULL COMMENT '차단한 사용자 ID',
     `black_reason` text NULL COMMENT '차단 사유',
-    FOREIGN KEY (`user_id`) REFERENCES `user_tb`(`user_id`)
-);
-
-CREATE TABLE `story_tb` (
-    `story_id` int PRIMARY KEY AUTO_INCREMENT NOT NULL,
-    `book_id` int NOT NULL COMMENT '외래 키, book_tb 참조',
-    `user_id` int NOT NULL COMMENT '외래 키, user_tb 참조',
-    `number` int NOT NULL COMMENT '회차',
-    `type` varchar(20) NOT NULL COMMENT '프롤로그,무료,유료',
-    `title` varchar(20) NOT NULL COMMENT '회차 제목',
-    `upload_day` date NOT NULL COMMENT '예약 일자',
-    `created_at` timestamp NOT NULL DEFAULT current_timestamp,
-    `age` int NOT NULL COMMENT '15,19',
-    `save` varchar(10) NOT NULL DEFAULT 'Y' COMMENT 'Y,N',
-    `cost` int NOT NULL DEFAULT 0,
-    `views` int NOT NULL DEFAULT 0,
-    `content` text NOT NULL COMMENT '소설 내용',
-    FOREIGN KEY (`book_id`) REFERENCES `book_tb`(`book_id`),
     FOREIGN KEY (`user_id`) REFERENCES `user_tb`(`user_id`)
 );
 
