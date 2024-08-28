@@ -37,9 +37,7 @@
 
 	<select id="AllBookList"
 		resultType="com.jam.repository.model.Book">
-		select title, author, book_cover_image,
-		category_id,
-		genre_id, tag_id, likes
+		select *
 		from book_tb
 	</select>
 

@@ -9,8 +9,13 @@
 <body>
 	<h1>회차 생성</h1>
 	
+		
+	
 	    <div class="btn-area">
         <form action="storyInsert" method="post">
+        	<table>
+        		
+        	</table>
         	<button type="submit" id="btnInsert" >회차 등록</button>
         </form>
     </div>

@@ -16,7 +16,7 @@
 		</form>
 	</div>
 	<div class="btn-area">
-		<form action="storyUpdate" method="get">
+		<form action="storyUpdate " method="get">
 			<button type="submit" id="btnInsert">회차수정</button>
 		</form>
 	</div>
