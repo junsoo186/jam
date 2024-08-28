@@ -11,7 +11,7 @@
 
     <!-- 게시글 삭제 -->
     <delete id="delete">
-        DELETE FROM notice_tb WHERE staff_id = #{staffId}
+        DELETE FROM notice_tb WHERE notice_id = #{noticeId}
     </delete>
 
     <!-- 게시글 수정 -->

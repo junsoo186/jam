@@ -56,9 +56,9 @@ public class NoticeController {
      * 게시글 삭제
      */
     @PostMapping("/delete")
-    public String deleteNoticeByStaffId(@RequestParam("staffId") int staffId, RedirectAttributes redirectAttributes) {
+    public String deleteNoticeByNoticeId(@RequestParam("noticeId") int noticeId, RedirectAttributes redirectAttributes) {
         try {
-            noticeRepository.delete(staffId);
+            noticeRepository.delete(noticeId);
             // 삭제 성공 메시지를 리디렉션 시 전달
             redirectAttributes.addFlashAttribute("message", "게시글이 성공적으로 삭제되었습니다.");
         } catch (Exception e) {
