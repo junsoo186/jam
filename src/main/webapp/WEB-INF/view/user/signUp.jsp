@@ -9,7 +9,7 @@
 <body>
 
   <h1>회원가입</h1>
-    <form action="register" method="post">
+    <form action="/user/sign-up" method="post">
         <div>
             <label for="name">이름:</label>
             <input type="text" id="name" name="name" required value="${name}">
