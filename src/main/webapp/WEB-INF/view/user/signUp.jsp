@@ -16,17 +16,16 @@
         </div>
         
         <div>
-            <label for="year">년:</label>
-            <input type="text" id="year" name="year" required>
-            <label for="month">월:</label>
-            <input type="text" id="month" name="month" required>
-            <label for="day">일:</label>
-            <input type="text" id="day" name="day" required>
+            <label for="birthDate">생년월일:</label>
+            <input type="text" id="birthDate" name="birthDate" required value="${birthDate}">
         </div>
         
         <div>
             <label for="gender">성별:</label>
-            <input type="text" id="gender" name="gender" required value="${gender}">
+            <input type="radio" id="남" name="option" value="남">
+                 <label for="male">남</label>
+            <input type="radio" id="여" name="option" value="여">
+                 <label for="female">여</label>
         </div>
         
         <div>
@@ -36,7 +35,7 @@
         
         <div>
             <label for="password">비밀번호:</label>
-            <input type="password" id="password" name="password" required>
+            <input type="password" id="password" name="password" required value="${password}">
         </div>
         
         <div>
@@ -51,7 +50,7 @@
         
         <div>
             <label for="phoneNumber">휴대폰 번호:</label>
-            <input type="text" id="phoneNumber" name="phoneNumber" required>
+            <input type="text" id="phoneNumber" name="phoneNumber" required value="${phoneNumber}">
             <button type="button" onclick="sendSMS()">발송</button>
         </div>
         
