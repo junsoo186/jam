@@ -4,9 +4,12 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Q&A</title>
+<!-- 질문 페이지  -->
+
 </head>
 <body>
-
+	<section class="center--qnaarea">
+	</section>
 </body>
 </html>

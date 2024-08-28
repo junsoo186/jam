@@ -59,7 +59,7 @@
 /* 검색 버튼 스타일 */
 .btn-search {
     position: absolute;
-    right: 0px;
+    right: -10px;
     top: 50%;
     width: 38px;
     height: 38px;
