@@ -65,7 +65,7 @@ public class UserController {
 		
 		userService.login(dto); // 로그인 확인
 		
-		return "redirect:/index";
+		return "index";
 	}
 
 	@GetMapping("/logout")
