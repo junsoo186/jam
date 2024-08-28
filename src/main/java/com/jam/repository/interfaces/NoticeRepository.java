@@ -18,7 +18,7 @@ public interface NoticeRepository {
 
     int insert(Notice notice); // 게시글 작성
     
-    int delete(@Param("staffId") int staffId); // 게시글 삭제
+    int delete (int noticeId); // 게시글 삭제
 
     int update(Notice notice); // 게시글 수정 (매개변수 추가)
     

@@ -29,7 +29,7 @@
                     <td>${notice.createdAt}</td>
                     <td>
                         <form action="/notice/delete" method="post" class="d-inline">
-                            <input type="hidden" name="staffId" value="${notice.staffId}">
+                            <input type="hidden" name="noticeId" value="${notice.noticeId}">
                             <button type="submit" class="btn btn-danger">삭제</button>
                         </form>
                     </td>
