@@ -8,13 +8,11 @@
 </head>
 <body>
 
-<<<<<<< HEAD
-=======
   <h1>회원가입</h1>
     <form action="/user/sign-up" method="post">
         <div>
             <label for="name">이름:</label>
-            <input type="text" id="name" name="name" required value="${nickName}">
+            <input type="text" id="name" name="name" required value="${name}">
            
         </div>
         
@@ -74,10 +72,9 @@
         </div>
     </form>
     
-    <a href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=da70bb7a1f4babcdcd8957d9785e99c4&redirect_uri=http://localhost:8080/user/kakao">fffffff</a>
+    <a href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=da70bb7a1f4babcdcd8957d9785e99c4&redirect_uri=http://localhost:8080/user/kakao"><img alt="카카오로그인이미지" src="/images/kakaologin.png"></a>
     
 
 
->>>>>>> d000e0d8fd8469574c7b9998e373473094ba0d0b
 </body>
 </html>

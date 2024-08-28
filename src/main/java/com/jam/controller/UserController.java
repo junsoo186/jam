@@ -2,7 +2,6 @@ package com.jam.controller;
 
 import java.sql.Date;
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -129,7 +128,7 @@ public class UserController {
 	    
 	    User user = User.builder()
 	    		// name, birth_date, gender, address, nick_name, phone_number, email, password, admin_check
-	    		.name(kakaoProfile.getProperties().getNickname() + "_" + kakaoProfile.getId())
+	    		.name(kakaoProfile.getProperties().getNickname())
 	    	//	.birthDate(birthDate)
 	    	//	.gender("M")
 	    	//	.address("부산시 @@구")
@@ -143,12 +142,7 @@ public class UserController {
 	    model.addAttribute("name", user.getName());
 	    System.out.println("name : " +user.getNickName());
 	    
-<<<<<<< HEAD
-		return "redirect:/user/sign-up";
-=======
-	    model.addAttribute("nickName", user.getNickName());
-	    System.out.println("nickName" + user.getNickName());
-	    
+//		return "redirect:/user/sign-up";
 	  //  userService.createUser(user);
 	  //  session.setAttribute("principal", user);
 	    
@@ -156,7 +150,6 @@ public class UserController {
 	 // return "redirect:/user/sign-in";
 	    
 	    return "user/signIn";
->>>>>>> d000e0d8fd8469574c7b9998e373473094ba0d0b
 	}
 
 }
