@@ -16,15 +16,17 @@
         </div>
         
         <div>
+
             <label for="birthDate">생년월일:</label>
             <input type="text" id="birthDate" name="birthDate" required value="${birthDate}">
+            
         </div>
         
         <div>
             <label for="gender">성별:</label>
-            <input type="radio" id="남" name="option" value="남">
+            <input type="radio" id="남" name="gender" value="M">
                  <label for="male">남</label>
-            <input type="radio" id="여" name="option" value="여">
+            <input type="radio" id="여" name="gender" value="F">
                  <label for="female">여</label>
         </div>
         
@@ -36,6 +38,11 @@
         <div>
             <label for="password">비밀번호:</label>
             <input type="password" id="password" name="password" required value="${password}">
+        </div>
+        
+        <div>
+            <label for="password">어드민체크:</label>
+            <input type="text" id="password" name="adminCheck" required value="${user}">
         </div>
         
         <div>
@@ -61,8 +68,8 @@
         </div>
         
         <div>
-            <label for="nickname">닉네임:</label>
-            <input type="text" id="nickname" name="nickname" required value="${nickName}">
+            <label for="nickName">닉네임:</label>
+            <input type="text" id="nickName" name="nickName" required value="${nickName}">
         </div>
         
         <div>
@@ -71,7 +78,7 @@
     </form>
     
 <a href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=da70bb7a1f4babcdcd8957d9785e99c4&redirect_uri=http://localhost:8080/user/kakao"><img alt="카카오로그인이미지" src="/images/kakaologin.png"></a>    
-<a href="https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=VV02L4roYlvMO2qxf3n7&state=STATE_STRING&redirect_uri=http://localhost:8080/user/naver">네이버?</a>
+<a href="https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=nOAefk8qDJZC5X5ZLiOi&state=STATE_STRING&redirect_uri=http://localhost:8080/user/naver">네이버?</a>
 
 </body>
 </html>
