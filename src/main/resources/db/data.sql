@@ -40,7 +40,7 @@ insert into category_tb (category_name) values('소설');
 
 
 -- 스토리 테이블 생성
-insert into story_tb (book_id,user_id,number,type,title,upload_day,content)
+insert into story_tb (book_id,user_id,number,type,title,upload_day,contents)
 					values(1,1,1,'프롤로그','뜻밖의 알바 면접','2000-05-03',
                     '서울의 한복판, 흔한 골목길 모퉁이에 위치한 작은 편의점. 낮에는 그저 그런 편의점이지만, 밤이 되면 그곳은 마법의 입구가 된다. 바로 ‘미라클 마트’였다.
 
