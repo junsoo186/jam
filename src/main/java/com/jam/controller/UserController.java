@@ -2,7 +2,6 @@ package com.jam.controller;
 
 import java.sql.Date;
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -17,12 +16,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 
 import com.jam.dto.KakaoProfile;
 import com.jam.dto.NaverProfile;
-import com.jam.dto.NaverProfileResponse;
 import com.jam.dto.OAuthToken;
 import com.jam.dto.signUpDTO;
 import com.jam.repository.model.User;
@@ -134,6 +131,7 @@ public class UserController {
 	    User user = User.builder()
 	    		// name, birth_date, gender, address, nick_name, phone_number, email, password, admin_check
 	    	//	.name(na)
+
 	    	//	.birthDate(birthDate)
 	    	//	.gender("M")
 	    	//	.address("부산시 @@구")
@@ -223,7 +221,7 @@ public class UserController {
 		 model.addAttribute("phoneNumber", user.getPhoneNumber());
 		 model.addAttribute("email", user.getEmail());
 		
-		 return "user/signIn";
+		 return "user/signUp";
 	}
 
 }
