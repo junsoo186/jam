@@ -16,7 +16,7 @@
 			<button type="submit" id="btnInsert">신규 작품 등록</button>
 		</form>
 	</div>
-	
+
 <%-- 작품 확인 중단 바디 --%>
 <%-- 조건절 1: bookList가 null이 아닐 때 --%>
 <c:choose>
@@ -59,10 +59,5 @@
     <%-- 조건절 1 끝 --%>
 </c:choose>
 
-
-
-	<script>
-		
-	</script>
 </body>
 </html>

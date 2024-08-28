@@ -136,6 +136,7 @@ public class WriterService {
 	public void createStory(StoryDTO storyDTO, Integer bookId, Integer principalId) {
 		int result = 0;
 		try {
+			// TODO - 사용자 ID 테스트값 1로 고정, 나중에 principalId로 수정
 			result = storyRepository.insertStory(storyDTO.toStroy(bookId, principalId));
 		} catch (Exception e) {
 			// TODO - 오류 처리

@@ -5,11 +5,11 @@
 
 	<insert id="insertStory">
 		insert into story_tb (book_id, user_id, number, type,
-		title, upload_day, save, cost, content)
+		title, upload_day, save, cost, contents)
 		values (#{bookId}, #{userId},
-		#{number}, #{type}, #{author}, #{title},
+		#{number}, #{type}, #{title},
 		#{uploadDay}, #{save},
-		#{cost}, #{content})
+		#{cost}, #{contents})
 	</insert>
 
 	<select id="findAllStoryByBookId"
@@ -24,7 +24,7 @@
 
 	<select id="outputStoryContentByNumber"
 		resultType="com.jam.repository.model.Story">
-		select story_id, title, content, number
+		select story_id, title, contents, number
 		from story_tb
 		where number =
 		#{number}

@@ -107,18 +107,21 @@ public class WriterController {
 	 * @return
 	 */
 	@PostMapping("/storyInsert")
-	public String StoryInsertProc(StoryDTO storyDTO, Integer bookId, Integer principalId) {
-		// TODO - upload_day null 여부
-		if (storyDTO.getNumber() == null) {
-			// TODO - alert 메시지 >> 회차 입력 요청
-		} else if (storyDTO.getTitle() == null || storyDTO.getTitle().isEmpty()) {
-			// TODO - alert 메시지 >> 제목 입력 요청
-		} else if (storyDTO.getContents() == null || storyDTO.getContents().isEmpty()) {
-			// TODO - alert 메시지 >> 내용 입력 요청
-		}
-		writerService.createStory(storyDTO, bookId, principalId);
-		return "redirect:/write/storyContents";
+	public String StoryInsertProc(StoryDTO storyDTO, 
+            @RequestParam("bookId") Integer bookId,
+            @RequestParam(value = "principalId", defaultValue = "1") Integer principalId) {
+	    if (storyDTO.getNumber() == null) {
+	        // TODO - alert 메시지 >> 회차 입력 요청
+	    } else if (storyDTO.getTitle() == null || storyDTO.getTitle().isEmpty()) {
+	        // TODO - alert 메시지 >> 제목 입력 요청
+	    } else if (storyDTO.getContents() == null || storyDTO.getContents().isEmpty()) {
+	        // TODO - alert 메시지 >> 내용 입력 요청
+	    }
+	    
+	    writerService.createStory(storyDTO, bookId, principalId);
+	    return "redirect:/write/storyContents?number="+ storyDTO.getNumber();
 	}
+
 
 	/**
 	 * 회차 내용 출력
@@ -126,7 +129,8 @@ public class WriterController {
 	 * @return
 	 */
 	@GetMapping("/storyContents")
-	public String handleStoryContents(Model model, @RequestParam(name = "number") Integer number) {
+	public String handleStoryContents(Model model, @RequestParam("number") Integer number) {
+		System.out.println(number);
 		Story storyContent = writerService.outputStoryContentByNumber(number);
 		if (storyContent == null) {
 			model.addAttribute("storyContent", null);
@@ -142,7 +146,7 @@ public class WriterController {
 	 * @return
 	 */
 	@GetMapping("/workDetail")
-	public String handleWorkDetail(Model model, @RequestParam(name = "bookId") Integer bookId) {
+	public String handleWorkDetail(Model model, @RequestParam("bookId") Integer bookId) {
 		Book bookDetail = writerService.detailBook(bookId);
 		List<Story> storyList = writerService.findAllStoryByBookId(bookId);
 		System.out.println("storyList"+storyList.toString());
@@ -207,7 +211,7 @@ public class WriterController {
 	@PostMapping("/storyUpdate")
 	public String storyUpdateProc(StoryDTO dto) {
 		Story story = dto.updateStory();
-		
+
 		try {
 			writerService.updateStory(story);
 		} catch (Exception e) {

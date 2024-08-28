@@ -24,7 +24,6 @@ public class StoryDTO {
 
 	private Integer number;
 	private String type;
-	private String author;
 	private String title;
 	private Date uploadDay;
 	private String save;
@@ -34,7 +33,7 @@ public class StoryDTO {
 	public Story toStroy(Integer bookId, Integer principalId) {
 		return Story.builder()
 				.bookId(bookId)
-				.userId(principalId)
+				.userId(1)
 				.number(this.number)
 				.type(this.type)
 				.title(this.title)
