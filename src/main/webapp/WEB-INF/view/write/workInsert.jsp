@@ -3,49 +3,43 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+    <meta charset="UTF-8">
+    <title>작품 정보 입력</title>
 </head>
 <body>
-    <main class="content-wrapper">
-        <section class="form-title">
-            <h1>작품 추가</h1>
-        </section>
-
-        <section>
-            <form action="workInsert" method="post">
-
-                <table>
-                    <tr>
-                        <th>작품명</th>
-                        <td>
-                            <input type="text" class="inputs title" id="title">
-                        </td>
-                    </tr>
-                    
-                    <!-- <tr>
-                        <th>분류</th>
-                        <td>
-                            <input type="text" class="inputs username" readonly>
-                        </td>
-                    </tr> -->
-                   
-                   
-                    <tr>
-                        <th>내용</th>
-                        <td>
-                            <div class="img-box">이미지 미리보기</div>
-                            <textarea name="" id="content" class="contents"></textarea>
-                        </td>
-                    </tr>
-                    
-                </table>
-                    <button type="submit" class="btn">작성완료</button>
-                
-            </form>
-            </section>
-
-     </main>
-    
+    <h1>작품 정보 입력</h1>
+    <form action="workInsert" method="post" enctype="multipart/form-data">
+        <table>
+            <tr>
+                <td>유저 ID:</td>
+                <td><input type="number" name="userId" value="1" required /></td>
+            </tr>
+            <tr>
+                <td>작품 제목:</td>
+                <td><input type="text" name="title" value="테스트 제목" required /></td>
+            </tr>
+            <tr>
+                <td>저자 코멘트:</td>
+                <td><textarea name="authorComment" required>테스트 저자 코멘트</textarea></td>
+            </tr>
+            <tr>
+                <td>저자:</td>
+                <td><input type="text" name="author" value="테스트 저자" required /></td>
+            </tr>
+            <tr>
+                <td>연령:</td>
+                <td>
+                    <select name="age" required>
+                        <option value="전체">전체</option>
+                        <option value="7">7</option>
+                        <option value="12">12</option>
+                        <option value="15">15</option>
+                        <option value="19">19</option>
+                    </select>
+                </td>
+            </tr>
+        </table>
+        <button type="submit">작품 등록</button>
+    </form>
 </body>
 </html>

@@ -87,7 +87,7 @@ CREATE TABLE `story_tb` (
     `save` varchar(10) NOT NULL DEFAULT 'Y' COMMENT 'Y,N',
     `cost` bigint NOT NULL DEFAULT 0,
     `views` int NOT NULL DEFAULT 0,
-    `content` text NOT NULL COMMENT '소설 내용',
+    `contents` text NOT NULL COMMENT '소설 내용',
     FOREIGN KEY (`book_id`) REFERENCES `book_tb`(`book_id`),
     FOREIGN KEY (`user_id`) REFERENCES `user_tb`(`user_id`)
 );

@@ -15,8 +15,8 @@ public interface StoryRepository {
 	public List<Story> findAllStoryByBookId(@Param("bookId") Integer bookId); // 회차 목록 출력
 
 	public Story outputStoryContentByNumber(@Param("number") Integer number); // 소설
-																													// 내용
-																													// 출력
+																				// 내용
+																				// 출력
 
 	public int updateStory(Story story); // 회차 업데이트
 

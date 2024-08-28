@@ -32,13 +32,14 @@
 						<div class="item-container">
 							${list.userId}작가의 작품 <br>
 							${list.title}, ${list.author} <br> ${list.authorComment} <br> ${list.likes} <br>
-							<c:forEach var="tag" items="${list.tagIds}">
+							<c:forEach var="tag" items="${list.tagNames}">
                             ${tag}
                         </c:forEach>
 						</div>
 	<%//  %>
 						<div class="btn-area">
 							<form action="storyInsert" method="get">
+								<input type="hidden" name="bookId" value="${list.bookId}">
 								<button type="submit" id="btnInsert">회차 등록</button>
 							</form>
 						</div>
