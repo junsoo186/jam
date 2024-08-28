@@ -16,12 +16,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 
 import com.jam.dto.KakaoProfile;
 import com.jam.dto.NaverProfile;
-import com.jam.dto.NaverProfileResponse;
 import com.jam.dto.OAuthToken;
 import com.jam.dto.signInDTO;
 import com.jam.dto.signUpDTO;
@@ -136,6 +134,7 @@ public class UserController {
 	    
 	    User user = User.builder()
 	    		// name, birth_date, gender, address, nick_name, phone_number, email, password, admin_check
+	    	//	.name(na)
 
 	    	//	.birthDate(birthDate)
 	    	//	.gender("M")
@@ -170,7 +169,7 @@ public class UserController {
 		// 바디 구성
 		MultiValueMap<String, String> params1 = new LinkedMultiValueMap<String, String>();
 		params1.add("grant_type", "authorization_code");
-		params1.add("client_id", "nOAefk8qDJZC5X5ZLiOi");
+		params1.add("client_id", "VV02L4roYlvMO2qxf3n7");
 		params1.add("client_secret", "mHUPSO6AFs");
 		params1.add("code", code);
 		
@@ -193,7 +192,7 @@ public class UserController {
 	    System.out.println("accessToken : " +accessToken);
 	    // 헤더 
 	    HttpHeaders headers2 = new HttpHeaders();
-	    headers2.add("Authorization", "Bearer "+accessToken);
+	    headers2.add("Authorization", "Bearer " + accessToken);
 	    headers2.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
 	    // HTTP Entity 만들기 
 	    HttpEntity<MultiValueMap<String, String>> reqNaverInfoMessage = new HttpEntity<>(headers2);
