@@ -7,5 +7,7 @@
 	insert into user_tb (name, birth_date, gender, address, nick_name, phone_number, email, password, admin_check )
 	values( #{name}, #{birthDate}, #{gender}, #{address}, #{nickName}, #{phoneNumber}, #{email}, #{password}, #{adminCheck});
 </insert>
+
+
 	
 </mapper>

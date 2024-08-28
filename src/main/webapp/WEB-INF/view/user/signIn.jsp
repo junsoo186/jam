@@ -8,6 +8,7 @@
 </head>
 <body>
 
+<<<<<<< HEAD
   <h1>회원가입</h1>
     <form action="/user/sign-up" method="post">
         <div>
@@ -29,6 +30,11 @@
             <label for="gender" >성별:</label>
             <input type="text" id="gender" name="gender" required value="${gender}">
         </div>
+=======
+  <h1>로그인</h1>
+  
+ 	<form action="" method="post">
+>>>>>>> 6ddd58bf00c68265772da1428ef46cfdc8164176
         
         <div>
             <label for="email">이메일:</label>
@@ -39,8 +45,9 @@
             <label for="password">비밀번호:</label>
             <input type="password" id="password" name="password" required>
         </div>
-        
+
         <div>
+<<<<<<< HEAD
             <label>통신사:</label>
             <input type="radio" id="skt" name="carrier" value="SKT" required>
             <label for="skt">SKT</label>
@@ -75,6 +82,13 @@
     <a href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=da70bb7a1f4babcdcd8957d9785e99c4&redirect_uri=http://localhost:8080/user/kakao">fffffff</a>
     
 	<a href="https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=nOAefk8qDJZC5X5ZLiOi&state=STATE_STRING&redirect_uri=http://localhost:8080/user/naver">네이버?</a>
+=======
+            <button type="submit">로그인</button>
+        </div>
+    </form>
+    
+
+>>>>>>> 6ddd58bf00c68265772da1428ef46cfdc8164176
 
 </body>
 </html>

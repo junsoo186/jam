@@ -2,7 +2,6 @@ package com.jam.controller;
 
 import java.sql.Date;
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -24,6 +23,7 @@ import com.jam.dto.KakaoProfile;
 import com.jam.dto.NaverProfile;
 import com.jam.dto.NaverProfileResponse;
 import com.jam.dto.OAuthToken;
+import com.jam.dto.signUpDTO;
 import com.jam.repository.model.User;
 import com.jam.service.UserService;
 
@@ -47,7 +47,7 @@ public class UserController {
 	}
 
 	@PostMapping("/sign-up")
-	public String signUp(User dto) {
+	public String signUp(signUpDTO dto) {
 		
 		userService.createUser(dto);
 		return "redirect:/user/sign-in";
@@ -61,7 +61,7 @@ public class UserController {
 
 	@PostMapping("/sign-in")
 	public String signProc() {
-		return "redirect:/index";
+		return "user/signIn";
 	}
 
 	@GetMapping("/logout")
@@ -132,7 +132,11 @@ public class UserController {
 	    
 	    User user = User.builder()
 	    		// name, birth_date, gender, address, nick_name, phone_number, email, password, admin_check
+<<<<<<< HEAD
 	    	//	.name(na)
+=======
+	    		.name(kakaoProfile.getProperties().getNickname())
+>>>>>>> 6ddd58bf00c68265772da1428ef46cfdc8164176
 	    	//	.birthDate(birthDate)
 	    	//	.gender("M")
 	    	//	.address("부산시 @@구")
@@ -146,16 +150,14 @@ public class UserController {
 	    model.addAttribute("name", user.getName());
 	    System.out.println("name : " +user.getNickName());
 	    
-	    model.addAttribute("nickName", user.getNickName());
-	    System.out.println("nickName" + user.getNickName());
-	    
-	  //  userService.createUser(user);
-	  //  session.setAttribute("principal", user);
+//		return "redirect:/user/sign-up";
+//	    userService.createUser(user);
+	  //  session.setAttribute("principal", user+);
 	    
 	 // return "redirect:/index";
 	 // return "redirect:/user/sign-in";
 	    
-	    return "user/signIn";
+	    return "user/signUp";
 	}
 	
 	@GetMapping("/naver")

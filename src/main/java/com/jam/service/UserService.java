@@ -3,6 +3,7 @@ package com.jam.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.jam.dto.signUpDTO;
 import com.jam.repository.interfaces.UserRepository;
 import com.jam.repository.model.User;
 
@@ -16,9 +17,9 @@ public class UserService {
 	 * 
 	 * @param user
 	 */
-	public void createUser(User dto) {
+	public void createUser(signUpDTO dto) {
 		int result = 0;
-		System.out.println("dtp : " +dto);
+		System.out.println("dto : " +dto);
 		result = userRepository.insert(dto);
 		
 		if(result == 1) {
@@ -28,5 +29,7 @@ public class UserService {
 		}
 		
 	}
+	
+	
 
 }
