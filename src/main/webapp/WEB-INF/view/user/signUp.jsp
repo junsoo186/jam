@@ -17,7 +17,7 @@
         
         <div>
             <label for="year">년:</label>
-            <input type="text" id="year" name="year" required>
+            <input type="text" id="birthDate" name="birthDate" required>
             <label for="month">월:</label>
             <input type="text" id="month" name="month" required>
             <label for="day">일:</label>
@@ -37,6 +37,11 @@
         <div>
             <label for="password">비밀번호:</label>
             <input type="password" id="password" name="password" required>
+        </div>
+        
+        <div>
+            <label for="password">어드민체크:</label>
+            <input type="text" id="password" name="adminCheck" required>
         </div>
         
         <div>
@@ -73,6 +78,7 @@
     
 <a href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=da70bb7a1f4babcdcd8957d9785e99c4&redirect_uri=http://localhost:8080/user/kakao"><img alt="카카오로그인이미지" src="/images/kakaologin.png"></a>    
 <a href="https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=nOAefk8qDJZC5X5ZLiOi&state=STATE_STRING&redirect_uri=http://localhost:8080/user/naver">네이버?</a>
+<a href="https://identitytoolkit.googleapis.com/v1/accounts:signInWithCustomToken?key=AIzaSyDpvxS7ZUtJsJMz6tv35h6bCo8c_dTCnTo">구글 로그인?</a>
 
 </body>
 </html>
