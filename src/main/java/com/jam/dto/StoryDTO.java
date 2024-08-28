@@ -15,7 +15,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @Builder
 @ToString
-public class CreateStoryDTO {
+public class StoryDTO {
 
 	/*
 	 * (#{bookId}, #{userId}, #{number}, #{type}, #{author}, #{title}, #{uploadDay},
@@ -44,4 +44,17 @@ public class CreateStoryDTO {
 				.contents(this.contents)
 				.build();
 	}
+	
+	public Story updateStory() {
+		return Story.builder()
+				.number(this.number)
+				.type(this.type)
+				.title(this.title)
+				.uploadDay(this.uploadDay)
+				.save(this.save)
+				.cost(this.cost)
+				.contents(this.contents)
+				.build();
+	}
+	
 }

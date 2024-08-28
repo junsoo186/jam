@@ -4,33 +4,32 @@
 <mapper namespace="com.jam.repository.interfaces.BookRepository">
 
 	<insert id="insertBook">
-		INSERT INTO book_tb (user_id, title, author_comment, author,
+		INSERT INTO book_tb (user_id, title, author_comment,
+		author,
 		book_cover_image, age)
-		VALUES (#{userId}, #{title}, #{authorComment}, #{author}, #{bookCoverImage},
+		VALUES (#{userId}, #{title},
+		#{authorComment}, #{author}, #{bookCoverImage},
 		#{age});
 	</insert>
 
 	<insert id="insertBookCategories">
 		<foreach item="categoryId" collection="categoryIds"
-			separator=";">
+			separator=",">
 			INSERT INTO book_category_tb (book_id, category_id)
-			VALUES
-			(#{bookId}, #{categoryId});
+			VALUES (#{bookId}, #{categoryId});
 		</foreach>
 	</insert>
 
 	<insert id="insertBookGenres">
-		<foreach item="genreId" collection="genreIds" separator=";">
+		<foreach item="genreId" collection="genreIds" separator=",">
 			INSERT INTO book_genre_tb (book_id, genre_id)
-			VALUES (#{bookId},
-			#{genreId});
+			VALUES (#{bookId}, #{genreId});
 		</foreach>
 	</insert>
 
 	<insert id="insertBookTags">
-		<foreach item="tagId" collection="tagIds" separator=";">
-			INSERT
-			INTO book_tag_tb (book_id, tag_id)
+		<foreach item="tagId" collection="tagIds" separator=",">
+			INSERT INTO book_tag_tb (book_id, tag_id)
 			VALUES (#{bookId}, #{tagId});
 		</foreach>
 	</insert>
@@ -60,14 +59,14 @@
 	</select>
 
 	<update id="updateBook">
-		update book_tb set
+		pdate book_tb set
 		title = #{title}, author_comment =
 		#{authorComment}, book_cover_image =
 		#{bookCoverImage},
 		category_id =
 		#{categoryId}, genre_id = #{genreId}, tag_id = #{tagId},
 		serial_day =
-		#{serialDay}, age = #{age}
+		#{serialDay}, age = #{auge}
 		where book_id = #{bookId}
 	</update>
 
@@ -81,6 +80,10 @@
 	<delete id="deleteBook">
 		delete book_tb where book_id = #{bookId}
 	</delete>
+
+	<select id="findTagName">
+		select * from tag_tb
+	</select>
 
 	<insert id="insertTagName">
 		insert into tag_tb (tag_name) value (#{tagName})

@@ -24,10 +24,9 @@
 
 	<select id="outputStoryContentByNumber"
 		resultType="com.jam.repository.model.Story">
-		select title, content, number
+		select story_id, title, content, number
 		from story_tb
-		where story_id =
-		#{storyId} and number =
+		where number =
 		#{number}
 	</select>
 
@@ -51,5 +50,5 @@
 		delete story_tb where story_id = #{storyId}
 	</delete>
 
-	
+
 </mapper>

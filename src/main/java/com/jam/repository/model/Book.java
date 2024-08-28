@@ -22,9 +22,9 @@ public class Book {
 	private String authorComment;
 	private String author;
 	private String bookCoverImage;
-    private List<Integer> categoryIds;  
-    private List<Integer> genreIds;     
-    private List<Integer> tagIds;  
+    private List<String> categoryNames;  
+    private List<String> genreNames;     
+    private List<String> tagNames;  
 	private String introduction;
 	private Timestamp createdAt;
 	private String age;

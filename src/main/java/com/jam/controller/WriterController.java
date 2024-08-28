@@ -2,21 +2,19 @@ package com.jam.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import com.jam.dto.CreateBookDTO;
+import com.jam.dto.BookDTO;
+import com.jam.dto.StoryDTO;
 import com.jam.repository.model.Book;
+import com.jam.repository.model.Story;
 import com.jam.service.WriterService;
 
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 
 @Controller
@@ -24,14 +22,14 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/write")
 public class WriterController {
 
-	@Autowired
-	private final HttpSession session;
-	@Autowired
 	private final WriterService writerService;
 
+	// TODO - 검색 기능 추가
+
 	/**
-	 * 메인->작품 리스트 페이지
+	 * 전체 작품 목록 출력
 	 * 
+	 * @param model
 	 * @return
 	 */
 	@GetMapping("/workList")
@@ -46,8 +44,10 @@ public class WriterController {
 		return "write/workList";
 	}
 
+	// TODO - 작가 개인 작성 리스트 추가
+
 	/**
-	 * 작품 리스트-> 작품추가페이지 get 방식
+	 * 작품 작성 페이지 이동
 	 * 
 	 * @return
 	 */
@@ -57,72 +57,162 @@ public class WriterController {
 	}
 
 	/**
+	 * 작품 작성 처리 -> 생성후 작품 리스트로 이동
 	 * 
-	 * 작품추가페이지->작품리스트 post 방식
-	 * 
+	 * @param bookDTO
+	 * @param principalId
 	 * @return
 	 */
 	@PostMapping("/workInsert")
-	public String completedWorkProc(CreateBookDTO bookDTO, Integer principalId) {
+	public String completedWorkProc(BookDTO bookDTO, Integer principalId) {
 
 		// TODO - 유효성 검사 추가
-		if (bookDTO.getTitel() == null || bookDTO.getTitel().isEmpty()) {
+		if (bookDTO.getTitle() == null || bookDTO.getTitle().isEmpty()) {
 			// TODO - alert 메시지 >> 제목 입력 요청
-		} else if (bookDTO.getCategoryIds() == null || bookDTO.getCategoryIds().isEmpty()) {
+		} else if (bookDTO.getCategoryNames() == null || bookDTO.getCategoryNames().isEmpty()) {
 			// TODO - alert 메시지 >> 카테고리 입력 요청
-		} else if (bookDTO.getGenreIds() == null || bookDTO.getGenreIds().isEmpty()) {
+		} else if (bookDTO.getGenreNames() == null || bookDTO.getGenreNames().isEmpty()) {
 			// TODO - alert 메시지 >> 장르 입력 요청
-		} else if (bookDTO.getTagIds() == null || bookDTO.getTagIds().isEmpty() || bookDTO.getTagIds().size() < 3) {
+		} else if (bookDTO.getTagNames() == null || bookDTO.getTagNames().isEmpty()
+				|| bookDTO.getTagNames().size() < 3) {
 			// TODO - alert 메시지 >> 태그는 최소 3개 이상 선택해야 합니다.
+		}
+
+		List<String> tagNames = writerService.findTagName();
+
+		// 태그가 없으면 만들기
+		for (String tagName : tagNames) {
+			if (!bookDTO.getTagNames().contains(tagName)) {
+				writerService.insertTagName(tagName);
+			}
 		}
 
 		writerService.createBook(bookDTO, principalId);
 		return "redirect:/write/workList";
 	}
 
+	/**
+	 * 회차 작성 페이지 이동
+	 * 
+	 * @return
+	 */
 	@GetMapping("/storyInsert")
 	public String handleStoryInsert() {
 		return "write/storyInsert";
 	}
 
-	@GetMapping("/storyContents")
-	public String handleStoryContents() {
-		return "write/storyContents";
-	}
-
+	/**
+	 * 회차 작성 처리 -> 작성 후 내용 출력 화면으로 이동
+	 * 
+	 * @return
+	 */
 	@PostMapping("/storyInsert")
-	public String StoryInsertProc() {
-
+	public String StoryInsertProc(StoryDTO storyDTO, Integer bookId, Integer principalId) {
+		// TODO - upload_day null 여부
+		if (storyDTO.getNumber() == null) {
+			// TODO - alert 메시지 >> 회차 입력 요청
+		} else if (storyDTO.getTitle() == null || storyDTO.getTitle().isEmpty()) {
+			// TODO - alert 메시지 >> 제목 입력 요청
+		} else if (storyDTO.getContents() == null || storyDTO.getContents().isEmpty()) {
+			// TODO - alert 메시지 >> 내용 입력 요청
+		}
+		writerService.createStory(storyDTO, bookId, principalId);
 		return "redirect:/write/storyContents";
 	}
 
-	@GetMapping("/workDetail")
-	public String handleWorkDetail() {
+	/**
+	 * 회차 내용 출력
+	 * 
+	 * @return
+	 */
+	@GetMapping("/storyContents")
+	public String handleStoryContents(Model model, @RequestParam(name = "number") Integer number) {
+		Story storyContent = writerService.outputStoryContentByNumber(number);
+		if (storyContent == null) {
+			model.addAttribute("storyContent", null);
+		} else {
+			model.addAttribute("storyContent", storyContent);
+		}
+		return "write/storyContents";
+	}
 
+	/**
+	 * 작품 자세히 보기 페이지 이동
+	 * 
+	 * @return
+	 */
+	@GetMapping("/workDetail")
+	public String handleWorkDetail(Model model, @RequestParam(name = "bookId") Integer bookId) {
+		Book bookDetail = writerService.detailBook(bookId);
+		List<Story> storyList = writerService.findAllStoryByBookId(bookId);
+
+		if (bookDetail == null) {
+			model.addAttribute("bookDetail", null);
+		} else {
+			model.addAttribute("bookDetail", bookDetail);
+		}
+
+		if (storyList == null) {
+			model.addAttribute("storyList", null);
+		} else {
+			model.addAttribute("storyList", storyList);
+		}
 		return "write/workDetail";
 	}
 
+	/**
+	 * 작품 수정 페이지 이동
+	 * 
+	 * @return
+	 */
 	@GetMapping("/workUpdate")
 	public String handleWorkUpdate() {
-
 		return "write/workUpdate";
 	}
 
+	/**
+	 * 작품 수정 처리 -> 수정 후 작품 리스트로 이동
+	 * 
+	 * @return
+	 */
 	@PostMapping("/workUpdate")
-	public String workUpdateProc() {
+	public String workUpdateProc(BookDTO bookDTO) {
+		// BookDTO에서 Book 객체로 변환
+		Book book = bookDTO.updateBook();
 
+		// 변환된 Book 객체를 사용하여 업데이트 작업 수행
+		try {
+			writerService.updateBook(book); // writerService는 Book을 업데이트하는 서비스
+		} catch (Exception e) {
+			// TODO - 오류 처리
+		}
 		return "redirect:/write/workDetail";
-
 	}
 
+	/**
+	 * 회차 수정 화면 이동
+	 * 
+	 * @return
+	 */
 	@GetMapping("/storyUpdate")
 	public String handleStoryUpdate() {
 		return "write/storyUpdate";
 	}
 
+	/**
+	 * 회차 수정 처리 -> 수정 후 회차 내용 화면으로 이동
+	 * 
+	 * @return
+	 */
 	@PostMapping("/storyUpdate")
-	public String storyUpdateProc() {
-
+	public String storyUpdateProc(StoryDTO dto) {
+		Story story = dto.updateStory();
+		
+		try {
+			writerService.updateStory(story);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 		return "redirect:/write/storyContents";
 	}
 }
