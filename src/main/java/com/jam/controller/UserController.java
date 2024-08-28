@@ -17,9 +17,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 
 import com.jam.dto.KakaoProfile;
+import com.jam.dto.NaverProfile;
+import com.jam.dto.NaverProfileResponse;
 import com.jam.dto.OAuthToken;
 import com.jam.repository.model.User;
 import com.jam.service.UserService;
@@ -129,7 +132,7 @@ public class UserController {
 	    
 	    User user = User.builder()
 	    		// name, birth_date, gender, address, nick_name, phone_number, email, password, admin_check
-	    		.name(kakaoProfile.getProperties().getNickname() + "_" + kakaoProfile.getId())
+	    	//	.name(na)
 	    	//	.birthDate(birthDate)
 	    	//	.gender("M")
 	    	//	.address("부산시 @@구")
@@ -153,6 +156,76 @@ public class UserController {
 	 // return "redirect:/user/sign-in";
 	    
 	    return "user/signIn";
+	}
+	
+	@GetMapping("/naver")
+	public String getMethodNaver(@RequestParam(name = "code")String code, Model model) {
+		
+		RestTemplate rt1 = new RestTemplate();
+		// 헤더 구성 (접근 토큰 발급 요청)
+		HttpHeaders header1 = new HttpHeaders();
+		header1.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+		// 바디 구성
+		MultiValueMap<String, String> params1 = new LinkedMultiValueMap<String, String>();
+		params1.add("grant_type", "authorization_code");
+		params1.add("client_id", "nOAefk8qDJZC5X5ZLiOi");
+		params1.add("client_secret", "mHUPSO6AFs");
+		params1.add("code", code);
+		
+		// 헤더 + 바디 결합 
+		HttpEntity<MultiValueMap<String, String>> reqNaverMessage = new HttpEntity<>(params1, header1);  
+		
+		// 통신 요청 
+	    ResponseEntity<OAuthToken> response1 = rt1.exchange("https://nid.naver.com/oauth2.0/token", 
+				HttpMethod.POST, reqNaverMessage, OAuthToken.class);
+	    
+	    System.out.println("test : " +response1);
+	    
+	    System.out.println("response : " + response1.getBody().toString());
+	    
+	 //   return response1.toString();
+	    
+	    // (접근 토큰을 이용하여 프로필 API 호출하기)
+	    RestTemplate rt2 = new RestTemplate();
+	    String accessToken = response1.getBody().getAccessToken(); // 토큰 확인
+	    System.out.println("accessToken : " +accessToken);
+	    // 헤더 
+	    HttpHeaders headers2 = new HttpHeaders();
+	    headers2.add("Authorization", "Bearer "+accessToken);
+	    headers2.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+	    // HTTP Entity 만들기 
+	    HttpEntity<MultiValueMap<String, String>> reqNaverInfoMessage = new HttpEntity<>(headers2);
+	    
+	 // 통신 요청 
+	 ResponseEntity<NaverProfile> response2 = rt2.exchange("https://openapi.naver.com/v1/nid/me", HttpMethod.POST, reqNaverInfoMessage, NaverProfile.class);
+	    
+	    NaverProfile naverProfile = response2.getBody();
+		System.out.println("naverProfile : " + naverProfile.toString());
+		
+		// String 값 --> Date 로 변환
+		  String date = naverProfile.getResponse().getBirthyear() + naverProfile.getResponse().getBirthday();
+		  SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		
+		// 네이버 회원가입 dto 작동 확인
+		User user = User.builder()
+	    		// name, birth_date, gender, address, nick_name, phone_number, email, password, admin_check
+				.name(naverProfile.getResponse().getName())
+			//  .birthDate( )
+				.gender(naverProfile.getResponse().getGender())
+				.nickName(naverProfile.getResponse().getNickname())
+				.phoneNumber(naverProfile.getResponse().getMobile())
+				.email(naverProfile.getResponse().getEmail())
+			//	.password()
+			//	.adminCheck()
+	    		.build();
+		
+		 model.addAttribute("name", user.getName());
+		 model.addAttribute("gender", user.getGender());
+		 model.addAttribute("nickName", user.getNickName());
+		 model.addAttribute("phoneNumber", user.getPhoneNumber());
+		 model.addAttribute("email", user.getEmail());
+		
+		 return "user/signIn";
 	}
 
 }
