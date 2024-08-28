@@ -20,6 +20,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.jam.dto.KakaoProfile;
 import com.jam.dto.OAuthToken;
+import com.jam.dto.signUpDTO;
 import com.jam.repository.model.User;
 import com.jam.service.UserService;
 
@@ -43,7 +44,7 @@ public class UserController {
 	}
 
 	@PostMapping("/sign-up")
-	public String signUp(User dto) {
+	public String signUp(signUpDTO dto) {
 		
 		userService.createUser(dto);
 		return "redirect:/user/sign-in";
@@ -57,7 +58,7 @@ public class UserController {
 
 	@PostMapping("/sign-in")
 	public String signProc() {
-		return "redirect:/index";
+		return "user/signIn";
 	}
 
 	@GetMapping("/logout")
@@ -143,13 +144,13 @@ public class UserController {
 	    System.out.println("name : " +user.getNickName());
 	    
 //		return "redirect:/user/sign-up";
-	  //  userService.createUser(user);
-	  //  session.setAttribute("principal", user);
+//	    userService.createUser(user);
+	  //  session.setAttribute("principal", user+);
 	    
 	 // return "redirect:/index";
 	 // return "redirect:/user/sign-in";
 	    
-	    return "user/signIn";
+	    return "user/signUp";
 	}
 
 }
