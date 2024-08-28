@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jam.repository.interfaces.NoticeRepository">
+
+    <!-- 게시글 등록 -->
+    <insert id="insert">
+        INSERT INTO notice_tb (notice_id, staff_id, notice_title, notice_content, comment, created_at)
+        VALUES (#{noticeId}, #{staffId}, #{noticeTitle}, #{noticeContent}, #{comment}, NOW())
+    </insert>
+
+    <!-- 게시글 삭제 -->
+    <delete id="delete">
+        DELETE FROM notice_tb WHERE staff_id = #{staffId}
+    </delete>
+
+    <!-- 게시글 수정 -->
+    <update id="update">
+        UPDATE notice_tb
+        SET staff_id = #{staffId}, notice_title = #{noticeTitle}, notice_content = #{noticeContent}, comment = #{comment}, created_at = NOW()
+        WHERE notice_id = #{noticeId}
+    </update>
+
+    <!-- 게시글 조회 -->
+    <select id="findAll" resultType="com.jam.repository.model.Notice">
+        SELECT * FROM notice_tb
+    </select>
+
+    <!-- 상세 조회 메서드가 필요하면 여기에 추가 -->
+
+</mapper>
