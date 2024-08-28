@@ -165,7 +165,7 @@ public class UserController {
 		// 바디 구성
 		MultiValueMap<String, String> params1 = new LinkedMultiValueMap<String, String>();
 		params1.add("grant_type", "authorization_code");
-		params1.add("client_id", "nOAefk8qDJZC5X5ZLiOi");
+		params1.add("client_id", "VV02L4roYlvMO2qxf3n7");
 		params1.add("client_secret", "mHUPSO6AFs");
 		params1.add("code", code);
 		
@@ -188,7 +188,7 @@ public class UserController {
 	    System.out.println("accessToken : " +accessToken);
 	    // 헤더 
 	    HttpHeaders headers2 = new HttpHeaders();
-	    headers2.add("Authorization", "Bearer "+accessToken);
+	    headers2.add("Authorization", "Bearer " + accessToken);
 	    headers2.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
 	    // HTTP Entity 만들기 
 	    HttpEntity<MultiValueMap<String, String>> reqNaverInfoMessage = new HttpEntity<>(headers2);
