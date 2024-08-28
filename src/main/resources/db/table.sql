@@ -1,3 +1,6 @@
+create database jam;
+
+use jam;
 
 CREATE TABLE `user_tb` (
     `user_id` int PRIMARY KEY AUTO_INCREMENT NOT NULL COMMENT 'auto',
@@ -11,23 +14,28 @@ CREATE TABLE `user_tb` (
     `password` varchar(1000) NOT NULL,
     `admin_check` enum('user','staff') NOT NULL DEFAULT 'user' COMMENT 'Y,N',
     `created_at` timestamp NOT NULL DEFAULT current_timestamp COMMENT 'current'
+    -- 우리꺼 네이버인지 카카온지 구글인지 저장
 );
 
+-- 장르 테이블
 CREATE TABLE `genre_tb` (
     `genre_id` int PRIMARY KEY AUTO_INCREMENT NOT NULL,
-    `genre_name` varchar(10) NULL
+    `genre_name` varchar(50) NOT NULL COMMENT '장르 이름'
 );
 
+-- 카테고리 테이블
 CREATE TABLE `category_tb` (
     `category_id` int PRIMARY KEY AUTO_INCREMENT NOT NULL,
-    `best` varchar(50) NOT NULL
+    `category_name` varchar(50) NOT NULL COMMENT '카테고리 이름'
 );
 
+-- 태그 테이블
 CREATE TABLE `tag_tb` (
     `tag_id` int PRIMARY KEY AUTO_INCREMENT NOT NULL,
-    `tag_name` varchar(50) NOT NULL
+    `tag_name` varchar(50) NOT NULL COMMENT '태그 이름'
 );
 
+-- 책 테이블
 CREATE TABLE `book_tb` (
     `book_id` int PRIMARY KEY AUTO_INCREMENT NOT NULL,
     `user_id` int NOT NULL COMMENT '참조: user_tb.user_id',
@@ -35,18 +43,39 @@ CREATE TABLE `book_tb` (
     `author_comment` text NOT NULL COMMENT '작가코멘트',
     `author` varchar(20) NOT NULL COMMENT '가명',
     `book_cover_image` text NULL,
-    `category_id` int NOT NULL COMMENT '참조: category_tb.category_id',
-    `genre_id` int NOT NULL COMMENT '참조: genre_tb.genre_id',
-    `tag_id` int NOT NULL COMMENT '참조: tag_tb.tag_id',
     `introduction` text NOT NULL COMMENT '책 소개글',
     `created_at` timestamp NOT NULL DEFAULT current_timestamp,
     `likes` int NULL DEFAULT 0 COMMENT '좋아요',
     `age` ENUM('전체', '7','12', '15', '19') NOT NULL COMMENT '등급 표시제',
-    `serial_day` varchar(10) NOT NULL DEFAULT '비 정기 연재' COMMENT '좋아요',
-    FOREIGN KEY (`user_id`) REFERENCES `user_tb`(`user_id`),
-    FOREIGN KEY (`category_id`) REFERENCES `category_tb`(`category_id`),
-    FOREIGN KEY (`genre_id`) REFERENCES `genre_tb`(`genre_id`),
-    FOREIGN KEY (`tag_id`) REFERENCES `tag_tb`(`tag_id`)
+    `serial_day` varchar(10) NOT NULL DEFAULT '비 정기 연재' COMMENT '연재 방식',
+    FOREIGN KEY (`user_id`) REFERENCES `user_tb`(`user_id`)
+);
+
+-- 중간 테이블: 책-카테고리
+CREATE TABLE `book_category_tb` (
+    `book_id` int NOT NULL,
+    `category_id` int NOT NULL,
+    PRIMARY KEY (`book_id`, `category_id`),
+    FOREIGN KEY (`book_id`) REFERENCES `book_tb`(`book_id`) ON DELETE CASCADE,
+    FOREIGN KEY (`category_id`) REFERENCES `category_tb`(`category_id`) ON DELETE CASCADE
+);
+
+-- 중간 테이블: 책-장르
+CREATE TABLE `book_genre_tb` (
+    `book_id` int NOT NULL,
+    `genre_id` int NOT NULL,
+    PRIMARY KEY (`book_id`, `genre_id`),
+    FOREIGN KEY (`book_id`) REFERENCES `book_tb`(`book_id`) ON DELETE CASCADE,
+    FOREIGN KEY (`genre_id`) REFERENCES `genre_tb`(`genre_id`) ON DELETE CASCADE
+);
+
+-- 중간 테이블: 책-태그
+CREATE TABLE `book_tag_tb` (
+    `book_id` int NOT NULL,
+    `tag_id` int NOT NULL,
+    PRIMARY KEY (`book_id`, `tag_id`),
+    FOREIGN KEY (`book_id`) REFERENCES `book_tb`(`book_id`) ON DELETE CASCADE,
+    FOREIGN KEY (`tag_id`) REFERENCES `tag_tb`(`tag_id`) ON DELETE CASCADE
 );
 
 CREATE TABLE `story_tb` (

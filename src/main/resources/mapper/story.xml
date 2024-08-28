@@ -26,7 +26,8 @@
 		resultType="com.jam.repository.model.Story">
 		select title, content, number
 		from story_tb
-		where number =
+		where story_id =
+		#{storyId} and number =
 		#{number}
 	</select>
 
@@ -42,11 +43,13 @@
 	<update id="storyViewCountUp">
 		UPDATE story_tb
 		SET view = view + 1
-		WHERE story_id = #{storyId}
+		WHERE story_id =
+		#{storyId}
 	</update>
 
 	<delete id="deleteStory">
 		delete story_tb where story_id = #{storyId}
 	</delete>
 
+	
 </mapper>

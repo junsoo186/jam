@@ -1,6 +1,7 @@
 package com.jam.repository.model;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,15 +16,15 @@ import lombok.ToString;
 @Builder
 public class Book {
 
-	private Integer book_id;
-	private Integer user_id;
+	private Integer bookId;
+	private Integer userId;
 	private String title;
 	private String authorComment;
 	private String author;
 	private String bookCoverImage;
-	private Integer categoryId;
-	private Integer genreId;
-	private Integer tagId;
+    private List<Integer> categoryIds;  
+    private List<Integer> genreIds;     
+    private List<Integer> tagIds;  
 	private String introduction;
 	private Timestamp createdAt;
 	private String age;
