@@ -8,6 +8,11 @@
 	values( #{name}, #{birthDate}, #{gender}, #{address}, #{nickName}, #{phoneNumber}, #{email}, #{password}, #{adminCheck});
 </insert>
 
+<select id="findByEmailAndPassword">
+	select * from user_tb
+	where email = #{email} and password = #{password}
+</select>
+
 
 	
 </mapper>

@@ -21,6 +21,7 @@ import org.springframework.web.client.RestTemplate;
 import com.jam.dto.KakaoProfile;
 import com.jam.dto.NaverProfile;
 import com.jam.dto.OAuthToken;
+import com.jam.dto.signInDTO;
 import com.jam.dto.signUpDTO;
 import com.jam.repository.model.User;
 import com.jam.service.UserService;
@@ -51,15 +52,18 @@ public class UserController {
 		return "redirect:/user/sign-in";
 	}
 
-	@GetMapping("/sign-in")
+	@GetMapping("/login")
 	public String signInPage() {
-		return "user/signIn";
+		return "user/login";
 
 	}
 
-	@PostMapping("/sign-in")
-	public String signProc() {
-		return "user/signIn";
+	@PostMapping("/login")
+	public String signProc(signInDTO dto) {
+		
+		userService.login(dto); // 로그인 확인
+		
+		return "redirect:/index";
 	}
 
 	@GetMapping("/logout")
