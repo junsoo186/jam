@@ -2,7 +2,10 @@
     pageEncoding="UTF-8"%>
 <%@ include file= "/WEB-INF/view/layout/header.jsp" %>
 <!DOCTYPE html>
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2b1c35c32b366f727061494344496308e6029a7e
 <html>
 <head>
 <meta charset="UTF-8">
@@ -12,4 +15,7 @@
 	<h1>메인화면입니다</h1>
 </body>
 </html>
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2b1c35c32b366f727061494344496308e6029a7e

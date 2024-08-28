@@ -20,6 +20,7 @@
 			</div>
 			<div class="nav-item">
 				<label><a href="">글쓰기</a></label>
+<<<<<<< HEAD
 			<c:choose>	
 				<c:when test="${principal != null}">
 					<label class="nav-login" ><a href="/user/sign-in">프로필</a></label>
@@ -28,6 +29,9 @@
 					<label class="nav-login" ><a href="/user/sign-in">로그인</a></label>
 					</c:otherwise>
 			</c:choose>	
+=======
+				<label  class="nav-login"><a href="/user/sign-up">로그인</a></label>
+>>>>>>> 2b1c35c32b366f727061494344496308e6029a7e
 			</div>
 		</nav>
 		
