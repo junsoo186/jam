@@ -1,4 +1,4 @@
-package com.jam.repository.model;
+package com.jam.dto;
 
 import java.sql.Timestamp;
 
@@ -13,12 +13,10 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 @Builder
-
-public class Qna {
-
+public class QnaDTO {
+	private int qnaId;
 	private int staffId; //  관리자 아이디
 	private int userId; //  사용자 아이디
 	private String qnaContent; // 문의 내용
 	private Timestamp createdAt; // 생성 시간
-	
 }

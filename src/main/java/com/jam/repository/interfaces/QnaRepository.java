@@ -5,7 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import com.jam.repository.model.Qna;
+import com.jam.dto.QnaDTO;
 
 // Q&A 인터페이스 
 @Mapper //qna.xml 매칭
@@ -17,10 +17,11 @@ public interface QnaRepository {
 	 * 3. 관리자가 ->  사용자에게 A 남기기
 	 */
 
-	public int insertQ(Qna qna); // 질문 남기기 (사용자)
-	public int insertA(Qna qna); // 답변 남기기 (관리자)
-	public int deletByUserId(int userId, String name); // 질문 지우기(사용자)
-	public List<Qna> selectAllQnaStaff(@Param("staffId") int principalId); // QnA 전체 화면에 출력(스태프)
-	public List<Qna> selectAllQnaUser(@Param("userId") int principalId); // QnA 전체 화면에 출력(유저)
+	public int insertQ(QnaDTO qnaDto); // 질문 남기기 (사용자)
+	public int updateQ(QnaDTO qnaDto); // 질문 수정  (사용자)
+	public int deletByUserId(int userId); // 질문 지우기(사용자)
+	public int updateA(QnaDTO qnaDto); // 답변 남기기 (관리자)
+	public List<QnaDTO> selectAllQna(); // QnA 전체 화면에 출력
+	public List<QnaDTO> selectAllQnaByUserId(); // QnA 전체 화면에 출력(유저)
 } 
 	
