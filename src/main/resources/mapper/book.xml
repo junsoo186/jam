@@ -52,7 +52,7 @@
 	<select id="detailBookByBookId"
 		resultType="com.jam.repository.model.Book">
 		select title, author, author_comment, introduction,
-		book_cover_image, category_id, genre_id, tag_id, serial_day, likes,
+		book_cover_image, serial_day, likes,
 		age
 		from book_tb
 		where book_id = #{bookId};

@@ -145,7 +145,7 @@ public class WriterController {
 	public String handleWorkDetail(Model model, @RequestParam(name = "bookId") Integer bookId) {
 		Book bookDetail = writerService.detailBook(bookId);
 		List<Story> storyList = writerService.findAllStoryByBookId(bookId);
-
+		System.out.println("storyList"+storyList.toString());
 		if (bookDetail == null) {
 			model.addAttribute("bookDetail", null);
 		} else {
