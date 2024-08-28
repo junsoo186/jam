@@ -12,7 +12,7 @@
     <form action="register" method="post">
         <div>
             <label for="name">이름:</label>
-            <input type="text" id="name" name="name" required>
+            <input type="text" id="name" name="name" required value="${name}">
         </div>
         
         <div>
@@ -26,12 +26,12 @@
         
         <div>
             <label for="gender">성별:</label>
-            <input type="text" id="gender" name="gender" required>
+            <input type="text" id="gender" name="gender" required value="${gender}">
         </div>
         
         <div>
             <label for="email">이메일:</label>
-            <input type="email" id="email" name="email" required>
+            <input type="email" id="email" name="email" required value="${email}">
         </div>
         
         <div>
@@ -63,7 +63,7 @@
         
         <div>
             <label for="nickname">닉네임:</label>
-            <input type="text" id="nickname" name="nickname" required>
+            <input type="text" id="nickname" name="nickname" required value="${nickName}">
         </div>
         
         <div>
@@ -72,7 +72,7 @@
     </form>
     
 <a href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=da70bb7a1f4babcdcd8957d9785e99c4&redirect_uri=http://localhost:8080/user/kakao"><img alt="카카오로그인이미지" src="/images/kakaologin.png"></a>    
-
+<a href="https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=nOAefk8qDJZC5X5ZLiOi&state=STATE_STRING&redirect_uri=http://localhost:8080/user/naver">네이버?</a>
 
 </body>
 </html>

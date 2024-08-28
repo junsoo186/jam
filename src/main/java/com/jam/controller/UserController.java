@@ -132,11 +132,7 @@ public class UserController {
 	    
 	    User user = User.builder()
 	    		// name, birth_date, gender, address, nick_name, phone_number, email, password, admin_check
-<<<<<<< HEAD
-	    	//	.name(na)
-=======
-	    		.name(kakaoProfile.getProperties().getNickname())
->>>>>>> 6ddd58bf00c68265772da1428ef46cfdc8164176
+
 	    	//	.birthDate(birthDate)
 	    	//	.gender("M")
 	    	//	.address("부산시 @@구")
@@ -206,7 +202,6 @@ public class UserController {
 		
 		// String 값 --> Date 로 변환
 		  String date = naverProfile.getResponse().getBirthyear() + naverProfile.getResponse().getBirthday();
-		  SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		
 		// 네이버 회원가입 dto 작동 확인
 		User user = User.builder()
@@ -227,7 +222,7 @@ public class UserController {
 		 model.addAttribute("phoneNumber", user.getPhoneNumber());
 		 model.addAttribute("email", user.getEmail());
 		
-		 return "user/signIn";
+		 return "user/signUp";
 	}
 
 }
