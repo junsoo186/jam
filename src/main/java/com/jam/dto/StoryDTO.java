@@ -2,6 +2,8 @@ package com.jam.dto;
 
 import java.sql.Date;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.jam.repository.model.Story;
 
 import lombok.AllArgsConstructor;
@@ -21,7 +23,7 @@ public class StoryDTO {
 	 * (#{bookId}, #{userId}, #{number}, #{type}, #{author}, #{title}, #{uploadDay},
 	 * #{save}, #{cost}, #{content})
 	 */
-
+	private Integer storyId;
 	private Integer number;
 	private String type;
 	private String title;
@@ -46,7 +48,8 @@ public class StoryDTO {
 	
 	public Story updateStory() {
 		return Story.builder()
-				.number(this.number)
+				.storyId(this.storyId)
+				.number(number)
 				.type(this.type)
 				.title(this.title)
 				.uploadDay(this.uploadDay)

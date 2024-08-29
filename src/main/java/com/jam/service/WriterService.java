@@ -187,10 +187,13 @@ public class WriterService {
 	@Transactional
 	public void updateStory(Story story) {
 		int result = 0;
+		System.out.println( story.getNumber());
 		try {
+			System.out.println("story"+story.toString());
 			result = storyRepository.updateStory(story);
+			
 		} catch (Exception e) {
-			// TODO - 오류 처리
+			System.out.println(result);// TODO - 오류 처리
 		}
 		if (result != 1) {
 			// TODO - 오류 처리

@@ -24,5 +24,6 @@
 			<button type="submit" id="btnInsert">회차수정</button>
 		</form>
 	</div>
+	<%-- 댓글 이동창은 js로 --%> 
 </body>
 </html>

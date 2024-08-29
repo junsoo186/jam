@@ -31,19 +31,20 @@
 	</select>
 
 	<update id="updateStory">
-		update stroy_tb set
-		title = #{title}, content =
-		#{content}, book_cover_image =
-		#{bookCoverImage}, upload_day =
-		#{uploadDay}
-		where stroy_id = #{storyId}
+		update story_tb set
+		title = #{title}, contents =
+		#{contents},
+		upload_day = #{uploadDay},
+		cost = #{cost},
+		type = #{type}
+		where story_id = #{storyId} and
+			number= #{number}
 	</update>
 
 	<update id="storyViewCountUp">
 		UPDATE story_tb
 		SET view = view + 1
-		WHERE story_id =
-		#{storyId}
+		WHERE story_id = #{storyId}
 	</update>
 
 	<delete id="deleteStory">
