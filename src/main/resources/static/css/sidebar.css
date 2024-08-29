@@ -40,6 +40,8 @@
   margin-left: 20px;
   display: flex;
   align-items: center;
+  text-decoration: none;
+  color: black;
 }
 
 .nav-profile img {

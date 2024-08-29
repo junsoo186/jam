@@ -47,6 +47,18 @@ body {
 .nav-login {
     cursor: pointer;
 }
+li{
+	 margin-right:15px;
+    list-style: none;
+   
+}
+.nav-link{
+	color:black;
+    padding: 0;
+    margin: 0;
+    text-decoration: none;
+}
+
 
 
 /* 검색 버튼 스타일 */
