@@ -1,15 +1,13 @@
 
+
 CREATE TABLE `user_tb` (
     `user_id` int PRIMARY KEY AUTO_INCREMENT NOT NULL COMMENT 'auto',
-    `name` varchar(20) NOT NULL,
-    `birth_date` date NOT NULL,
-    `gender` enum('M','F') NOT NULL,
-    `address` varchar(100) NULL,
     `nick_name` varchar(20) NOT NULL,
     `phone_number` varchar(30) NOT NULL,
     `email` varchar(40) NOT NULL,
     `password` varchar(1000) NOT NULL,
-    `admin_check` enum('user','staff') NOT NULL DEFAULT 'user' COMMENT 'Y,N',
+	`role` VARCHAR(50) NOT NULL DEFAULT 'user',  -- 기본값 'user' 설정
+    CHECK (role IN ('admin', 'user')),    
     `created_at` timestamp NOT NULL DEFAULT current_timestamp COMMENT 'current'
     -- 우리꺼 네이버인지 카카온지 구글인지 저장
 );
@@ -177,11 +175,12 @@ CREATE TABLE `notice_tb` (
 
 CREATE TABLE `qna_tb` (
     `qna_id` int PRIMARY KEY AUTO_INCREMENT NOT NULL,
-    `staff_id` int NOT NULL COMMENT '외래 키, staff_tb 참조',
+    `staff_id` int COMMENT '관리자인경우 staff id 에 user_id 넣기',
     `user_id` int NOT NULL COMMENT '외래 키, user_tb 참조',
-    `created_at` timestamp NOT NULL DEFAULT current_timestamp,
-    `qna_content` text NULL COMMENT '문의 사항 내용',
-    FOREIGN KEY (`staff_id`) REFERENCES `staff_tb`(`staff_id`),
+	`title` varchar(40) NOT NULL COMMENT '문의 제목',
+    `question_content` text  COMMENT '질문 사항 내용',
+    `answer_content` text  COMMENT '질문 사항 내용',
+	`created_at` timestamp NOT NULL DEFAULT current_timestamp,
     FOREIGN KEY (`user_id`) REFERENCES `user_tb`(`user_id`)
 );
 

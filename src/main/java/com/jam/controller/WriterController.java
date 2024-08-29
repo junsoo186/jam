@@ -1,6 +1,5 @@
 package com.jam.controller;
 
-
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -129,7 +128,7 @@ public class WriterController {
 	 * @return
 	 */
 	@GetMapping("/storyContents")
-	public String handleStoryContents(Model model, @RequestParam(name="number") Integer number) {
+	public String handleStoryContents(Model model, @RequestParam(name = "number") Integer number) {
 		System.out.println(number);
 		Story storyContent = writerService.outputStoryContentByNumber(number);
 		if (storyContent == null) {
@@ -182,7 +181,7 @@ public class WriterController {
 		return "write/workUpdate";
 	}
 
-	/**	
+	/**
 	 * 작품 수정 처리 -> 수정 후 작품 리스트로 이동
 	 * 
 	 * @return
@@ -219,15 +218,15 @@ public class WriterController {
 	 */
 	@PostMapping("/storyUpdate")
 	public String storyUpdateProc(StoryDTO dto) {
-		System.out.println("dto값:"+ dto);
+		System.out.println("dto값:" + dto);
 		Story story = dto.updateStory();
-		System.out.println(story.toString()+"바뀜");
+		System.out.println(story.toString() + "바뀜");
 
 		try {
 			writerService.updateStory(story);
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
-		return "redirect:/write/storyContents?number="+story.getNumber();
+		return "redirect:/write/storyContents?number=" + story.getNumber();
 	}
 }
