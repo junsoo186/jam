@@ -30,5 +30,9 @@ public class QnaController {
 		model.addAttribute("qnaList",qnaList);
 		return "/qna/qnaList";
 	}
+	@GetMapping("/write")
+	public String qnaWritePage() {
+		return "/qna/qnaWrite";
+	}
 
 }

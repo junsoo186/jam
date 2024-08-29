@@ -17,7 +17,7 @@ body {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-/* 네비게이션 바 스타일 */
+
 .top-nav {
     display: flex;
     justify-content: space-between;
@@ -47,11 +47,6 @@ body {
 .nav-login {
     cursor: pointer;
 }
-
-
-
-
-
 
 
 /* 검색 버튼 스타일 */

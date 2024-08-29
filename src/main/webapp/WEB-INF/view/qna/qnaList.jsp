@@ -7,7 +7,7 @@
 
 <div class="container mt-5">
     <h2>Q&A</h2>
-	<button type="submit" class="btn btn-danger" onclick="window.location.href='list';">글쓰기</button>
+	<button type="submit" class="btn btn-danger" onclick="window.location.href='write';">문의 남기기</button>
     <table class="table table-striped mt-3">
         <thead>
             <tr>

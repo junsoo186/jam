@@ -64,7 +64,7 @@ public class UserController {
         session.setAttribute("principal", principal);
         System.out.println("principal : " + principal);
             // 세션에 사용자 정보를 등록
-            return "index"; // 로그인 성공 시 메인 페이지로 리다이렉트
+            return "redirect:/"; // 로그인 성공 시 메인 페이지로 리다이렉트
 	}
 
 	
@@ -72,7 +72,7 @@ public class UserController {
 	public String logout() {
 		session.invalidate();
 		System.out.println("로그아웃성공");
-		return "redirect:/index";
+		return "redirect:/";
 
 	}
 
