@@ -18,7 +18,9 @@
 			<div class="top-logo">
 				<a href=""></a>
 			</div>
+	
 			<div class="nav-item">
+			
 				<label><a href="">글쓰기</a></label>
 
 			<c:choose>	
@@ -32,16 +34,22 @@
 			</div>
 		</nav>
 		
-		<section class="center-search">
-		<form action="">
-		 		<div class="search-container">
-                    <input type="text" class="search-box" placeholder="검색란">
-                    <button type="button" class="btn-search"></button>
-                </div>
-		</form>
-				 
+			<!-- 검색 관련 코드  -->
+		<div id="cover">
+		  	<form method="get" action="" class="search-form">
+				    <div class="search-tb">
+				      <div class="search-td"><input type="text" class="search-input" placeholder="검색란" ></div>
+				      <div class="search-td" id="s-cover">
+				        <button type="submit" class="search-button">
+				          <div id="s-circle"></div>
+				          <span></span>
+				        </button>
+				      </div>
+				    </div>
+  			</form>
+		</div>
+		<!-- 검색 관련 코드 종료  -->
 		
-		</section>
 		<!-- 상단 카테고리 란  -->
 		<section class="center-category">
 			<ul>

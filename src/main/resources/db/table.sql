@@ -142,13 +142,12 @@ CREATE TABLE `notice_tb` (
 
 CREATE TABLE `qna_tb` (
     `qna_id` int PRIMARY KEY AUTO_INCREMENT NOT NULL,
-    `staff_id` int NOT NULL COMMENT '외래 키, staff_tb 참조',
+    `staff_id` int COMMENT '관리자인경우 staff id 에 user_id 넣기',
     `user_id` int NOT NULL COMMENT '외래 키, user_tb 참조',
 	`title` varchar(40) NOT NULL COMMENT '문의 제목',
-    `q_content` text NULL COMMENT '질문 사항 내용',
-    `a_content` text NULL COMMENT '질문 사항 내용',
+    `question_content` text  COMMENT '질문 사항 내용',
+    `answer_content` text  COMMENT '질문 사항 내용',
 	`created_at` timestamp NOT NULL DEFAULT current_timestamp,
-    FOREIGN KEY (`staff_id`) REFERENCES `staff_tb`(`staff_id`),
     FOREIGN KEY (`user_id`) REFERENCES `user_tb`(`user_id`)
 );
 

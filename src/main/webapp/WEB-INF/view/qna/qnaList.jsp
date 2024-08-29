@@ -6,32 +6,32 @@
  <link rel="stylesheet" href="/css/noticeList.css"> 
 
 <div class="container mt-5">
-    <h2>공지사항</h2>
-
+    <h2>Q&A</h2>
+	<button type="submit" class="btn btn-danger" onclick="window.location.href='list';">글쓰기</button>
     <table class="table table-striped mt-3">
         <thead>
             <tr>
                 <th>번호</th>
                 <th>제목</th>
-                <th>내용</th>
+                <th>질문</th>   
                 <th>작성자</th>
                 <th>작성일</th>
-                <th>작업</th>
+             
             </tr>
         </thead>
         <tbody>
-            <c:forEach var="notice" items="${noticeList}">
+            <c:forEach var="qna" items="${qnaList}">
                 <tr>
-                    <td>${notice.noticeId}</td>
-                    <td>${notice.noticeTitle}</td>
-                    <td>${notice.noticeContent}</td>
-                    <td>${notice.staffId}</td>
-                    <td>${notice.createdAt}</td>
+                    <td>${qna.qnaId}</td>
+                    <td>${qna.title}</td>
+                    <td>${qna.nickname}</td>
+            		 <td>${qna.questionContent}</td>
+                    <td>${qna.createdAt}</td>
                     <td>
-                        <form action="/notice/delete" method="post" class="d-inline">
-                            <input type="hidden" name="staffId" value="${notice.staffId}">
+                     <%--    <form action="/notice/delete" method="post" class="d-inline">
+                            <input type="hidden" name="staffId" value="${qna.staffId}">
                             <button type="submit" class="btn btn-danger">삭제</button>
-                        </form>
+                        </form> --%>
                     </td>
                 </tr>
             </c:forEach>
