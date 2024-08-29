@@ -18,6 +18,16 @@ public class NoticeService {
 		this.noticeRepository = noticeRepository;
 	}
 
+/**
+ * 게시글 등록 , 저장
+ * @return
+ */
+	public int noticeInsert(Notice notice) {
+		return noticeRepository.insert(notice);
+	}
+	
+	
+	
 	public List<Notice> findAll() {
 		return noticeRepository.findAll();
 	}
