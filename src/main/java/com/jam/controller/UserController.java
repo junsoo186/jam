@@ -47,6 +47,7 @@ public class UserController {
 
 	@PostMapping("/sign-up")
 	public String signUp(signUpDTO dto) {
+		
 
 		userService.createUser(dto);
 		return "redirect:/user/sign-in";
@@ -134,20 +135,20 @@ public class UserController {
 		User user = User.builder()
 				// name, birth_date, gender, address, nick_name, phone_number, email, password,
 				// admin_check
-				// .name(na)
+//				 .name(na)
 
 				// .birthDate(birthDate)
 				// .gender("M")
 				// .address("부산시 @@구")
-				.nickName("OAuth_" + kakaoProfile.getProperties().getNickname())
+				.nickName(kakaoProfile.getProperties().getNickname())
 				// .phoneNumber("010-7777-7777")
 				// .email("test@kakao.test.com")
 				// .password("1234")
 				// .adminCheck("user")
 				.build();
 
-		model.addAttribute("name", user.getName());
-		System.out.println("name : " + user.getNickName());
+		model.addAttribute("nickName", user.getNickName());
+		System.out.println("nickName : " + user.getNickName());
 
 //		return "redirect:/user/sign-up";
 //	    userService.createUser(user);
@@ -170,7 +171,7 @@ public class UserController {
 		MultiValueMap<String, String> params1 = new LinkedMultiValueMap<String, String>();
 		params1.add("grant_type", "authorization_code");
 		params1.add("client_id", "VV02L4roYlvMO2qxf3n7");
-		params1.add("client_secret", "mHUPSO6AFs");
+		params1.add("client_secret", "so4ce5BLjN");
 		params1.add("code", code);
 
 		// 헤더 + 바디 결합
