@@ -1,15 +1,11 @@
-CREATE TABLE `user_tb` (
-    `user_id` int PRIMARY KEY AUTO_INCREMENT NOT NULL COMMENT 'auto',
-    `name` varchar(20) NOT NULL,
-    `birth_date` date NOT NULL,
-    `gender` enum('M','F') NOT NULL,
-    `address` varchar(100) NULL,
-    `nick_name` varchar(20) NOT NULL,
-    `phone_number` varchar(30) NOT NULL,
-    `email` varchar(40) NOT NULL,
-    `password` varchar(1000) NOT NULL,
-    `admin_check` enum('user','staff') NOT NULL DEFAULT 'user' COMMENT 'Y,N',
-    `created_at` timestamp NOT NULL DEFAULT current_timestamp COMMENT 'current'
+CREATE TABLE user_tb (
+    user_id int PRIMARY KEY AUTO_INCREMENT NOT NULL COMMENT 'auto',
+    nick_name varchar(20) NOT NULL,
+    phone_number varchar(30) NOT NULL,
+    email varchar(40) NOT NULL,
+    password varchar(1000) NOT NULL,
+    admin_check enum('user','staff') NOT NULL DEFAULT 'user' COMMENT 'Y,N',
+    created_at timestamp NOT NULL DEFAULT current_timestamp COMMENT 'current'
 );
 
 CREATE TABLE `genre_tb` (
