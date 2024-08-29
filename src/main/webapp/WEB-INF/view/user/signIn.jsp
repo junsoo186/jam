@@ -9,7 +9,7 @@
 
   <h1>로그인</h1>
   
- 	<form action="/user/login" method="post">
+ 	<form action="/user/sign-in" method="post">
         
         <div>
             <label for="email">이메일:</label>
@@ -27,6 +27,8 @@
         
         <a href="https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=nOAefk8qDJZC5X5ZLiOi&state=STATE_STRING&redirect_uri=http://localhost:8080/user/naver">네이버?</a>
 		</form>
+		
+		
        
 
 

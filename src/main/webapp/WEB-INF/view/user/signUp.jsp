@@ -63,5 +63,7 @@
 <a href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=da70bb7a1f4babcdcd8957d9785e99c4&redirect_uri=http://localhost:8080/user/kakao"><img alt="카카오로그인이미지" src="/images/kakaologin.png"></a>    
 <a href="https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=VV02L4roYlvMO2qxf3n7&state=STATE_STRING&redirect_uri=http://localhost:8080/user/naver">네이버?</a>
 
+<a href="/user/sign-in">로그인 페이지 이동</a>
+
 </body>
 </html>
