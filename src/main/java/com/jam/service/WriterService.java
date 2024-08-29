@@ -193,11 +193,11 @@ public class WriterService {
 	@Transactional
 	public void updateStory(Story story) {
 		int result = 0;
-		System.out.println( story.getNumber());
+		System.out.println(story.getNumber());
 		try {
-			System.out.println("story"+story.toString());
+			System.out.println("story" + story.toString());
 			result = storyRepository.updateStory(story);
-			
+
 		} catch (Exception e) {
 			System.out.println(result);// TODO - 오류 처리
 		}
@@ -233,9 +233,10 @@ public class WriterService {
 			// TODO - 오류 처리
 		}
 	}
-	
+
 	/**
 	 * 태그 리스트 출력
+	 * 
 	 * @return
 	 */
 	public List<String> findTagName(List<String> tagNames) {
@@ -246,6 +247,7 @@ public class WriterService {
 
 	/**
 	 * 없는 태그시 생성
+	 * 
 	 * @param tagName
 	 */
 	@Transactional
@@ -263,6 +265,7 @@ public class WriterService {
 
 	/**
 	 * 작품 상세히
+	 * 
 	 * @param bookId
 	 * @return
 	 */
