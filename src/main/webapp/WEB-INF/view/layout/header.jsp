@@ -8,6 +8,7 @@
 <meta charset="UTF-8">
 <title>JAM</title>
 <link rel="stylesheet" href="/css/header.css">
+<link rel="stylesheet" href="/css/sidebar.css">
 <link rel="stylesheet" href="/css/common.css">
 </head>
 <body>
@@ -16,31 +17,46 @@
 	<div class= "top-area">
 		<nav class="top-nav">
 			<div class="top-logo">
-				<a href=""></a>
+				<a href="/"></a>
 			</div>
+	
 			<div class="nav-item">
-				<label><a href="">글쓰기</a></label>
-			<c:choose>	
-				<c:when test="${principal != null}">
-					<label class="nav-login" ><a href="/user/sign-in">프로필</a></label>
-				</c:when>
-					<c:otherwise>	
-					<label class="nav-login" ><a href="/user/sign-in">로그인</a></label>
+
+			
+			
+				<c:choose>
+					<c:when test="${principal != null}">
+						<%-- 사용자가 로그인 상태  --%>
+								<label><a href="#" class="nav-link" >글쓰기</a></label>
+				<li class="nav-profile"><a class="nav-profile" href="#">프로필</a></li>
+					</c:when>
+					<c:otherwise>
+						<%-- 사용자가 로그인 안된 상태  --%>
+				<li class="nav-login"><a class="nav-link" href="/user/sign-in">로그인</a></li>
+				<li class="nav-login"><a class="nav-link" href="/user/sign-up">회원가입</a></li>
 					</c:otherwise>
-			</c:choose>	
+				</c:choose>
+				
+
 			</div>
 		</nav>
 		
-		<section class="center-search">
-		<form action="">
-		 		<div class="search-container">
-                    <input type="text" class="search-box" placeholder="검색란">
-                    <button type="button" class="btn-search"></button>
-                </div>
-		</form>
-				 
+			<!-- 검색 관련 코드  -->
+		<div id="cover">
+		  	<form method="get" action="" class="search-form">
+				    <div class="search-tb">
+				      <div class="search-td"><input type="text" class="search-input" placeholder="검색란" ></div>
+				      <div class="search-td" id="s-cover">
+				        <button type="submit" class="search-button">
+				          <div id="s-circle"></div>
+				          <span></span>
+				        </button>
+				      </div>
+				    </div>
+  			</form>
+		</div>
+		<!-- 검색 관련 코드 종료  -->
 		
-		</section>
 		<!-- 상단 카테고리 란  -->
 		<section class="center-category">
 			<ul>
@@ -51,20 +67,16 @@
 		</section>
 	</div>
 		
-		<!--사이드 바 영역  -->
-		<section class="side-bar">
-			<div class="side-top-profile">	
-				<label><a href="">프로필</a></label>
-				<label><a href="">마이페이지</a></label>
-				<label><a href="">보유포인트</a></label>
-				<label><a href="">포인트충전</a></label>>
-			</div>
-			<div class="side-center-cupon">
-				<label><a href="">쿠폰함</a></label>
-				<label><a href="">선물함</a></label>
-			</div>
+		<!-- 사이드바 추가 -->
+	<div class="sidebar">
+		    <ul>
+		        <li><a href="#">내 정보</a></li>
+		        <li><a href="#">설정</a></li>
+		        <li><a href="/user/logout">로그아웃</a></li>
+		    </ul>
+	</div>
 		
-		</section>
+		
 	
-	<script type="text/javascript" src=".../js/header.js"></script>
+	<script type="text/javascript" src="/js/header.js"></script>
 </header>
