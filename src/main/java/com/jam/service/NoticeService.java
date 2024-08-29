@@ -26,8 +26,15 @@ public class NoticeService {
 		return noticeRepository.insert(notice);
 	}
 	
-	
-	
+	 /**
+     * 게시글 삭제
+     * @param id
+     * @return 
+     */
+    public int deleteById(int noticeId) {
+        return noticeRepository.delete(noticeId);
+    }
+	 
 	public List<Notice> findAll() {
 		return noticeRepository.findAll();
 	}
@@ -36,5 +43,7 @@ public class NoticeService {
 		// TODO Auto-generated method stub
 		
 	}
+
+	
 
 }

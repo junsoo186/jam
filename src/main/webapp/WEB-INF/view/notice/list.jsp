@@ -47,10 +47,9 @@
             if (result) {
                 // 사용자가 "확인" 을 클릭한 경우
                 alert("삭제가 완료되었습니다."); 
-                //document.getElementById("deleteForm").submit();
             } else {
                 // 사용자가 "취소" 를 클릭한 경우
-                return
+                return false;
             }
         }
     </script>

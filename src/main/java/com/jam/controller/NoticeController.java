@@ -71,26 +71,34 @@ public class NoticeController {
 
     
     
-    /**
-     * 게시글 삭제
-     */
     @PostMapping("/delete")
-    public String deleteNoticeByNoticeId(@RequestParam("noticeId") int noticeId, RedirectAttributes redirectAttributes) {
-        try {
-            noticeRepository.delete(noticeId);
-            // 삭제 성공 메시지를 리디렉션 시 전달
-            redirectAttributes.addFlashAttribute("message", "게시글이 성공적으로 삭제되었습니다.");
-        } catch (Exception e) {
-            // 삭제 실패 메시지를 리디렉션 시 전달
-            redirectAttributes.addFlashAttribute("errorMessage", "게시글 삭제에 실패했습니다: " + e.getMessage());
+    public String delete(@RequestParam("noticeId") int noticeId,
+                         @RequestParam(value = "action", required = false) String action,
+                         Model model) {
+    	System.out.println("@@@@@@@@@@@@");
+        if ("delete".equals(action)) {
+            // 삭제 요청 시 게시글 ID를 모델에 추가하고 목록 페이지로 이동
+            model.addAttribute("noticeId", noticeId);
+            return "notice/list"; 
+        } else if ("confirm".equals(action)) {
+            // 비밀번호 확인 없이 바로 삭제 처리
+            noticeService.deleteById(noticeId);
+            model.addAttribute("successMessage", "게시글이 삭제되었습니다.");
+            return "redirect:/notice/list"; 
         }
-        return "redirect:/notice/list"; // 삭제 후 목록 페이지로 리디렉션
+        return "redirect:/notice/list";
     }
 
+
+
+	
+}
+    
+    
     /**
      * 게시글 수정
      */
     
     
     // 수정 기능을 위한 메서드 추가 필요
-}
+
