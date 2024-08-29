@@ -53,21 +53,28 @@ h1 {
 .table-striped tbody tr:nth-of-type(odd) {
     background-color: #f9f9f9;
 }
+.btn-insert{
+	float: right;
+	margin:10px;
+}
 
-/* 삭제 버튼 스타일 */
-.btn-danger {
-    background-color: #dc3545;
+
+/* 삭제, 새글 버튼 스타일 */
+.btn-danger,
+.btn-insert {
+    background-color: #ff4081;
     border: none;
     padding: 5px 10px;
     color: white;
     cursor: pointer;
-    border-radius: 3px;
+    border-radius: 5px;
     font-size: 14px;
 }
 
 /* 삭제 버튼 호버 효과 */
-.btn-danger:hover {
-    background-color: #c82333;
+.btn-danger:hover,
+.btn-insert:hover {
+    background-color: #ccc;
 }
 
 /* 폼 스타일 */

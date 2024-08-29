@@ -7,6 +7,7 @@
 
 <div class="container mt-5">
     <h2>공지사항</h2>
+    <button type="button" onclick="window.location.href='insertForm';" class="btn btn-insert">글쓰기</button>
 
     <table class="table table-striped mt-3">
         <thead>
@@ -30,7 +31,7 @@
                     <td>
                         <form action="/notice/delete" method="post" class="d-inline">
                             <input type="hidden" name="noticeId" value="${notice.noticeId}">
-                            <button type="submit" class="btn btn-danger">삭제</button>
+                            <button type="submit" onclick="confirmDelete()" class="btn btn-danger">삭제</button>
                         </form>
                     </td>
                 </tr>
@@ -38,3 +39,18 @@
         </tbody>
     </table>
 </div>
+
+<script>
+        // 삭제 버튼 클릭 시 경고 팝업창
+        function confirmDelete() {
+            var result = confirm("정말로 삭제하시겠습니까?");
+            if (result) {
+                // 사용자가 "확인" 을 클릭한 경우
+                alert("삭제가 완료되었습니다."); 
+                //document.getElementById("deleteForm").submit();
+            } else {
+                // 사용자가 "취소" 를 클릭한 경우
+                return
+            }
+        }
+    </script>

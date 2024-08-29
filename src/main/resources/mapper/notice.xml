@@ -3,11 +3,11 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jam.repository.interfaces.NoticeRepository">
 
-    <!-- 게시글 등록 -->
-    <insert id="insert">
-        INSERT INTO notice_tb (notice_id, staff_id, notice_title, notice_content, comment, created_at)
-        VALUES (#{noticeId}, #{staffId}, #{noticeTitle}, #{noticeContent}, #{comment}, NOW())
-    </insert>
+   <!-- 게시글 등록 -->
+<insert id="insert" parameterType="com.jam.repository.model.Notice">
+    INSERT INTO notice_tb (staff_id, notice_title, notice_content, comment, created_at)
+    VALUES (#{staffId}, #{noticeTitle}, #{noticeContent}, #{comment}, NOW())
+</insert>
 
     <!-- 게시글 삭제 -->
     <delete id="delete">

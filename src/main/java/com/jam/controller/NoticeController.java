@@ -36,22 +36,41 @@ public class NoticeController {
         model.addAttribute("noticeList", noticeList);
         return "notice/list";
     }
+    
+
+    /**
+     * 게시글 저장, 등록 화면단
+     */
+    @GetMapping("/insertForm")
+    public String insertForm() {
+        return "notice/insertForm"; 
+    }
 
     /**
      * 게시글 저장, 등록
      */
-    @PostMapping("/save")
-    public String saveNotice(@RequestParam("notice_id") int noticeId, @RequestParam("staff_id") int staffId,
-                             @RequestParam("notice_title") String noticeTitle, @RequestParam("notice_content") String noticeContent,
-                             @RequestParam("comment") String comment) {
-        Notice notice = Notice.builder().noticeId(noticeId).staffId(staffId).noticeTitle(noticeTitle)
-                              .noticeContent(noticeContent).comment(comment).build();
+    @PostMapping("/insert")
+    public String insert(@RequestParam(name = "notice_id", required = false, defaultValue = "0") int noticeId,
+                         @RequestParam(name = "staff_id", required = false, defaultValue = "0") int staffId, // 매개변수 이름 수정
+                         @RequestParam(name = "title", required = false, defaultValue = "") String noticeTitle,
+                         @RequestParam(name = "content", required = false, defaultValue = "") String noticeContent,
+                         @RequestParam(name = "comment", required = false, defaultValue = "") String comment) {
+        Notice notice = Notice.builder()
+                              .noticeId(noticeId)
+                              .staffId(staffId)
+                              .noticeTitle(noticeTitle)
+                              .noticeContent(noticeContent)
+                              .comment(comment)
+                              .build();
 
         noticeRepository.insert(notice);
 
         return "redirect:/notice/list";
     }
 
+
+    
+    
     /**
      * 게시글 삭제
      */
@@ -71,5 +90,7 @@ public class NoticeController {
     /**
      * 게시글 수정
      */
+    
+    
     // 수정 기능을 위한 메서드 추가 필요
 }
