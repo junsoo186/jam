@@ -14,11 +14,11 @@ public interface BookRepository {
 	public int insertBook(Book book);
 
 	// 책 생성시 카테고리
-	public int insertBookCategories(List<String> categoryIds, int bookId);
+	public int insertBookCategories(@Param("categoryId") String categoryId, @Param("bookId") Integer bookId);
 	// 책 생성시 장르
-	public int insertBookGenres(List<String> genreIds, int bookId);
+	public int insertBookGenres(@Param("genreId") String genreId, @Param("bookId") Integer bookId);
 	// 책 생성시 태그
-	public int insertBookTags(List<String> tagIds, int bookId);
+	public int insertBookTags(@Param("tagIds") List<String> tagIds, @Param("bookId") Integer bookId);
 
 	// TODO - 페이징 처리 추가
 	// 책 리스트
@@ -38,5 +38,7 @@ public interface BookRepository {
 
 	public int insertTagName(String tagName); // 태그 추가
 	
-	public List<String> findTagName();
+	public Book findBookByBookId(Integer bookId);
+
+	public List<String> findTagName(List<String> tagNames);
 }

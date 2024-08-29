@@ -63,6 +63,10 @@
 		<p>
 			<strong>연재 요일:</strong> ${bookDetail.serialDay}
 		</p>
+		<form action="workUpdate" method="get">
+			<input type="hidden" name="bookId" value="${bookId}">
+			<button type="submit" id="btnInsert">작품 수정</button>
+		</form>
 	</div>
 
 	<div class="btn-area">
@@ -80,9 +84,6 @@
 					<!-- 여기에 스토리 요약이나 추가 정보를 넣을 수 있습니다. -->
 				</div>
 			</div>
-			<form action="workUpdate" method="get">
-				<button type="submit" id="btnInsert">작품 수정</button>
-			</form>
 			<a href="/write/storyContents?number=${story.number}">회차보기</a>
 		</c:forEach>
 	</div>

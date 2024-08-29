@@ -68,20 +68,21 @@ public class WriterController {
 	 */
 	@PostMapping("/workInsert")
 	public String completedWorkProc(BookDTO bookDTO, Integer principalId) {
+		System.out.println(bookDTO);
 
 		// TODO - 유효성 검사 추가
 		if (bookDTO.getTitle() == null || bookDTO.getTitle().isEmpty()) {
 			// TODO - alert 메시지 >> 제목 입력 요청
-		} else if (bookDTO.getCategoryNames() == null || bookDTO.getCategoryNames().isEmpty()) {
+		} else if (bookDTO.getCategoryName() == null || bookDTO.getCategoryName().isEmpty()) {
 			// TODO - alert 메시지 >> 카테고리 입력 요청
-		} else if (bookDTO.getGenreNames() == null || bookDTO.getGenreNames().isEmpty()) {
+		} else if (bookDTO.getGenreName() == null || bookDTO.getGenreName().isEmpty()) {
 			// TODO - alert 메시지 >> 장르 입력 요청
 		} else if (bookDTO.getTagNames() == null || bookDTO.getTagNames().isEmpty()
 				|| bookDTO.getTagNames().size() < 3) {
 			// TODO - alert 메시지 >> 태그는 최소 3개 이상 선택해야 합니다.
 		}
 
-		List<String> tagNames = writerService.findTagName();
+		List<String> tagNames = writerService.findTagName(bookDTO.getTagNames());
 
 		// 태그가 없으면 만들기
 		for (String tagName : tagNames) {
@@ -90,7 +91,7 @@ public class WriterController {
 			}
 		}
 
-		writerService.createBook(bookDTO, principalId);
+		writerService.createBook(bookDTO, 1);
 		return "redirect:/write/workList";
 	}
 
@@ -110,21 +111,19 @@ public class WriterController {
 	 * @return
 	 */
 	@PostMapping("/storyInsert")
-	public String StoryInsertProc(StoryDTO storyDTO, 
-            @RequestParam("bookId") Integer bookId,
-            @RequestParam(value = "principalId", defaultValue = "1") Integer principalId) {
-	    if (storyDTO.getNumber() == null) {
-	        // TODO - alert 메시지 >> 회차 입력 요청
-	    } else if (storyDTO.getTitle() == null || storyDTO.getTitle().isEmpty()) {
-	        // TODO - alert 메시지 >> 제목 입력 요청
-	    } else if (storyDTO.getContents() == null || storyDTO.getContents().isEmpty()) {
-	        // TODO - alert 메시지 >> 내용 입력 요청
-	    }
-	    
-	    writerService.createStory(storyDTO, bookId, principalId);
-	    return "redirect:/write/storyContents?number="+ storyDTO.getNumber();
-	}
+	public String StoryInsertProc(StoryDTO storyDTO, @RequestParam("bookId") Integer bookId,
+			@RequestParam(value = "principalId", defaultValue = "1") Integer principalId) {
+		if (storyDTO.getNumber() == null) {
+			// TODO - alert 메시지 >> 회차 입력 요청
+		} else if (storyDTO.getTitle() == null || storyDTO.getTitle().isEmpty()) {
+			// TODO - alert 메시지 >> 제목 입력 요청
+		} else if (storyDTO.getContents() == null || storyDTO.getContents().isEmpty()) {
+			// TODO - alert 메시지 >> 내용 입력 요청
+		}
 
+		writerService.createStory(storyDTO, bookId, principalId);
+		return "redirect:/write/storyContents?number=" + storyDTO.getNumber();
+	}
 
 	/**
 	 * 회차 내용 출력
@@ -152,10 +151,11 @@ public class WriterController {
 	public String handleWorkDetail(Model model, @RequestParam("bookId") Integer bookId) {
 		Book bookDetail = writerService.detailBook(bookId);
 		List<Story> storyList = writerService.findAllStoryByBookId(bookId);
-		System.out.println("storyList"+storyList.toString());
+		System.out.println("book : " + bookDetail);
 		if (bookDetail == null) {
 			model.addAttribute("bookDetail", null);
 		} else {
+			model.addAttribute("bookId", bookId);
 			model.addAttribute("bookDetail", bookDetail);
 		}
 
@@ -173,19 +173,27 @@ public class WriterController {
 	 * @return
 	 */
 	@GetMapping("/workUpdate")
-	public String handleWorkUpdate() {
+	public String handleWorkUpdate(Model model, @RequestParam("bookId") Integer bookId) {
+		Book bookDetail = writerService.detailBook(bookId);
+		if (bookDetail == null) {
+			model.addAttribute("bookDetail", null);
+		} else {
+			model.addAttribute("bookId", bookId);
+			model.addAttribute("bookDetail", bookDetail);
+		}
 		return "write/workUpdate";
 	}
 
-	/**
+	/**	
 	 * 작품 수정 처리 -> 수정 후 작품 리스트로 이동
 	 * 
 	 * @return
 	 */
 	@PostMapping("/workUpdate")
-	public String workUpdateProc(BookDTO bookDTO) {
+	public String workUpdateProc(BookDTO bookDTO, @RequestParam("bookId") Integer bookId) {
 		// BookDTO에서 Book 객체로 변환
-		Book book = bookDTO.updateBook();
+		Book book = bookDTO.updateBook(bookId);
+		System.out.println("book : " + book.toString());
 
 		// 변환된 Book 객체를 사용하여 업데이트 작업 수행
 		try {
@@ -193,7 +201,7 @@ public class WriterController {
 		} catch (Exception e) {
 			// TODO - 오류 처리
 		}
-		return "redirect:/write/workDetail";
+		return "redirect:/write/workDetail?bookId=" + bookId;
 	}
 
 	/**

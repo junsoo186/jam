@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jam.repository.interfaces.CategoryRepository">
+
+    <!-- 카테고리 삽입 -->
+    <insert id="insertCategory" parameterType="com.jam.repository.model.Category">
+        INSERT INTO category_tb (category_name)
+        VALUES (#{categoryName})
+    </insert>
+
+    <!-- 카테고리 조회 -->
+    <select id="selectCategoryById" parameterType="int" resultType="com.jam.repository.model.Category">
+        SELECT category_id, category_name
+        FROM category_tb
+        WHERE category_id = #{categoryId}
+    </select>
+
+    <!-- 모든 카테고리 조회 -->
+    <select id="selectAllCategories" resultType="com.jam.repository.model.Category">
+        SELECT category_id, category_name
+        FROM category_tb
+    </select>
+
+</mapper>

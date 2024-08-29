@@ -31,7 +31,7 @@
                     <%-- js를 이용해서 영역 자체를 클릭시 이동으로 할예정 --%>
                         <div class="item-container">
                             ${list.userId} 작가의 작품 <br>
-                            <a href="/write/workDetail?bookId=${list.bookId}">${list.title}</a>, ${list.author} <br>
+                            <a href="/write/workDetail?bookId=${list.bookId}" name="bookId">${list.title}</a>, ${list.author} <br>
                             ${list.authorComment} <br>
                             ${list.likes} <br>
                             <%-- 태그 목록 출력 --%>
