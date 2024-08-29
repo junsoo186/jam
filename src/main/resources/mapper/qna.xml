@@ -2,9 +2,48 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jam.repository.interfaces.QnaRepository">
-
-
-
-
+	
+	<!--사용자 질문 쿼리 -->
+	<!-- 추후 페이징 후 추가 예정 LIMIT #{limit} OFFSET #{offset};  -->
+	<insert id="insertQ">
+	INSERT INTO qna_tb (user_id,title,question_content,created_at) 
+	VALUES(#{userId}, #{title}, #{questionContent}, now());
+	</insert>
+	<!--사용자가 본인 질문 수정  -->
+	<update id="updateQ">
+	UPDATE qna_tb SET title = #{title},
+				q_content = #{questionContent}
+                WHERE user_id = #{userId};
+	</update>
+	<!--관리자 답변 쿼리  -->
+	<!-- 사용자가 insert 한 질문에 update 하여 답변 하는 형태  -->
+	<update id="updateA">
+	UPDATE qna_tb SET staff_id = #{staffId},
+				answer_content = #{answerContent}
+                WHERE user_id = #{userId};
+	</update>
+	
+	<!--전체 Q&A 조회  --> 
+	<select id="selectAllQna" resultType="com.jam.dto.QnaDTO">
+		SELECT q.* , u.nick_name
+		FROM qna_tb as q 
+		LEFT JOIN user_tb as u on q.user_id = u.user_id
+	</select>
+	
+	<!--사용자 본인이 남긴 Q&A 전체 조회  --> 
+	<select id="selectAllQnaByUserId" resultType="com.jam.dto.QnaDTO">
+		SELECT q.* , u.nick_name
+		FROM qna_tb as q 
+		LEFT JOIN user_tb as u on q.user_id = u.user_id
+		WHERE u.user_id = #{userId}
+	
+	</select>
+	
+	<!--사용자 본인이 남긴 Q&A 삭제  -->
+	
+	<delete id="deletByUserId">
+	DELETE FROM qna_tb WHERE user_id = #{userId}
+	</delete>
+	
 
 </mapper>
