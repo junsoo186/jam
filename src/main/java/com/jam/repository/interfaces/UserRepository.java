@@ -9,5 +9,5 @@ import com.jam.dto.signUpDTO;
 public interface UserRepository {
 	public int insert(signUpDTO dto); // 회원가입
 	
-	public int findByEmailAndPassword(signInDTO dto); // 로그인
+	public signInDTO findByEmailAndPassword(signInDTO dto); // 로그인
 }

@@ -20,6 +20,7 @@
 			</div>
 	
 			<div class="nav-item">
+<<<<<<< HEAD
 			
 				<label><a href="">글쓰기</a></label>
 
@@ -31,6 +32,21 @@
 					<label class="nav-login" ><a href="/user/login">로그인</a></label>
 					</c:otherwise>
 			</c:choose>	
+=======
+				<c:choose>
+					<c:when test="${principal != null}">
+						<%-- 사용자가 로그인 상태  --%>
+								<label><a href="">글쓰기</a></label>
+				<li class="nav-item"><a class="nav-link" href="/user/logout">로그아웃</a></li>
+					</c:when>
+					<c:otherwise>
+						<%-- 사용자가 로그인 안된 상태  --%>
+				<li class="nav-login"><a class="nav-link" href="/user/sign-in">로그인</a></li>
+				<li class="nav-login"><a class="nav-link" href="/user/sign-up">회원가입</a></li>
+					</c:otherwise>
+				</c:choose>
+				
+>>>>>>> 0ff68240bb409579f0bcb01400ab722a49cddab0
 			</div>
 		</nav>
 		

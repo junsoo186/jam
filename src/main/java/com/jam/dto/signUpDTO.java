@@ -13,16 +13,12 @@ import lombok.ToString;
 @Builder
 @ToString
 public class signUpDTO {
-	
-	private String name;
-	private String birthDate;
-	private String gender;
-	private String address;
-	private String nickname;
+
+	private String nickName;
 	private String phoneNumber;
 	private String email;
 	private String password;
-	private String adminCheck;
+	private String role;
 	
 	
 	
