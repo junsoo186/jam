@@ -1,16 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+
+
 <style>
     /* 모바일 환경에서의 스타일 설정 */
     .mobile_show {
         display: block; /* 기본적으로 모바일에서 보이도록 설정 */
-        width: 100%; /* 가로 길이를 100%로 설정 */
+        width: 20%; /* 가로 길이를 100%로 설정 */
         margin-bottom: 20px; /* 하단 여백 */
         border: 1px solid #ddd; /* 테두리 */
         background-color: #f9f9f9; /* 배경색 */
@@ -47,7 +42,8 @@
         vertical-align: top; /* 셀 내 텍스트 상단 정렬 */
     }
 </style>
-</head>
+<%@ include file= "/WEB-INF/view/layout/header.jsp" %>
+
 <body>
     <div class="btn-area">
         <form action="workInsert" method="get">
@@ -73,7 +69,7 @@
                                 <div style="position:relative;">
                                     <b style="font-size:1.3em; letter-spacing: -1px;" class="cut_line_one" onclick="location.href='/write/workDetail?bookId=${list.bookId}'">${list.title}</b>
                                     <span class="info_font">
-                                        <b style="cursor:pointer; font-weight:500;" onclick="location.href='/user/${list.userId}'">${list.author}</b>
+                                        <%-- <b style="cursor:pointer; font-weight:500;" onclick="location.href='/user/${list.userId}'>${list.author}</b> --%>
                                     </span><br>
                                     <span style="font-size:12px; font-weight:600; color:#333;">
                                         <img src="//images.novelpia.com/img/new/icon/count_good.png"> ${list.likes}
@@ -91,12 +87,8 @@
                             <td colspan="2">
                                 <table style="float:right; margin:0px 0px 10px 0px;">
                                     <tr>
-                                        <td><a href="/mynovel/all/write/${list.bookId}"><img src="//images.novelpia.com/img/new/mybook/btn_episode.png" style="width:100%;"></a></td>
-                                        <td><a href="/publishing/${list.bookId}"><img src="//images.novelpia.com/img/new/mybook/btn_novel_manage.png" style="width:100%;"></a></td>
-                                    </tr>
-                                    <tr>
-                                        <td><a href="/novel_stat_coin/${list.bookId}"><img src="//images.novelpia.com/img/new/mybook/btn_novel_stat.png"></a></td>
-                                        <td style="cursor:pointer;" onclick="location.href='/plus_non_monopoly_agree/${list.bookId}';"><img src="//images.novelpia.com/img/new/mybook/btn_novel_plus.png"></td>
+                                        <td><a href="/write/storyInsert"><img src="//images.novelpia.com/img/new/mybook/btn_episode.png" style="width:100%;"></a></td>
+                                        <td><a href="/write/workUpdate?bookId=${list.bookId}"><img src="//images.novelpia.com/img/new/mybook/btn_novel_manage.png" style="width:100%;"></a></td>
                                     </tr>
                                 </table>
                             </td>
