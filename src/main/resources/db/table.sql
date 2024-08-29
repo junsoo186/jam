@@ -1,4 +1,5 @@
 CREATE TABLE user_tb (
+<<<<<<< HEAD
     user_id int PRIMARY KEY AUTO_INCREMENT NOT NULL COMMENT 'auto',
     nick_name varchar(20) NOT NULL,
     phone_number varchar(30) NOT NULL,
@@ -6,6 +7,16 @@ CREATE TABLE user_tb (
     password varchar(1000) NOT NULL,
     admin_check enum('user','staff') NOT NULL DEFAULT 'user' COMMENT 'Y,N',
     created_at timestamp NOT NULL DEFAULT current_timestamp COMMENT 'current'
+=======
+    `user_id` int PRIMARY KEY AUTO_INCREMENT NOT NULL COMMENT 'auto',
+    `nick_name` varchar(20) NOT NULL,
+    `phone_number` varchar(30) NOT NULL,
+    `email` varchar(40) NOT NULL,
+    `password` varchar(1000) NOT NULL,
+	`role` VARCHAR(50) NOT NULL DEFAULT 'user',  -- 기본값 'user' 설정
+    CHECK (role IN ('admin', 'user')),    
+    `created_at` timestamp NOT NULL DEFAULT current_timestamp COMMENT 'current'
+>>>>>>> 84142ba67b6354c3b166a5888c0650fd0266b03d
 );
 
 CREATE TABLE `genre_tb` (
