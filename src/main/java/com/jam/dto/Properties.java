@@ -14,4 +14,5 @@ public class Properties {
 	private String nickname; 
 	private String profileImage;
 	private String thumbnailImage;
+	private String kakaoAccount;
 }

@@ -24,6 +24,7 @@ public class User {
 	private String phoneNumber;
 	private String email;
 	private String password;
+	private String role;
 	private String adminCheck;
 	private Timestamp createdAt;
 

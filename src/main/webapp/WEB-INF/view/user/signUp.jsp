@@ -10,42 +10,13 @@
 
   <h1>회원가입</h1>
     <form action="/user/sign-up" method="post">
-        <div>
-            <label for="name">이름:</label>
-            <input type="text" id="name" name="name" required value="${name}">
+    
+    	<div>
+            <label for="nickName">닉네임:</label>
+            <input type="text" id="nickName" name="nickName" required value="${nickName}">
         </div>
         
-        <div>
-
-            <label for="birthDate">생년월일:</label>
-            <input type="text" id="birthDate" name="birthDate" required value="${birthDate}">
-            
-        </div>
-        
-        <div>
-            <label for="gender">성별:</label>
-            <input type="radio" id="남" name="gender" value="M">
-                 <label for="male">남</label>
-            <input type="radio" id="여" name="gender" value="F">
-                 <label for="female">여</label>
-        </div>
-        
-        <div>
-            <label for="email">이메일:</label>
-            <input type="email" id="email" name="email" required value="${email}">
-        </div>
-        
-        <div>
-            <label for="password">비밀번호:</label>
-            <input type="password" id="password" name="password" required value="${password}">
-        </div>
-        
-        <div>
-            <label for="password"></label>
-            <input type="hidden" id="text" name="adminCheck" required value="user">
-        </div>
-        
-        <div>
+         <div>
             <label>통신사:</label>
             <input type="radio" id="skt" name="carrier" value="SKT" required>
             <label for="skt">SKT</label>
@@ -62,15 +33,27 @@
         </div>
         
         <div>
+            <label for="email">이메일:</label>
+            <input type="email" id="email" name="email" required value="${email}">
+        </div>
+        
+        <div>
+            <label for="password">비밀번호:</label>
+            <input type="password" id="password" name="password" required value="${password}">
+        </div>
+    
+    
+       
+        
+        
+        
+        <div>
             <label for="verificationCode">인증번호:</label>
             <input type="text" id="verificationCode" name="verificationCode" required>
             <button type="button" onclick="verifyCode()">인증</button>
         </div>
         
-        <div>
-            <label for="nickName">닉네임:</label>
-            <input type="text" id="nickName" name="nickName" required value="${nickName}">
-        </div>
+        
         
         <div>
             <button type="submit">가입하기</button>

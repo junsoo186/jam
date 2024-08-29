@@ -128,27 +128,17 @@ public class UserController {
 		// 사전기반 --> 소셜 사용자는 비밀번호를 입력하는가? 안하는가?
 		// 우리서버에 회원가입시에 --> password -> not null (무건 만들어 넣어야 함 DB 정책)
 
-		// TODO -(테스트) 아래에 있는 것은 birthDate 가 Date 라서
-		Timestamp timestamp = Timestamp.valueOf("2024-12-01 00:00:00");
-		Date birthDate = new Date(timestamp.getTime());
-
-		User user = User.builder()
-				// name, birth_date, gender, address, nick_name, phone_number, email, password,
-				// admin_check
-//				 .name(na)
-
-				// .birthDate(birthDate)
-				// .gender("M")
-				// .address("부산시 @@구")
+		User  user = User.builder()
+				
 				.nickName(kakaoProfile.getProperties().getNickname())
-				// .phoneNumber("010-7777-7777")
-				// .email("test@kakao.test.com")
-				// .password("1234")
-				// .adminCheck("user")
+				.email(kakaoProfile.getProperties().getKakaoAccount())
 				.build();
 
 		model.addAttribute("nickName", user.getNickName());
 		System.out.println("nickName : " + user.getNickName());
+		
+		System.out.println("getKakaoAccount : " + kakaoProfile.getProperties().getKakaoAccount() );
+		
 
 //		return "redirect:/user/sign-up";
 //	    userService.createUser(user);
