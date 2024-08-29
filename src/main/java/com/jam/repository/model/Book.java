@@ -22,8 +22,8 @@ public class Book {
 	private String authorComment;
 	private String author;
 	private String bookCoverImage;
-    private List<String> categoryNames;  
-    private List<String> genreNames;     
+    private String categoryName;  
+    private String genreName;     
     private List<String> tagNames;  
 	private String introduction;
 	private Timestamp createdAt;

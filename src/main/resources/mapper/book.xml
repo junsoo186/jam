@@ -6,9 +6,9 @@
 	<insert id="insertBook">
 		INSERT INTO book_tb (user_id, title, author_comment,
 		author,
-		book_cover_image, age)
+		age)
 		VALUES (#{userId}, #{title},
-		#{authorComment}, #{author}, #{bookCoverImage},
+		#{authorComment}, #{author},
 		#{age});
 	</insert>
 
@@ -16,20 +16,23 @@
 		<foreach item="categoryId" collection="categoryIds"
 			separator=",">
 			INSERT INTO book_category_tb (book_id, category_id)
-			VALUES (#{bookId}, #{categoryId});
+			VALUES
+			(#{bookId}, #{categoryId});
 		</foreach>
 	</insert>
 
 	<insert id="insertBookGenres">
 		<foreach item="genreId" collection="genreIds" separator=",">
 			INSERT INTO book_genre_tb (book_id, genre_id)
-			VALUES (#{bookId}, #{genreId});
+			VALUES (#{bookId},
+			#{genreId});
 		</foreach>
 	</insert>
 
 	<insert id="insertBookTags">
 		<foreach item="tagId" collection="tagIds" separator=",">
-			INSERT INTO book_tag_tb (book_id, tag_id)
+			INSERT
+			INTO book_tag_tb (book_id, tag_id)
 			VALUES (#{bookId}, #{tagId});
 		</foreach>
 	</insert>
@@ -42,32 +45,63 @@
 
 	<select id="AllBookListByUserId"
 		resultType="com.jam.repository.model.Book">
-		select title, author, book_cover_image,
-		category_id,
-		genre_id, tag_id, likes
-		from book_tb
-		where user_id = #{userId}
+		SELECT
+		b.title,
+		b.author,
+		b.likes,
+		GROUP_CONCAT(DISTINCT
+		g.genre_name ORDER BY g.genre_name ASC) AS genres,
+		GROUP_CONCAT(DISTINCT c.category_name ORDER BY c.category_name ASC) AS
+		categories,
+		GROUP_CONCAT(DISTINCT t.tag_name ORDER BY t.tag_name ASC)
+		AS tags
+		FROM
+		book_tb b
+		LEFT JOIN
+		book_genre_tb bg ON b.book_id =
+		bg.book_id
+		LEFT JOIN
+		genre_tb g ON bg.genre_id = g.genre_id
+		LEFT JOIN
+		book_category_tb bc ON b.book_id = bc.book_id
+		LEFT JOIN
+		category_tb c ON
+		bc.category_id = c.category_id
+		LEFT JOIN
+		book_tag_tb bt ON b.book_id =
+		bt.book_id
+		LEFT JOIN
+		tag_tb t ON bt.tag_id = t.tag_id
+		WHERE
+		b.user_id =
+		#{userId}
+		GROUP BY
+		b.book_id, b.title, b.author, b.likes
+		ORDER BY
+		b.title
+		ASC;
 	</select>
 
 	<select id="detailBookByBookId"
 		resultType="com.jam.repository.model.Book">
 		select title, author, author_comment, introduction,
 		book_cover_image, serial_day, likes,
-		age
+		age, created_at
 		from book_tb
-		where book_id = #{bookId};
+		where
+		book_id = #{bookId};
 	</select>
 
 	<update id="updateBook">
-		pdate book_tb set
-		title = #{title}, author_comment =
-		#{authorComment}, book_cover_image =
-		#{bookCoverImage},
-		category_id =
-		#{categoryId}, genre_id = #{genreId}, tag_id = #{tagId},
-		serial_day =
-		#{serialDay}, age = #{auge}
-		where book_id = #{bookId}
+		UPDATE book_tb
+		SET
+		title = #{title},
+		author_comment = #{authorComment},
+		introduction = #{introduction},
+		serial_day = #{serialDay},
+		age = #{age}
+		WHERE
+		book_id = #{bookId};
 	</update>
 
 	<update id="bookViewCountUp">
@@ -82,11 +116,6 @@
 	</delete>
 
 	<select id="findTagName">
-		select * from tag_tb
+		select * from tag_tb where tag_name = #{tagNames};
 	</select>
-
-	<insert id="insertTagName">
-		insert into tag_tb (tag_name) value (#{tagName})
-	</insert>
-
 </mapper>

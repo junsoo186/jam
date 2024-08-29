@@ -24,7 +24,7 @@
 
 	<select id="outputStoryContentByNumber"
 		resultType="com.jam.repository.model.Story">
-		select story_id, title, contents, number
+		select story_id, book_id, title, contents, number
 		from story_tb
 		where number =
 		#{number}

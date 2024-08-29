@@ -16,6 +16,7 @@
 
 	<div class="btn-area">
 		<form action="workDetail" method="get">
+			<input type="hidden" name="bookId" value="${storyContent.bookId}">
 			<button type="submit" id="btnInsert">홈</button>
 		</form>
 	</div>

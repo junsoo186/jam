@@ -3,14 +3,16 @@ package com.jam.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.jam.dto.BookDTO;
 import com.jam.dto.StoryDTO;
 import com.jam.repository.interfaces.BookRepository;
+import com.jam.repository.interfaces.CategoryRepository;
+import com.jam.repository.interfaces.GenerRepository;
 import com.jam.repository.interfaces.StoryRepository;
+import com.jam.repository.interfaces.TagRepository;
 import com.jam.repository.model.Book;
 import com.jam.repository.model.Story;
 
@@ -23,6 +25,9 @@ public class WriterService {
 	// TODO - 검색 기능 추가(작가명, 장르, 태그, 카테고리)
 	private final BookRepository bookRepository;
 	private final StoryRepository storyRepository;
+	private final TagRepository tagRepository;
+	private final CategoryRepository categoryRepository;
+	private final GenerRepository GenerRepository;
 
 	/**
 	 * 책 생성 기능
@@ -43,8 +48,8 @@ public class WriterService {
 			int bookId = bookDTO.getBookId();
 
 			// 카테고리, 장르, 태그 정보도 삽입
-			bookRepository.insertBookCategories(bookDTO.getCategoryNames(), bookId);
-			bookRepository.insertBookGenres(bookDTO.getGenreNames(), bookId);
+			bookRepository.insertBookCategories(bookDTO.getCategoryName(), bookId);
+			bookRepository.insertBookGenres(bookDTO.getGenreName(), bookId);
 			bookRepository.insertBookTags(bookDTO.getTagNames(), bookId);
 
 		} catch (Exception e) {
@@ -101,6 +106,7 @@ public class WriterService {
 	@Transactional
 	public void updateBook(Book book) {
 		int result = 0;
+		System.out.println(book.toString());
 		// TODO - 오류 처리
 		try {
 			result = bookRepository.updateBook(book);
@@ -229,9 +235,9 @@ public class WriterService {
 	 * 태그 리스트 출력
 	 * @return
 	 */
-	public List<String> findTagName() {
+	public List<String> findTagName(List<String> tagNames) {
 		List<String> tags = new ArrayList<>();
-		tags = bookRepository.findTagName();
+		tags = bookRepository.findTagName(tagNames);
 		return tags;
 	}
 
@@ -243,7 +249,7 @@ public class WriterService {
 	public void insertTagName(String tagName) {
 		int result = 0;
 		try {
-			result = bookRepository.insertTagName(tagName);
+			result = tagRepository.insertTag(tagName);
 		} catch (Exception e) {
 			// TODO - 오류 처리
 		}
