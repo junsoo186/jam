@@ -136,10 +136,14 @@ public class UserController {
 		User  user = User.builder()
 				
 				.nickName(kakaoProfile.getProperties().getNickname())
+				.email(kakaoProfile.getKakaoAccount().getEmail())
 				.build();
 
 		model.addAttribute("nickName", user.getNickName());
-		System.out.println("nickName : " + user.getNickName());		
+		System.out.println("nickName : " + user.getNickName());	
+		
+		model.addAttribute("email", kakaoProfile.getKakaoAccount().getEmail());
+		System.out.println("email : " + kakaoProfile.getKakaoAccount().getEmail());
 
 //		return "redirect:/user/sign-up";
 //	    userService.createUser(user);
