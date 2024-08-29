@@ -14,7 +14,7 @@
             margin-right: 5px;
             margin-bottom: 5px;
         }
-
+	
         .tag .remove-tag {
             margin-left: 5px;
             cursor: pointer;
@@ -48,55 +48,7 @@
             height: 100%;
         }
     </style>
-    <script>
-        function addTagOnEnter(event) {
-            if (event.key === "Enter") {
-                event.preventDefault(); // 엔터키의 기본 동작을 막음
-                appendCustomTag();
-            }
-        }
-
-        function appendCustomTag(value = null) {
-            var customTag = value || document.getElementById("customTag").value.trim();
-            if (customTag) {
-                var tagList = document.getElementById("tagList");
-
-                // 새로운 태그 요소 생성
-                var tagItem = document.createElement("div");
-                tagItem.className = "tag";
-                tagItem.textContent = customTag;
-
-                // 삭제 버튼 생성
-                var removeButton = document.createElement("span");
-                removeButton.className = "remove-tag";
-                removeButton.textContent = "x";
-                removeButton.onclick = function() {
-                    tagList.removeChild(tagItem);
-                };
-
-                // 태그 요소에 삭제 버튼 추가
-                tagItem.appendChild(removeButton);
-                tagList.appendChild(tagItem);
-
-                // 숨겨진 input 필드에 태그 값 추가
-                var hiddenInput = document.createElement("input");
-                hiddenInput.type = "hidden";
-                hiddenInput.name = "tagNames";
-                hiddenInput.value = customTag;
-                tagItem.appendChild(hiddenInput);
-
-                // 입력 필드 초기화
-                document.getElementById("customTag").value = '';
-            }
-        }
-
-        function addSelectedOption() {
-            var select = document.getElementById("genreNames");
-            var selectedOption = select.options[select.selectedIndex].value;
-            appendCustomTag(selectedOption);
-            select.selectedIndex = 0; // Reset the select box
-        }
-    </script>
+    
 </head>
 <body>
     <h2>도서 정보 입력 폼</h2>
@@ -151,12 +103,62 @@
         <select id="age" name="age" required>
             <option value="전체">전체</option>
             <option value="7">7</option>
-            <option value="12">12</option>
+            <option value="12">12</option>g
             <option value="15">15</option>
             <option value="19">19</option>
         </select><br><br>
 
         <button type="submit">제출</button>
     </form>
+    
+    <script>
+        function addTagOnEnter(event) {
+            if (event.key === "Enter") {
+                event.preventDefault(); // 엔터키의 기본 동작을 막음
+                appendCustomTag();
+            }
+        }
+
+        function appendCustomTag(value = null) {
+            var customTag = value || document.getElementById("customTag").value.trim();
+            if (customTag) {
+                var tagList = document.getElementById("tagList");
+
+                // 새로운 태그 요소 생성
+                var tagItem = document.createElement("div");
+                tagItem.className = "tag";
+                tagItem.textContent = customTag;
+
+                // 삭제 버튼 생성
+                var removeButton = document.createElement("span");
+                removeButton.className = "remove-tag";
+                removeButton.textContent = "x";
+                removeButton.onclick = function() {
+                    tagList.removeChild(tagItem);
+                };
+
+                // 태그 요소에 삭제 버튼 추가
+                tagItem.appendChild(removeButton);
+                tagList.appendChild(tagItem);
+
+                // 숨겨진 input 필드에 태그 값 추가
+                var hiddenInput = document.createElement("input");
+                hiddenInput.type = "hidden";
+                hiddenInput.name = "tagNames";
+                hiddenInput.value = customTag;
+                tagItem.appendChild(hiddenInput);
+
+                // 입력 필드 초기화
+                document.getElementById("customTag").value = '';
+            }
+        }
+
+        function addSelectedOption() {
+            var select = document.getElementById("genreNames");
+            var selectedOption = select.options[select.selectedIndex].value;
+            appendCustomTag(selectedOption);
+            select.selectedIndex = 0; // Reset the select box
+        }
+    </script>
 </body>
 </html>
