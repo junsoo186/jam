@@ -12,28 +12,29 @@ values('관리자테스트','20240527', 'M', '@@시 @@구', '관리자테스트'
 insert into user_tb (name, birth_date, gender, address, nick_name, phone_number, email, password, admin_check)
 values('관리자테스트','20240527', 'F', '@@시 @@구', '관리자테스트2', '010-7777-7777', 'manager2@test.com', '1234', 'staff');
 
--- 북테이블 생성
-insert into book_tb (user_id,title,author_comment,author,
-            introduction,age) 
-            values(1,'테스트하기1','줄거리테스트1','작가테스트1','소개글1','19');
-insert into book_tb (user_id,title,author_comment,author,
-			introduction,age) 
-			values(2,'테스트하기2','줄거리테스트2','작가테스트2','소개글2','15');
+
             
--- 장르 테이블 생성
-insert into genre_tb (genre_name) values('추리');
-insert into genre_tb (genre_name) values('스릴러');
-insert into genre_tb (genre_name) values('공포');
-insert into genre_tb (genre_name) values('과학');
-insert into genre_tb (genre_name) values('판타지');
-insert into genre_tb (genre_name) values('무협');
+-- 카테고리 테이블에 데이터 삽입
+insert into category_tb (category_id, category_name) values (1, '문학');
+insert into category_tb (category_id, category_name) values (2, '시/에세이');
+insert into category_tb (category_id, category_name) values (3, '소설');
 
--- 카테고리 테이블 생성
-insert into category_tb (category_name) values('문학');
-insert into category_tb (category_name) values('시/에세이');
-insert into category_tb (category_name) values('소설');
+-- 장르 테이블에 데이터 삽입
+insert into genre_tb (genre_id, genre_name) values (1, '추리');
+insert into genre_tb (genre_id, genre_name) values (2, '스릴러');
+insert into genre_tb (genre_id, genre_name) values (3, '공포');
+insert into genre_tb (genre_id, genre_name) values (4, '과학');
+insert into genre_tb (genre_id, genre_name) values (5, '판타지');
+insert into genre_tb (genre_id, genre_name) values (6, '무협');
 
 
+-- 북테이블 생성
+insert into book_tb (user_id, title, author_comment, author, category_id, genre_id, introduction, age) 
+values (1, '테스트하기1', '줄거리테스트1', '작가테스트1', '1', '1', '소개글1','19');
+
+insert into book_tb (user_id,title,author_comment,author,category_id , genre_id,
+            introduction,age) 
+			values(2,'테스트하기2','줄거리테스트2','작가테스트2', '1', '1','소개글2', '15');
 
 
 

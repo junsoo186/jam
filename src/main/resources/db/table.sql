@@ -40,30 +40,16 @@ CREATE TABLE `book_tb` (
     `author_comment` text NOT NULL COMMENT '작가코멘트',
     `author` varchar(20) NOT NULL COMMENT '가명',
     `book_cover_image` text NULL,
+    `category_id` int NOT NULL,
+	`genre_id` int NOT NULL,
     `introduction` text NOT NULL COMMENT '책 소개글',
     `created_at` timestamp NOT NULL DEFAULT current_timestamp,
     `likes` int NULL DEFAULT 0 COMMENT '좋아요',
     `age` ENUM('전체', '7','12', '15', '19') NOT NULL COMMENT '등급 표시제',
     `serial_day` varchar(10) NOT NULL DEFAULT '비 정기 연재' COMMENT '연재 방식',
-    FOREIGN KEY (`user_id`) REFERENCES `user_tb`(`user_id`)
-);
-
--- 중간 테이블: 책-카테고리
-CREATE TABLE `book_category_tb` (
-    `book_id` int NOT NULL,
-    `category_id` int NOT NULL,
-    PRIMARY KEY (`book_id`, `category_id`),
-    FOREIGN KEY (`book_id`) REFERENCES `book_tb`(`book_id`) ON DELETE CASCADE,
-    FOREIGN KEY (`category_id`) REFERENCES `category_tb`(`category_id`) ON DELETE CASCADE
-);
-
--- 중간 테이블: 책-장르
-CREATE TABLE `book_genre_tb` (
-    `book_id` int NOT NULL,
-    `genre_id` int NOT NULL,
-    PRIMARY KEY (`book_id`, `genre_id`),
-    FOREIGN KEY (`book_id`) REFERENCES `book_tb`(`book_id`) ON DELETE CASCADE,
-    FOREIGN KEY (`genre_id`) REFERENCES `genre_tb`(`genre_id`) ON DELETE CASCADE
+    FOREIGN KEY (`user_id`) REFERENCES `user_tb`(`user_id`),
+    FOREIGN KEY (`category_id`) REFERENCES `category_tb`(`category_id`),
+    FOREIGN KEY (`genre_id`) REFERENCES `genre_tb`(`genre_id`)
 );
 
 -- 중간 테이블: 책-태그

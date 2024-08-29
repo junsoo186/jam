@@ -24,8 +24,8 @@ public class BookDTO {
 	private String author;
 	private String introduction;
 	private String bookCoverImage;
-    private String categoryName;  
-    private String genreName;
+    private Integer categoryId;  
+    private Integer genreId;
     private String serialDay;
     private List<String> tagNames;       
 	private String age;
@@ -36,10 +36,10 @@ public class BookDTO {
 				.title(this.title)
 				.authorComment(this.authorComment)
 				.author(this.author)
-				.bookCoverImage(this.bookCoverImage)
-				.categoryName(this.categoryName)
-				.genreName(this.genreName)
-				.tagNames(this.tagNames)
+				.serialDay(this.serialDay)
+				.categoryId(this.categoryId)
+				.genreId(this.genreId)
+				.introduction(this.introduction)
 				.age(this.age)
 				.build();
 	}

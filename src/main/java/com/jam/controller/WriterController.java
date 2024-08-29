@@ -1,10 +1,8 @@
 package com.jam.controller;
 
 
-import java.sql.Date;
 import java.util.List;
 
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -67,29 +65,29 @@ public class WriterController {
 	 * @return
 	 */
 	@PostMapping("/workInsert")
-	public String completedWorkProc(BookDTO bookDTO, Integer principalId) {
+	public String completedWorkProc(BookDTO bookDTO) {
 		System.out.println(bookDTO);
 
 		// TODO - 유효성 검사 추가
 		if (bookDTO.getTitle() == null || bookDTO.getTitle().isEmpty()) {
 			// TODO - alert 메시지 >> 제목 입력 요청
-		} else if (bookDTO.getCategoryName() == null || bookDTO.getCategoryName().isEmpty()) {
+		} else if (bookDTO.getCategoryId() == null) {
 			// TODO - alert 메시지 >> 카테고리 입력 요청
-		} else if (bookDTO.getGenreName() == null || bookDTO.getGenreName().isEmpty()) {
+		} else if (bookDTO.getGenreId() == null) {
 			// TODO - alert 메시지 >> 장르 입력 요청
 		} else if (bookDTO.getTagNames() == null || bookDTO.getTagNames().isEmpty()
 				|| bookDTO.getTagNames().size() < 3) {
 			// TODO - alert 메시지 >> 태그는 최소 3개 이상 선택해야 합니다.
 		}
 
-		List<String> tagNames = writerService.findTagName(bookDTO.getTagNames());
+		
 
 		// 태그가 없으면 만들기
-		for (String tagName : tagNames) {
-			if (!bookDTO.getTagNames().contains(tagName)) {
-				writerService.insertTagName(tagName);
-			}
-		}
+//		for (String tagName : tagNames) {
+//			if (!bookDTO.getTagNames().contains(tagName)) {
+//				writerService.insertTagName(tagName);
+//			}
+//		}
 
 		writerService.createBook(bookDTO, 1);
 		return "redirect:/write/workList";

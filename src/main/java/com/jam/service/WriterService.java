@@ -9,8 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.jam.dto.BookDTO;
 import com.jam.dto.StoryDTO;
 import com.jam.repository.interfaces.BookRepository;
-import com.jam.repository.interfaces.CategoryRepository;
-import com.jam.repository.interfaces.GenerRepository;
 import com.jam.repository.interfaces.StoryRepository;
 import com.jam.repository.interfaces.TagRepository;
 import com.jam.repository.model.Book;
@@ -26,8 +24,6 @@ public class WriterService {
 	private final BookRepository bookRepository;
 	private final StoryRepository storyRepository;
 	private final TagRepository tagRepository;
-	private final CategoryRepository categoryRepository;
-	private final GenerRepository GenerRepository;
 
 	/**
 	 * 책 생성 기능
@@ -47,9 +43,7 @@ public class WriterService {
 			// 생성된 Book ID를 가져옴
 			int bookId = bookDTO.getBookId();
 
-			// 카테고리, 장르, 태그 정보도 삽입
-			bookRepository.insertBookCategories(bookDTO.getCategoryName(), bookId);
-			bookRepository.insertBookGenres(bookDTO.getGenreName(), bookId);
+			// 태그 정보 삽입
 			bookRepository.insertBookTags(bookDTO.getTagNames(), bookId);
 
 		} catch (Exception e) {
@@ -193,11 +187,11 @@ public class WriterService {
 	@Transactional
 	public void updateStory(Story story) {
 		int result = 0;
-		System.out.println( story.getNumber());
+		System.out.println(story.getNumber());
 		try {
-			System.out.println("story"+story.toString());
+			System.out.println("story" + story.toString());
 			result = storyRepository.updateStory(story);
-			
+
 		} catch (Exception e) {
 			System.out.println(result);// TODO - 오류 처리
 		}
@@ -233,9 +227,10 @@ public class WriterService {
 			// TODO - 오류 처리
 		}
 	}
-	
+
 	/**
 	 * 태그 리스트 출력
+	 * 
 	 * @return
 	 */
 	public List<String> findTagName(List<String> tagNames) {
@@ -246,6 +241,7 @@ public class WriterService {
 
 	/**
 	 * 없는 태그시 생성
+	 * 
 	 * @param tagName
 	 */
 	@Transactional
@@ -263,6 +259,7 @@ public class WriterService {
 
 	/**
 	 * 작품 상세히
+	 * 
 	 * @param bookId
 	 * @return
 	 */

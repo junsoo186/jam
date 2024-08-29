@@ -4,29 +4,13 @@
 <mapper namespace="com.jam.repository.interfaces.BookRepository">
 
 	<insert id="insertBook">
-		INSERT INTO book_tb (user_id, title, author_comment,
-		author,
+		insert into book_tb (user_id, title,
+		author_comment, serial_day, author, category_id, genre_id, introduction,
 		age)
 		VALUES (#{userId}, #{title},
-		#{authorComment}, #{author},
+		#{authorComment}, #{serialDay},#{author},
+		#{categoryId}, #{genreId}, #{introduction},
 		#{age});
-	</insert>
-
-	<insert id="insertBookCategories">
-		<foreach item="categoryId" collection="categoryIds"
-			separator=",">
-			INSERT INTO book_category_tb (book_id, category_id)
-			VALUES
-			(#{bookId}, #{categoryId});
-		</foreach>
-	</insert>
-
-	<insert id="insertBookGenres">
-		<foreach item="genreId" collection="genreIds" separator=",">
-			INSERT INTO book_genre_tb (book_id, genre_id)
-			VALUES (#{bookId},
-			#{genreId});
-		</foreach>
 	</insert>
 
 	<insert id="insertBookTags">
@@ -96,9 +80,11 @@
 		UPDATE book_tb
 		SET
 		title = #{title},
-		author_comment = #{authorComment},
+		author_comment =
+		#{authorComment},
 		introduction = #{introduction},
-		serial_day = #{serialDay},
+		serial_day =
+		#{serialDay},
 		age = #{age}
 		WHERE
 		book_id = #{bookId};
