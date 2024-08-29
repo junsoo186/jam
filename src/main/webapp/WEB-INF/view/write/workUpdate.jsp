@@ -1,10 +1,4 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-    <!DOCTYPE html>
-    <html>
-
-    <head>
-        <meta charset="UTF-8">
-        <title>도서 정보 입력</title>
         <style>
             .tag {
                 display: inline-block;
@@ -50,6 +44,7 @@
                 height: 100%;
             }
         </style>
+<%@ include file= "/WEB-INF/view/layout/header.jsp" %>
         <script>
             function addTagOnEnter(event) {
                 if (event.key === "Enter") {
