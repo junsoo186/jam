@@ -9,7 +9,7 @@
 
   <h1>로그인</h1>
   
- 	<form action="/user/login" method="post">
+ 	<form action="/user/sign-in" method="post">
         
         <div>
             <label for="email">이메일:</label>

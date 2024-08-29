@@ -10,45 +10,41 @@ import com.jam.repository.model.User;
 
 @Service
 public class UserService {
-	
+
 	@Autowired
 	private UserRepository userRepository;
-	
+
 	/**
 	 * 
 	 * @param user
 	 */
 	public void createUser(signUpDTO dto) {
 		int result = 0;
-		System.out.println("dto : " +dto);
+		System.out.println("dto : " + dto);
 		result = userRepository.insert(dto);
-		
-		if(result == 1) {
+
+		if (result == 1) {
 			System.out.println("회원가입 성공");
 		} else {
 			System.out.println("회원가입 실패");
 		}
-		
+
 	}
-	
+
 	/**
 	 * 로그인 기능
+	 * 
 	 * @param dto
+	 * @return
 	 */
-	public void login(signInDTO dto) {
-		
-		int result = 0;
-		System.out.println("signInDTO : " +dto);
-		result = userRepository.findByEmailAndPassword(dto);
-		
-		if(result == 1) {
-			System.out.println("로그인 성공");
-		} else {
-			System.out.println("로그인 실패");
-		}
-		
+	public signInDTO login(signInDTO dto) {
+
+		signInDTO user = null;
+		System.out.println("signInDTO : " + dto);
+		user = userRepository.findByEmailAndPassword(dto);
+
+		return user;
+
 	}
-	
-	
 
 }

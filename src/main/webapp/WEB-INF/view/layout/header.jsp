@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,8 +19,19 @@
 				<a href=""></a>
 			</div>
 			<div class="nav-item">
-				<label><a href="">글쓰기</a></label>
-				<label  class="nav-login"><a href="/user/sign-up">로그인</a></label>
+				<c:choose>
+					<c:when test="${principal != null}">
+						<%-- 사용자가 로그인 상태  --%>
+								<label><a href="">글쓰기</a></label>
+				<li class="nav-item"><a class="nav-link" href="/user/logout">로그아웃</a></li>
+					</c:when>
+					<c:otherwise>
+						<%-- 사용자가 로그인 안된 상태  --%>
+				<li class="nav-login"><a class="nav-link" href="/user/sign-in">로그인</a></li>
+				<li class="nav-login"><a class="nav-link" href="/user/sign-up">회원가입</a></li>
+					</c:otherwise>
+				</c:choose>
+				
 			</div>
 		</nav>
 		

@@ -1,5 +1,7 @@
 package com.jam.dto;
 
+import com.jam.repository.model.User;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,5 +17,6 @@ public class signInDTO {
 	
 	private String email;
 	private String password;
+
 
 }

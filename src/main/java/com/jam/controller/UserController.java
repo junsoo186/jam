@@ -53,23 +53,28 @@ public class UserController {
 		return "redirect:/user/sign-in";
 	}
 
-	@GetMapping("/login")
+	@GetMapping("/sign-in")
 	public String signInPage() {
-		return "user/login";
+		return "user/signIn";
 
 	}
 
-	@PostMapping("/login")
+	@PostMapping("/sign-in")
 	public String signProc(signInDTO dto) {
+        // 사용자 인증 로직
+        signInDTO principal = userService.login(dto); // 로그인 시도 및 User 객체 반환
+        session.setAttribute("principal", principal);
+        System.out.println("principal : " + principal);
+            // 세션에 사용자 정보를 등록
+            return "redirect:/index"; // 로그인 성공 시 메인 페이지로 리다이렉트
+    }
 
-		userService.login(dto); // 로그인 확인
-
-		return "redirect:/index";
-	}
 
 	@GetMapping("/logout")
 	public String logout() {
-		return "redirect:/user/sign-in";
+		session.invalidate();
+		System.out.println("로그아웃성공");
+		return "redirect:/index";
 
 	}
 
