@@ -34,6 +34,7 @@
     height: auto;
 }
 
+
 .cover-image {
     width: 100%;
     height: auto;
@@ -166,6 +167,9 @@ form {
             </c:forEach>
         </div>
     </div>
-    </main>
+</main>
+
+
+
 </body>
 </html>
