@@ -11,8 +11,13 @@
 <title>메인화면</title>
 </head>
 <body>
+	${principal.userId}
+	${principal.email}
 	<h1>메인화면입니다</h1>
+<<<<<<< HEAD
 </main>
+=======
+>>>>>>> 91b802f6c00b38c4e9c40d841f98c37381f1e745
 </body>
 </html>
 

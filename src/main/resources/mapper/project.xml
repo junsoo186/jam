@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.jam.repository.interfaces.ProjectRepository">
+
+	<insert id="insertProject">
+		insert into project_tb (user_id, title, contents,
+		category_id, goal, date_end, project_image)
+		values (#{userId},
+		#{title}, #{contents}, #{categoryId}, #{goal},
+		#{dateEnd},
+		#{projectImage})
+	</insert>
+
+	<select id="findAllProject"
+		resultType="com.jam.repository.model.Project">
+		select project_id, user.name as 'author', title, goal,
+		date_end, project_image, category_id, collected_amount
+		from project_tb
+		as project
+		join user_tb as user on project.user_id = user.user_id
+	</select>
+
+	<select id="detailProject"
+		resultType="com.jam.repository.model.Project">
+		select project.*, user.name as 'author'
+		from project_tb as
+		project
+		join user_tb as user on project.user_id = user.user_id
+		where
+		project_id = #{projectId}
+	</select>
+
+	<update id="updateProject">
+		update project_tb
+		SET title = #{title}, contents =
+		#{contents}, category_id =
+		#{categoryId}, goal = #{goal},
+		date_end =
+		#{dateEnd}, project_image = #{projectImage}
+		WHERE project_id =
+		#{projectId}
+	</update>
+
+	<update id="updateProjectCollectedAmount">
+		update project_tb
+		set collected_amount =
+		collected_amount + #{amount}
+		where project_id = #{projectId}
+	</update>
+
+	<update id="projectAgree">
+		update project_tb
+		SET staff_agree = #{staffAgree}
+		where project_id = #{projectTb}
+	</update>
+
+	<delete id="deleteProject">
+		delete project_tb where project_id = #{projectId}
+	</delete>
+</mapper>

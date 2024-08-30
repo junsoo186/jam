@@ -6,11 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.jam.dto.NoticeDTO;
 import com.jam.repository.interfaces.NoticeRepository;
 import com.jam.repository.model.Notice;
 import com.jam.service.NoticeService;
@@ -20,77 +21,74 @@ import lombok.RequiredArgsConstructor;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/notice")
+
 public class NoticeController {
 
-    private final NoticeService noticeService;
+	private final NoticeService noticeService;
 
-    @Autowired
-    private NoticeRepository noticeRepository;
+	@Autowired
+	private NoticeRepository noticeRepository;
 
-    /**
-     * 게시글 목록 페이지 요청
-     */
-    @GetMapping({ "/list", "/" })
-    public String listPage(Model model) {
-        List<Notice> noticeList = noticeService.findAll();
-        model.addAttribute("noticeList", noticeList);
-        return "notice/list";
-    }
-    
+	/**
+	 * 게시글 목록 페이지 요청
+	 */
+	@GetMapping({ "/list", "/" })
+	public String listPage(Model model) {
+		List<Notice> noticeList = noticeService.findAll();
+		model.addAttribute("noticeList", noticeList);
+		return "notice/list";
+	}
 
-    /**
-     * 게시글 저장, 등록 화면단
-     */
-    @GetMapping("/insertForm")
-    public String insertForm() {
-        return "notice/insertForm"; 
-    }
+	/**
+	 * 게시글 저장, 등록 화면단
+	 */
+	@GetMapping("/insertForm")
+	public String insertForm() {
+		return "notice/insertForm";
+	}
 
-    /**
-     * 게시글 저장, 등록
-     */
-    @PostMapping("/insert")
-    public String insert(@RequestParam(name = "notice_id", required = false, defaultValue = "0") int noticeId,
-                         @RequestParam(name = "staff_id", required = false, defaultValue = "0") int staffId, // 매개변수 이름 수정
-                         @RequestParam(name = "title", required = false, defaultValue = "") String noticeTitle,
-                         @RequestParam(name = "content", required = false, defaultValue = "") String noticeContent,
-                         @RequestParam(name = "comment", required = false, defaultValue = "") String comment) {
-        Notice notice = Notice.builder()
-                              .noticeId(noticeId)
-                              .staffId(staffId)
-                              .noticeTitle(noticeTitle)
-                              .noticeContent(noticeContent)
-                              .comment(comment)
-                              .build();
+	/**
+	 * 게시글 저장, 등록
+	 */
+	@PostMapping("/insert")
+	public String insert(@RequestParam(name = "notice_id", required = false, defaultValue = "0") int noticeId,
+			@RequestParam(name = "staff_id", required = false, defaultValue = "0") int staffId, // 매개변수 이름 수정
+			@RequestParam(name = "title", required = false) String noticeTitle,
+			@RequestParam(name = "content", required = false) String noticeContent,
+			@RequestParam(name = "comment", required = false) String comment) {
+		Notice notice = Notice.builder().noticeId(noticeId).staffId(staffId).noticeTitle(noticeTitle)
+				.noticeContent(noticeContent).comment(comment).build();
 
-        noticeRepository.insert(notice);
+		noticeRepository.insert(notice);
 
-        return "redirect:/notice/list";
-    }
+		return "redirect:/notice/list";
+	}
 
+	@PostMapping("/delete")
+	public String delete(@RequestParam("noticeId") Integer noticeId) {
+		noticeService.delete(noticeId);
+		// 게시물 삭제 후 리스트 페이지로 리다이렉트
+		return "redirect:/notice/list";
+	}
 
-    
-    
-    /**
-     * 게시글 삭제
-     */
-    @PostMapping("/delete")
-    public String deleteNoticeByNoticeId(@RequestParam("noticeId") int noticeId, RedirectAttributes redirectAttributes) {
-        try {
-            noticeRepository.delete(noticeId);
-            // 삭제 성공 메시지를 리디렉션 시 전달
-            redirectAttributes.addFlashAttribute("message", "게시글이 성공적으로 삭제되었습니다.");
-        } catch (Exception e) {
-            // 삭제 실패 메시지를 리디렉션 시 전달
-            redirectAttributes.addFlashAttribute("errorMessage", "게시글 삭제에 실패했습니다: " + e.getMessage());
-        }
-        return "redirect:/notice/list"; // 삭제 후 목록 페이지로 리디렉션
-    }
+	/**
+	 * 게시글 수정
+	 */
+	@GetMapping("update/{noticeId}")
+	public String updateForm(@PathVariable("noticeId") int noticeId, Model model) {
+		Notice notice = new Notice();
+		model.addAttribute("noticeList", notice);
+		model.addAttribute("noticeId", noticeId);
+		return "notice/updateForm";
+	}
 
-    /**
-     * 게시글 수정
-     */
-    
-    
-    // 수정 기능을 위한 메서드 추가 필요
+	@PostMapping("/list/update/{noticeId}")
+	public String update(NoticeDTO noticeDTO, @PathVariable(name = "noticeId") Integer noticeId, NoticeDTO dto) {
+		int boardTemp = noticeService.uploading(noticeId, dto);
+
+		return "redirect:/";
+	}
+
 }
+
+// 수정 기능을 위한 메서드 추가 필요

@@ -27,7 +27,7 @@
 				<c:choose>
 					<c:when test="${principal != null}">
 						<%-- 사용자가 로그인 상태  --%>
-								<label><a href="#" class="nav-link" >글쓰기</a></label>
+								<label><a href="/write/workList" class="nav-link" >글쓰기</a></label>
 				<li class="nav-profile"><a class="nav-profile" href="#">프로필</a></li>
 					</c:when>
 					<c:otherwise>

@@ -1,4 +1,4 @@
-package com.jam.dto;
+package com.jam.repository.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,12 +9,10 @@ import lombok.ToString;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @ToString
-public class signInDTO {
-	
-	private int userId;
-	private String email;
-	private String password;
+@Builder
+public class Tag {
 
+	private Integer tagId;
+	private String tagName;
 }

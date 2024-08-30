@@ -12,19 +12,20 @@ import lombok.ToString;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @ToString
-public class User {
-	
+@Builder
+public class Story {
+
+	private Integer storyId;
+	private Integer bookId;
 	private Integer userId;
-	private String name;
-	private Date birthDate;
-	private String gender;
-	private String address;
-	private String nickName;
-	private String phoneNumber;
-	private String email;
-	private String password;
-	private String role;
+	private Integer number;
+	private String type;
+	private String title;
+	private Date uploadDay; // 예약 업로드 날짜
 	private Timestamp createdAt;
+	private String save;
+	private Integer cost;
+	private Integer views;
+	private String contents;
 }

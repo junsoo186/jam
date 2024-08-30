@@ -1,7 +1,6 @@
 package com.jam.dto;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -9,12 +8,14 @@ import lombok.ToString;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @ToString
-public class signInDTO {
-	
-	private int userId;
+public class UserDTO {
+
+	private Integer userId;
+	private String name;
+	private String nickname;
 	private String email;
 	private String password;
-
+	
+	
 }

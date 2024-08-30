@@ -1,0 +1,42 @@
+.tag {
+    display: inline-block;
+    padding: 5px;
+    background-color: #f1f1f1;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+}
+
+.tag .remove-tag {
+    margin-left: 5px;
+    cursor: pointer;
+    color: red;
+}
+
+.tag-input {
+    display: inline-block;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    min-width: 120px;
+}
+
+.tag-input input {
+    border: none;
+    outline: none;
+    width: 100px; /* 고정된 너비 설정 */
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.tag-input select {
+    border: none;
+    outline: none;
+    width: 80px;
+    display: inline-block;
+    vertical-align: middle;
+    height: 100%;
+}
