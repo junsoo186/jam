@@ -12,7 +12,7 @@ body {
 }
 
 .top-area {
-    background-color: #f8f9fa;
+    background-color: #ffeb60;
     padding: 10px 20px;
      border-bottom:3px solid linear-gradient( 135deg, #f2c2d2 10%, #ef92b2 100%);
 border-radius: 0 0 75% 85% / 50%;
@@ -28,11 +28,19 @@ border-radius: 0 0 75% 85% / 50%;
 
 .top-logo a {
     display: block;
-    width: 100px;
-    height: 50px;
+    width: 150px;
+    height: 100px;
     background-image: url("/images/layout/jam.png"); 
     background-size: contain;
     background-repeat: no-repeat;
+}
+.top-logo a:hover{
+
+    width: 150px;
+    height: 100px;
+    background-image: url("/images/layout/jam.gif"); 
+    background-size: contain;
+   
 }
 
 
@@ -89,7 +97,7 @@ li{
   width: 1400px;
   margin: -83px auto 0 auto;
   background-color: #fff;
-  border:15px solid #ff4081;
+  border:15px solid #ff4d6d;
   border-radius: 90px;
   transform: scale(0.3);
   
