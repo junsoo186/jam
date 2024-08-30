@@ -64,7 +64,8 @@
 	<a href="https://accounts.google.com/o/oauth2/v2/auth
 	?client_id=255102770612-bdsf8jq495pk9qi7nm76vprplo1upve7.apps.googleusercontent.com
 	&redirect_uri=http://localhost:8080/user/google
-	&response_type=code&scope=email profile">구글</a>	
+	&response_type=code&scope=email profile"><img
+		alt="구글로그인이미지" src="/images/googlelogin.png" style="width: 50px; height: auto;"></a>	
 
 	<a href="/user/sign-in">로그인 페이지 이동</a>
 
