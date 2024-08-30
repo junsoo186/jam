@@ -3,6 +3,7 @@ package com.jam.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.jam.dto.UserDTO;
 import com.jam.dto.signInDTO;
 import com.jam.dto.signUpDTO;
 import com.jam.repository.interfaces.UserRepository;
@@ -37,10 +38,10 @@ public class UserService {
 	 * @param dto
 	 * @return
 	 */
-	public signInDTO login(signInDTO dto) {
+	public UserDTO login(UserDTO dto) {
 
-		signInDTO user = null;
-		System.out.println("signInDTO : " + dto);
+		UserDTO user = null;
+		System.out.println("userDTO : " + dto);
 		user = userRepository.findByEmailAndPassword(dto);
 
 		return user;

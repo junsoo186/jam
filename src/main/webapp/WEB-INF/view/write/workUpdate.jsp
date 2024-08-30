@@ -181,6 +181,11 @@
             <br> <input type="hidden" name="bookId" value="${bookId}">
             <button type="submit">제출</button>
         </form>
+        
+        <form action="workDelete" method="post">
+        	<input type="hidden" name="bookId" value="${bookId}">
+        	<button>작품 삭제</button>
+        </form>
     </body>
 
     </html>

@@ -3,13 +3,26 @@
 
 <style>
     /* 모바일 환경에서의 스타일 설정 */
-    .mobile_show {
-        display: block; /* 기본적으로 모바일에서 보이도록 설정 */
-        width: 20%; /* 가로 길이를 100%로 설정 */
-        margin-bottom: 20px; /* 하단 여백 */
-        border: 1px solid #ddd; /* 테두리 */
-        background-color: #f9f9f9; /* 배경색 */
-    }
+.nav,content-container{
+    display: flex; /* Flexbox 컨테이너로 설정 */
+    flex-wrap: wrap; /* 요소가 한 줄에 들어가지 않을 경우 줄 바꿈 */
+    justify-content: flex-start; 
+}
+
+.mobile-show {
+    display: flex; /* Flexbox 컨테이너로 설정 */
+    flex-wrap: wrap; /* 요소가 한 줄에 들어가지 않을 경우 줄 바꿈 */
+    justify-content: space-between; /* 요소들 간의 간격을 균등하게 분배 */
+    width: 100%; /* 컨테이너의 가로 너비를 100%로 설정 */
+    margin-bottom: 20px; /* 하단 여백 */
+    border: 1px solid #ddd; /* 테두리 */
+    background-color: #f9f9f9; /* 배경색 */
+}
+.mobile-m-box {
+    width: 20%; /* 각 항목의 너비를 20%로 설정하여 한 줄에 다섯 개의 항목을 배치 */
+    margin-bottom: 10px; /* 항목 간의 여백 */
+}
+
 
     .cover_style_m {
         width: 80px; /* 커버 이미지의 가로 크기 설정 */
@@ -50,19 +63,33 @@
             <button type="submit" id="btnInsert">신규 작품 등록</button>
         </form>
     </div>
+    <div class="navbar">
+        <a href="#myWorks">작품관리</a>
+        <a href="#supportManagement">후원관리</a>
+        <a href="#workStatistics">정산</a>
+        <a href="#settlement">펀딩관리</a>
+    </div>
 
+    <div class="container">
+    </div>
+        <!-- 콘텐츠 영역 -->
+
+        <!-- 이미지와 추가 콘텐츠들 -->
     <%-- 조건절 1: bookList가 null이 아닐 때 --%>
+    <div class="content-container">
     <c:choose>
         <c:when test="${bookList != null}">
             <%-- bookList가 존재할 때 --%>
+       
             <c:forEach var="list" items="${bookList}">
-                <div class="mobile_show mobile_m_box novel_${list.bookId} s_inv">
+                <div class="mobile-show mobile-m-box novel-${list.bookId} s-inv">
                     <table>
                         <tr>
                             <td style="width:80px;">
-                                <div style="position:relative;" onclick="location.href='/write/workDetail?bookId=${list.bookId}'">
+                                <div style="position:relative;" onclick="location.href='/write/workDetail?bookId=${list.bookId}&userId=${principal.userId }'">
                                     <!-- 작품 리스트 모바일 커버이미지 -->
                                     <img src="//images.novelpia.com/img/new/icon/count_book.png" class="cover_style_m">
+                                    ${principal.userId}
                                 </div>
                             </td>
                             <td class="info_st">
@@ -97,6 +124,11 @@
                 </div>
             </c:forEach>
         </c:when>
+        <c:otherwise>
+        	book값 없음
+        </c:otherwise>
     </c:choose>
+
+    </div>
 </body>
 </html>

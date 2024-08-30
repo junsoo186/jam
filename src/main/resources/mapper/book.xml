@@ -8,7 +8,7 @@
 		author_comment, serial_day, author, category_id, genre_id, introduction,
 		age)
 		VALUES (#{userId}, #{title},
-		#{authorComment}, #{serialDay},#{author},
+		#{authorComment}, #{serialDay}, #{author},
 		#{categoryId}, #{genreId}, #{introduction},
 		#{age});
 	</insert>
@@ -30,40 +30,21 @@
 	<select id="AllBookListByUserId"
 		resultType="com.jam.repository.model.Book">
 		SELECT
-		b.title,
-		b.author,
-		b.likes,
-		GROUP_CONCAT(DISTINCT
-		g.genre_name ORDER BY g.genre_name ASC) AS genres,
-		GROUP_CONCAT(DISTINCT c.category_name ORDER BY c.category_name ASC) AS
-		categories,
-		GROUP_CONCAT(DISTINCT t.tag_name ORDER BY t.tag_name ASC)
-		AS tags
-		FROM
-		book_tb b
-		LEFT JOIN
-		book_genre_tb bg ON b.book_id =
-		bg.book_id
-		LEFT JOIN
-		genre_tb g ON bg.genre_id = g.genre_id
-		LEFT JOIN
-		book_category_tb bc ON b.book_id = bc.book_id
-		LEFT JOIN
-		category_tb c ON
-		bc.category_id = c.category_id
-		LEFT JOIN
-		book_tag_tb bt ON b.book_id =
-		bt.book_id
-		LEFT JOIN
-		tag_tb t ON bt.tag_id = t.tag_id
-		WHERE
-		b.user_id =
-		#{userId}
-		GROUP BY
-		b.book_id, b.title, b.author, b.likes
-		ORDER BY
-		b.title
-		ASC;
+    b.book_id,
+    b.title,
+    b.author,
+    b.likes,
+	    GROUP_CONCAT(DISTINCT t.tag_name ORDER BY t.tag_name ASC) AS tags
+	FROM
+	    book_tb b
+	LEFT JOIN book_tag_tb bt ON b.book_id = bt.book_id
+	LEFT JOIN tag_tb t ON bt.tag_id = t.tag_id
+	WHERE
+	    b.user_id = #{userId}
+	GROUP BY
+	    b.book_id
+	ORDER BY
+	    b.title ASC
 	</select>
 
 	<select id="detailBookByBookId"

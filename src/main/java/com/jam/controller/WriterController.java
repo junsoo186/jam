@@ -2,6 +2,7 @@ package com.jam.controller;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,10 +12,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.jam.dto.BookDTO;
 import com.jam.dto.StoryDTO;
+import com.jam.dto.UserDTO;
 import com.jam.repository.model.Book;
 import com.jam.repository.model.Story;
 import com.jam.service.WriterService;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 
 @Controller
@@ -23,7 +26,8 @@ import lombok.RequiredArgsConstructor;
 public class WriterController {
 
 	private final WriterService writerService;
-
+	@Autowired
+	private final HttpSession session;
 	// TODO - 검색 기능 추가
 
 	/**
@@ -34,8 +38,8 @@ public class WriterController {
 	 */
 	@GetMapping("/workList")
 	public String handleWorkList(Model model) {
-
-		List<Book> bookList = writerService.readAllBookList();
+		 UserDTO principal =(UserDTO) session.getAttribute("principal");
+		List<Book> bookList = writerService.readAllBookListByprincipalId(principal.getUserId());
 		if (bookList.isEmpty()) {
 			model.addAttribute("bookList", null);
 		} else {
@@ -66,7 +70,7 @@ public class WriterController {
 	@PostMapping("/workInsert")
 	public String completedWorkProc(BookDTO bookDTO) {
 		System.out.println(bookDTO);
-
+		UserDTO principal =(UserDTO) session.getAttribute("principal");
 		// TODO - 유효성 검사 추가
 		if (bookDTO.getTitle() == null || bookDTO.getTitle().isEmpty()) {
 			// TODO - alert 메시지 >> 제목 입력 요청
@@ -88,7 +92,7 @@ public class WriterController {
 //			}
 //		}
 
-		writerService.createBook(bookDTO, 1);
+		writerService.createBook(bookDTO, principal.getUserId());
 		return "redirect:/write/workList";
 	}
 
@@ -200,6 +204,19 @@ public class WriterController {
 		}
 		return "redirect:/write/workDetail?bookId=" + bookId;
 	}
+	
+	@PostMapping("/workDelete")
+	public String workDeleteProc(BookDTO bookDTO) {
+		
+		System.out.println("bookDTO임"+ bookDTO.getBookId());
+		writerService.deleteStory(bookDTO.getBookId());
+		
+		return"redirect:/write/workList";
+	}
+	
+	
+	
+	
 
 	/**
 	 * 회차 수정 화면 이동

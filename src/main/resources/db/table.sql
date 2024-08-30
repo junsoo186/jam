@@ -44,7 +44,7 @@ CREATE TABLE `book_tb` (
     `created_at` timestamp NOT NULL DEFAULT current_timestamp,
     `likes` int NULL DEFAULT 0 COMMENT '좋아요',
     `age` ENUM('전체', '7','12', '15', '19') NOT NULL COMMENT '등급 표시제',
-    `serial_day` varchar(10) NOT NULL DEFAULT '비 정기 연재' COMMENT '연재 방식',
+    `serial_day` varchar(10) NULL DEFAULT '비 정기 연재' COMMENT '연재 방식',
     FOREIGN KEY (`user_id`) REFERENCES `user_tb`(`user_id`),
     FOREIGN KEY (`category_id`) REFERENCES `category_tb`(`category_id`),
     FOREIGN KEY (`genre_id`) REFERENCES `genre_tb`(`genre_id`)
