@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jam.repository.interfaces.BookRepository">
+
+	<insert id="insertBook" parameterType="com.jam.dto.BookDTO"
+		useGeneratedKeys="true" keyProperty="bookId">
+		INSERT INTO book_tb (user_id,
+		title, author_comment, author, serial_day, introduction,
+		category_id,
+		genre_id, age)
+		VALUES (#{userId}, #{title}, #{authorComment},
+		#{author}, #{serialDay},
+		#{introduction}, #{categoryId}, #{genreId},
+		#{age})
+	</insert>
+
+	<select id="AllBookList"
+		resultType="com.jam.repository.model.Book">
+		SELECT
+		b.book_id,
+		b.title,
+		b.author,
+		b.likes,
+		GROUP_CONCAT(DISTINCT t.tag_name ORDER BY t.tag_name ASC) AS tagNames
+		FROM
+		book_tb b
+		LEFT JOIN book_tag_tb bt ON b.book_id = bt.book_id
+		LEFT
+		JOIN tag_tb t ON bt.tag_id = t.tag_id
+		GROUP BY
+		b.book_id
+		ORDER BY
+		b.title
+		ASC
+	</select>
+
+	<select id="AllBookListByUserId"
+		resultType="com.jam.repository.model.Book">
+		SELECT
+		b.book_id,
+		b.title,
+		b.author,
+		b.likes,
+		GROUP_CONCAT(DISTINCT t.tag_name ORDER BY t.tag_name ASC) AS tagNames
+		FROM
+		book_tb b
+		LEFT JOIN book_tag_tb bt ON b.book_id = bt.book_id
+		LEFT
+		JOIN tag_tb t ON bt.tag_id = t.tag_id
+		WHERE
+		b.user_id = #{userId}
+		GROUP
+		BY
+		b.book_id
+		ORDER BY
+		b.title ASC
+	</select>
+
+	<select id="detailBookByBookId"
+		resultType="com.jam.repository.model.Book">
+		SELECT
+		b.book_id,
+		b.title,
+		b.author,
+		b.author_comment,
+		b.category_id,
+		b.genre_id,
+		b.age,
+		b.serial_day,
+		b.introduction,
+		b.created_at,
+		GROUP_CONCAT(DISTINCT t.tag_name ORDER BY t.tag_name ASC) AS tagNames
+		FROM
+		book_tb b
+		LEFT JOIN
+		book_tag_tb bt ON b.book_id = bt.book_id
+		LEFT JOIN
+		tag_tb t ON bt.tag_id = t.tag_id
+		WHERE
+		b.book_id = #{bookId}
+		GROUP BY
+		b.book_id
+		ORDER BY
+		b.title ASC
+
+	</select>
+
+	<update id="updateBook">
+		UPDATE book_tb
+		SET
+		title = #{title},
+		author_comment =
+		#{authorComment},
+		introduction = #{introduction},
+		serial_day =
+		#{serialDay},
+		age = #{age}
+		WHERE
+		book_id = #{bookId}
+	</update>
+
+	<update id="bookViewCountUp">
+		update book_tb set
+		SET view = view + 1
+		where book_id =
+		#{bookId}
+	</update>
+
+	<delete id="deleteBook">
+		delete book_tb where book_id = #{bookId}
+	</delete>
+</mapper>

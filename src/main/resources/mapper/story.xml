@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jam.repository.interfaces.StoryRepository">
+
+	<insert id="insertStory">
+		insert into story_tb (book_id, user_id, number, type,
+		title, upload_day, save, cost, contents)
+		values (#{bookId}, #{userId},
+		#{number}, #{type}, #{title},
+		#{uploadDay}, #{save},
+		#{cost}, #{contents})
+	</insert>
+
+	<select id="findAllStoryByBookId"
+		resultType="com.jam.repository.model.Story">
+		select story_id, number, type, story.title, story.created_at, cost,
+		story.views
+		from story_tb as story
+		join book_tb as book on story.book_id
+		= book.book_id
+		where book.book_id = #{bookId}
+	</select>
+	
+	<select id="findStoryNumberByBookId"
+		resultType="com.jam.repository.model.Story">
+		select number
+		from story_tb as story
+		join book_tb as book on story.book_id
+		= book.book_id
+		where book.book_id = #{bookId}
+	</select>
+
+	<select id="outputStoryContentByStoryId"
+		resultType="com.jam.repository.model.Story">
+		select story_id, book_id, title, contents, number
+		from story_tb
+		where story_id =
+		#{storyId}
+	</select>
+
+	<update id="updateStory">
+		update story_tb set
+		title = #{title}, contents =
+		#{contents},
+		cost = #{cost},
+		type = #{type}
+		where story_id = #{storyId}
+	</update>
+	
+	<update id="updateNumberByStoryId">
+		update story_tb set
+		number = #{number}
+		where story_id = #{storyId}
+	</update>
+
+	<update id="storyViewCountUp">
+		UPDATE story_tb
+		SET view = view + 1
+		WHERE story_id = #{storyId}
+	</update>
+
+	<delete id="deleteStory">
+		delete story_tb where story_id = #{storyId}
+	</delete>
+
+
+</mapper>
