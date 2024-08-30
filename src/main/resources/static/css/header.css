@@ -14,7 +14,8 @@ body {
 .top-area {
     background-color: #f8f9fa;
     padding: 10px 20px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+     border-bottom:3px solid linear-gradient( 135deg, #f2c2d2 10%, #ef92b2 100%);
+border-radius: 0 0 75% 85% / 50%;
 }
 
 
@@ -53,7 +54,7 @@ li{
    
 }
 .nav-link{
-	color:black;
+	color:#8d8d8d;
     padding: 0;
     margin: 0;
     text-decoration: none;
@@ -77,7 +78,7 @@ li{
   color: black;
   font-family: Nunito;
   padding: 0;
-  margin: 0;
+  margin-left: 100px;
   border: 0;
   background-color: transparent;
 }
@@ -197,23 +198,7 @@ search-form {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+/* 카테고리 영역 */
 
 .center-category ul {
     display: flex;
@@ -229,6 +214,13 @@ search-form {
 
 .center-category a {
     text-decoration: none;
-    color: #495057;
+    color: #8d8d8d;
     font-weight: bold;
 }
+
+
+/* 헤더 하단 영역 */
+
+
+
+
