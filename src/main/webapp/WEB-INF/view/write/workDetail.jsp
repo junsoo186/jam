@@ -99,7 +99,7 @@ form {
 }
 
 </style>
-<body>
+<main>
     <div class="container">
         <h1>책 상세페이지</h1>
         <div class="novel-details">
@@ -166,5 +166,6 @@ form {
             </c:forEach>
         </div>
     </div>
+    </main>
 </body>
 </html>
