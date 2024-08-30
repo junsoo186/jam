@@ -164,4 +164,7 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+# Ignore googleOauth.java
+src/main/java/com/jam/utils/googleOauth.java
+
 # End of https://www.toptal.com/developers/gitignore/api/windows,macos,eclipse
