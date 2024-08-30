@@ -1,5 +1,6 @@
 package com.jam.service;
 
+
 import java.util.List;
 import java.util.Optional;
 
@@ -10,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.jam.dto.NoticeDTO;
 import com.jam.repository.interfaces.NoticeRepository;
 import com.jam.repository.model.Notice;
-import com.tenco.blog.repository.model.Board;
 
 @Service
 public class NoticeService {
@@ -27,16 +27,16 @@ public class NoticeService {
         return noticeRepository.insert(notice);
     }
 
-//    // 게시글 삭제
-//    @Transactional
-//    public void delete(int noticeId) {
-//        Optional<Notice> optionalNotice = noticeRepository.findById(noticeId);
-//        if (optionalNotice.isPresent()) {
-//            noticeRepository.delete(noticeId);
-//        } else {
-//            throw new IllegalArgumentException("해당 게시글이 없습니다. id = " + noticeId);
-//        }
-//    }
+    // 게시글 삭제
+    @Transactional
+	public void delete(int noticeId) {
+		int result =0;
+		try {
+			result = noticeRepository.delete(noticeId);
+		}catch (Exception e) {
+			// TODO: handle exception
+		}
+    }
 
     // 게시글 전체 조회
     public List<Notice> findAll() {
@@ -44,8 +44,11 @@ public class NoticeService {
     }
 
     // 게시글 수정
-    public int update(int noticeId) {
-        return noticeRepository.update(noticeId);
+    @Transactional
+    public int uploading(int noticeId, NoticeDTO dto) {
+    	int resultRow = noticeRepository.update(noticeId, dto.getNoticeTitle(),dto.getStaffId(), dto.getNoticeContent());
+    	return resultRow;
+
     }
 
 
@@ -58,7 +61,7 @@ public class NoticeService {
 	}
 	
 
-	public int uploadWriting(Integer noticeId, NoticeDTO dto) {
+	public int upload(Integer noticeId, NoticeDTO dto) {
 		// TODO Auto-generated method stub
 		return 0;
 	}

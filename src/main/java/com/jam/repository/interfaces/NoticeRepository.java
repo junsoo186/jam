@@ -15,8 +15,9 @@ public interface NoticeRepository  {
     
 
     public int delete(int noticeId); // 게시글 삭제
-    
-    int update(int noticeId); // 게시글 수정
+      
+    int update( @Param("noticeId")int noticeId,@Param("noticeTitle") String noticeTitle ,@Param("staffId") int staffId,
+			@Param("noticeContent") String noticeContent);
     
     List<Notice> findAll(); // 게시글 조회
 
