@@ -53,9 +53,9 @@ public class NoticeController {
 	@PostMapping("/insert")
 	public String insert(@RequestParam(name = "notice_id", required = false, defaultValue = "0") int noticeId,
 			@RequestParam(name = "staff_id", required = false, defaultValue = "0") int staffId, // 매개변수 이름 수정
-			@RequestParam(name = "title", required = false, defaultValue = "") String noticeTitle,
-			@RequestParam(name = "content", required = false, defaultValue = "") String noticeContent,
-			@RequestParam(name = "comment", required = false, defaultValue = "") String comment) {
+			@RequestParam(name = "title", required = false) String noticeTitle,
+			@RequestParam(name = "content", required = false) String noticeContent,
+			@RequestParam(name = "comment", required = false) String comment) {
 		Notice notice = Notice.builder().noticeId(noticeId).staffId(staffId).noticeTitle(noticeTitle)
 				.noticeContent(noticeContent).comment(comment).build();
 
@@ -76,7 +76,7 @@ public class NoticeController {
 	 */
 	@GetMapping("update/{noticeId}")
 	public String updateForm(@PathVariable("noticeId") int noticeId, Model model) {
-		Notice notice = NoticeService.findForUpdate(noticeId);
+		Notice notice = new Notice();
 		model.addAttribute("noticeList", notice);
 		model.addAttribute("noticeId", noticeId);
 		return "notice/updateForm";
@@ -84,7 +84,7 @@ public class NoticeController {
 
 	@PostMapping("/list/update/{noticeId}")
 	public String update(NoticeDTO noticeDTO, @PathVariable(name = "noticeId") Integer noticeId, NoticeDTO dto) {
-		int boardTemp = noticeService.uploadWriting(noticeId, dto);
+		int boardTemp = noticeService.uploading(noticeId, dto);
 
 		return "redirect:/";
 	}

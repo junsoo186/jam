@@ -40,8 +40,10 @@
 							<input type="hidden" name="noticeId" value="${notice.noticeId}">
 							<!-- 실제 noticeId 값을 여기에 설정해야 합니다 -->
 							<input type="hidden" name="action" value="update">
-							<button type="submit">수정</button>
-						</form> <script>
+							<button type="button" onclick="window.location.href='updateForm';">수정</button>
+						</form>
+						
+						 <script>
 							function confirmDelete() {
 								var result = confirm("정말로 삭제하시겠습니까?");
 
