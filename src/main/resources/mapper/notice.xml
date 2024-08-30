@@ -9,10 +9,10 @@
     VALUES (#{staffId}, #{noticeTitle}, #{noticeContent}, #{comment}, NOW())
 </insert>
 
-    <!-- 게시글 삭제 -->
-    <delete id="delete">
-        DELETE FROM notice_tb WHERE notice_id = #{noticeId}
-    </delete>
+  <delete id="delete" parameterType="int">
+    DELETE FROM notice_tb WHERE notice_id = #{noticeId}
+</delete>
+
 
     <!-- 게시글 수정 -->
     <update id="update">
