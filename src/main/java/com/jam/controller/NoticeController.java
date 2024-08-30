@@ -75,12 +75,14 @@ public class NoticeController {
     public String delete(@RequestParam("noticeId") int noticeId,
                          @RequestParam(value = "action", required = false) String action,
                          Model model) {
-    	System.out.println("@@@@@@@@@@@@");
+    	System.out.println("111111111111111");
         if ("delete".equals(action)) {
+        	System.out.println("222222222222222");
             // 삭제 요청 시 게시글 ID를 모델에 추가하고 목록 페이지로 이동
             model.addAttribute("noticeId", noticeId);
             return "notice/list"; 
         } else if ("confirm".equals(action)) {
+        	System.out.println("222222222222222");
             // 비밀번호 확인 없이 바로 삭제 처리
             noticeService.deleteById(noticeId);
             model.addAttribute("successMessage", "게시글이 삭제되었습니다.");
