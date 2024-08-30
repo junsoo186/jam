@@ -269,6 +269,7 @@ public class UserController {
 		User user = User.builder()
 
 				.name(googleProfile.getName()).email(googleProfile.getEmail()).build();
+		
 
 		return "user/signUp";
 

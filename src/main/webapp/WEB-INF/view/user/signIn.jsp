@@ -25,7 +25,18 @@
         
         <a href="/user/sign-up">회원가입</a>
         
-        <a href="https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=nOAefk8qDJZC5X5ZLiOi&state=STATE_STRING&redirect_uri=http://localhost:8080/user/naver">네이버?</a>
+        <a href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=da70bb7a1f4babcdcd8957d9785e99c4&redirect_uri=http://localhost:8080/user/kakao"> <img
+		alt="카카오로그인이미지" src="/images/kakaologin.png" style="width: 50px; height: auto;">
+	</a>
+	<a href="https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=VV02L4roYlvMO2qxf3n7&state=STATE_STRING&redirect_uri=http://localhost:8080/user/naver"><img
+		alt="네이버로그인이미지" src="/images/naverlogin.png" style="width: 50px; height: auto;"></a>
+		
+	<a href="https://accounts.google.com/o/oauth2/v2/auth
+?client_id=255102770612-bdsf8jq495pk9qi7nm76vprplo1upve7.apps.googleusercontent.com
+&redirect_uri=http://localhost:8080/user/google
+&response_type=code&scope=email profile">구글</a>	
+        
+        
 		</form>
 		
 		
