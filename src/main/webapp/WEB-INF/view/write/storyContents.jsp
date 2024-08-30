@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<%@ include file= "/WEB-INF/view/layout/header.jsp" %>
 <body>
 	<h1>${storyContent.title}</h1>
 
@@ -18,6 +17,6 @@
 			<button type="submit" id="btnInsert">회차수정</button>
 		</form>
 	</div>
-	<%-- 댓글 이동창은 js로 --%> 
+	<%-- JS로 화면 클릭시 댓글창 열기, 제목, 회차 넘버링 표시, 좋아요 버튼표시, 홈버튼, 수정버튼(작가면) --%> 
 </body>
 </html>

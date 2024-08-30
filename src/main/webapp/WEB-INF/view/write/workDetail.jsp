@@ -29,12 +29,11 @@
 		</p>
 
 		<!-- 태그 출력 -->
-		<p>
-			<strong>태그:</strong>
-			<c:forEach var="tag" items="${bookDetail.tagNames}">
+	<p><strong>태그:</strong> 
+            <c:forEach var="tag" items="${bookDetail.tagNames}">
                 ${tag} 
             </c:forEach>
-		</p>
+        </p>
 
 		<!-- 생성일을 년-월-일 형식으로 출력 -->
 		<p>
