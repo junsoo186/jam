@@ -1,8 +1,5 @@
 package com.jam.controller;
 
-import java.sql.Date;
-import java.sql.Timestamp;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -18,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 
+import com.jam.dto.GoogleProfile;
 import com.jam.dto.KakaoProfile;
 import com.jam.dto.NaverProfile;
 import com.jam.dto.OAuthToken;
@@ -25,6 +23,7 @@ import com.jam.dto.signInDTO;
 import com.jam.dto.signUpDTO;
 import com.jam.repository.model.User;
 import com.jam.service.UserService;
+import com.jam.utils.googleOauth;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -47,6 +46,10 @@ public class UserController {
 
 	@PostMapping("/sign-up")
 	public String signUp(signUpDTO dto) {
+<<<<<<< HEAD
+=======
+
+>>>>>>> 8d75f15786ed555a21a8b2bf3b02731b43c4445b
 		userService.createUser(dto);
 		return "redirect:/user/sign-in";
 	}
@@ -58,6 +61,7 @@ public class UserController {
 	}
 
 	@PostMapping("/sign-in")
+<<<<<<< HEAD
     public String signProc(signInDTO dto) {
         // 사용자 인증 로직
         signInDTO principal = userService.login(dto); // 로그인 시도 및 User 객체 반환
@@ -65,6 +69,15 @@ public class UserController {
         System.out.println("principal : " + principal);
             // 세션에 사용자 정보를 등록
             return "redirect:/"; // 로그인 성공 시 메인 페이지로 리다이렉트
+=======
+	public String signProc(signInDTO dto) {
+		// 사용자 인증 로직
+		signInDTO principal = userService.login(dto); // 로그인 시도 및 User 객체 반환
+		session.setAttribute("principal", principal);
+		System.out.println("principal : " + principal);
+		// 세션에 사용자 정보를 등록
+		return "redirect:/index"; // 로그인 성공 시 메인 페이지로 리다이렉트
+>>>>>>> 8d75f15786ed555a21a8b2bf3b02731b43c4445b
 	}
 
 	
@@ -131,27 +144,16 @@ public class UserController {
 		// 사전기반 --> 소셜 사용자는 비밀번호를 입력하는가? 안하는가?
 		// 우리서버에 회원가입시에 --> password -> not null (무건 만들어 넣어야 함 DB 정책)
 
-		// TODO -(테스트) 아래에 있는 것은 birthDate 가 Date 라서
-		Timestamp timestamp = Timestamp.valueOf("2024-12-01 00:00:00");
-		Date birthDate = new Date(timestamp.getTime());
-
 		User user = User.builder()
-				// name, birth_date, gender, address, nick_name, phone_number, email, password,
-				// admin_check
-//				 .name(na)
 
-				// .birthDate(birthDate)
-				// .gender("M")
-				// .address("부산시 @@구")
-				.nickName(kakaoProfile.getProperties().getNickname())
-				// .phoneNumber("010-7777-7777")
-				// .email("test@kakao.test.com")
-				// .password("1234")
-				// .adminCheck("user")
+				.nickName(kakaoProfile.getProperties().getNickname()).email(kakaoProfile.getKakaoAccount().getEmail())
 				.build();
 
 		model.addAttribute("nickName", user.getNickName());
 		System.out.println("nickName : " + user.getNickName());
+
+		model.addAttribute("email", kakaoProfile.getKakaoAccount().getEmail());
+		System.out.println("email : " + kakaoProfile.getKakaoAccount().getEmail());
 
 //		return "redirect:/user/sign-up";
 //	    userService.createUser(user);
@@ -230,6 +232,61 @@ public class UserController {
 		model.addAttribute("email", user.getEmail());
 
 		return "user/signUp";
+	}
+
+	@GetMapping("/google")
+	public String signingoogle(@RequestParam(name = "code") String code) {
+		System.out.println("code : " + code);
+		RestTemplate rt1 = new RestTemplate();
+		// 헤더 구성
+		HttpHeaders header1 = new HttpHeaders();
+		header1.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+
+		// 바디 구성
+		MultiValueMap<String, String> params1 = new LinkedMultiValueMap<String, String>();
+		params1.add("grant_type", "authorization_code");
+		params1.add("client_id", googleOauth.CLIENT_ID);
+		params1.add("client_secret", googleOauth.CLIENT_SECRET);
+		params1.add("redirect_uri", "http://localhost:8080/user/google");
+		params1.add("code", code);
+
+		// 헤더 + 바디 결합
+		HttpEntity<MultiValueMap<String, String>> reqGoogleMessage = new HttpEntity<>(params1, header1);
+
+		// 통신 요청
+		ResponseEntity<OAuthToken> response1 = rt1.exchange("https://oauth2.googleapis.com/token", HttpMethod.POST,
+				reqGoogleMessage, OAuthToken.class);
+
+		OAuthToken oauthToken = response1.getBody();
+		System.out.println("Access Token: " + oauthToken.getAccessToken());
+
+		System.out.println("response : " + response1.getBody().toString());
+		// (토큰 갱신하기)
+		RestTemplate rt2 = new RestTemplate();
+
+		// 헤더
+		HttpHeaders headers2 = new HttpHeaders();
+
+		// 반드시 Bearer 값 다음에 공백 한칸 추가 !! (토큰 갱신하기)
+		headers2.add("Authorization", "Bearer " + response1.getBody().getAccessToken());
+		headers2.add("Content-Type", "application/x-www-form-urlencoded;charset=utf-8"); // Content-Type 헤더 추가
+
+		// HTTP Entity 만들기 (토큰 갱신하기)
+		HttpEntity<MultiValueMap<String, String>> reqGoogleInfoMessage = new HttpEntity<>(headers2);
+
+		// 통신 요청 (토큰 갱신하기)
+		ResponseEntity<GoogleProfile> resposne2 = rt2.exchange("https://www.googleapis.com/oauth2/v1/userinfo",
+				HttpMethod.GET, reqGoogleInfoMessage, GoogleProfile.class);
+
+		GoogleProfile googleProfile = resposne2.getBody();
+
+		User user = User.builder()
+
+				.name(googleProfile.getName()).email(googleProfile.getEmail()).build();
+		
+
+		return "user/signUp";
+
 	}
 
 }
