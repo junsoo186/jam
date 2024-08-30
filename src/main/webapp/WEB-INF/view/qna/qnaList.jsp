@@ -4,6 +4,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
  <link rel="stylesheet" href="/css/noticeList.css"> 
+ <link rel="stylesheet" href="/css/page.css"> 
 
 <div class="container mt-5">
     <h2>Q&A</h2>
@@ -12,8 +13,7 @@
         <thead>
             <tr>
                 <th>번호</th>
-                <th>제목</th>
-                <th>질문</th>   
+                <th>제목</th>           
                 <th>작성자</th>
                 <th>작성일</th>
              
@@ -21,11 +21,10 @@
         </thead>
         <tbody>
             <c:forEach var="qna" items="${qnaList}">
-                <tr>
+               <a href=""><tr>
                     <td>${qna.qnaId}</td>
                     <td>${qna.title}</td>
-                    <td>${qna.nickname}</td>
-            		 <td>${qna.questionContent}</td>
+                    <td>${qna.nickname}</td>            
                     <td>${qna.createdAt}</td>
                     <td>
                      <%--    <form action="/notice/delete" method="post" class="d-inline">
@@ -34,7 +33,30 @@
                         </form> --%>
                     </td>
                 </tr>
+                </a> 
             </c:forEach>
         </tbody>
     </table>
 </div>
+
+<div class="bottom--page--area">
+    <ul class="pagination">
+        <!-- Previous Page Link -->
+        <li class="page-item">
+            <a class="page-link" href="?type=${type}&page=${currentPage - 1}&size=${size}" <c:if test='${currentPage == 1}'>onclick="return false;"</c:if>><</a>
+        </li>
+
+        <!-- Page Numbers -->
+        <c:forEach begin="1" end="${totalPages}" var="page">
+            <li class="page-item <c:if test='${page == currentPage}'>active</c:if>">
+                <a class="page-link" href="?type=${type}&page=${page}&size=${size}" onclick="animateStickEffect(event)">${page}</a>
+            </li>
+        </c:forEach>
+
+        <!-- Next Page Link -->
+        <li class="page-item">
+            <a class="page-link" href="?type=${type}&page=${currentPage + 1}&size=${size}" <c:if test='${currentPage == totalPages}'>onclick="return false;"</c:if>>></a>
+        </li>
+    </ul>
+</div>
+<script type="text/javascript" src="/js/page.js"></script>

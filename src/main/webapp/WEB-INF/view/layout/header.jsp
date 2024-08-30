@@ -63,15 +63,26 @@
 				<li><a href="">베스트 10</a><li>
 				<li><a href="">나의 찜목록</a><li>
 				<li><a href="">오늘의 펀딩</a><li>
+				<li><a href="">공지사항</a><li>
 			</ul>
 		</section>
 	</div>
+		
+		
+			<!-- 애니메이션 효과를 위한 헤더 선 추가 -->
+
+		
+		
 		
 		<!-- 사이드바 추가 -->
 	<div class="sidebar">
 		    <ul>
 		        <li><a href="#">내 정보</a></li>
+		        <li><a href="#">보유 JAM: 0 </a></li>
+		        <li><a href="#">JAM 충전하기</a></li>		  
 		        <li><a href="#">설정</a></li>
+		        <li><a href="#">1:1 채팅</a></li>
+		        <li><a href="/qna/list"> Q&A</a></li>
 		        <li><a href="/user/logout">로그아웃</a></li>
 		    </ul>
 	</div>
@@ -79,4 +90,5 @@
 		
 	
 	<script type="text/javascript" src="/js/header.js"></script>
+	
 </header>

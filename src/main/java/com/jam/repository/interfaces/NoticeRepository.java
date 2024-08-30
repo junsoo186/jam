@@ -1,18 +1,23 @@
 package com.jam.repository.interfaces;
 
 import java.util.List;
+import java.util.Optional;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+
 import com.jam.repository.model.Notice;
 
 @Mapper
-public interface NoticeRepository {
+public interface NoticeRepository  {
 
     int insert(Notice notice); // 게시글 작성
     
-    int delete(int noticeId); // 게시글 삭제
 
-    int update(Notice notice); // 게시글 수정
+    public int delete(int noticeId); // 게시글 삭제
+      
+    int update( @Param("noticeId")int noticeId,@Param("noticeTitle") String noticeTitle ,@Param("staffId") int staffId,
+			@Param("noticeContent") String noticeContent);
     
     List<Notice> findAll(); // 게시글 조회
 

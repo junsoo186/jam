@@ -1,5 +1,6 @@
 package com.jam.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +20,17 @@ public class QnaService {
 		this.qnaRepository = qnaRepository;
 	}
 	
-	public List<QnaDTO> selectAllQna() {
-		return qnaRepository.selectAllQna();
+	public List<QnaDTO> selectAllQna(int page, int size) {
+		List<QnaDTO> list = new ArrayList<>();
+		int limit = size;
+		int offset = (page - 1) * size;
+		list = qnaRepository.selectAllQnaPage(limit,offset);
+		return list;
 	}
 
+	
+	public int allList(){
+		return qnaRepository.countAll();
+	}
+	
 }

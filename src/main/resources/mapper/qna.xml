@@ -24,12 +24,18 @@
 	</update>
 	
 	<!--전체 Q&A 조회  --> 
-	<select id="selectAllQna" resultType="com.jam.dto.QnaDTO">
+	<select id="selectAllQnaPage" resultType="com.jam.dto.QnaDTO">
 		SELECT q.* , u.nick_name
 		FROM qna_tb as q 
 		LEFT JOIN user_tb as u on q.user_id = u.user_id
+		LIMIT #{limit} OFFSET #{offset};
 	</select>
 	
+	<select id="countAll" resultType="int">
+		SELECT count(*)
+		FROM qna_tb as q 
+		LEFT JOIN user_tb as u on q.user_id = u.user_id
+	</select>
 	<!--사용자 본인이 남긴 Q&A 전체 조회  --> 
 	<select id="selectAllQnaByUserId" resultType="com.jam.dto.QnaDTO">
 		SELECT q.* , u.nick_name
