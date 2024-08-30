@@ -181,6 +181,7 @@ public class WriterController {
 			model.addAttribute("bookDetail", null);
 		} else {
 			model.addAttribute("bookId", bookId);
+			System.out.println("bookDetail : " + bookDetail);
 			model.addAttribute("bookDetail", bookDetail);
 		}
 

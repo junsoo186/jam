@@ -6,8 +6,10 @@
 2. 위치 -- 용도 -- 추가 *예(.center--content--area)
 3. 명칭 통일 버튼 = btn, 이미지 =img, 영역 = area, 위치= top, center ,side,bottom 
 */
-
-.center--content--area{
-	
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px;
 }
 
