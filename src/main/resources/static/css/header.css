@@ -34,6 +34,14 @@ border-radius: 0 0 75% 85% / 50%;
     background-size: contain;
     background-repeat: no-repeat;
 }
+.top-logo a:hover{
+
+    width: 150px;
+    height: 100px;
+    background-image: url("/images/layout/jam.gif"); 
+    background-size: contain;
+   
+}
 
 
 .nav-item {
