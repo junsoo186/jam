@@ -9,25 +9,51 @@
 </head>
 
 <body>
-	<h2>도서 정보 입력 폼</h2>
-	<form action="workInsert" method="post" onsubmit="return prepareFormForSubmit()">
-		<label for="title">제목:</label> <input type="text" id="title" name="title" value="테스트 제목" required /><br> <br> <label for="authorComment">저자 코멘트:</label>
-		<textarea id="authorComment" name="authorComment" required>테스트 저자 코멘트</textarea>
-		<br> <br> <label for="author">저자:</label> <input type="text" id="author" name="author" value="테스트 저자" required /><br> <br> <label for="serialDay">연재
-			요일:</label><br> <input type="radio" id="monday" name="serialDay" value="월요일"> <label for="monday">월요일</label><br> <input type="radio" id="tuesday" name="serialDay"
-			value="화요일"
-		> <label for="tuesday">화요일</label><br> <input type="radio" id="wednesday" name="serialDay" value="수요일"> <label for="wednesday">수요일</label><br> <input
-			type="radio" id="thursday" name="serialDay" value="목요일"
-		> <label for="thursday">목요일</label><br> <input type="radio" id="friday" name="serialDay" value="금요일"> <label for="friday">금요일</label><br> <input type="radio"
-			id="saturday" name="serialDay" value="토요일"
-		> <label for="saturday">토요일</label><br> <input type="radio" id="sunday" name="serialDay" value="일요일"> <label for="sunday">일요일</label><br> <input type="radio"
-			id="irregular" name="serialDay" value="비 정기 연재"
-		> <label for="irregular">비 정기 연재</label><br>
+   <div class="container">
+        <h2>도서 정보 입력 폼</h2>
+        <form action="workInsert" method="post" onsubmit="return prepareFormForSubmit()">
+            <!-- 폼 섹션 -->
+            <div class="form-section">
+                <!-- 왼쪽 섹션: 책 커버 및 이미지 선택 -->
+                <div class="left-section">
+                    <div class="book-cover">
+                        <label for="bookCover">책 커버 선택</label>
+                        <input type="file" id="bookCover" name="bookCover" style="display:none">
+                    </div>
+                    <div class="genre-buttons">
+                        <button type="button" class="active">SF/판타지</button>
+                        <button type="button">판타지</button>
+                        <button type="button">로맨스</button>
+                    </div>
+                </div>
 
-		<!-- Introduction 필드 추가 -->
-		<label for="introduction">소개글:</label><br>
-		<textarea id="introduction" name="introduction" rows="4" cols="50" placeholder="도서의 소개글을 입력하세요" required>테스트용 소개글</textarea>
+                <!-- 오른쪽 섹션: 입력 필드 -->
+                <div class="right-section">
+                    <label for="title">작품명:</label>
+                    <input type="text" id="title" name="title" value="테스트 제목" required />
 
+
+                    <label for="introduction">소개글:</label>
+                    <textarea id="introduction" name="introduction" rows="4" required>테스트용 소개글</textarea>
+
+                    <label for="age">연령:</label>
+                    <div class="age-buttons">
+                        <button type="button" class="active">전체</button>
+                        <button type="button">15세</button>
+                        <button type="button">19세</button>
+                    </div>
+
+                    <label for="serialDay">연재 요일:</label>
+                    <div class="radio-buttons">
+                        <label><input type="checkbox" name="serialDay" value="월요일"> 월요일</label>
+                        <label><input type="checkbox" name="serialDay" value="화요일"> 화요일</label>
+                        <label><input type="checkbox" name="serialDay" value="수요일"> 수요일</label>
+                        <label><input type="checkbox" name="serialDay" value="목요일"> 목요일</label>
+                        <label><input type="checkbox" name="serialDay" value="금요일"> 금요일</label>
+                        <label><input type="checkbox" name="serialDay" value="토요일"> 토요일</label>
+                        <label><input type="checkbox" name="serialDay" value="일요일"> 일요일</label>
+                        <label><input type="checkbox" name="serialDay" value="비 정기 연재"> 비 정기 연재</label>
+                    </div>
 		<br> <br> <label for="categoryId">카테고리 이름:</label> <select id="categoryId" name="categoryId" required>
 			<option value="1">문학</option>
 			<option value="2">시/에세이</option>
@@ -61,21 +87,33 @@
 		</div>
 		<br> <br>
 
-		<!-- 연령 선택 필드 -->
-		<label for="age">연령:</label> <select id="age" name="age" required>
-			<option value="전체">전체</option>
-			<option value="7">7</option>
-			<option value="12">12</option>
-			<option value="15">15</option>
-			<option value="19">19</option>
-		</select><br> <br>
 
+            <!-- 이미지 선택 섹션 -->
+            <div class="image-selection">
+                <h3>이미지 선택</h3>
+                <div class="image-options">
+                    <div class="image-option">제공 이미지 1</div>
+                    <div class="image-option">제공 이미지 2</div>
+                    <div class="image-option">제공 이미지 3</div>
+                    <div class="image-option">제공 이미지 4</div>
+                </div>
+            </div>
 
+            <!-- 경고문 섹션 -->
+            <div class="warning-section">
+                <p>경고문 텍스트를 여기에 추가합니다.</p>
+                <label><input type="checkbox" required> 동의합니다</label>
+            </div>
 
-		<button type="submit">제출</button>
-	</form>
+            <!-- 제출 및 취소 버튼 -->
+            <div class="submit-buttons">
+                <button type="button" class="cancel">취소</button>
+                <button type="submit" class="submit">작품 등록</button>
+            </div>
+        </form>
+    </div>
 
-	<script type="text/javascript" src="/js/insertTag.js"></script>
+    <script type="text/javascript" src="js/insertTag.js"></script>
 </body>
 
 </html>
