@@ -18,6 +18,7 @@ import lombok.ToString;
 
 public class BookDTO {
 
+	private Integer userId;
 	private Integer bookId;
 	private String title;
 	private String authorComment;
@@ -27,7 +28,7 @@ public class BookDTO {
     private Integer categoryId;  
     private Integer genreId;
     private String serialDay;
-    private List<String> tagNames;       
+    private List<String> customTag;
 	private String age;
 	
 	public Book toBook(Integer userId) {
@@ -52,6 +53,7 @@ public class BookDTO {
 				.introduction(this.introduction)
 				.serialDay(this.serialDay)
 				.age(this.age)
+				.customtags(this.customTag)
 				.build();
 	}
 }

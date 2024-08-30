@@ -41,19 +41,22 @@
 			<option value="5">판타지</option>
 			<option value="6">무협</option>
 		</select>
-
-		<!-- 태그가 여기에 추가됩니다 -->
+		<br>
+		<label for="tagList">태그 목록:</label>
+		<div id="tagList" class="tag-input">
+			<!-- 태그가 여기에 추가됩니다 -->
 		</div>
 		<br>
 
 		<!-- 태그 추가를 위한 인풋 필드와 셀렉트 박스 -->
 		<div class="tag-input">
-			<input type="text" id="customTag" onkeydown="addTagOnEnter(event)" placeholder="태그를 입력하세요"> <select id="presetTags" onchange="addSelectedOption()">
+			<input type="text" id="customTag" onkeydown="addTagOnEnter(event)" placeholder="태그를 입력하세요">
+			<select id="presetTags" name="presetTags" onchange="addSelectedOption()">
 				<option value=""></option>
-				<option value="베스트셀러">베스트셀러</option>
-				<option value="신간">신간</option>
-				<option value="추천">추천</option>
-				<option value="인기">인기</option>
+				<option value="판타지">판타지</option>
+				<option value="추리">추리</option>
+				<option value="로맨스">로맨스</option>
+				<option value="공포">공포</option>
 			</select>
 		</div>
 		<br> <br>
@@ -72,7 +75,7 @@
 		<button type="submit">제출</button>
 	</form>
 
-	<script type="text/javascript" src="js/insertTag.js"></script>
+	<script type="text/javascript" src="/js/insertTag.js"></script>
 </body>
 
 </html>

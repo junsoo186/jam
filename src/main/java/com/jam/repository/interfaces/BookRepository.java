@@ -5,13 +5,14 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import com.jam.dto.BookDTO;
 import com.jam.repository.model.Book;
 
 @Mapper
 public interface BookRepository {
 
 	// 책 생성
-	public int insertBook(Book book);
+	public int insertBook(BookDTO bookDTO);
 
 	// 책 생성시 카테고리
 	public int insertBookCategories(@Param("categoryId") String categoryId, @Param("bookId") Integer bookId);
@@ -38,5 +39,4 @@ public interface BookRepository {
 
 	public Book findBookByBookId(Integer bookId);
 
-	public List<String> findTagName(List<String> tagNames);
 }

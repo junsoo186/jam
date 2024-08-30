@@ -13,6 +13,7 @@ import com.jam.repository.interfaces.StoryRepository;
 import com.jam.repository.interfaces.TagRepository;
 import com.jam.repository.model.Book;
 import com.jam.repository.model.Story;
+import com.jam.repository.model.Tag;
 
 import lombok.RequiredArgsConstructor;
 
@@ -32,25 +33,15 @@ public class WriterService {
 	 * @param principalId 현재 로그인한 사용자의 ID
 	 */
 	@Transactional
-	public void createBook(BookDTO bookDTO, Integer principalId) {
-		// 책 생성 결과를 저장할 변수
-		int result = 0;
+	public int createBook(BookDTO bookDTO, int userId) {
+		// BookDTO에 userId 설정
+		bookDTO.setUserId(userId);
 
-		try {
-			// Book 객체를 생성하고 데이터베이스에 삽입
-			result = bookRepository.insertBook(bookDTO.toBook(principalId));
+		// 책 정보 저장 (bookId는 bookDTO에 자동으로 설정됩니다)
+		bookRepository.insertBook(bookDTO);
 
-			// TODO - 태그 정보 삽입
-
-		} catch (Exception e) {
-			// 예외가 발생하면 로그를 기록하고, 필요시 사용자에게 적절한 메시지를 전달할 수 있음
-			e.printStackTrace(); // 예외 스택 트레이스를 출력하여 문제를 파악
-		}
-
-		// 책 생성이 실패한 경우 처리
-		if (result != 1) {
-			// 생성 실패 시 수행할 로직을 추가
-		}
+		// 생성된 bookId 반환
+		return bookDTO.getBookId();
 	}
 
 	/**
@@ -226,28 +217,10 @@ public class WriterService {
 	 * 
 	 * @return
 	 */
-	public List<String> findTagName(List<String> tagNames) {
-		List<String> tags = new ArrayList<>();
-		tags = bookRepository.findTagName(tagNames);
+	public List<Tag> findTagName(Integer bookId) {
+		List<Tag> tags = new ArrayList<>();
+		tags = tagRepository.selectTagByBookId(bookId);
 		return tags;
-	}
-
-	/**
-	 * 없는 태그시 생성
-	 * 
-	 * @param tagName
-	 */
-	@Transactional
-	public void insertTagName(String tagName) {
-		int result = 0;
-		try {
-			result = tagRepository.insertTag(tagName);
-		} catch (Exception e) {
-			// TODO - 오류 처리
-		}
-		if (result != 1) {
-			// TODO - 오류 처리
-		}
 	}
 
 	/**
@@ -266,8 +239,68 @@ public class WriterService {
 		return book;
 	}
 
+	/**
+	 * storyId로 Number 갱신 시키기
+	 * 
+	 * @param number
+	 * @param storyId
+	 */
 	@Transactional
 	public void updateNumberByStoryId(String number, Integer storyId) {
 		storyRepository.updateNumberByStoryId(number, storyId);
 	}
+
+	/**
+	 * 없는 태그시 생성
+	 * 
+	 * @param tagName 생성할 태그 이름
+	 * @return 생성된 태그의 정보가 담긴 Tag 객체
+	 */
+	@Transactional
+	public Tag insertTagName(String tagName) {
+		Tag newTag = null;
+		try {
+			int result = tagRepository.insertTag(tagName);
+
+			if (result == 1) {
+				// 태그 삽입이 성공했을 경우, 삽입된 태그를 조회하여 반환
+				newTag = tagRepository.findByName(tagName);
+			} else {
+				// 삽입 실패시 예외 발생
+				throw new RuntimeException("Tag insertion failed for tag: " + tagName);
+			}
+		} catch (Exception e) {
+			// TODO - 예외 처리 (예: 로그 기록)
+			e.printStackTrace();
+			throw new RuntimeException("An error occurred while inserting the tag: " + tagName, e);
+		}
+
+		return newTag;
+	}
+
+	public List<Tag> selectAllTags() {
+		List<Tag> tags = new ArrayList<Tag>();
+		tags = tagRepository.selectAllTags();
+		return tags;
+	}
+
+	public void insertTagIdAndBookId(Integer bookId, Integer tagId) {
+		try {
+			// 데이터베이스에 bookId와 tagId를 삽입
+			tagRepository.insertTagIdAndBookId(bookId, tagId);
+		} catch (Exception e) {
+			// 예외 처리: 오류 발생 시 로그 출력 및 예외 전파
+			e.printStackTrace();
+			throw new RuntimeException("Failed to insert bookId and tagId into book_tag_tb", e);
+		}
+	}
+	
+	public void updateTagIdByBookId(Integer bookId, Integer tagId) {
+		try {
+			tagRepository.updateTagIdByBookId(bookId, tagId);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
+
 }

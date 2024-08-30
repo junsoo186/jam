@@ -3,74 +3,87 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jam.repository.interfaces.BookRepository">
 
-	<insert id="insertBook">
-		insert into book_tb (user_id, title,
-		author_comment,
-		serial_day, author, category_id, genre_id, introduction,
-		age)
-		VALUES (#{userId}, #{title},
-		#{authorComment}, #{serialDay}, #{author},
-		#{categoryId}, #{genreId}, #{introduction},
+	<insert id="insertBook" parameterType="com.jam.dto.BookDTO"
+		useGeneratedKeys="true" keyProperty="bookId">
+		INSERT INTO book_tb (user_id,
+		title, author_comment, author, serial_day, introduction,
+		category_id,
+		genre_id, age)
+		VALUES (#{userId}, #{title}, #{authorComment},
+		#{author}, #{serialDay},
+		#{introduction}, #{categoryId}, #{genreId},
 		#{age})
-	</insert>
-
-	<insert id="insertBookTags">
-		<foreach item="tagId" collection="tagIds" separator=",">
-			INSERT
-			INTO book_tag_tb (book_id, tag_id)
-			VALUES (#{bookId}, #{tagId})
-		</foreach>
 	</insert>
 
 	<select id="AllBookList"
 		resultType="com.jam.repository.model.Book">
-		select *
-		from book_tb
+		SELECT
+		b.book_id,
+		b.title,
+		b.author,
+		b.likes,
+		GROUP_CONCAT(DISTINCT t.tag_name ORDER BY t.tag_name ASC) AS tagNames
+		FROM
+		book_tb b
+		LEFT JOIN book_tag_tb bt ON b.book_id = bt.book_id
+		LEFT
+		JOIN tag_tb t ON bt.tag_id = t.tag_id
+		GROUP BY
+		b.book_id
+		ORDER BY
+		b.title
+		ASC
 	</select>
 
 	<select id="AllBookListByUserId"
 		resultType="com.jam.repository.model.Book">
-
 		SELECT
-    b.book_id,
-    b.title,
-    b.author,
-    b.likes,
-	    GROUP_CONCAT(DISTINCT t.tag_name ORDER BY t.tag_name ASC) AS tags
-	FROM
-	    book_tb b
-	LEFT JOIN book_tag_tb bt ON b.book_id = bt.book_id
-	LEFT JOIN tag_tb t ON bt.tag_id = t.tag_id
-	WHERE
-	    b.user_id = #{userId}
-	GROUP BY
-	    b.book_id
-	ORDER BY
-	    b.title ASC
+		b.book_id,
+		b.title,
+		b.author,
+		b.likes,
+		GROUP_CONCAT(DISTINCT t.tag_name ORDER BY t.tag_name ASC) AS tagNames
+		FROM
+		book_tb b
+		LEFT JOIN book_tag_tb bt ON b.book_id = bt.book_id
+		LEFT
+		JOIN tag_tb t ON bt.tag_id = t.tag_id
+		WHERE
+		b.user_id = #{userId}
+		GROUP
+		BY
+		b.book_id
+		ORDER BY
+		b.title ASC
 	</select>
 
 	<select id="detailBookByBookId"
 		resultType="com.jam.repository.model.Book">
 		SELECT
+		b.book_id,
 		b.title,
 		b.author,
 		b.author_comment,
-		b.introduction,
-		b.book_cover_image,
-		b.serial_day,
-		b.likes,
+		b.category_id,
+		b.genre_id,
 		b.age,
+		b.serial_day,
+		b.introduction,
 		b.created_at,
-		c.category_name,
-		g.genre_name
+		GROUP_CONCAT(DISTINCT t.tag_name ORDER BY t.tag_name ASC) AS tagNames
 		FROM
-		book_tb AS b
-		JOIN
-		category_tb AS c ON c.category_id = b.category_id
-		JOIN
-		genre_tb AS g ON g.genre_id = b.genre_id
+		book_tb b
+		LEFT JOIN
+		book_tag_tb bt ON b.book_id = bt.book_id
+		LEFT JOIN
+		tag_tb t ON bt.tag_id = t.tag_id
 		WHERE
-		b.book_id = #{bookId};
+		b.book_id = #{bookId}
+		GROUP BY
+		b.book_id
+		ORDER BY
+		b.title ASC
+
 	</select>
 
 	<update id="updateBook">
@@ -97,8 +110,4 @@
 	<delete id="deleteBook">
 		delete book_tb where book_id = #{bookId}
 	</delete>
-
-	<select id="findTagName">
-		select * from tag_tb where tag_name = #{tagNames};
-	</select>
 </mapper>

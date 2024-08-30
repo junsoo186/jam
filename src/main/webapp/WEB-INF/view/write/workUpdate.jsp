@@ -61,7 +61,7 @@
 		<!-- 인풋 필드 안에 셀렉트 박스 추가 -->
 		<div class="tag-input">
 			<input type="text" id="customTag" name="customTag" onkeydown="addTagOnEnter(event)" placeholder="태그를 입력하세요"> 
-			<select id="genreNames" name="genreNames" onchange="addSelectedOption()">
+			<select id="presetTags" name="presetTags" onchange="addSelectedOption()">
 				<option value=""></option>
 				<option value="판타지">판타지</option>
 				<option value="추리">추리</option>
@@ -89,5 +89,5 @@
         	<button>작품 삭제</button>
         </form>
 
-	<script type="text/javascript" src="js/insertTag.js"></script>
+	<script type="text/javascript" src="/js/insertTag.js"></script>
 </body>

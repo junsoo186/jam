@@ -32,7 +32,6 @@ insert into qna_tb (user_id, title, question_content, created_at) values
 (1, '질문5', '제이름은 명기입니다..', NOW());
 
 
-
 insert into user_tb (nick_name, phone_number, email, password, role)
 values( '관리자박정훈', '010-4548-5678', 'test3@naver.com', '1234', 'admin');
 
@@ -51,6 +50,10 @@ insert into genre_tb (genre_id, genre_name) values (4, '과학');
 insert into genre_tb (genre_id, genre_name) values (5, '판타지');
 insert into genre_tb (genre_id, genre_name) values (6, '무협');
 
+-- 태그 테이블에 데이터 삽입
+insert into tag_tb (tag_id, tag_name) values (1, '판타지');
+insert into tag_tb (tag_id, tag_name) values (2, '공포');
+insert into tag_tb (tag_id, tag_name) values (3, '추리');
 
 -- 북테이블 생성
 insert into book_tb (user_id, title, author_comment, author, category_id, genre_id, introduction, age) 
@@ -61,7 +64,9 @@ insert into book_tb (user_id,title,author_comment,author,category_id , genre_id,
 			values(2,'테스트하기2','줄거리테스트2','작가테스트2', '1', '1','소개글2', '15');
 
 
-
+insert into book_tag_tb (book_id, tag_id) values (1,1);
+insert into book_tag_tb (book_id, tag_id) values (1,2);
+insert into book_tag_tb (book_id, tag_id) values (1,3);
 
 
 -- 스토리 테이블 생성
