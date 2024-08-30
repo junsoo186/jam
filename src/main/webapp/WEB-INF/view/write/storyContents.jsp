@@ -14,6 +14,7 @@
 	</div>
 	<div class="btn-area">
 		<form action="storyUpdate " method="get">
+			<input type="hidden" name="storyId" value="${storyContent.storyId}">
 			<button type="submit" id="btnInsert">회차수정</button>
 		</form>
 	</div>

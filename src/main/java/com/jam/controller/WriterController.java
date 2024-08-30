@@ -9,12 +9,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.jam.dto.BookDTO;
 import com.jam.dto.StoryDTO;
 import com.jam.dto.UserDTO;
 import com.jam.repository.model.Book;
 import com.jam.repository.model.Story;
+import com.jam.repository.model.User;
 import com.jam.service.WriterService;
 
 import jakarta.servlet.http.HttpSession;
@@ -28,6 +30,9 @@ public class WriterController {
 	private final WriterService writerService;
 	@Autowired
 	private final HttpSession session;
+
+
+
 	// TODO - 검색 기능 추가
 
 	/**
@@ -69,7 +74,6 @@ public class WriterController {
 	 */
 	@PostMapping("/workInsert")
 	public String completedWorkProc(BookDTO bookDTO) {
-		System.out.println(bookDTO);
 		UserDTO principal =(UserDTO) session.getAttribute("principal");
 		// TODO - 유효성 검사 추가
 		if (bookDTO.getTitle() == null || bookDTO.getTitle().isEmpty()) {
@@ -82,8 +86,6 @@ public class WriterController {
 				|| bookDTO.getTagNames().size() < 3) {
 			// TODO - alert 메시지 >> 태그는 최소 3개 이상 선택해야 합니다.
 		}
-
-		
 
 		// 태그가 없으면 만들기
 //		for (String tagName : tagNames) {
@@ -112,8 +114,11 @@ public class WriterController {
 	 * @return
 	 */
 	@PostMapping("/storyInsert")
-	public String StoryInsertProc(StoryDTO storyDTO, @RequestParam("bookId") Integer bookId,
-			@RequestParam(value = "principalId", defaultValue = "1") Integer principalId) {
+	public String StoryInsertProc(StoryDTO storyDTO, @RequestParam("bookId") Integer bookId) {
+
+		if (storyDTO.getType().equals("프롤로그")) { // 프롤로그 선택시 무조건 number = 0
+			storyDTO.setNumber(0);
+		}
 		if (storyDTO.getNumber() == null) {
 			// TODO - alert 메시지 >> 회차 입력 요청
 		} else if (storyDTO.getTitle() == null || storyDTO.getTitle().isEmpty()) {
@@ -122,7 +127,7 @@ public class WriterController {
 			// TODO - alert 메시지 >> 내용 입력 요청
 		}
 
-		writerService.createStory(storyDTO, bookId, principalId);
+		writerService.createStory(storyDTO, bookId, 1);
 		return "redirect:/write/storyContents?number=" + storyDTO.getNumber();
 	}
 
@@ -132,9 +137,8 @@ public class WriterController {
 	 * @return
 	 */
 	@GetMapping("/storyContents")
-	public String handleStoryContents(Model model, @RequestParam(name = "number") Integer number) {
-		System.out.println(number);
-		Story storyContent = writerService.outputStoryContentByNumber(number);
+	public String handleStoryContents(Model model, @RequestParam(name = "storyId") Integer storyId) {
+		Story storyContent = writerService.outputStoryContentByStoryId(storyId);
 		if (storyContent == null) {
 			model.addAttribute("storyContent", null);
 		} else {
@@ -152,7 +156,6 @@ public class WriterController {
 	public String handleWorkDetail(Model model, @RequestParam("bookId") Integer bookId) {
 		Book bookDetail = writerService.detailBook(bookId);
 		List<Story> storyList = writerService.findAllStoryByBookId(bookId);
-		System.out.println("book : " + bookDetail);
 		if (bookDetail == null) {
 			model.addAttribute("bookDetail", null);
 		} else {
@@ -194,7 +197,6 @@ public class WriterController {
 	public String workUpdateProc(BookDTO bookDTO, @RequestParam("bookId") Integer bookId) {
 		// BookDTO에서 Book 객체로 변환
 		Book book = bookDTO.updateBook(bookId);
-		System.out.println("book : " + book.toString());
 
 		// 변환된 Book 객체를 사용하여 업데이트 작업 수행
 		try {
@@ -219,12 +221,15 @@ public class WriterController {
 	
 
 	/**
-	 * 회차 수정 화면 이동
+	 * 회차 수정 페이지 이동
 	 * 
+	 * @param model
 	 * @return
 	 */
 	@GetMapping("/storyUpdate")
-	public String handleStoryUpdate() {
+	public String handleStoryUpdate(Model model, @RequestParam(name = "storyId") Integer storyId) {
+		Story storyContent = writerService.outputStoryContentByStoryId(storyId);
+		model.addAttribute("storyContent", storyContent);
 		return "write/storyUpdate";
 	}
 
@@ -234,16 +239,20 @@ public class WriterController {
 	 * @return
 	 */
 	@PostMapping("/storyUpdate")
-	public String storyUpdateProc(StoryDTO dto) {
-		System.out.println("dto값:" + dto);
-		Story story = dto.updateStory();
-		System.out.println(story.toString() + "바뀜");
-
+	public String storyUpdateProc(StoryDTO dto, @RequestParam(name = "storyId") Integer storyId) {
+		if (dto.getType().equals("프롤로그")) { // 프롤로그 선택시 무조건 number = 0
+			writerService.updateNumberByStoryId("0", dto.getStoryId());
+		}
+		if (dto.getType().equals("무료")) {
+			writerService.updateNumberByStoryId("BOUNS", dto.getStoryId());
+		}
+		Story story = dto.updateStory(storyId);
 		try {
+			System.out.println("story : " + story.toString());
 			writerService.updateStory(story);
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
-		return "redirect:/write/storyContents?number=" + story.getNumber();
+		return "redirect:/write/storyContents?storyId=" + storyId;
 	}
 }

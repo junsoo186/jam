@@ -5,19 +5,20 @@
 
 	<insert id="insertBook">
 		insert into book_tb (user_id, title,
-		author_comment, serial_day, author, category_id, genre_id, introduction,
+		author_comment,
+		serial_day, author, category_id, genre_id, introduction,
 		age)
 		VALUES (#{userId}, #{title},
 		#{authorComment}, #{serialDay}, #{author},
 		#{categoryId}, #{genreId}, #{introduction},
-		#{age});
+		#{age})
 	</insert>
 
 	<insert id="insertBookTags">
 		<foreach item="tagId" collection="tagIds" separator=",">
 			INSERT
 			INTO book_tag_tb (book_id, tag_id)
-			VALUES (#{bookId}, #{tagId});
+			VALUES (#{bookId}, #{tagId})
 		</foreach>
 	</insert>
 
@@ -29,6 +30,7 @@
 
 	<select id="AllBookListByUserId"
 		resultType="com.jam.repository.model.Book">
+
 		SELECT
     b.book_id,
     b.title,
@@ -49,12 +51,26 @@
 
 	<select id="detailBookByBookId"
 		resultType="com.jam.repository.model.Book">
-		select title, author, author_comment, introduction,
-		book_cover_image, serial_day, likes,
-		age, created_at
-		from book_tb
-		where
-		book_id = #{bookId};
+		SELECT
+		b.title,
+		b.author,
+		b.author_comment,
+		b.introduction,
+		b.book_cover_image,
+		b.serial_day,
+		b.likes,
+		b.age,
+		b.created_at,
+		c.category_name,
+		g.genre_name
+		FROM
+		book_tb AS b
+		JOIN
+		category_tb AS c ON c.category_id = b.category_id
+		JOIN
+		genre_tb AS g ON g.genre_id = b.genre_id
+		WHERE
+		b.book_id = #{bookId};
 	</select>
 
 	<update id="updateBook">
@@ -68,7 +84,7 @@
 		#{serialDay},
 		age = #{age}
 		WHERE
-		book_id = #{bookId};
+		book_id = #{bookId}
 	</update>
 
 	<update id="bookViewCountUp">

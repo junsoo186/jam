@@ -14,31 +14,44 @@
 
 	<select id="findAllStoryByBookId"
 		resultType="com.jam.repository.model.Story">
-		select number, type, story.title, story.created_at, cost,
+		select story_id, number, type, story.title, story.created_at, cost,
 		story.views
 		from story_tb as story
 		join book_tb as book on story.book_id
 		= book.book_id
-		where story.book_id = #{bookId}
+		where book.book_id = #{bookId}
+	</select>
+	
+	<select id="findStoryNumberByBookId"
+		resultType="com.jam.repository.model.Story">
+		select number
+		from story_tb as story
+		join book_tb as book on story.book_id
+		= book.book_id
+		where book.book_id = #{bookId}
 	</select>
 
-	<select id="outputStoryContentByNumber"
+	<select id="outputStoryContentByStoryId"
 		resultType="com.jam.repository.model.Story">
 		select story_id, book_id, title, contents, number
 		from story_tb
-		where number =
-		#{number}
+		where story_id =
+		#{storyId}
 	</select>
 
 	<update id="updateStory">
 		update story_tb set
 		title = #{title}, contents =
 		#{contents},
-		upload_day = #{uploadDay},
 		cost = #{cost},
 		type = #{type}
-		where story_id = #{storyId} and
-			number= #{number}
+		where story_id = #{storyId}
+	</update>
+	
+	<update id="updateNumberByStoryId">
+		update story_tb set
+		number = #{number}
+		where story_id = #{storyId}
 	</update>
 
 	<update id="storyViewCountUp">
