@@ -46,10 +46,7 @@ public class UserController {
 
 	@PostMapping("/sign-up")
 	public String signUp(signUpDTO dto) {
-<<<<<<< HEAD
-=======
 
->>>>>>> 8d75f15786ed555a21a8b2bf3b02731b43c4445b
 		userService.createUser(dto);
 		return "redirect:/user/sign-in";
 	}
@@ -61,23 +58,15 @@ public class UserController {
 	}
 
 	@PostMapping("/sign-in")
-<<<<<<< HEAD
-    public String signProc(signInDTO dto) {
-        // 사용자 인증 로직
-        signInDTO principal = userService.login(dto); // 로그인 시도 및 User 객체 반환
-        session.setAttribute("principal", principal);
-        System.out.println("principal : " + principal);
-            // 세션에 사용자 정보를 등록
-            return "redirect:/"; // 로그인 성공 시 메인 페이지로 리다이렉트
-=======
+
 	public String signProc(signInDTO dto) {
 		// 사용자 인증 로직
 		signInDTO principal = userService.login(dto); // 로그인 시도 및 User 객체 반환
 		session.setAttribute("principal", principal);
 		System.out.println("principal : " + principal);
 		// 세션에 사용자 정보를 등록
-		return "redirect:/index"; // 로그인 성공 시 메인 페이지로 리다이렉트
->>>>>>> 8d75f15786ed555a21a8b2bf3b02731b43c4445b
+		return "redirect:/"; // 로그인 성공 시 메인 페이지로 리다이렉트
+
 	}
 
 	
