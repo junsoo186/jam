@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file= "/WEB-INF/view/layout/header.jsp" %>
+<link rel="stylesheet" href="/css/insertTag.css">
 <body>
     <h1>회차 생성</h1>
     <div class="btn-area">
@@ -14,9 +15,9 @@
                     <td>유형:</td>
                     <td>
                         <select id="type" name="type">
-                            <option value="prologue" selected>프롤로그</option>
-                            <option value="free">무료</option>
-                            <option value="paid">유료</option>
+                            <option value="프롤로그" selected>프롤로그</option>
+                            <option value="무료">무료</option>
+                            <option value="유료">유료</option>
                         </select>
                     </td>
                 </tr>

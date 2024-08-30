@@ -40,11 +40,7 @@ public class WriterService {
 			// Book 객체를 생성하고 데이터베이스에 삽입
 			result = bookRepository.insertBook(bookDTO.toBook(principalId));
 
-			// 생성된 Book ID를 가져옴
-			int bookId = bookDTO.getBookId();
-
-			// 태그 정보 삽입
-			bookRepository.insertBookTags(bookDTO.getTagNames(), bookId);
+			// TODO - 태그 정보 삽입
 
 		} catch (Exception e) {
 			// 예외가 발생하면 로그를 기록하고, 필요시 사용자에게 적절한 메시지를 전달할 수 있음
@@ -169,10 +165,10 @@ public class WriterService {
 	 * @param number
 	 * @return
 	 */
-	public Story outputStoryContentByNumber(Integer number) {
+	public Story outputStoryContentByStoryId(Integer StoryId) {
 		Story story = new Story();
 		try {
-			story = storyRepository.outputStoryContentByNumber(number);
+			story = storyRepository.outputStoryContentByStoryId(StoryId);
 		} catch (Exception e) {
 			// TODO - 오류 처리
 		}
@@ -187,13 +183,10 @@ public class WriterService {
 	@Transactional
 	public void updateStory(Story story) {
 		int result = 0;
-		System.out.println(story.getNumber());
 		try {
-			System.out.println("story" + story.toString());
 			result = storyRepository.updateStory(story);
-
 		} catch (Exception e) {
-			System.out.println(result);// TODO - 오류 처리
+			// TODO - 오류 처리
 		}
 		if (result != 1) {
 			// TODO - 오류 처리
@@ -271,5 +264,10 @@ public class WriterService {
 			// TODO: handle exception
 		}
 		return book;
+	}
+
+	@Transactional
+	public void updateNumberByStoryId(String number, Integer storyId) {
+		storyRepository.updateNumberByStoryId(number, storyId);
 	}
 }

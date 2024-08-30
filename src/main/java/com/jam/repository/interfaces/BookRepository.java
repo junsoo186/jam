@@ -36,8 +36,6 @@ public interface BookRepository {
 
 	public void deleteBook(@Param("bookId") Integer bookId);
 
-	public int insertTagName(String tagName); // 태그 추가
-	
 	public Book findBookByBookId(Integer bookId);
 
 	public List<String> findTagName(List<String> tagNames);

@@ -46,14 +46,11 @@ public class StoryDTO {
 				.build();
 	}
 	
-	public Story updateStory() {
+	public Story updateStory(Integer storyId) {
 		return Story.builder()
-				.storyId(this.storyId)
-				.number(number)
+				.storyId(storyId)
 				.type(this.type)
 				.title(this.title)
-				.uploadDay(this.uploadDay)
-				.save(this.save)
 				.cost(this.cost)
 				.contents(this.contents)
 				.build();

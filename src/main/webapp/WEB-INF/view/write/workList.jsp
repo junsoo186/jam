@@ -87,7 +87,7 @@
                             <td colspan="2">
                                 <table style="float:right; margin:0px 0px 10px 0px;">
                                     <tr>
-                                        <td><a href="/write/storyInsert"><img src="//images.novelpia.com/img/new/mybook/btn_episode.png" style="width:100%;"></a></td>
+                                        <td><a href="/write/storyInsert?bookId=${list.bookId}"><img src="//images.novelpia.com/img/new/mybook/btn_episode.png" style="width:100%;"></a></td>
                                         <td><a href="/write/workUpdate?bookId=${list.bookId}"><img src="//images.novelpia.com/img/new/mybook/btn_novel_manage.png" style="width:100%;"></a></td>
                                     </tr>
                                 </table>
