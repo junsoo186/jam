@@ -223,5 +223,42 @@ public class UserController {
 
 		return "user/signUp";
 	}
+	
+	@GetMapping("/google")
+    public String signingoogle(@RequestParam(name = "code")String code) {
+        System.out.println("code : " + code);
+        RestTemplate rt1 = new RestTemplate();
+		// 헤더 구성
+		HttpHeaders header1 = new HttpHeaders();
+		header1.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+		
+		// 바디 구성
+		MultiValueMap<String, String> params1 = new LinkedMultiValueMap<String, String>();
+		params1.add("grant_type", "authorization_code");
+		params1.add("client_id",  "");
+		params1.add("client_secret", "");
+		params1.add("redirect_uri", "http://localhost:8080/user/google");
+		params1.add("code", code);
+		
+		// 헤더 + 바디 결합
+		HttpEntity<MultiValueMap<String, String>> reqGoogleMessage
+			= new HttpEntity<>(params1, header1);
+		 
+		// 통신 요청
+		 ResponseEntity<OAuthToken> response1 = rt1.exchange("https://oauth2.googleapis.com/token",
+				 HttpMethod.POST,  reqGoogleMessage, OAuthToken.class);
+		 
+		    OAuthToken oauthToken = response1.getBody();
+	        System.out.println("Access Token: " + oauthToken.getAccessToken());
+
+
+		 System.out.println("response : " + response1.getBody().toString());
+		 return code;
+
+
+	
+	
+	}
+	
 
 }
