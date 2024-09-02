@@ -1,6 +1,7 @@
 package com.jam.controller;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +14,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.jam.dto.BookDTO;
 import com.jam.dto.StoryDTO;
-import com.jam.dto.UserDTO;
 import com.jam.repository.model.Book;
 import com.jam.repository.model.Story;
 import com.jam.repository.model.Tag;
+import com.jam.repository.model.User;
 import com.jam.service.WriterService;
 
 import jakarta.servlet.http.HttpSession;
@@ -41,7 +42,7 @@ public class WriterController {
 	 */
 	@GetMapping("/workList")
 	public String handleWorkList(Model model) {
-		UserDTO principal = (UserDTO) session.getAttribute("principal");
+		User principal = (User) session.getAttribute("principal");
 		List<Book> bookList = writerService.readAllBookListByprincipalId(principal.getUserId());
 		System.out.println("bookList : " + bookList.toString());
 		if (bookList.isEmpty()) {
@@ -72,7 +73,7 @@ public class WriterController {
 	 */
 	@PostMapping("/workInsert")
 	public String completedWorkProc(BookDTO bookDTO) {
-		UserDTO principal = (UserDTO) session.getAttribute("principal");
+		User principal = (User) session.getAttribute("principal");
 
 		// 유효성 검사 (생략)
 
@@ -107,8 +108,8 @@ public class WriterController {
 
 		// 책 생성 및 bookId 가져오기
 		Integer bookId = writerService.createBook(bookDTO, principal);
-		
-		System.out.println("bookdId"+bookId);
+
+		System.out.println("bookdId" + bookId);
 
 		// book_tag_tb 테이블에 bookId와 tagId들을 삽입합니다.
 		for (Integer tagId : tagIdsToInsert) {
@@ -201,9 +202,37 @@ public class WriterController {
 	@GetMapping("/workUpdate")
 	public String handleWorkUpdate(Model model, @RequestParam("bookId") Integer bookId) {
 		Book bookDetail = writerService.detailBook(bookId);
+		System.out.println(bookDetail);
+		String tagNames = bookDetail.getTagNames();
+		String[] tagsArray = tagNames.split(",");
+		List<String> tagList=new ArrayList<String>();
+		Collections.addAll(tagList, tagsArray);
+		System.out.println(tagList);
+		// 모든 태그 목록을 가져오기
+		List<Tag> existingTags = writerService.selectAllTags();
+		System.out.println(existingTags);
+		List<Tag> selectTags= new ArrayList<>();
+		Tag resultTaG= new Tag();
 		if (bookDetail == null) {
 			model.addAttribute("bookDetail", null);
 		} else {
+			if(tagsArray !=null) {
+				for (Tag tags : existingTags) {
+						
+					for (String tag : tagList) {
+							if(tags.getTagName()==tag) {
+								 resultTaG= writerService.selectByName(tag);
+								selectTags.add(resultTaG);
+								System.out.println("tag"+tag);
+								System.out.println("tags:"+tags);
+								System.out.println("result" +resultTaG);
+								System.out.println(selectTags.toString());
+							}
+						}
+				}
+			
+			}
+			model.addAttribute("selectTags",selectTags);
 			model.addAttribute("bookId", bookId);
 			model.addAttribute("bookDetail", bookDetail);
 		}
@@ -219,7 +248,7 @@ public class WriterController {
 	public String workUpdateProc(BookDTO bookDTO, @RequestParam("bookId") Integer bookId) {
 		// BookDTO에서 Book 객체로 변환
 		Book book = bookDTO.updateBook(bookId);
-
+		System.out.println("book" + book);
 		// 변환된 Book 객체를 사용하여 업데이트 작업 수행
 		try {
 			writerService.updateBook(book); // writerService는 Book을 업데이트하는 서비스

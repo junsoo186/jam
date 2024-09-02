@@ -40,9 +40,9 @@ public class UserService {
 	 * @param dto
 	 * @return
 	 */
-	public UserDTO login(UserDTO dto) {
+	public User login(User dto) {
 
-		UserDTO user = null;
+		User user = null;
 		System.out.println("signInDTO : " + dto);
 		user = userRepository.findByEmailAndPassword(dto);
 		return user;
