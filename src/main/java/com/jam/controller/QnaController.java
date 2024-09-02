@@ -3,28 +3,37 @@ package com.jam.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.jam.dto.QnaDTO;
-import com.jam.repository.interfaces.QnaRepository;
+import com.jam.handler.exception.UnAuthorizedException;
+import com.jam.repository.model.Qna;
+import com.jam.repository.model.User;
 import com.jam.service.QnaService;
 
-import lombok.RequiredArgsConstructor;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/qna")
-@RequiredArgsConstructor
 public class QnaController {
-	
 	private final QnaService qnaService;
+	private final HttpSession session;
 	
+	
+	// 생성자 
 	@Autowired
-	private QnaRepository qnaRepository;
+	public QnaController(HttpSession session,QnaService qnaService) {
+		this.session = session;
+		this.qnaService = qnaService;
+	}
 	
 	
 	/**
@@ -42,7 +51,7 @@ public class QnaController {
 			 				Model model) {
 		int totalRecords = qnaService.allList();
 		int totalPages = (int)Math.ceil((double)totalRecords / size);
-		List<QnaDTO> qnaList = qnaService.selectAllQna( page,  size);
+		List<Qna> qnaList = qnaService.selectAllQna( page,  size);
 		
 		
 		
@@ -67,16 +76,30 @@ public class QnaController {
 	 * @return
 	 */
 	@PostMapping("write")
-	public String qnaWrite(@RequestParam(name = "user_id" ) int userId,
-			@RequestParam(name = "title" ) String title,
-			@RequestParam(name = "question_content" ) String questionContent){
-		QnaDTO qnaDTO = QnaDTO.builder()
-				.userId(userId) //  <- principal.userId 넣어야 함
-				.title(title)
-				.questionContent(questionContent)
-				.build();		
-		qnaRepository.insertQ(qnaDTO);
+	public String qnaWrite(QnaDTO dto,@SessionAttribute("principal") User principal){
+		qnaService.qnaWrite(dto, principal.getUserId());
 		return "redirect:/qna/qnaList";
 	}
+	
+	
+	
+	/**
+	 * 상세페이지
+	 * 
+	 * @param qnaId
+	 * @return
+	 */
+	@GetMapping("detail/{qnaId}")
+	public String detailPage(@PathVariable(name ="qnaId")int qnaId , Model model) {
+		
+		User principal = (User)session.getAttribute("principal");
+		if(principal == null ) {
+			throw new UnAuthorizedException("인증된 사용자가 아닙니다.", HttpStatus.UNAUTHORIZED);
+		}
+		
+		model.addAttribute("qnaId",qnaId);
+		return "/qna/qnaDetail";
+	}
+	
 
 }
