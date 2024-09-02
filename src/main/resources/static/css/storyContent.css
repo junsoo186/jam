@@ -1,0 +1,190 @@
+/* 기본 스타일 설정 */
+body {
+	font-family: Arial, sans-serif;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	height: 100vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.container {
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	background-color: #ffffff;
+}
+
+h1 {
+	margin: 0;
+	font-size: 24px;
+}
+
+/* 제목 및 회차 번호 영역 */
+.title-area {
+	position: fixed;
+	top: 0;
+	width: 100%;
+	text-align: center;
+	padding: 20px 0;
+	background-color: rgba(255, 255, 255, 0.9);
+	z-index: 1000;
+	display: none; /* 초기에는 숨김 */
+	opacity: 0;
+	transition: opacity 0.5s;
+	border-bottom: 2px solid #ddd; /* 하단 테두리 추가 */
+}
+
+.flipbook {
+	width: 100%;
+	height: calc(100% - 120px); /* 상단과 하단 패딩을 고려 */
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	background-color: white;
+	position: relative;
+	overflow: hidden;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.flipbook .page {
+	width: 100%;
+	height: 100%;
+	padding: 20px;
+	box-sizing: border-box;
+	background: white;
+	border-radius: 5px;
+	position: absolute;
+	backface-visibility: hidden;
+	overflow: hidden;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.flipbook .page p {
+	margin: 0;
+	word-wrap: break-word;
+	line-height: 1.5;
+	font-size: 16px;
+	text-align: left;
+}
+
+/* 버튼 영역 스타일 */
+.btn-area {
+	position: fixed;
+	width: 100%;
+	left: 0;
+	z-index: 1000;
+	display: none; /* 초기에는 숨김 */
+	opacity: 0;
+	transition: opacity 0.5s;
+}
+
+.btn-area .top-buttons {
+	position: fixed;
+	top: 0;
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	padding: 10px;
+}
+
+.btn-area .top-buttons .left {
+	position: absolute;
+	top: 10px;
+	left: 10px;
+}
+
+.btn-area .top-buttons .right {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	display: flex;
+	gap: 10px;
+}
+
+.btn-area .bottom-buttons {
+	position: fixed;
+	bottom: 10px;
+	width: 100%;
+	display: flex;
+	justify-content: flex-end; /* 오른쪽으로 정렬 */
+	padding: 10px;
+}
+
+.btn-area button {
+	padding: 10px 20px;
+	cursor: pointer;
+	border: none;
+	border-radius: 5px;
+	font-size: 14px;
+}
+
+.like-btn {
+	background-color: #ffcc00;
+	color: #333;
+}
+
+.setting-btn {
+	background-color: #4CAF50;
+	color: white;
+}
+
+.comment-btn {
+	background-color: #008CBA;
+	color: white;
+	position: fixed;
+	right: 10px;
+	bottom: 10px;
+	z-index: 1000;
+}
+
+/* 댓글 박스 스타일 */
+#commentBox {
+	display: none;
+	background-color: #f9f9f9;
+	padding: 20px;
+	border-radius: 5px;
+	position: fixed;
+	width: 100%;
+	bottom: 0;
+	left: 0;
+	text-align: center;
+	z-index: 1000;
+	transition: opacity 0.5s;
+}
+
+.page-number {
+	position: absolute;
+	bottom: 10px;
+	left: 50%;
+	transform: translateX(-50%);
+	font-size: 14px;
+	color: #333;
+	z-index: 10;
+}
+
+.settings-menu {
+    display: none;
+    position: absolute;
+    top: 50px;
+    right: 20px;
+    width: 200px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    z-index: 1000;
+    border-radius: 5px;
+}
+
+.settings-menu h3 {
+    margin-top: 0;
+}
