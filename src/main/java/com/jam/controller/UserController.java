@@ -63,7 +63,7 @@ public class UserController {
 
 	public String signProc(UserDTO dto) {
 		// 사용자 인증 로직
-		UserDTO principal = userService.login(dto); // 로그인 시도 및 User 객체 반환
+		User principal = userService.login(dto); // 로그인 시도 및 User 객체 반환
 		session.setAttribute("principal", principal);
 		System.out.println("principal : " + principal);
 		// 세션에 사용자 정보를 등록
@@ -168,7 +168,7 @@ public class UserController {
 						.password(user.getPassword())
 						.build();
 
-				UserDTO principal = userService.login(dto); // 로그인 시도 및 User 객체 반환
+				User principal = userService.login(dto); // 로그인 시도 및 User 객체 반환
 				session.setAttribute("principal", principal);
 				System.out.println("principal : " + principal);
 
@@ -181,7 +181,7 @@ public class UserController {
 					.password(user.getPassword())
 					.build();
 			
-			UserDTO principal = userService.login(dto); // 로그인 시도 및 User 객체 반환
+			User principal = userService.login(dto); // 로그인 시도 및 User 객체 반환
 			session.setAttribute("principal", principal);
 			System.out.println("principal : " + principal);
 			
@@ -256,7 +256,7 @@ public class UserController {
 			// 로그인 기능
 			// userService.login(dto);
 			
-			UserDTO principal = userService.login(dto); // 로그인 시도 및 User 객체 반환
+			User principal = userService.login(dto); // 로그인 시도 및 User 객체 반환
 			session.setAttribute("principal", principal);
 			System.out.println("principal : " + principal);
 			
@@ -350,7 +350,7 @@ public class UserController {
 						.password(user.getPassword())
 						.build();
 				
-				UserDTO principal = userService.login(dto); // 로그인 시도 및 User 객체 반환
+				User principal = userService.login(dto); // 로그인 시도 및 User 객체 반환
 				
 				session.setAttribute("principal", principal);
 				System.out.println("principal : " + principal);
@@ -363,7 +363,7 @@ public class UserController {
 					.password(user.getPassword())
 					.build();
 			
-			UserDTO principal = userService.login(dto); // 로그인 시도 및 User 객체 반환
+			User principal = userService.login(dto); // 로그인 시도 및 User 객체 반환
 			session.setAttribute("principal", principal);
 			System.out.println("principal : " + principal);
 			
@@ -431,7 +431,7 @@ public class UserController {
 							.password("1234")
 							.build();
 		
-			UserDTO principal = userService.login(dto); // 로그인 시도 및 User 객체 반환
+			User principal = userService.login(dto); // 로그인 시도 및 User 객체 반환
 			session.setAttribute("principal", principal);
 			System.out.println("principal : " + principal);
 			
@@ -521,7 +521,7 @@ public class UserController {
 						.password(user.getPassword())
 						.build();
 
-				UserDTO principal = userService.login(dto); // 로그인 시도 및 User 객체 반환
+				User principal = userService.login(dto); // 로그인 시도 및 User 객체 반환
 				session.setAttribute("principal", principal);
 				System.out.println("principal : " + principal);
 
@@ -538,7 +538,7 @@ public class UserController {
 			
 			userService.login(dto);
 			
-			UserDTO principal = userService.login(dto); // 로그인 시도 및 User 객체 반환
+			User principal = userService.login(dto); // 로그인 시도 및 User 객체 반환
 			session.setAttribute("principal", principal);
 			System.out.println("principal : " + principal);
 			
@@ -609,7 +609,7 @@ public class UserController {
 					.password("1234")
 					.build();
 			
-			UserDTO principal = userService.login(dto); // 로그인 시도 및 User 객체 반환
+			User principal = userService.login(dto); // 로그인 시도 및 User 객체 반환
 			session.setAttribute("principal", principal);
 			System.out.println("principal : " + principal);
 	
