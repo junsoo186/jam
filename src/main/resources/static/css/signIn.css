@@ -11,8 +11,6 @@
     width: 100%;
     margin-top:50px;
     padding: 20px;
-   
-    border-radius: 12px;
 }
 
 /* 입력 필드 영역 스타일 */
@@ -22,7 +20,12 @@
     display: flex;
     flex-direction: column;
 }
-
+input{
+	border-color: gray;
+	height: 25px;
+	border-radius: 30px;
+	border-color: gray;
+}
 /* 로그인 버튼 스타일 */
 .btn--login {
     width: 100%;
@@ -44,10 +47,13 @@
 /* 소셜 로그인 버튼 스타일 */
 .bottom--easyLogin {
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
     align-items: center;
     margin-top: 20px;
     width: 100%;
+}
+.bottom--easyLogin a{
+	padding-left: 15px;
 }
 
 .img--login {
