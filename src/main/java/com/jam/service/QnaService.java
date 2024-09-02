@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.jam.dto.QnaDTO;
 import com.jam.repository.interfaces.QnaRepository;
 import com.jam.repository.model.Notice;
+import com.jam.repository.model.Qna;
 
 @Service
 public class QnaService {
@@ -20,8 +21,14 @@ public class QnaService {
 		this.qnaRepository = qnaRepository;
 	}
 	
-	public List<QnaDTO> selectAllQna(int page, int size) {
-		List<QnaDTO> list = new ArrayList<>();
+	public void qnaWrite(QnaDTO dto, int userId) {
+		int result = 0;
+		result = qnaRepository.insertQ(dto.toQna(userId));
+	}
+	
+	
+	public List<Qna> selectAllQna(int page, int size) {
+		List<Qna> list = new ArrayList<>();
 		int limit = size;
 		int offset = (page - 1) * size;
 		list = qnaRepository.selectAllQnaPage(limit,offset);
@@ -31,6 +38,13 @@ public class QnaService {
 	
 	public int allList(){
 		return qnaRepository.countAll();
+	}
+	
+	
+	
+	public Qna selectByQnaId(int qnaId) {
+		Qna qna = qnaRepository.selectQnaByQnaId(qnaId);
+		return qna ;
 	}
 	
 }
