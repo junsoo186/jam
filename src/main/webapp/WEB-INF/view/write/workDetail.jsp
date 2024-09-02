@@ -2,7 +2,6 @@
 <%@ include file="/WEB-INF/view/layout/header.jsp"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <link rel="stylesheet" href="/css/workDetail.css">
-<script type="text/javascript" src="/js/sort.js"></script>
 <main>
 	<div class="container">
 		<h1>책 상세페이지</h1>
@@ -70,33 +69,41 @@
 			</c:if>
 		</div>
 
-		<div class="story-list-section">
-			<!-- EP 순으로 오름차순 정렬 -->
-			<button onclick="sortStories('asc')" class="btn">EP 오름차순 정렬</button>
-			<!-- EP 순으로 내림차순 정렬 -->
-			<button onclick="sortStories('desc')" class="btn" style="margin-top: 10px;">EP 내림차순 정렬</button>
-
-			<div id="storyListContainer">
-				<c:forEach var="story" items="${storyList}">
-					<div class="story-container" data-ep="${story.number}">
-						<a href="/write/storyContents?storyId=${story.storyId}" class="story-title">${story.title}</a>
-						<div class="story-meta">
-							<span>Ep.${story.number}</span>
-						</div>
-						<div class="story-actions">
-							<c:if test="${principalId eq story.userId}">
-								<form action="storyUpdate" method="get">
-									<input type="hidden" name="storyId" value="${story.storyId}">
-									<button type="submit" class="btn">수정</button>
-								</form>
-							</c:if>
-						</div>
-					</div>
-				</c:forEach>
-			</div>
+		<div class="button-section">
+			<button onclick="sortStories('asc')" class="btn">오래된 EP 순</button>
+			<button onclick="sortStories('desc')" class="btn">최신 EP 순</button>
 		</div>
 
+		<div id="storyListContainer" class="story-list-section">
+			<!-- ID 추가 -->
+			<c:forEach var="story" items="${storyList}">
+				<div class="story-container" data-ep="${story.number}">
+					<a href="/write/storyContents?storyId=${story.storyId}" class="story-title">${story.title}</a>
+					<div class="story-meta">
+						<c:choose>
+							<c:when test="${story.number eq '0'}">
+								<span>Ep.프롤로그</span>
+							</c:when>
+							<c:otherwise>
+								<span>Ep.${story.number}</span>
+							</c:otherwise>
+						</c:choose>
+					</div>
+					<div class="story-actions">
+						<c:if test="${principalId eq story.userId}">
+							<form action="storyUpdate" method="get">
+								<input type="hidden" name="storyId" value="${story.storyId}">
+								<button type="submit" class="btn">수정</button>
+							</form>
+						</c:if>
+					</div>
+				</div>
+			</c:forEach>
+		</div>
 	</div>
 </main>
+
+<!-- JavaScript 파일은 body 끝부분에 포함 -->
+<script type="text/javascript" src="/js/sort.js"></script>
 </body>
 </html>
