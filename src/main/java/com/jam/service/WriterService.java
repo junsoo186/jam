@@ -38,7 +38,7 @@ public class WriterService {
 		// BookDTO에 userId 설정
 		bookDTO.setUserId(principal.getUserId());
 		bookDTO.setAuthor(principal.getNickname());
-		
+
 		// 책 정보 저장 (bookId는 bookDTO에 자동으로 설정됩니다)
 		bookRepository.insertBook(bookDTO);
 
@@ -122,17 +122,20 @@ public class WriterService {
 	 * @param principalId 작가 번호
 	 */
 	@Transactional
-	public void createStory(StoryDTO storyDTO, Integer bookId, Integer principalId) {
+	public Integer createStory(StoryDTO storyDTO, Integer bookId, Integer principalId) {
 		int result = 0;
+		Story story = new Story();
 		try {
-			// TODO - 사용자 ID 테스트값 1로 고정, 나중에 principalId로 수정
 			result = storyRepository.insertStory(storyDTO.toStroy(bookId, principalId));
+			story = storyRepository.findStoryIdByBookIdAndUserId(bookId, principalId);
 		} catch (Exception e) {
 			// TODO - 오류 처리
 		}
 		if (result != 1) {
 			// TODO - 오류 처리
 		}
+		System.out.println("storyId : " + story.toString());
+		return story.getStoryId();
 	}
 
 	/**
@@ -296,7 +299,7 @@ public class WriterService {
 			throw new RuntimeException("Failed to insert bookId and tagId into book_tag_tb", e);
 		}
 	}
-	
+
 	public void updateTagIdByBookId(Integer bookId, Integer tagId) {
 		try {
 			tagRepository.updateTagIdByBookId(bookId, tagId);

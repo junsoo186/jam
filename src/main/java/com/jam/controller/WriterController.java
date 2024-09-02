@@ -107,8 +107,6 @@ public class WriterController {
 
 		// 책 생성 및 bookId 가져오기
 		Integer bookId = writerService.createBook(bookDTO, principal);
-		
-		System.out.println("bookdId"+bookId);
 
 		// book_tag_tb 테이블에 bookId와 tagId들을 삽입합니다.
 		for (Integer tagId : tagIdsToInsert) {
@@ -136,7 +134,7 @@ public class WriterController {
 	 */
 	@PostMapping("/storyInsert")
 	public String StoryInsertProc(StoryDTO storyDTO, @RequestParam("bookId") Integer bookId) {
-
+		UserDTO principal = (UserDTO) session.getAttribute("principal");
 		if (storyDTO.getType().equals("프롤로그")) { // 프롤로그 선택시 무조건 number = 0
 			storyDTO.setNumber(0);
 		}
@@ -148,8 +146,9 @@ public class WriterController {
 			// TODO - alert 메시지 >> 내용 입력 요청
 		}
 
-		writerService.createStory(storyDTO, bookId, 1);
-		return "redirect:/write/storyContents?number=" + storyDTO.getNumber();
+		Integer storyId = writerService.createStory(storyDTO, bookId, principal.getUserId());
+		
+		return "redirect:/write/storyContents?storyId=" + storyId;
 	}
 
 	/**
@@ -177,13 +176,15 @@ public class WriterController {
 	public String handleWorkDetail(Model model, @RequestParam("bookId") Integer bookId) {
 		Book bookDetail = writerService.detailBook(bookId);
 		List<Story> storyList = writerService.findAllStoryByBookId(bookId);
+		UserDTO principal = (UserDTO) session.getAttribute("principal");
 		if (bookDetail == null) {
 			model.addAttribute("bookDetail", null);
 		} else {
 			model.addAttribute("bookId", bookId);
-			System.out.println("bookDetail : " + bookDetail);
 			model.addAttribute("bookDetail", bookDetail);
+			model.addAttribute("principalId", principal.getUserId());
 		}
+		// 디버깅을 위해 각 Story 객체의 userId를 출력
 
 		if (storyList == null) {
 			model.addAttribute("storyList", null);
