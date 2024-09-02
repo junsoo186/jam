@@ -254,7 +254,7 @@ public class UserController {
 					.build();
 			
 			// 로그인 기능
-			userService.login(dto);
+			// userService.login(dto);
 			
 			UserDTO principal = userService.login(dto); // 로그인 시도 및 User 객체 반환
 			session.setAttribute("principal", principal);
@@ -349,8 +349,9 @@ public class UserController {
 						.email(naverProfile.getResponse().getEmail())
 						.password(user.getPassword())
 						.build();
-
+				
 				UserDTO principal = userService.login(dto); // 로그인 시도 및 User 객체 반환
+				
 				session.setAttribute("principal", principal);
 				System.out.println("principal : " + principal);
 			}
@@ -370,6 +371,75 @@ public class UserController {
 			return "user/signIn";
 		} 	
 	} // end of naver
+	
+	/**
+	 * 로그인 페이지에서 네이버 간편 로그인 @@@@@ @@@@@@@@@@@@@@@@@@
+	 */
+	@GetMapping("/naverLogin")
+	public String naverLogin(@RequestParam(name = "code") String code) {
+		
+		RestTemplate rt1 = new RestTemplate();
+		// 헤더 구성 (접근 토큰 발급 요청)
+		HttpHeaders header1 = new HttpHeaders();
+		header1.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+		// 바디 구성
+		MultiValueMap<String, String> params1 = new LinkedMultiValueMap<String, String>();
+		params1.add("grant_type", "authorization_code");
+		params1.add("client_id", "VV02L4roYlvMO2qxf3n7");
+		params1.add("client_secret", "so4ce5BLjN");
+		params1.add("code", code);
+
+		// 헤더 + 바디 결합
+		HttpEntity<MultiValueMap<String, String>> reqNaverMessage = new HttpEntity<>(params1, header1);
+
+		// 통신 요청
+		ResponseEntity<OAuthToken> response1 = rt1.exchange("https://nid.naver.com/oauth2.0/token", HttpMethod.POST,
+				reqNaverMessage, OAuthToken.class);
+
+		System.out.println("test : " + response1);
+
+		System.out.println("response : " + response1.getBody().toString());
+
+		// return response1.toString();
+
+		// (접근 토큰을 이용하여 프로필 API 호출하기)
+		RestTemplate rt2 = new RestTemplate();
+		String accessToken = response1.getBody().getAccessToken(); // 토큰 확인
+		System.out.println("accessToken : " + accessToken);
+		// 헤더
+		HttpHeaders headers2 = new HttpHeaders();
+		headers2.add("Authorization", "Bearer " + accessToken);
+		headers2.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+		// HTTP Entity 만들기
+		HttpEntity<MultiValueMap<String, String>> reqNaverInfoMessage = new HttpEntity<>(headers2);
+
+		// 통신 요청
+		ResponseEntity<NaverProfile> response2 = rt2.exchange("https://openapi.naver.com/v1/nid/me", HttpMethod.POST,
+				reqNaverInfoMessage, NaverProfile.class);
+
+		NaverProfile naverProfile = response2.getBody();
+		System.out.println("naverProfile : " + naverProfile.toString());
+		
+		// 네이버 이메일 유무 체크
+		int number = userService.checkEemail(naverProfile.getResponse().getEmail());
+		
+		// db에서 카카오 이메일이 검색되면 1을 반환 이메일이 없으면 0을 반환  1을 반환하면 메인페이지, 이메일이 없으면 회원가입 페이지
+		if(number == 1) {
+			// signUpDTO에 있는 값 (이메일, 패스워드)를 User dto 카카오에서 받은 이메일, 패스워드를 받음
+			UserDTO dto = UserDTO.builder()
+							.email(naverProfile.getResponse().getEmail())
+							.password("1234")
+							.build();
+		
+			UserDTO principal = userService.login(dto); // 로그인 시도 및 User 객체 반환
+			session.setAttribute("principal", principal);
+			System.out.println("principal : " + principal);
+			
+			return "redirect:/";
+		} else {
+			return "user/signUp";
+		}
+	}
 	
 	/**
 	 * 구글 간편 회원가입
@@ -475,5 +545,78 @@ public class UserController {
 			return "redirect:/";
 		}
 	} // end of google
+	
+	/**
+	 * 로그인 페이지에서 구글 간편 로그인 (구글 인증키 다른거 써야 함 - 정훈 -)
+	 */
+	@GetMapping("/googleLogin")
+	public String googleLogin(@RequestParam(name = "code") String code) {
+		
+		System.out.println("code : " + code);
+		RestTemplate rt1 = new RestTemplate();
+		// 헤더 구성
+		HttpHeaders header1 = new HttpHeaders();
+		header1.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
 
+		// 바디 구성
+		MultiValueMap<String, String> params1 = new LinkedMultiValueMap<String, String>();
+		params1.add("grant_type", "authorization_code");
+		params1.add("client_id", googleOauth.CLIENT_ID);
+		params1.add("client_secret", googleOauth.CLIENT_SECRET);
+		params1.add("redirect_uri", "http://localhost:8080/user/googleLogin");
+		params1.add("code", code);
+
+		// 헤더 + 바디 결합
+		HttpEntity<MultiValueMap<String, String>> reqGoogleMessage = new HttpEntity<>(params1, header1);
+
+		// 통신 요청
+		ResponseEntity<OAuthToken> response1 = rt1.exchange("https://oauth2.googleapis.com/token", HttpMethod.POST,
+				reqGoogleMessage, OAuthToken.class);
+
+		OAuthToken oauthToken = response1.getBody();
+		System.out.println("Access Token: " + oauthToken.getAccessToken());
+
+		System.out.println("response : " + response1.getBody().toString());
+		// (토큰 갱신하기)
+		RestTemplate rt2 = new RestTemplate();
+
+		// 헤더
+		HttpHeaders headers2 = new HttpHeaders();
+
+		// 반드시 Bearer 값 다음에 공백 한칸 추가 !! (토큰 갱신하기)
+		headers2.add("Authorization", "Bearer " + response1.getBody().getAccessToken());
+		headers2.add("Content-Type", "application/x-www-form-urlencoded;charset=utf-8"); // Content-Type 헤더 추가
+
+		// HTTP Entity 만들기 (토큰 갱신하기)
+		HttpEntity<MultiValueMap<String, String>> reqGoogleInfoMessage = new HttpEntity<>(headers2);
+
+		// 통신 요청 (토큰 갱신하기)
+		ResponseEntity<GoogleProfile> resposne2 = rt2.exchange("https://www.googleapis.com/oauth2/v1/userinfo", // GoogleProfile
+				HttpMethod.GET, reqGoogleInfoMessage, GoogleProfile.class);
+
+		GoogleProfile googleProfile = resposne2.getBody();
+		System.out.println(googleProfile.toString());
+//		return googleProfile.toString();
+		
+		// 이메일 중복 체크
+		int number = userService.checkEemail(googleProfile.getEmail());
+		
+		if(number == 1) {
+			
+			// signUpDTO에 있는 값 (이메일, 패스워드)를 User dto 카카오에서 받은 이메일, 패스워드를 받음
+			UserDTO dto = UserDTO.builder()
+					.email(googleProfile.getEmail())
+					.password("1234")
+					.build();
+			
+			UserDTO principal = userService.login(dto); // 로그인 시도 및 User 객체 반환
+			session.setAttribute("principal", principal);
+			System.out.println("principal : " + principal);
+	
+			return "redirect:/";
+		} else {
+			return "user/signUp";
+		}
+	} // end of googleLogin()
+	
 }
