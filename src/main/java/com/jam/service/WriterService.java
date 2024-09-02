@@ -15,6 +15,7 @@ import com.jam.repository.interfaces.TagRepository;
 import com.jam.repository.model.Book;
 import com.jam.repository.model.Story;
 import com.jam.repository.model.Tag;
+import com.jam.repository.model.User;
 
 import lombok.RequiredArgsConstructor;
 
@@ -34,10 +35,10 @@ public class WriterService {
 	 * @param principalId 현재 로그인한 사용자의 ID
 	 */
 	@Transactional
-	public int createBook(BookDTO bookDTO, UserDTO principal) {
+	public int createBook(BookDTO bookDTO, User principal) {
 		// BookDTO에 userId 설정
 		bookDTO.setUserId(principal.getUserId());
-		bookDTO.setAuthor(principal.getNickname());
+		bookDTO.setAuthor(principal.getNickName());
 		
 		// 책 정보 저장 (bookId는 bookDTO에 자동으로 설정됩니다)
 		bookRepository.insertBook(bookDTO);
