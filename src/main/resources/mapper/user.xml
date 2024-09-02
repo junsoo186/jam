@@ -12,8 +12,11 @@
 
 
 <select id="findByEmailAndPassword">
-	select * from user_tb
-	where email = #{email} and password = #{password}
+	select * from user_tb where email = #{email} and password = #{password};
+</select>
+
+<select id="findByUserEmail" resultType="int">
+	SELECT COUNT(*) FROM user_tb WHERE email = #{email};
 </select>
 
 

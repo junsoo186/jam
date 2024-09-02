@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 
 import com.jam.dto.GoogleProfile;
@@ -20,7 +21,6 @@ import com.jam.dto.KakaoProfile;
 import com.jam.dto.NaverProfile;
 import com.jam.dto.OAuthToken;
 import com.jam.dto.UserDTO;
-import com.jam.dto.signInDTO;
 import com.jam.dto.signUpDTO;
 import com.jam.repository.model.User;
 import com.jam.service.UserService;
@@ -59,16 +59,15 @@ public class UserController {
 
 	@PostMapping("/sign-in")
 
-    public String signProc(UserDTO dto) {
-        // 사용자 인증 로직
+	public String signProc(UserDTO dto) {
+		// 사용자 인증 로직
 		UserDTO principal = userService.login(dto); // 로그인 시도 및 User 객체 반환
-        session.setAttribute("principal", principal);
-        System.out.println("principal : " + principal);
-            // 세션에 사용자 정보를 등록
-            return "redirect:/"; // 로그인 성공 시 메인 페이지로 리다이렉트
+		session.setAttribute("principal", principal);
+		System.out.println("principal : " + principal);
+		// 세션에 사용자 정보를 등록
+		return "redirect:/"; // 로그인 성공 시 메인 페이지로 리다이렉트
 	}
 
-	
 	@GetMapping("/logout")
 	public String logout() {
 		session.invalidate();
@@ -77,6 +76,13 @@ public class UserController {
 
 	}
 
+	/**
+	 * 카카오 간편 회원가입
+	 * 
+	 * @param code
+	 * @param model
+	 * @return
+	 */
 	@GetMapping("/kakao")
 //	@ResponseBody
 	public String getMethodName(@RequestParam(name = "code") String code, Model model) {
@@ -93,7 +99,7 @@ public class UserController {
 		// 바디 구성
 		MultiValueMap<String, String> params1 = new LinkedMultiValueMap<String, String>();
 		params1.add("grant_type", "authorization_code");
-		params1.add("client_id", "da70bb7a1f4babcdcd8957d9785e99c4");
+		params1.add("client_id", "6d77c46fd0cf14b69558985620414300"); // da70bb7a1f4babcdcd8957d9785e99c4
 		params1.add("redirect_uri", "http://localhost:8080/user/kakao");
 		params1.add("code", code);
 
@@ -118,12 +124,14 @@ public class UserController {
 		// HTTP Entity 만들기 (토큰 갱신하기)
 		HttpEntity<MultiValueMap<String, String>> reqKakoInfoMessage = new HttpEntity<>(headers2);
 
-		// 통신 요청 (토큰 갱신하기)
+		// 통신 요청 (토큰 갱신하기) // KakaoProfile
 		ResponseEntity<KakaoProfile> resposne2 = rt2.exchange("https://kapi.kakao.com/v2/user/me", HttpMethod.POST,
 				reqKakoInfoMessage, KakaoProfile.class);
 
 		KakaoProfile kakaoProfile = resposne2.getBody();
 		// return kakaoProfile.toString();
+		
+		// 기존에 (카카오) 회원가입 되어있는지 정보 확인 (중복검사) -- ----------
 
 		// ---- 카카오 사용자 정보 응답 완료 ----------
 
@@ -132,25 +140,53 @@ public class UserController {
 		// 사전기반 --> 소셜 사용자는 비밀번호를 입력하는가? 안하는가?
 		// 우리서버에 회원가입시에 --> password -> not null (무건 만들어 넣어야 함 DB 정책)
 
-		User user = User.builder()
+		// 전화번호 +82 10-1234-5678 => 010-1234-5678 로 변경 (국제전화코드 제거)
+		String internationalNumber = userService.convertPhoneNumber(kakaoProfile.getKakaoAccount().getPhoneNumber());
 
-				.nickName(kakaoProfile.getProperties().getNickname()).email(kakaoProfile.getKakaoAccount().getEmail())
-				.build();
+		// 전화번호 하이폰 제거 ex) 010-1234-5678 => 01012345678 로 변경
+		String removeHypone = userService.removeHyphens(internationalNumber);
 
-		model.addAttribute("nickName", user.getNickName());
-		System.out.println("nickName : " + user.getNickName());
+		signUpDTO user = signUpDTO.builder().nickName(kakaoProfile.getProperties().getNickname())
+				.email(kakaoProfile.getKakaoAccount().getEmail()).phoneNumber(removeHypone) // +82 10-1234-5678 -->
+																							// 010-1234-5678
+				.password("1234").build();
+		
+		// 회원가입시 이메일 중복 체크
+		int result = userService.checkEemail(user.getEmail());
+		
+		if(result == 0) {
+			
+			if (user != null) {
+				// 회원가입
+				 userService.createUser(user);
 
-		model.addAttribute("email", kakaoProfile.getKakaoAccount().getEmail());
-		System.out.println("email : " + kakaoProfile.getKakaoAccount().getEmail());
+				// signUpDTO에 있는 값 (이메일, 패스워드)를 User dto 카카오에서 받은 이메일, 패스워드를 받음
+				UserDTO dto = UserDTO.builder().email(kakaoProfile.getKakaoAccount().getEmail())
+						.password(user.getPassword()).build();
 
-//		return "redirect:/user/sign-up";
-//	    userService.createUser(user);
-		// session.setAttribute("principal", user+);
+				UserDTO principal = userService.login(dto); // 로그인 시도 및 User 객체 반환
+				session.setAttribute("principal", principal);
+				System.out.println("principal : " + principal);
 
-		// return "redirect:/index";
-		// return "redirect:/user/sign-in";
+			}
+			return "redirect:/";
+			
+		} else {
+			return "user/signIn";
+		}
+		
+			
+	
+	} // end of getMethodName();
 
-		return "user/signUp";
+	/**
+	 * 카카오 간편 로그인
+	 * 
+	 * @return
+	 */
+	@GetMapping("/test")
+	public String loginKakao() {
+		return null;
 	}
 
 	@GetMapping("/naver")
@@ -198,28 +234,32 @@ public class UserController {
 		NaverProfile naverProfile = response2.getBody();
 		System.out.println("naverProfile : " + naverProfile.toString());
 
-		// String 값 --> Date 로 변환
-		String date = naverProfile.getResponse().getBirthyear() + naverProfile.getResponse().getBirthday();
+		// 전화번호 하이폰 제거 ex) 010-1234-5678 => 01012345678 로 변경
+		String removeHypone = userService.removeHyphens(naverProfile.getResponse().getMobile());
 
 		// 네이버 회원가입 dto 작동 확인
-		User user = User.builder()
+		signUpDTO user = signUpDTO.builder()
 				// name, birth_date, gender, address, nick_name, phone_number, email, password,
 				// admin_check
-				.name(naverProfile.getResponse().getName())
-				// .birthDate( )
-				.gender(naverProfile.getResponse().getGender()).nickName(naverProfile.getResponse().getNickname())
-				.phoneNumber(naverProfile.getResponse().getMobile()).email(naverProfile.getResponse().getEmail())
-				// .password()
-				// .adminCheck()
-				.build();
+				.nickName(naverProfile.getResponse().getNickname()).email(naverProfile.getResponse().getEmail())
+				.phoneNumber(removeHypone).password("1234").build();
 
-		model.addAttribute("name", user.getName());
-		model.addAttribute("gender", user.getGender());
-		model.addAttribute("nickName", user.getNickName());
-		model.addAttribute("phoneNumber", user.getPhoneNumber());
-		model.addAttribute("email", user.getEmail());
+		System.out.println(user.toString());
 
-		return "user/signUp";
+		if (user != null) {
+			// 회원가입
+			userService.createUser(user);
+
+			// signUpDTO에 있는 값 (이메일, 패스워드)를 User dto 카카오에서 받은 이메일, 패스워드를 받음
+			UserDTO dto = UserDTO.builder().email(naverProfile.getResponse().getEmail()).password(user.getPassword())
+					.build();
+
+			UserDTO principal = userService.login(dto); // 로그인 시도 및 User 객체 반환
+			session.setAttribute("principal", principal);
+			System.out.println("principal : " + principal);
+
+		}
+		return "redirect:/";
 	}
 
 	@GetMapping("/google")
@@ -263,18 +303,35 @@ public class UserController {
 		HttpEntity<MultiValueMap<String, String>> reqGoogleInfoMessage = new HttpEntity<>(headers2);
 
 		// 통신 요청 (토큰 갱신하기)
-		ResponseEntity<GoogleProfile> resposne2 = rt2.exchange("https://www.googleapis.com/oauth2/v1/userinfo",
+		ResponseEntity<GoogleProfile> resposne2 = rt2.exchange("https://www.googleapis.com/oauth2/v1/userinfo", // GoogleProfile
 				HttpMethod.GET, reqGoogleInfoMessage, GoogleProfile.class);
 
 		GoogleProfile googleProfile = resposne2.getBody();
+//		return resposne2.toString();
 
-		User user = User.builder()
+		signUpDTO user = signUpDTO.builder()
+				// name, birth_date, gender, address, nick_name, phone_number, email, password,
+				// admin_check
+				.nickName(googleProfile.getName()).email(googleProfile.getEmail()).phoneNumber("") // 구글은 휴대폰 번호를 api로
+																									// 제공하지 않는거 같음
+				.password("1234").build();
 
-				.name(googleProfile.getName()).email(googleProfile.getEmail()).build();
-		
+		System.out.println(user.toString());
 
-		return "user/signUp";
+		if (user != null) {
+			// 회원가입
+			userService.createUser(user);
 
-	}
+			// signUpDTO에 있는 값 (이메일, 패스워드)를 User dto 카카오에서 받은 이메일, 패스워드를 받음
+			UserDTO dto = UserDTO.builder().email(googleProfile.getEmail()).password(user.getPassword()).build();
+
+			UserDTO principal = userService.login(dto); // 로그인 시도 및 User 객체 반환
+			session.setAttribute("principal", principal);
+			System.out.println("principal : " + principal);
+
+		}
+		return "redirect:/";
+
+	} // end of google
 
 }

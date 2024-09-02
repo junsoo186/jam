@@ -55,7 +55,8 @@
 			<button type="submit">가입하기</button>
 		</div>
 	</form>
-	<a href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=da70bb7a1f4babcdcd8957d9785e99c4&redirect_uri=http://localhost:8080/user/kakao"> <img
+	<a href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=6d77c46fd0cf14b69558985620414300
+&redirect_uri=http://localhost:8080/user/kakao"> <img
 		alt="카카오로그인이미지" src="/images/kakaologin.png" style="width: 50px; height: auto;">
 	</a>
 	<a href="https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=VV02L4roYlvMO2qxf3n7&state=STATE_STRING&redirect_uri=http://localhost:8080/user/naver"><img
