@@ -9,24 +9,28 @@
 		values (#{bookId}, #{userId},
 		#{number}, #{type}, #{title},
 		#{uploadDay}, #{save},
-		#{cost}, #{contents})
+		#{cost},
+		#{contents})
 	</insert>
 
 	<select id="findAllStoryByBookId"
 		resultType="com.jam.repository.model.Story">
-		select story_id, number, type, story.title, story.created_at, cost,
+		select story_id, story.user_id, number, type, story.title,
+		story.created_at, cost,
 		story.views
 		from story_tb as story
-		join book_tb as book on story.book_id
+		join book_tb
+		as book on story.book_id
 		= book.book_id
 		where book.book_id = #{bookId}
 	</select>
-	
+
 	<select id="findStoryNumberByBookId"
 		resultType="com.jam.repository.model.Story">
 		select number
 		from story_tb as story
-		join book_tb as book on story.book_id
+		join book_tb as book on
+		story.book_id
 		= book.book_id
 		where book.book_id = #{bookId}
 	</select>
@@ -34,7 +38,8 @@
 	<select id="outputStoryContentByStoryId"
 		resultType="com.jam.repository.model.Story">
 		select story_id, book_id, title, contents, number
-		from story_tb
+		from
+		story_tb
 		where story_id =
 		#{storyId}
 	</select>
@@ -47,22 +52,32 @@
 		type = #{type}
 		where story_id = #{storyId}
 	</update>
-	
+
 	<update id="updateNumberByStoryId">
 		update story_tb set
 		number = #{number}
-		where story_id = #{storyId}
+		where story_id =
+		#{storyId}
 	</update>
 
 	<update id="storyViewCountUp">
 		UPDATE story_tb
 		SET view = view + 1
-		WHERE story_id = #{storyId}
+		WHERE story_id =
+		#{storyId}
 	</update>
 
 	<delete id="deleteStory">
 		delete story_tb where story_id = #{storyId}
 	</delete>
 
+	<select id="findStoryIdByBookIdAndUserId"
+		resultType="com.jam.repository.model.Story">
+		SELECT story_id
+		FROM story_tb
+		where book_id = #{bookId} and user_id = {user_id}
+		ORDER BY story_id desc
+		limit 1;
+	</select>
 
 </mapper>
