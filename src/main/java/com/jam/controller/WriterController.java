@@ -106,9 +106,9 @@ public class WriterController {
 		}
 
 		// 책 생성 및 bookId 가져오기
-		Integer bookId = writerService.createBook(bookDTO, principal.getUserId());
+		Integer bookId = writerService.createBook(bookDTO, principal);
 		
-		System.out.println(bookId);
+		System.out.println("bookdId"+bookId);
 
 		// book_tag_tb 테이블에 bookId와 tagId들을 삽입합니다.
 		for (Integer tagId : tagIdsToInsert) {
