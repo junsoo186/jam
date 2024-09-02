@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.jam.dto.BookDTO;
 import com.jam.dto.StoryDTO;
+import com.jam.dto.UserDTO;
 import com.jam.repository.interfaces.BookRepository;
 import com.jam.repository.interfaces.StoryRepository;
 import com.jam.repository.interfaces.TagRepository;
@@ -33,10 +34,11 @@ public class WriterService {
 	 * @param principalId 현재 로그인한 사용자의 ID
 	 */
 	@Transactional
-	public int createBook(BookDTO bookDTO, int userId) {
+	public int createBook(BookDTO bookDTO, UserDTO principal) {
 		// BookDTO에 userId 설정
-		bookDTO.setUserId(userId);
-
+		bookDTO.setUserId(principal.getUserId());
+		bookDTO.setAuthor(principal.getNickname());
+		
 		// 책 정보 저장 (bookId는 bookDTO에 자동으로 설정됩니다)
 		bookRepository.insertBook(bookDTO);
 

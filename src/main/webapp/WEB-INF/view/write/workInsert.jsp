@@ -120,6 +120,21 @@
     background-color: #007bff;
     color: white;
 }
+        /* age */
+        .age-button {
+            margin: 5px;
+            padding: 10px 20px;
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        .age-button.selected {
+            background-color: #007bff;
+            color: white;
+            border: 1px solid #0056b3;
 </style>
 <main>
 
@@ -134,24 +149,19 @@
                         <label for="bookCover">책 커버 선택</label>
                         <input type="file" id="bookCover" name="bookCover" style="display:none">
                     </div>
-					<div class="genre-buttons">
-					    <button type="button" class="genre-button active" data-genre="추리" onclick="selectGenre(this)">추리</button>
-					    <button type="button" class="genre-button" data-genre="스릴러" onclick="selectGenre(this)">스릴러</button>
-					    <button type="button" class="genre-button" data-genre="공포" onclick="selectGenre(this)">공포</button>
-					    <button type="button" class="genre-button" data-genre="과학" onclick="selectGenre(this)">과학</button>
-					    <button type="button" class="genre-button" data-genre="판타지" onclick="selectGenre(this)">판타지</button>
-					    <button type="button" class="genre-button" data-genre="무협" onclick="selectGenre(this)">무협</button>
-					</div>
-					<input type="hidden" id="selectedGenre" name="genre" value="추리">
-					<!-- 카테고리 선택 버튼 -->
-    <div class="category-buttons">
-        <button type="button" class="category-button active" data-category="문학" onclick="selectCategory(this)">문학</button>
-        <button type="button" class="category-button" data-category="시/에세이" onclick="selectCategory(this)">시/에세이</button>
-        <button type="button" class="category-button" data-category="소설" onclick="selectCategory(this)">소설</button>
-    </div>
-    <input type="hidden" id="selectedCategory" name="category" value="문학"> <!-- 기본값을 "문학"으로 설정 -->
-					
-                </div>
+				    <!-- 장르 선택 셀렉트 박스 -->
+
+					            <!-- 이미지 선택 섹션 -->
+	            <div class="image-selection">
+	                <h3>이미지 선택</h3>
+	                <div class="image-options">
+	                    <div class="image-option">제공 이미지 1</div>
+	                    <div class="image-option">제공 이미지 2</div>
+	                    <div class="image-option">제공 이미지 3</div>
+	                    <div class="image-option">제공 이미지 4</div>
+	                </div>
+	            </div>			
+		      </div>
 
                 <!-- 오른쪽 섹션: 입력 필드 -->
                 <div class="right-section">
@@ -159,15 +169,46 @@
                     <input type="text" id="title" name="title" value="테스트 제목" required />
 
 
-                    <label for="introduction">소개글:</label>
-                    <textarea id="introduction" name="introduction" rows="4" required>테스트용 소개글</textarea>
+                    <label for="authorComment">코멘트:</label>
+					<textarea id="authorComment" name="authorComment" required>테스트 저자 코멘트</textarea>
 
-                    <label for="age">연령:</label>
-                    <div class="age-buttons">
-                        <button type="button" class="active">전체</button>
-                        <button type="button">15세</button>
-                        <button type="button">19세</button>
-                    </div>
+                    <label for="introduction">소개글:</label>
+                    <textarea id="introduction" name=introduction rows="4" required>테스트용 소개글</textarea>
+
+				   <!-- 연령 선택 셀렉트 박스 -->
+				    <label for="ageSelect">연령 선택:</label>
+				    <select id="ageSelect" name="age" onchange="updateHiddenInput('ageSelect', 'age')">
+				        <option value="전체">전체</option>
+				        <option value="7">7</option>
+				        <option value="12">12</option>
+				        <option value="15">15</option>
+				        <option value="19">19</option>
+				    </select>
+				    <input type="hidden" id="age" name="age" value="전체"> <!-- 기본값을 "전체"로 설정 -->
+				    <br><br>
+			    <!-- 선택된 연령을 저장할 숨겨진 input 필드 -->
+
+				    <label for="genreSelect">장르 선택:</label>
+				    <select id="genreSelect" name="genreId" onchange="updateHiddenInput('genreSelect', 'genreId')">
+				        <option value="1">추리</option>
+				        <option value="2">스릴러</option>
+				        <option value="3">공포</option>
+				        <option value="4">과학</option>
+			       	 <option value="5">판타지</option>
+				        <option value="6">무협</option>
+				    </select>
+				    <input type="hidden" id="genreId" name="genreId" value="1"> <!-- 기본값을 "추리"로 설정 -->
+				    
+				     <!-- 카테고리 선택 셀렉트 박스 -->
+				    <label for="categorySelect">카테고리 선택:</label>
+				    <select id="categorySelect" name="categoryId" onchange="updateHiddenInput('categorySelect', 'categoryId')">
+				        <option value="1">문학</option>
+				        <option value="2">시/에세이</option>
+				        <option value="3">소설</option>
+				    </select>
+				    <input type="hidden" id="categoryId" name="categoryId" value="1"> <!-- 기본값을 "문학"으로 설정 -->
+					
+
 
                     <label for="serialDay">연재 요일:</label>
                     <div class="radio-buttons">
@@ -202,16 +243,7 @@
 		<br> <br>
 
 
-            <!-- 이미지 선택 섹션 -->
-            <div class="image-selection">
-                <h3>이미지 선택</h3>
-                <div class="image-options">
-                    <div class="image-option">제공 이미지 1</div>
-                    <div class="image-option">제공 이미지 2</div>
-                    <div class="image-option">제공 이미지 3</div>
-                    <div class="image-option">제공 이미지 4</div>
-                </div>
-            </div>
+
 
             <!-- 경고문 섹션 -->
             <div class="warning-section">
@@ -224,23 +256,29 @@
                 <button type="button" class="cancel">취소</button>
                 <button type="submit" class="submit">작품 등록</button>
             </div>
+            </div>
+           </div>
         </form>
     </div>
+    
+    
+    
+    
 	<%-- header.jsp 부분의 body가 열려있어서 외부 js를 순서대로 작동시키지못함 ->방법 필요 --%>
     <script> 
-    // 장르
-    function selectGenre(button) {
-        // 모든 버튼의 'active' 클래스 제거
-        const buttons = document.querySelectorAll('.genre-button');
-        buttons.forEach(btn => btn.classList.remove('active'));
-
-        // 클릭된 버튼에 'active' 클래스 추가
-        button.classList.add('active');
-
-        // 선택된 장르를 숨겨진 입력 필드에 저장
-        const selectedGenre = button.getAttribute('data-genre');
-        document.getElementById('selectedGenre').value = selectedGenre;
+    
+    // 선택된 값을 숨겨진 필드에 업데이트하는 함수
+    function updateHiddenInput(selectId, hiddenInputId) {
+        const selectedValue = document.getElementById(selectId).value;
+        document.getElementById(hiddenInputId).value = selectedValue;
     }
+
+    // 페이지 로드 시 기본값 설정
+    document.addEventListener('DOMContentLoaded', function() {
+        updateHiddenInput('ageSelect', 'age');
+        updateHiddenInput('genreSelect', 'genreId');
+        updateHiddenInput('categorySelect', 'categoryId');
+    });
     
     // 태그 추가
  // 태그 중복 확인을 위한 Set 생성
@@ -322,22 +360,11 @@
         }
         return true;
     }
-    //카테고리
-    function selectCategory(button) {
-        // 모든 버튼의 'active' 클래스 제거
-        const buttons = document.querySelectorAll('.category-button');
-        buttons.forEach(btn => btn.classList.remove('active'));
-
-        // 클릭된 버튼에 'active' 클래스 추가
-        button.classList.add('active');
-
-        // 선택된 카테고리를 숨겨진 입력 필드에 저장
-        const selectedCategory = button.getAttribute('data-category');
-        document.getElementById('selectedCategory').value = selectedCategory;
-    }
 
     </script>
-    
+  
+  
+ 
 </main>
    <!--  <script type="text/javascript" src="js/insertTag.js"></script> -->
 </body>
