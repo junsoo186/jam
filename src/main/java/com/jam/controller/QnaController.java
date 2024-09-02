@@ -49,6 +49,11 @@ public class QnaController {
 	public String qnaPage( @RequestParam(name ="page", defaultValue = "1" )  int page,
 			 				@RequestParam(name ="size", defaultValue = "10" )  int size,
 			 				Model model) {
+		// 사용자 인증 -추후 전체 인증 만들면 삭제 예정
+		User principal = (User)session.getAttribute("principal");
+		if(principal == null ) {
+			throw new UnAuthorizedException("인증된 사용자가 아닙니다.", HttpStatus.UNAUTHORIZED);
+		}
 		int totalRecords = qnaService.allList();
 		int totalPages = (int)Math.ceil((double)totalRecords / size);
 		List<Qna> qnaList = qnaService.selectAllQna( page,  size);
@@ -91,13 +96,18 @@ public class QnaController {
 	 */
 	@GetMapping("detail/{qnaId}")
 	public String detailPage(@PathVariable(name ="qnaId")int qnaId , Model model) {
-		
+		// 사용자 인증 -추후 전체 인증 만들면 삭제 예정
 		User principal = (User)session.getAttribute("principal");
 		if(principal == null ) {
 			throw new UnAuthorizedException("인증된 사용자가 아닙니다.", HttpStatus.UNAUTHORIZED);
 		}
+		Qna myQna = qnaService.selectByQnaId(qnaId);
+		model.addAttribute("qna",myQna);
+		// 본인글이 아닌경우 내용 확인 불가
+		if (principal.getUserId() != myQna.getUserId()) {
+	            throw new UnAuthorizedException("본인 글만 확인이 가능합니다.", HttpStatus.UNAUTHORIZED);
+	        }
 		
-		model.addAttribute("qnaId",qnaId);
 		return "/qna/qnaDetail";
 	}
 	

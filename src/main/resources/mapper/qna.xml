@@ -31,6 +31,7 @@
 		LIMIT #{limit} OFFSET #{offset};
 	</select>
 	
+	<!--qnaID 로 상세보기  -->
 	<select id="selectQnaByQnaId" resultType="com.jam.repository.model.Qna">
 		SELECT q.* , u.nick_name
 		FROM qna_tb as q 
@@ -54,8 +55,8 @@
 	
 	<!--사용자 본인이 남긴 Q&A 삭제  -->
 	
-	<delete id="deletByUserId">
-	DELETE FROM qna_tb WHERE user_id = #{userId}
+	<delete id="deletByQnaId">
+	DELETE FROM qna_tb WHERE qna_id = #{qnaID}
 	</delete>
 	
 
