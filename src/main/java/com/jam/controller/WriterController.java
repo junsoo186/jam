@@ -46,7 +46,11 @@ public class WriterController {
 	public String handleWorkList(Model model) {
 		User principal = (User) session.getAttribute("principal");
 		List<Book> bookList = writerService.readAllBookListByprincipalId(principal.getUserId());
-		System.out.println("bookList : " + bookList.toString());
+		for (Book book : bookList) {
+			String bookImg = book.setUpUserImage();
+			book.setBookCoverImage(bookImg);
+		}
+
 		if (bookList.isEmpty()) {
 			model.addAttribute("bookList", null);
 		} else {
@@ -184,16 +188,16 @@ public class WriterController {
 	 */
 	@GetMapping("/workDetail")
 	public String handleWorkDetail(Model model, @RequestParam("bookId") Integer bookId) {
-		Book bookDetail = writerService.detailBook(bookId);
 		List<Story> storyList = writerService.findAllStoryByBookId(bookId);
 		User principal = (User) session.getAttribute("principal");
-		if (bookDetail == null) {
-			model.addAttribute("bookDetail", null);
-		} else {
-			model.addAttribute("bookId", bookId);
-			model.addAttribute("bookDetail", bookDetail);
-			model.addAttribute("principalId", principal.getUserId());
-		}
+		Book bookDetail = writerService.detailBook(bookId); // bookId로 책의 상세 정보를 가져옴
+		String bookImg = bookDetail.setUpUserImage(); // 책의 이미지 경로를 설정
+		bookDetail.setBookCoverImage(bookImg); // 설정한 이미지 경로를 Book 객체에 저장
+
+		model.addAttribute("bookId", bookId);
+		model.addAttribute("bookDetail", bookDetail);
+		model.addAttribute("principalId", principal.getUserId());
+
 		// 디버깅을 위해 각 Story 객체의 userId를 출력
 
 		if (storyList == null) {
@@ -212,15 +216,16 @@ public class WriterController {
 	@GetMapping("/workUpdate")
 	public String handleWorkUpdate(Model model, @RequestParam("bookId") Integer bookId) {
 		Book bookDetail = writerService.detailBook(bookId);
-		System.out.println(bookDetail);
+		String bookImg = bookDetail.setUpUserImage(); // 책의 이미지 경로를 설정
+		bookDetail.setBookCoverImage(bookImg); // 설정한 이미지 경로를 Book 객체에 저장
+		
 		String tagNames = bookDetail.getTagNames();
 		String[] tagsArray = tagNames.split(",");
 		List<String> tagList = new ArrayList<String>();
 		Collections.addAll(tagList, tagsArray);
-		System.out.println("1" + tagsArray.toString());
+
 		// 모든 태그 목록을 가져오기
 		List<Tag> existingTags = writerService.selectAllTags();
-		System.out.println("2" + existingTags);
 
 		List<Tag> selectTags = new ArrayList<>();
 		List<Category> categories = new ArrayList<>();
@@ -236,13 +241,10 @@ public class WriterController {
 		for (Tag tags : existingTags) {
 
 			for (String tag : tagList) {
-				System.out.println("tag : " + tag);
-				System.out.println("tags : " + tags.getTagName());
+
 				if (tags.getTagName().equals(tag)) {
 					resultTag = writerService.selectByName(tag);
 					selectTags.add(resultTag);
-					System.out.println("result" + resultTag);
-					System.out.println(selectTags.toString());
 				}
 			}
 		}
@@ -303,8 +305,6 @@ public class WriterController {
 			tagIdsToInsert.add(tagId);
 		}
 
-		System.out.println("tagIDS" + tagIdsToInsert);
-		System.out.println("bookdId" + bookId);
 		// 책 생성 및 bookId 가져오기
 
 		// 중복 삽입 방지를 위해 book_tag_tb 테이블에 해당 bookId와 tagId들이 이미 존재하는지 확인
@@ -320,10 +320,11 @@ public class WriterController {
 				System.out.println("tagId:" + tagId);
 			}
 		}
+		// 이미지 처리
 
 		// 변환된 Book 객체를 사용하여 업데이트 작업 수행
 		try {
-			writerService.updateBook(book); // writerService는 Book을 업데이트하는 서비스
+			writerService.updateBook(book, bookDTO); // writerService는 Book을 업데이트하는 서비스
 		} catch (Exception e) {
 			// TODO - 오류 처리
 		}

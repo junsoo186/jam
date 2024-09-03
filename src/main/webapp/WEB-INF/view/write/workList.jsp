@@ -83,7 +83,7 @@ td {
 								<td style="width: 80px;">
 									<div style="position: relative;" onclick="location.href='/write/workDetail?bookId=${list.bookId}&userId=${principal.userId }'">
 										<!-- 작품 리스트 모바일 커버이미지 -->
-										<img src="//images.novelpia.com/img/new/icon/count_book.png" class="cover_style_m"> ${principal.userId}
+										<img src="${list.bookCoverImage}" class="cover_style_m" alt="이미지 없음"> ${principal.userId}
 									</div>
 								</td>
 								<td class="info_st">

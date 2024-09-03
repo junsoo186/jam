@@ -23,12 +23,13 @@ public class Book {
     private String title;
     private String authorComment;
     private String author;
-    private String bookCoverImage;
     private Integer categoryId;
     private Integer genreId;
     private String categoryName;
     private String genreName;
     private String tagNames;  // String으로 받아오기
+	private String bookCoverImage;
+	private String originalBookCoverImage;
     private List<String> customtags;
     private String introduction;
     private Timestamp createdAt;
@@ -43,4 +44,12 @@ public class Book {
         }
         return Collections.emptyList();
     }
+    
+    public String setUpUserImage() {
+		if (bookCoverImage == null) {
+			return "https://picsum.photos/id/40/400/400";
+		} else {
+			return "/images/uploads/" + bookCoverImage;
+		}
+	}
 }

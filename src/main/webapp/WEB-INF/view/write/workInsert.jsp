@@ -7,27 +7,36 @@
 
 	<div class="container">
 		<h2>도서 정보 입력 폼</h2>
-		<form action="workInsert" method="post" onsubmit="return prepareFormForSubmit()">
+		<form action="workInsert" method="post" onsubmit="return prepareFormForSubmit()" enctype="multipart/form-data">
 			<!-- 폼 섹션 -->
 			<div class="form-section">
 				<!-- 왼쪽 섹션: 책 커버 및 이미지 선택 -->
 				<div class="left-section">
 					<div class="book-cover">
-						<label for="bookCover">책 커버 선택</label> <input type="file" id="bookCover" name="bookCover" style="display: none">
+						<label for="bookCover">책 커버 선택</label><input type="file" id="bookCover" name="bookCover" class="bookCover" accept="image/*"> <img id="bookCoverPreview"
+							src="#" alt="미리보기" style="display: none; margin-top: 10px; max-width: 100%; height: auto;">
 					</div>
-					<!-- 장르 선택 셀렉트 박스 -->
 
 					<!-- 이미지 선택 섹션 -->
 					<div class="image-selection">
 						<h3>이미지 선택</h3>
 						<div class="image-options">
-							<div class="image-option">제공 이미지 1</div>
-							<div class="image-option">제공 이미지 2</div>
-							<div class="image-option">제공 이미지 3</div>
-							<div class="image-option">제공 이미지 4</div>
+							<div class="image-option">
+								<img src="path/to/image1.jpg" alt="제공 이미지 1" class="selectable-image">
+							</div>
+							<div class="image-option">
+								<img src="path/to/image2.jpg" alt="제공 이미지 2" class="selectable-image">
+							</div>
+							<div class="image-option">
+								<img src="path/to/image3.jpg" alt="제공 이미지 3" class="selectable-image">
+							</div>
+							<div class="image-option">
+								<img src="path/to/image4.jpg" alt="제공 이미지 4" class="selectable-image">
+							</div>
 						</div>
 					</div>
 				</div>
+
 
 				<!-- 오른쪽 섹션: 입력 필드 -->
 				<div class="right-section">
@@ -55,6 +64,7 @@
 					</select> <input type="hidden" id="categoryId" name="categoryId" value="1">
 					<!-- 기본값을 "문학"으로 설정 -->
 
+					<!-- 장르 선택 셀렉트 박스 -->
 					<label for="genreSelect">장르 선택:</label> <select id="genreSelect" name="genreId" onchange="updateHiddenInput('genreSelect', 'genreId')">
 						<c:forEach items="${genre}" var="genre">
 							<option value="${genre.genreId}">${genre.genreName}</option>

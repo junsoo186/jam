@@ -8,7 +8,7 @@
 		<div class="novel-details">
 			<div class="book-cover-section">
 				<div class="book-cover">
-					<img src="path/to/book/cover.jpg" alt="북 커버 이미지" class="cover-image">
+					<img src="${bookDetail.bookCoverImage}" alt="북 커버 이미지" class="cover-image">
 				</div>
 			</div>
 			<div class="details-section">

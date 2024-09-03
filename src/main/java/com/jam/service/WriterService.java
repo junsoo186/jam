@@ -48,10 +48,18 @@ public class WriterService {
 	 */
 	@Transactional
 	public int createBook(BookDTO bookDTO, User principal) {
+		System.out.println(bookDTO.toString());
 		// BookDTO에 userId 설정
 		bookDTO.setUserId(principal.getUserId());
 		bookDTO.setAuthor(principal.getNickName());
+		
+		if (bookDTO.getBookCover() != null && !bookDTO.getBookCover().isEmpty()) {
+			// 파일 업로드 로직 구현
+			String[] fileNames = uploadFile(bookDTO.getBookCover());
 
+			bookDTO.setOriginalBookCoverImage(fileNames[0]);
+			bookDTO.setBookCoverImage(fileNames[1]);
+		}
 		// 책 정보 저장 (bookId는 bookDTO에 자동으로 설정됩니다)
 		bookRepository.insertBook(bookDTO);
 
@@ -87,7 +95,7 @@ public class WriterService {
 		// TODO - 페이징 추가
 		// TODO - 오류 처리
 		try {
-			books = bookRepository.AllBookListByUserId(principalId);
+			books = bookRepository.findAllBookListByUserId(principalId);
 		} catch (Exception e) {
 
 		}
@@ -100,9 +108,16 @@ public class WriterService {
 	 * @param book
 	 */
 	@Transactional
-	public void updateBook(Book book) {
+	public void updateBook(Book book, BookDTO bookDTO) {
 		int result = 0;
-		System.out.println(book.toString());
+		if (bookDTO.getBookCover() == null || bookDTO.getBookCover().isEmpty()) {
+	        // 기존 이미지 경로를 유지하도록 로직을 추가
+	        book.setBookCoverImage(bookDTO.getBookCoverImage()); // 기존 이미지 경로를 할당
+	    } else {
+	        // 업로드된 파일을 처리
+	        String[] fileNames = uploadFile(bookDTO.getBookCover());
+	        book.setBookCoverImage(fileNames[1]); // 새로 업로드된 파일 경로를 설정
+	    }
 		// TODO - 오류 처리
 		try {
 			result = bookRepository.updateBook(book);
@@ -395,9 +410,7 @@ public class WriterService {
 		// 파일 전체 경로 + 새로생성한 파일명
 		String uploadPath = saveDirectory + File.separator + uploadFileName;
 		File destination = new File(uploadPath);
-
-		System.out.println(uploadPath);
-
+		
 		// 반드시 수행
 		try {
 			mFile.transferTo(destination);
