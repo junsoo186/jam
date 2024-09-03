@@ -1,0 +1,180 @@
+@charset "UTF-8";
+
+.container {
+	width: 80%;
+	margin: 0 auto;
+	padding: 20px;
+	background-color: #f9f9f9;
+	border: 1px solid #ddd;
+	border-radius: 8px;
+}
+
+.novel-details {
+	display: flex;
+	flex-direction: row;
+	gap: 20px;
+	padding: 20px;
+	background-color: #fefefe;
+	border-radius: 8px;
+	border: 1px solid #ccc;
+}
+
+.book-cover-section {
+	flex: 1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.book-cover {
+	width: 100%;
+	max-width: 200px;
+	height: auto;
+}
+
+.cover-image {
+	width: 100%;
+	height: auto;
+	display: block;
+}
+
+.details-section {
+	flex: 2;
+}
+
+.buttons-section {
+	display: flex;
+	gap: 10px;
+	margin-top: 20px;
+}
+
+.story-list-section {
+	margin-top: 40px;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 20px;
+}
+
+.story-container {
+	width: 250px;
+	padding: 20px;
+	background-color: #fdf8e4;
+	border: 1px solid #ddd;
+	border-radius: 5px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	margin-bottom: 20px;
+}
+
+.story-title {
+	font-size: 18px;
+	font-weight: bold;
+	margin-bottom: 5px;
+	text-decoration: none; /* 기본적으로 링크의 밑줄을 제거 */
+	color: #007bff; /* 링크 컬러 */
+}
+
+.story-title:hover {
+	text-decoration: underline; /* 마우스를 올리면 밑줄 표시 */
+	color: #0056b3; /* hover 시 더 진한 색상 */
+}
+
+.story-meta {
+	font-size: 14px;
+	color: #777;
+	margin-bottom: 10px;
+}
+
+.story-actions {
+	display: flex;
+	gap: 10px;
+	margin-top: auto;
+}
+
+.btn {
+	padding: 10px 15px;
+	background-color: #007bff;
+	color: white;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+	text-decoration: none;
+	display: inline-block;
+	text-align: center;
+}
+
+.btn:hover {
+	background-color: #0056b3;
+}
+
+form {
+	display: inline;
+}
+
+/* 책 모양의 버튼과 페이지네이션 스타일 수정 */
+
+.story-list-section {
+	margin-top: 40px;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: flex-start; /* 왼쪽 정렬 */
+	gap: 15px;
+	padding: 20px;
+	background-color: #f8b878;
+	border-radius: 10px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.story-container {
+    width: 60px;  /* 책 모양의 너비를 조정 */
+    height: 150px; /* 책 모양의 높이 */
+    background-color: #007bff;
+    border-radius: 25px;
+    display: flex;
+    flex-direction: column;  /* 요소를 세로로 정렬 */
+    justify-content: center; /* 세로 중앙 정렬 */
+    align-items: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    text-align: center;
+    color: white; /* 텍스트 색상을 하얀색으로 통일 */
+}
+
+.story-title {
+    font-size: 12px;
+    font-weight: bold;
+    color: white;
+    margin-bottom: 5px; /* 제목 아래 여백 추가 */
+}
+
+.story-meta {
+    font-size: 10px;
+    color: #e0e0e0; /* 더 연한 색으로 텍스트 수정 */
+    margin-bottom: 10px;
+}
+
+.story-actions {
+    display: flex;
+    justify-content: center;
+    margin-top: auto; /* 버튼을 아래쪽으로 배치 */
+}
+
+.btn {
+    padding: 5px 10px;
+    background-color: #0056b3;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 12px; /* 버튼 텍스트 크기 조정 */
+    width: 100%; /* 버튼을 전체 너비로 확장 */
+    text-align: center;
+}
+
+.btn:hover {
+    background-color: #003d80;
+}
+
