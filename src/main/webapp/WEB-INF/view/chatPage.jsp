@@ -6,10 +6,23 @@
 <head>
 <meta charset="UTF-8">
 <title>${nickname}님 채팅</title>
+ <style>
+        #messages {
+            height: 300px;
+            border: 1px solid #ccc;
+            overflow-y: scroll;
+            margin-bottom: 10px;
+        }
+        #messageInput {
+            width: 80%;
+        }
+    </style>
 </head>
 <body>
-	
-	<section>
+    <div id="messages"></div>
+    <input type="text" id="messageInput" placeholder="Type your message here...">
+    <button onclick="sendMessage()">Send</button>
+	<%-- <section>
 		<c:choose>
 			<c:when test="${chatRoom.roomId} != null">
 			<label><a href="#">${chatRoom.roomname}</a></label>
@@ -20,6 +33,7 @@
 		</c:choose>
 	</section>
 	
+ --%>
+ 
 
-</body>
 </html>

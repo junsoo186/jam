@@ -22,11 +22,24 @@ public class MainCotroller {
      * 채팅창 열기
      * @return
      */
-	@GetMapping("/chat")
+	@GetMapping("/chatPage")
 	public String chatPage(@SessionAttribute(Define.PRINCIPAL) User principal, Model model) {
 		String nickname = principal.getNickName();
 		model.addAttribute("nickname",nickname );
 		return "/chatPage";
 	}
+//	@GetMapping("/chatRoom{}")
+//	public String chatRoom(@SessionAttribute(Define.PRINCIPAL) User principal, Model model) {
+//		String nickname = principal.getNickName();
+//		model.addAttribute("nickname",nickname );
+//		return "/chatPage";
+//	}
+//	
+//	
+//	  @GetMapping("/chat")
+//	    public String chating(){
+//	      
+//	        return "chat";
+//	    }
 	
 }

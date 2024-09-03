@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", function() {
             event.preventDefault(); 
 
             // 창 열기
-            window.open('/chat', 'chatWindow', 'width=400,height=600');
+            window.open('/chatPage', 'chatWindow', 'width=400,height=600');
         });
     });
 
