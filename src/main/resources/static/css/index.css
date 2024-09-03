@@ -1,0 +1,193 @@
+/* 기존 CSS 스타일 유지 */
+/* index.css */
+body {
+	margin: 0;
+	padding: 0;
+	font-family: Arial, sans-serif;
+	overflow-x: hidden; /* 수평 스크롤 막기 */
+}
+
+.container--banner {
+	max-width: 1200px;
+	padding-top: 20px; /* 헤더 아래의 간격 */
+}
+
+.top--banner {
+	position: relative;
+	/* 그라데이션 배경 */
+	background-image: radial-gradient(#1F325C, #3A5CA8);
+	padding: 15px;
+	text-align: center;
+	width: 100vw;
+}
+
+.visual--meta {
+	display: flex;
+	align-items: center; /* 이미지와 텍스트 박스 수직 가운데 정렬 */
+	justify-content: center; /* 이미지와 텍스트 박스 수평 가운데 정렬 */
+	gap: 30px; /* 이미지와 텍스트 박스 사이의 간격 */
+}
+
+.fixed--size {
+	width: 500px; /* 고정 너비 */
+	height: 400px; /* 고정 높이 */
+	border-radius: 15px;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.banner--text--container {
+	display: flex;
+	flex-direction: column; /* 텍스트 박스와 페이지 번호를 세로로 배치 */
+	align-items: flex-start; /* 텍스트 박스를 왼쪽 정렬 */
+}
+
+.banner--text--box {
+	text-align: left;
+	color: black;
+	margin-bottom: 3px; /* 텍스트 박스와 페이지 번호 사이의 간격 */
+}
+
+p {
+	color: #f9f9f9;
+}
+
+.strong--text {
+	font-weight: bold;
+	font-size: 1.5em;
+	color: #f9f9f9;
+}
+
+.page--number {
+	text-align: left;
+	color: #f9f9f9;
+}
+
+/* 추가 배너 스타일 */
+.banner {
+	margin-top: 20px;
+	padding: 20px;
+	background-color: #ddd;
+}
+
+/* 추가 CSS 스타일링 */
+
+/* 카테고리 필터 스타일 */
+.category--filter {
+	display: flex;
+	gap: 15px;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	justify-content: center; /* 카테고리 버튼 중앙 정렬 */
+}
+
+.category--btn {
+	height: 40px;
+	padding: 10px 15px;
+	background-color: #f9f9f9;
+	border-width: 0.5px;
+	border-color: #c0c0c0;
+	border-radius: 25px;
+	cursor: pointer;
+	transition: background-color 0.3s ease;
+}
+
+.category--btn:hover {
+	background-color: #FFF9D8; /* 마우스 오버 시 배경색 변경 */
+}
+
+.category--btn.active {
+	background-color: #808080;
+	color: #fff;
+}
+
+/* 책 목록 스타일 */
+h3 {
+	display: flex;
+	margin: 30px;
+	justify-content: center;
+	color: #444;
+}
+
+.book--list--1, .book--list--2, .book--list--3 {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 20px;
+	justify-content: center; /* 책 목록 중앙 정렬 */
+}
+
+.book--item {
+	width: 150px;
+	height: 250px;
+	text-align: center;
+	padding: 25px;
+	border-radius: 8px;
+	background-color: #f9f9f9;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+	transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.book--item:hover, .book--item--funding:hover {
+	background-color: #FFF9D8;
+	transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.book--item--funding {
+	width: 300px;
+	height: 400px;
+	text-align: center;
+	padding: 25px;
+	border-radius: 8px;
+	background-color: #f9f9f9;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+	transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.book--item:hover {
+	transform: translateY(-5px); /* 마우스 오버 시 위로 살짝 이동 */
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.book--item--funding:hover {
+	transform: translateY(-5px); /* 마우스 오버 시 위로 살짝 이동 */
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.book--item img {
+	width: 100%;
+	height: auto;
+	border-radius: 5px;
+}
+
+.book--item--funding img {
+	width: 100%;
+	height: auto;
+	border-radius: 5px;
+}
+
+.book--info {
+	margin-top: 10px;
+}
+
+.book--info--funding {
+	margin-top: 10px;
+}
+
+.book--info h4 {
+	font-size: 14px;
+	margin: 3px 0;
+}
+
+.book--info--funding h4 {
+	font-size: 14px;
+	margin: 3px 0;
+}
+
+.book--info p {
+	font-size: 14px;
+	color: #666;
+}
+
+.book--info--funding p {
+	font-size: 14px;
+	color: #666;
+}

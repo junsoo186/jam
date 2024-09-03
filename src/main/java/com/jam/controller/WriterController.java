@@ -119,8 +119,6 @@ public class WriterController {
 		// 책 생성 및 bookId 가져오기
 		Integer bookId = writerService.createBook(bookDTO, principal);
 
-		System.out.println("bookdId" + bookId);
-
 		// book_tag_tb 테이블에 bookId와 tagId들을 삽입합니다.
 		for (Integer tagId : tagIdsToInsert) {
 			writerService.insertTagIdAndBookId(bookId, tagId);
@@ -160,7 +158,6 @@ public class WriterController {
 		}
 
 		Integer storyId = writerService.createStory(storyDTO, bookId, principal.getUserId());
-
 		return "redirect:/write/storyContents?storyId=" + storyId;
 	}
 
@@ -224,7 +221,7 @@ public class WriterController {
 		// 모든 태그 목록을 가져오기
 		List<Tag> existingTags = writerService.selectAllTags();
 		System.out.println("2" + existingTags);
-		
+
 		List<Tag> selectTags = new ArrayList<>();
 		List<Category> categories = new ArrayList<>();
 		List<Genre> genres = new ArrayList<>();
@@ -234,7 +231,7 @@ public class WriterController {
 
 		model.addAttribute("category", categories);
 		model.addAttribute("genre", genres);
-		
+
 		Tag resultTag = new Tag();
 		for (Tag tags : existingTags) {
 

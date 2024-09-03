@@ -1,13 +1,19 @@
 package com.jam.service;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.jam.dto.BookDTO;
 import com.jam.dto.StoryDTO;
+import com.jam.dto.UserDTO;
 import com.jam.repository.interfaces.BookRepository;
 import com.jam.repository.interfaces.StoryRepository;
 import com.jam.repository.interfaces.TagRepository;
@@ -17,6 +23,7 @@ import com.jam.repository.model.Genre;
 import com.jam.repository.model.Story;
 import com.jam.repository.model.Tag;
 import com.jam.repository.model.User;
+import com.jam.utils.Define;
 
 import lombok.RequiredArgsConstructor;
 
@@ -28,6 +35,10 @@ public class WriterService {
 	private final BookRepository bookRepository;
 	private final StoryRepository storyRepository;
 	private final TagRepository tagRepository;
+	
+	@Value("${file.upload-dir}")
+	private String uploadDir;
+
 
 	/**
 	 * 책 생성 기능
@@ -39,8 +50,6 @@ public class WriterService {
 	public int createBook(BookDTO bookDTO, User principal) {
 		// BookDTO에 userId 설정
 		bookDTO.setUserId(principal.getUserId());
-		bookDTO.setAuthor(principal.getNickName());
-
 		bookDTO.setAuthor(principal.getNickName());
 
 		// 책 정보 저장 (bookId는 bookDTO에 자동으로 설정됩니다)
@@ -341,16 +350,64 @@ public class WriterService {
 		}
 	}
 
+	/**
+	 * 모든 카테고리 리스트 불러오기
+	 * 
+	 * @return
+	 */
 	public List<Category> findAllCategory() {
 		List<Category> categories = new ArrayList<>();
 		categories = bookRepository.findAllCategory();
 		return categories;
 	}
 
+	/**
+	 * 모든 장르 리스트 불러오기
+	 * 
+	 * @return
+	 */
 	public List<Genre> findAllGenre() {
 		List<Genre> genres = new ArrayList<>();
 		genres = bookRepository.findAllGenre();
 		return genres;
+	}
+
+	/**
+	 * 서버 운영체제에 파일 업로드 기능 MultipartFile getOriginalFilename : 사용자가 작성한 파일 명
+	 * uploadFileName : 서버 컴퓨터에 저장 될 파일 명
+	 * 
+	 * @param mFile
+	 * @return
+	 */
+	private String[] uploadFile(MultipartFile mFile) {
+		if (mFile.getSize() > Define.MAX_FILE_SIZE) {
+			// TODO - 오류 처리
+//			throw new DataDeliveryException("파일 크기는 20MB 이상 클 수 없습니다.", HttpStatus.BAD_REQUEST);
+		}
+
+		// 코드 수정
+		// File - getAbsolutePath()
+		// (리눅스 또는 MacOS)에 맞춰서 절대 경로 생성을 시킬 수 있다.
+		String saveDirectory = new File(uploadDir).getAbsolutePath();
+
+		// 파일 이름 생성(중복 이름 예방)
+		String uploadFileName = UUID.randomUUID() + "_" + mFile.getOriginalFilename();
+		// 파일 전체 경로 + 새로생성한 파일명
+		String uploadPath = saveDirectory + File.separator + uploadFileName;
+		File destination = new File(uploadPath);
+
+		System.out.println(uploadPath);
+
+		// 반드시 수행
+		try {
+			mFile.transferTo(destination);
+		} catch (IllegalStateException | IOException e) {
+			// TODO - 오류 처리
+//			e.printStackTrace();
+//			throw new DataDeliveryException("파일 업로드 중 오류가 발생했습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+		return new String[] { mFile.getOriginalFilename(), uploadFileName };
 	}
 
 }
