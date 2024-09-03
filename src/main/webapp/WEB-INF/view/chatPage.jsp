@@ -8,6 +8,7 @@
 <title>${nickname}님 채팅</title>
 </head>
 <body>
+	
 	<section>
 		<c:choose>
 			<c:when test="${chatRoom.roomId} != null">
