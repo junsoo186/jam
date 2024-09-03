@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.jam.dto.BookDTO;
 import com.jam.dto.StoryDTO;
 import com.jam.repository.model.Book;
+import com.jam.repository.model.Category;
+import com.jam.repository.model.Genre;
 import com.jam.repository.model.Story;
 import com.jam.repository.model.Tag;
 import com.jam.repository.model.User;
@@ -61,7 +63,15 @@ public class WriterController {
 	 * @return
 	 */
 	@GetMapping("/workInsert")
-	public String handleWorkInsert() {
+	public String handleWorkInsert(Model model) {
+		List<Category> categories = new ArrayList<>();
+		List<Genre> genres = new ArrayList<>();
+
+		categories = writerService.findAllCategory();
+		genres = writerService.findAllGenre();
+
+		model.addAttribute("category", categories);
+		model.addAttribute("genre", genres);
 		return "write/workInsert";
 	}
 
@@ -214,7 +224,17 @@ public class WriterController {
 		// 모든 태그 목록을 가져오기
 		List<Tag> existingTags = writerService.selectAllTags();
 		System.out.println("2" + existingTags);
+		
 		List<Tag> selectTags = new ArrayList<>();
+		List<Category> categories = new ArrayList<>();
+		List<Genre> genres = new ArrayList<>();
+
+		categories = writerService.findAllCategory();
+		genres = writerService.findAllGenre();
+
+		model.addAttribute("category", categories);
+		model.addAttribute("genre", genres);
+		
 		Tag resultTag = new Tag();
 		for (Tag tags : existingTags) {
 
@@ -246,20 +266,20 @@ public class WriterController {
 	 */
 	@PostMapping("/workUpdate")
 	public String workUpdateProc(BookDTO bookDTO, @RequestParam("bookId") Integer bookId) {
-		User principal = (User) session.getAttribute("principal"); 
+		User principal = (User) session.getAttribute("principal");
 		// BookDTO에서 Book 객체로 변환
-		Book book = bookDTO.updateBook(bookId); //업데이트에 필요한 빌드 
+		Book book = bookDTO.updateBook(bookId); // 업데이트에 필요한 빌드
 		System.out.println("book" + book);
-		
-		//존재하는 태그 
+
+		// 존재하는 태그
 		List<Tag> existingTags = writerService.selectAllTags();
-		
-		//수정하려는 태그
+
+		// 수정하려는 태그
 		List<String> tagNames = bookDTO.getCustomTag();
-		
-		//없는 태그를 추가할 변수
+
+		// 없는 태그를 추가할 변수
 		List<Integer> tagIdsToInsert = new ArrayList<>();
-		
+
 		// 현재 존재하는 태그들과 bookDTO의 태그 이름들을 비교합니다.
 		for (String tagName : tagNames) {
 			boolean tagExists = false;
@@ -286,24 +306,24 @@ public class WriterController {
 			tagIdsToInsert.add(tagId);
 		}
 
-		System.out.println("tagIDS"+tagIdsToInsert);
+		System.out.println("tagIDS" + tagIdsToInsert);
 		System.out.println("bookdId" + bookId);
 		// 책 생성 및 bookId 가져오기
 
 		// 중복 삽입 방지를 위해 book_tag_tb 테이블에 해당 bookId와 tagId들이 이미 존재하는지 확인
-	    List<Tag> existingBookTag = writerService.findTagName(bookId);// bookId와 일치하는 태그리스트
-	    List<Integer> existingBookTagIds=new ArrayList<>();// 태그리스트의 tagId추가 변수
-	    for (Tag tag : existingBookTag) {
-	    	existingBookTagIds.add(tag.getTagId());//추가
+		List<Tag> existingBookTag = writerService.findTagName(bookId);// bookId와 일치하는 태그리스트
+		List<Integer> existingBookTagIds = new ArrayList<>();// 태그리스트의 tagId추가 변수
+		for (Tag tag : existingBookTag) {
+			existingBookTagIds.add(tag.getTagId());// 추가
 		}
 		// book_tag_tb 테이블에 bookId와 tagId들을 삽입합니다.
 		for (Integer tagId : tagIdsToInsert) {
-		      if (!existingBookTagIds.contains(tagId)) { // 추가한 값에 tagId가 없을경우
-		            writerService.insertTagIdAndBookId(bookId, tagId);// INSERT구문 실행
-		            System.out.println("tagId:" + tagId);
-		        }
+			if (!existingBookTagIds.contains(tagId)) { // 추가한 값에 tagId가 없을경우
+				writerService.insertTagIdAndBookId(bookId, tagId);// INSERT구문 실행
+				System.out.println("tagId:" + tagId);
+			}
 		}
-		
+
 		// 변환된 Book 객체를 사용하여 업데이트 작업 수행
 		try {
 			writerService.updateBook(book); // writerService는 Book을 업데이트하는 서비스

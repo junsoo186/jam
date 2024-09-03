@@ -116,4 +116,13 @@
 	<delete id="deleteBook">
 		delete book_tb where book_id = #{bookId}
 	</delete>
+	
+	<select id="findAllCategory"
+	resultType="com.jam.repository.model.Category">
+		select * from category_tb;
+	</select>
+	<select id="findAllGenre"
+	resultType="com.jam.repository.model.Genre">
+		select * from genre_tb;
+	</select>
 </mapper>

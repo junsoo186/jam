@@ -12,6 +12,8 @@ import com.jam.repository.interfaces.BookRepository;
 import com.jam.repository.interfaces.StoryRepository;
 import com.jam.repository.interfaces.TagRepository;
 import com.jam.repository.model.Book;
+import com.jam.repository.model.Category;
+import com.jam.repository.model.Genre;
 import com.jam.repository.model.Story;
 import com.jam.repository.model.Tag;
 import com.jam.repository.model.User;
@@ -38,7 +40,7 @@ public class WriterService {
 		// BookDTO에 userId 설정
 		bookDTO.setUserId(principal.getUserId());
 		bookDTO.setAuthor(principal.getNickName());
-		
+
 		bookDTO.setAuthor(principal.getNickName());
 
 		// 책 정보 저장 (bookId는 bookDTO에 자동으로 설정됩니다)
@@ -285,18 +287,35 @@ public class WriterService {
 		return newTag;
 	}
 
+	/**
+	 * 태그 전체 출력
+	 * 
+	 * @return
+	 */
 	public List<Tag> selectAllTags() {
 		List<Tag> tags = new ArrayList<Tag>();
 		tags = tagRepository.selectAllTags();
 		return tags;
 	}
 
+	/**
+	 * 태그 이름별 출력
+	 * 
+	 * @param tagName
+	 * @return
+	 */
 	public Tag selectByName(String tagName) {
 		Tag tags = null;
-		tags =  tagRepository.findByName(tagName);
+		tags = tagRepository.findByName(tagName);
 		return tags;
 	}
-	
+
+	/**
+	 * 태그와 책 테이블에 삽입
+	 * 
+	 * @param bookId
+	 * @param tagId
+	 */
 	public void insertTagIdAndBookId(Integer bookId, Integer tagId) {
 		try {
 			// 데이터베이스에 bookId와 tagId를 삽입
@@ -308,12 +327,30 @@ public class WriterService {
 		}
 	}
 
+	/**
+	 * 태그와 책테이블 갱신
+	 * 
+	 * @param bookId
+	 * @param tagId
+	 */
 	public void updateTagIdByBookId(Integer bookId, Integer tagId) {
 		try {
 			tagRepository.updateTagIdByBookId(bookId, tagId);
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
+	}
+
+	public List<Category> findAllCategory() {
+		List<Category> categories = new ArrayList<>();
+		categories = bookRepository.findAllCategory();
+		return categories;
+	}
+
+	public List<Genre> findAllGenre() {
+		List<Genre> genres = new ArrayList<>();
+		genres = bookRepository.findAllGenre();
+		return genres;
 	}
 
 }

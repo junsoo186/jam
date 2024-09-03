@@ -47,24 +47,20 @@
                     <textarea id="introduction" name="introduction" required>${bookDetail.introduction}</textarea>
 
 
-				    <label for="genreSelect">장르 선택:</label>
-				    <select id="genreSelect" name="genreId" onchange="updateHiddenInput('genreSelect', 'genreId')">
-				        <option value="1">추리</option>
-				        <option value="2">스릴러</option>
-				        <option value="3">공포</option>
-				        <option value="4">과학</option>
-			       	 <option value="5">판타지</option>
-				        <option value="6">무협</option>
-				    </select>
-				    <input type="hidden" id="genreId" name="genreId" value="1"> <!-- 기본값을 "추리"로 설정 -->
-				     <!-- 카테고리 선택 셀렉트 박스 -->
-				    <label for="categorySelect">카테고리 선택:</label>
-				    <select id="categorySelect" name="categoryId" onchange="updateHiddenInput('categorySelect', 'categoryId')">
-				        <option value="1">문학</option>
-				        <option value="2">시/에세이</option>
-				        <option value="3">소설</option>
-				    </select>
-				    <input type="hidden" id="categoryId" name="categoryId" value="1"> <!-- 기본값을 "문학"으로 설정 -->
+				    <!-- 카테고리 선택 셀렉트 박스 -->
+					<label for="categorySelect">카테고리 선택:</label> <select id="categorySelect" name="categoryId" onchange="updateHiddenInput('categorySelect', 'categoryId')">
+						<c:forEach items="${category}" var="categroy">
+							<option value="${categroy.categoryId}">${categroy.categoryName}</option>
+						</c:forEach>
+					</select> <input type="hidden" id="categoryId" name="categoryId" value="1">
+					<!-- 기본값을 "문학"으로 설정 -->
+
+					<label for="genreSelect">장르 선택:</label> <select id="genreSelect" name="genreId" onchange="updateHiddenInput('genreSelect', 'genreId')">
+						<c:forEach items="${genre}" var="genre">
+							<option value="${genre.genreId}">${genre.genreName}</option>
+						</c:forEach>
+					</select> <input type="hidden" id="genreId" name="genreId" value="1">
+					<!-- 기본값을 "추리"로 설정 -->
                     <br><br>
                     <label for="serialDay">연재 요일:</label>
                     <div class="radio-buttons">

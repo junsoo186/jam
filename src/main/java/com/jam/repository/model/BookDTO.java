@@ -1,4 +1,4 @@
-package com.jam.dto;
+package com.jam.repository.model;
 
 import java.util.List;
 
