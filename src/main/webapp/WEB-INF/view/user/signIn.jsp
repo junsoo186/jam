@@ -33,7 +33,7 @@
   	
 	<div class="bottom--findsignup">
 		<a href="/user/sign-up">회원가입 |</a>
-		<a href="/user/sign-up">아이디 찾기 |</a>
+		<a href="/user/find-id">아이디 찾기 |</a>
 		<a href="/user/sign-up">비밀번호 찾기</a>
 	</div>
   	

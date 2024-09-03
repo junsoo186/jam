@@ -40,6 +40,12 @@ public class UserController {
 	private final HttpSession session;
 	@Autowired
 	private final UserService userService;
+	
+	@GetMapping("/find-id")
+	public String findId(@RequestParam String param) {
+		return "user/findId";
+	}
+	
 
 	@GetMapping("/sign-up")
 	public String signUpPage() {
