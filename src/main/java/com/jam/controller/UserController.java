@@ -587,7 +587,7 @@ public class UserController {
 		// 헤더
 		HttpHeaders headers2 = new HttpHeaders();
 
-		// 반드시 Bearer 값 다음에 공백 한칸 추가 !! (토큰 갱신하기)
+		// 반드시 Bearer 값 다음에 공백 한칸 추가 !! (토큰 갱신하기!)
 		headers2.add("Authorization", "Bearer " + response1.getBody().getAccessToken());
 		headers2.add("Content-Type", "application/x-www-form-urlencoded;charset=utf-8"); // Content-Type 헤더 추가
 
