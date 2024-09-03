@@ -5,48 +5,52 @@
 
 <main>
     <div class="container">
-        <h2>도서 정보 수정 폼</h2>
         <form id="bookForm" action="workUpdate" method="post" onsubmit="return prepareFormForSubmit()">
+        <h2>도서 정보 수정 폼</h2>
             <!-- 폼 섹션 -->
-            <div class="form-section">
+            <div class="content">
                 <!-- 왼쪽 섹션: 도서 정보 입력 및 이미지 선택 -->
-                <div class="left-section">
+                <div class="left--section">
+                	<div class="left--secition--top"></div>
                     <!-- 책 커버 선택 -->
-                    <div class="book-cover">
+                    <div class="cover">
                         <label for="bookCover">책 커버 선택</label>
                         <input type="file" id="bookCover" name="bookCover" style="display:none">
                     </div>
 
                     <!-- 이미지 선택 섹션 -->
-                    <div class="image-selection">
+                    <div class="left--secition--center">
                         <h3>이미지 선택</h3>
-                        <div class="image-options">
-                            <div class="image-option">제공 이미지 1</div>
-                            <div class="image-option">제공 이미지 2</div>
-                            <div class="image-option">제공 이미지 3</div>
-                            <div class="image-option">제공 이미지 4</div>
+                        <div class="images">
+                            <div class="image">제공 이미지 1</div>
+                            <div class="image">제공 이미지 2</div>
+                            <div class="image">제공 이미지 3</div>
+                            <div class="image">제공 이미지 4</div>
                         </div>
                     </div>
                     <br>
-
-                    
                 </div>
 
                 <!-- 오른쪽 섹션: 연재 요일 및 기타 설정 -->
-                <div class="right-section">
+                <!--  위 : 제목,코멘트,소개 -->
+                <div class="right--section">
+                	<div class="right-section--top">
                 
                 <label for="title">제목:</label>
+                <br>
                     <input type="text" id="title" name="title" value="${bookDetail.title}" required />
 
 
                     <label for="authorComment">저자 코멘트:</label>
                     <textarea id="authorComment" name="authorComment" required>${bookDetail.authorComment}</textarea>
 
-
                     <label for="introduction">소개:</label>
                     <textarea id="introduction" name="introduction" required>${bookDetail.introduction}</textarea>
 
-
+				</div>
+				
+				<!--  카테고리 ,장르, 연재 요일 -->
+				<div class="right-section--center">
 				    <!-- 카테고리 선택 셀렉트 박스 -->
 					<label for="categorySelect">카테고리 선택:</label> <select id="categorySelect" name="categoryId" onchange="updateHiddenInput('categorySelect', 'categoryId')">
 						<c:forEach items="${category}" var="categroy">
@@ -61,7 +65,6 @@
 						</c:forEach>
 					</select> <input type="hidden" id="genreId" name="genreId" value="1">
 					<!-- 기본값을 "추리"로 설정 -->
-                    <br><br>
                     <label for="serialDay">연재 요일:</label>
                     <div class="radio-buttons">
                         <label><input type="checkbox" name="serialDay" value="월요일"> 월요일</label>
@@ -73,7 +76,10 @@
                         <label><input type="checkbox" name="serialDay" value="일요일"> 일요일</label>
                         <label><input type="checkbox" name="serialDay" value="비 정기 연재"> 비 정기 연재</label>
                     </div>
-
+					</div>
+					
+					<!--  나이 ,태그 -->
+					<div class="right-section--bottom">
                     <!-- 연령 선택 -->
 				    <label for="ageSelect">연령 선택:</label>
 				    <select id="ageSelect" name="age" onchange="updateHiddenInput('ageSelect', 'age')">
@@ -83,7 +89,6 @@
 				        <option value="15">15</option>
 				        <option value="19">19</option>
 				    </select>
-				    <br><br>
 
                     <!-- 태그 목록 -->
                     <label for="tagList">태그 목록:</label>
@@ -111,10 +116,12 @@
             </div>
                 </div>
             </div>
+ 
 
             <!-- 태그 섹션 -->
             <br><br>
 
+            </div>
             <!-- 숨겨진 책 ID 필드 -->
             <input type="hidden" name="bookId" value="${bookId}">
 

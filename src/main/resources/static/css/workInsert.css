@@ -1,156 +1,193 @@
 @charset "UTF-8";
-       /* 간단한 스타일 정의 */
-        .container {
-            width: 80%;
-            margin: 0 auto;
-            background-color: #f9f9f9;
-            padding: 20px;
-            border-radius: 8px;
-            border: 1px solid #ddd;
-        }
 
-        .form-section {
-            display: flex;
-            gap: 20px;
-            margin-bottom: 20px;
-        }
-
-        .left-section, .right-section {
-            flex: 1;
-        }
-
-        .left-section {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .right-section {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .book-cover {
-            width: 100%;
-            height: 300px;
-            border: 2px dashed #ddd;
-            background-color: #e9ecef;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 10px;
-        }
-
-        .book-cover label {
-            cursor: pointer;
-            color: #007bff;
-        }
-
-        .genre-buttons, .age-buttons {
-            display: flex;
-            gap: 10px;
-        }
-
-        .genre-buttons button, .age-buttons button {
-            padding: 10px 20px;
-            background-color: #f0f0f0;
-            border: 1px solid #ccc;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-
-        .genre-buttons button.active, .age-buttons button.active {
-            background-color: #007bff;
-            color: white;
-        }
-
-        .tag-input {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .tag-input input, .tag-input select {
-            flex: 1;
-            padding: 8px;
-        }
-
-        .submit-buttons {
-            display: flex;
-            justify-content: flex-end;
-            margin-top: 20px;
-        }
-
-        .submit-buttons button {
-            padding: 10px 20px;
-            border: none;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-
-        .submit-buttons .cancel {
-            background-color: #ff6666;
-            color: white;
-        }
-
-        .submit-buttons .submit {
-            background-color: #4CAF50;
-            color: white;
-        }
-        .delete-buttons {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
-        }
-
-        .delete-buttons button {
-            padding: 10px 20px;
-            border: none;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-
-        .delete-buttons .cancel {
-            background-color: #ff6666;
-            color: white;
-        }
-
-        .delete-buttons .delete {
-            background-color: #ff6666;
-            color: white;
-        }
-        
-        .category-buttons {
-    display: flex;
-    gap: 10px; /* 버튼 간 간격을 줌 */
+/* 컨테이너 설정 */
+.container {
+    width: 80%;
+    margin: 0 auto;
+    background-color: #ffffff; /* 배경색을 더 밝게 조정 */
+    padding: 30px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 추가 */
 }
 
+/* 폼 섹션 레이아웃 */
+.content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+/* 왼쪽, 오른쪽 섹션 스타일 */
+.left--section, .right--section {
+    flex: 1 1 48%; /* 반응형 레이아웃 */
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* 책 커버 스타일 */
+.cover {
+    width: 100%;
+    height: 300px;
+    border: 2px dashed #ccc;
+    background-color: #f8f9fa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.cover:hover {
+    background-color: #e2e6ea;
+}
+
+.cover label {
+    cursor: pointer;
+    color: #007bff;
+}
+
+/* 이미지 선택 옵션 스타일 */
+.left--secition--center {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.images {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.image {
+    flex: 1 1 45%;
+    padding: 10px;
+    background-color: #e9ecef;
+    border: 1px solid #ccc;
+    text-align: center;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.image:hover {
+    background-color: #ced4da;
+}
+
+/* 입력 필드 스타일 */
+.right--section input[type="text"],
+.right--section textarea,
+.right--section select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    margin-bottom: 30px;
+}
+
+.right--section label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+/* 연령 선택 버튼 스타일 */
+.age-button,
 .category-button {
-    padding: 10px 20px;
+    padding: 10px 15px;
     background-color: #f0f0f0;
     border: 1px solid #ccc;
-    cursor: pointer;
     border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+.age-button.selected,
 .category-button.active {
     background-color: #007bff;
     color: white;
+    border-color: #0056b3;
 }
-        /* age */
-        .age-button {
-            margin: 5px;
-            padding: 10px 20px;
-            background-color: #f0f0f0;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        
-        .age-button.selected {
-            background-color: #007bff;
-            color: white;
-            border: 1px solid #0056b3;
+
+.age-button:not(.selected):hover,
+.category-button:not(.active):hover {
+    background-color: #e2e6ea;
+}
+
+/* 태그 입력 및 추가 옵션 */
+.tag-input {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.tag-input input,
+.tag-input select {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* 버튼 영역 스타일 */
+.submit-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    margin-top: 20px;
+}
+
+.submit-buttons button {
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 14px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.submit-buttons .cancel {
+    background-color: #ff6666;
+    color: white;
+}
+
+.submit-buttons .submit {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.submit-buttons button:hover {
+    transform: scale(1.05);
+}
+
+/* 경고문 섹션 스타일 */
+.warning-section {
+    background-color: #fff3cd;
+    padding: 15px;
+    border: 1px solid #ffeeba;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+
+.warning-section p {
+    margin: 0;
+    font-size: 14px;
+    color: #856404;
+}
+
+.warning-section label {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+.warning-section input[type="checkbox"] {
+    margin-right: 10px;
 }
