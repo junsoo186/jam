@@ -70,6 +70,7 @@
 		c.category_name, 
 		g.genre_name, 
 		b.age,
+		b.likes,
 		b.serial_day,
 		b.introduction,
 		b.created_at,
