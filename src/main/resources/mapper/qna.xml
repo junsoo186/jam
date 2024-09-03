@@ -12,8 +12,8 @@
 	<!--사용자가 본인 질문 수정  -->
 	<update id="updateQ">
 	UPDATE qna_tb SET title = #{title},
-				q_content = #{questionContent}
-                WHERE user_id = #{userId};
+				question_content = #{questionContent}
+                WHERE qna_id = #{qnaId};
 	</update>
 	<!--관리자 답변 쿼리  -->
 	<!-- 사용자가 insert 한 질문에 update 하여 답변 하는 형태  -->
