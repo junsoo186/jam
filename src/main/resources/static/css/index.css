@@ -32,6 +32,7 @@ body {
 	width: 500px; /* 고정 너비 */
 	height: 400px; /* 고정 높이 */
 	border-radius: 15px;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .banner--text--container {
@@ -107,7 +108,7 @@ h3 {
 	color: #444;
 }
 
-.book--list--1, .book--list--2,.book--list--3 {
+.book--list--1, .book--list--2, .book--list--3 {
 	display: flex;
 	flex-wrap: wrap;
 	gap: 20px;
@@ -124,11 +125,12 @@ h3 {
 	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 	transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-.book--item:hover,
-.book--item--funding:hover{
+
+.book--item:hover, .book--item--funding:hover {
 	background-color: #FFF9D8;
 	transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
+
 .book--item--funding {
 	width: 300px;
 	height: 400px;
