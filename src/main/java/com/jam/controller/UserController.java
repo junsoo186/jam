@@ -192,7 +192,8 @@ public class UserController {
 			System.out.println("principal : " + principal);
 			
 			userService.login(dto);
-			return "user/signIn";
+			// return "user/signIn";
+			return "redirect:/";
 		}
 		
 	} // end of getMethodName();
@@ -374,7 +375,8 @@ public class UserController {
 			System.out.println("principal : " + principal);
 			
 			userService.login(dto);
-			return "user/signIn";
+			// return "user/signIn";
+			return "redirect:/";
 		} 	
 	} // end of naver
 	
