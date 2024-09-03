@@ -18,6 +18,7 @@ import com.jam.handler.exception.UnAuthorizedException;
 import com.jam.repository.model.Qna;
 import com.jam.repository.model.User;
 import com.jam.service.QnaService;
+import com.jam.utils.Define;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -81,9 +82,9 @@ public class QnaController {
 	 * @return
 	 */
 	@PostMapping("write")
-	public String qnaWrite(QnaDTO dto,@SessionAttribute("principal") User principal){
+	public String qnaWrite(QnaDTO dto,@SessionAttribute(Define.PRINCIPAL) User principal){
 		qnaService.qnaWrite(dto, principal.getUserId());
-		return "redirect:/qna/qnaList";
+		return "redirect:/qna/list";
 	}
 	
 	
@@ -95,12 +96,9 @@ public class QnaController {
 	 * @return
 	 */
 	@GetMapping("detail/{qnaId}")
-	public String detailPage(@PathVariable(name ="qnaId")int qnaId , Model model) {
-		// 사용자 인증 -추후 전체 인증 만들면 삭제 예정
-		User principal = (User)session.getAttribute("principal");
-		if(principal == null ) {
-			throw new UnAuthorizedException("인증된 사용자가 아닙니다.", HttpStatus.UNAUTHORIZED);
-		}
+	public String detailPage(@PathVariable(name ="qnaId")int qnaId , Model model,
+			@SessionAttribute(Define.PRINCIPAL) User principal) {
+	
 		Qna myQna = qnaService.selectByQnaId(qnaId);
 		model.addAttribute("qna",myQna);
 		// 본인글이 아닌경우 내용 확인 불가
@@ -111,5 +109,29 @@ public class QnaController {
 		return "/qna/qnaDetail";
 	}
 	
-
+	/**
+	 * Delete 기능 구현
+	 * @param dto
+	 * @return
+	 */
+	@PostMapping("delete")
+	public String deleteQna(@RequestParam(name ="qnaId")int qnaId, QnaDTO dto) {
+		qnaService.delete(qnaId);
+		return "redirect:/qna/list";
+	}
+	
+	@GetMapping("updatePage/{qnaId}")
+	public String updatePage(@PathVariable(name ="qnaId")int qnaId , Model model) {
+		Qna myQna = qnaService.selectByQnaId(qnaId);
+		model.addAttribute("qna",myQna);
+		// 본인글이 아닌경우 내용 확인 불가
+		return "/qna/qnaUpdate";
+	}
+	
+	@PostMapping("update/{qnaId}")
+	public String updateQna(@PathVariable(name ="qnaId") int qnaId, QnaDTO dto){
+		qnaService.updateMyqna(dto, qnaId);
+		
+		return"redirect:/qna/list";
+	}
 }

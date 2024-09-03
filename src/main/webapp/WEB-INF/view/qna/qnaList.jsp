@@ -20,9 +20,9 @@
             </tr>
         </thead>
         <tbody>
-            <c:forEach var="qna" items="${qnaList}">
+            <c:forEach var="qna" items="${qnaList}" varStatus="status">
                <a href=""><tr>
-                    <td>${qna.qnaId}</td>
+                    <td>${status.index + 1}</td>
                     <td><a href="/qna/detail/${qna.qnaId}">${qna.title}</a></td>
                     <td>${qna.nickname}</td>            
                     <td>${qna.createdAt}</td>

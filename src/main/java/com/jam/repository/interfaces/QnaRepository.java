@@ -19,7 +19,7 @@ public interface QnaRepository {
 	 */
 
 	public int insertQ(Qna qna); // 질문 남기기 (사용자)
-	public int updateQ(QnaDTO qnaDto); // 질문 수정  (사용자)
+	public int updateQ(@Param("qnaId") int qnaId,@Param("title") String title,@Param("questionContent") String questionContent); // 질문 수정  (사용자)
 	public int deletByQnaId(int qnaID); // 질문 지우기
 	public int updateA(QnaDTO qnaDto); // 답변 남기기 (관리자)
 	public List<Qna> selectAllQnaPage(@Param("limit")int limit, 

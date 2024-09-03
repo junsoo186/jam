@@ -23,9 +23,14 @@
           
    
                    
-                        <form action="/notice/delete" method="post" class="d-inline">
+                        <form action="/qna/delete" method="post" class="d-inline">
                             <input type="hidden" name="qnaId" value="${qna.qnaId}">
                             <button type="submit" class="btn btn-primary form-control">삭제</button>
+                        </form>
+                        
+                        <form action="/qna/updatePage" method="get" class="d-inline">
+                            <input type="hidden" name="qnaId" value="${qna.qnaId}">
+                            <button type="submit" class="btn btn-primary form-control">수정</button>
                         </form>
                         
                   

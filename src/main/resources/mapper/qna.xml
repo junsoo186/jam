@@ -28,6 +28,7 @@
 		SELECT q.* , u.nick_name
 		FROM qna_tb as q 
 		LEFT JOIN user_tb as u on q.user_id = u.user_id
+		ORDER BY q.qna_id DESC
 		LIMIT #{limit} OFFSET #{offset};
 	</select>
 	
