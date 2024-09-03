@@ -27,17 +27,18 @@
 			<input type="hidden" name="qnaId" value="${qna.qnaId}">
 			<button type="submit" class="btn btn-primary form-control">삭제</button>
 		</form>
-		<c:choose>
 		<!-- 답변이 달린 글은 수정 버튼 없음  -->
+		<c:choose>
 		<c:when test="${qna.answerContent != null}">
 		<b></b>
-		</c:choose>
+		</c:when>
 		<c:otherwise>
 		<form action="/qna/updatePage/${qna.qnaId}" method="get" class="d-inline">
 			<input type="hidden" name="qnaId" value="${qna.qnaId}">
 			<button type="submit" class="btn btn-primary form-control">수정</button>
-		</form></c:when>
+		</form>
 		</c:otherwise>
+		</c:choose>
 		
 
 

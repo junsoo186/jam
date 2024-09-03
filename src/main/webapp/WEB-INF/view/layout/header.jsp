@@ -63,7 +63,7 @@
 				<li><a href="">베스트 10</a><li>
 				<li><a href="">나의 찜목록</a><li>
 				<li><a href="">오늘의 펀딩</a><li>
-				<li><a href="">공지사항</a><li>
+				<li><a href="/notice/list">공지사항</a><li>
 			</ul>
 		</section>
 	</div>
