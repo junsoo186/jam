@@ -59,9 +59,9 @@ public class UserController {
 
 	@PostMapping("/sign-in")
 
-    public String signProc(UserDTO dto) {
+    public String signProc(User dto) {
         // 사용자 인증 로직
-		UserDTO principal = userService.login(dto); // 로그인 시도 및 User 객체 반환
+		User principal = userService.login(dto); // 로그인 시도 및 User 객체 반환
         session.setAttribute("principal", principal);
         System.out.println("principal : " + principal);
             // 세션에 사용자 정보를 등록
