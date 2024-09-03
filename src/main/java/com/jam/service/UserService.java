@@ -4,6 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.jam.dto.UserDTO;
+import com.jam.dto.signInDTO;
+import com.jam.dto.signUpDTO;
 import com.jam.repository.interfaces.UserRepository;
 import com.jam.repository.model.User;
 
@@ -18,7 +21,7 @@ public class UserService {
 	 * @param user
 	 */
 	@Transactional // 트랜잭션 처리
-	public void createUser(User dto) {
+	public void createUser(signUpDTO dto) {
 		int result = 0;
 		System.out.println("dto : " + dto);
 		result = userRepository.insert(dto);
@@ -37,7 +40,7 @@ public class UserService {
 	 * @param dto
 	 * @return
 	 */
-	public User login(User dto) {
+	public User login(signInDTO dto) {
 
 		User user = null;
 		System.out.println("User : " + dto);
