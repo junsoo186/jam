@@ -88,16 +88,19 @@
 				        <option value="19">19</option>
 				    </select>
 				    <br><br>
-            <label for="tagList">태그 목록:</label>
-            <div id="tagList" class="tag-input">
-              	<c:forEach items="selectTags" var="selectTags">
-              	${selectTags}
-              	
-              	</c:forEach>
-              
-              
-            </div>
-            <br>
+
+                    <!-- 태그 목록 -->
+                    <label for="tagList">태그 목록:</label>
+                    <div id="tagList" class="tag-input">
+                        <c:forEach items="${selectTags}" var="tag">
+                            <div class="tag-item">
+                                <span class="tag-name">${tag.tagName}</span>
+                                <span class="remove-tag" onclick="removeTag('${tag.tagName}', this)">x</span>
+                                <input type="hidden" name="customTag" value="${tag.tagName}">
+                            </div>
+                        </c:forEach>
+                    </div>
+                    <br>
 
             <!-- 태그 추가를 위한 인풋 필드와 셀렉트 박스 -->
             <div class="tag-input">
