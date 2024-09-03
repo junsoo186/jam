@@ -17,6 +17,7 @@ import com.jam.dto.UserDTO;
 import com.jam.repository.model.Book;
 import com.jam.repository.model.Story;
 import com.jam.repository.model.Tag;
+import com.jam.repository.model.User;
 import com.jam.service.WriterService;
 
 import jakarta.servlet.http.HttpSession;
@@ -41,7 +42,7 @@ public class WriterController {
 	 */
 	@GetMapping("/workList")
 	public String handleWorkList(Model model) {
-		UserDTO principal = (UserDTO) session.getAttribute("principal");
+		User principal = (User) session.getAttribute("principal");
 		List<Book> bookList = writerService.readAllBookListByprincipalId(principal.getUserId());
 		System.out.println("bookList : " + bookList.toString());
 		if (bookList.isEmpty()) {
@@ -72,7 +73,7 @@ public class WriterController {
 	 */
 	@PostMapping("/workInsert")
 	public String completedWorkProc(BookDTO bookDTO) {
-		UserDTO principal = (UserDTO) session.getAttribute("principal");
+		User principal = (User) session.getAttribute("principal");
 
 		// 유효성 검사 (생략)
 
@@ -106,9 +107,9 @@ public class WriterController {
 		}
 
 		// 책 생성 및 bookId 가져오기
-		Integer bookId = writerService.createBook(bookDTO, principal.getUserId());
+		Integer bookId = writerService.createBook(bookDTO, principal);
 		
-		System.out.println(bookId);
+		System.out.println("bookdId"+bookId);
 
 		// book_tag_tb 테이블에 bookId와 tagId들을 삽입합니다.
 		for (Integer tagId : tagIdsToInsert) {

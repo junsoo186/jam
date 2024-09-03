@@ -3,7 +3,7 @@
 
 <style>
 /* 모바일 환경에서의 스타일 설정 */
-.nav, content-container {
+.nav, .content-container {
 	display: flex; /* Flexbox 컨테이너로 설정 */
 	flex-wrap: wrap; /* 요소가 한 줄에 들어가지 않을 경우 줄 바꿈 */
 	justify-content: flex-start;
@@ -14,7 +14,8 @@
 	flex-wrap: wrap; /* 요소가 한 줄에 들어가지 않을 경우 줄 바꿈 */
 	justify-content: space-between; /* 요소들 간의 간격을 균등하게 분배 */
 	width: 100%; /* 컨테이너의 가로 너비를 100%로 설정 */
-	margin-bottom: 20px; /* 하단 여백 */
+	margin-left: 20px;
+	margin-top: 20px; /* 하단 여백 */
 	border: 1px solid #ddd; /* 테두리 */
 	background-color: #f9f9f9; /* 배경색 */
 }
@@ -67,8 +68,6 @@ td {
 		<a href="#myWorks">작품관리</a> <a href="#supportManagement">후원관리</a> <a href="#workStatistics">정산</a> <a href="#settlement">펀딩관리</a>
 	</div>
 
-	<div class="container"></div>
-	<!-- 콘텐츠 영역 -->
 
 	<!-- 이미지와 추가 콘텐츠들 -->
 	<%-- 조건절 1: bookList가 null이 아닐 때 --%>
@@ -121,5 +120,6 @@ td {
 		</c:choose>
 
 	</div>
+
 </body>
 </html>

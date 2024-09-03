@@ -16,12 +16,15 @@
 
 .tag-input {
     display: inline-block;
-    padding: 5px;
+    padding: 25px;
     border: 1px solid #ccc;
     border-radius: 5px;
     margin-right: 5px;
     margin-bottom: 5px;
     min-width: 120px;
+    box-sizing: border-box;   
+    white-space: normal;
+    
 }
 
 .tag-input input {
@@ -40,3 +43,24 @@
     vertical-align: middle;
     height: 100%;
 }
+
+ .tag-item {
+     display: inline-flex;
+     align-items: center;
+     margin: 5px;
+     padding: 5px 10px;
+     background-color: #f0f0f0;
+     border-radius: 15px;
+     font-size: 14px;
+ }
+ 
+ .tag-name {
+     margin-right: 8px; /* 태그명과 x 버튼 사이에 간격 추가 */
+ }
+
+ .remove-tag {
+     font-weight: bold;
+            color: blue;
+            border-radius: 50%; /* 동그란 모양으로 변경 */
+
+ }

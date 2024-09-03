@@ -46,5 +46,9 @@ public class QnaService {
 		Qna qna = qnaRepository.selectQnaByQnaId(qnaId);
 		return qna ;
 	}
+	public void delete(int qnaId) {
+		int result =0;
+		result = qnaRepository.deletByQnaId(qnaId);
+	}
 	
 }

@@ -6,7 +6,7 @@
 
 <div class="container p-5">
     <div class="card">
-        <div class="card-header"><b>${principal.nickname}문의 남기기</b></div>
+        <div class="card-header"><b>문의 남기기</b></div>
         <div class="card-body">
             <!-- 폼 액션 URL 수정 -->
             <form action="/qna/write" method="post">

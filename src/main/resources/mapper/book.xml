@@ -64,8 +64,8 @@
 		b.title,
 		b.author,
 		b.author_comment,
-		b.category_id,
-		b.genre_id,
+		c.category_name, 
+		g.genre_name, 
 		b.age,
 		b.serial_day,
 		b.introduction,
@@ -74,16 +74,21 @@
 		FROM
 		book_tb b
 		LEFT JOIN
+		category_tb c ON b.category_id = c.category_id 
+		LEFT JOIN
+		genre_tb g ON b.genre_id = g.genre_id 
+		LEFT JOIN
 		book_tag_tb bt ON b.book_id = bt.book_id
 		LEFT JOIN
 		tag_tb t ON bt.tag_id = t.tag_id
 		WHERE
 		b.book_id = #{bookId}
 		GROUP BY
-		b.book_id
+		b.book_id,
+		c.category_name, 
+		g.genre_name 
 		ORDER BY
-		b.title ASC
-
+		b.title ASC;
 	</select>
 
 	<update id="updateBook">
