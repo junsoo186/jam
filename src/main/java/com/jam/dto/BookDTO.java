@@ -2,6 +2,8 @@ package com.jam.dto;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.jam.repository.model.Book;
 
 import lombok.AllArgsConstructor;
@@ -24,21 +26,24 @@ public class BookDTO {
 	private String author;
 	private String introduction;
 	private String bookCoverImage;
+	private String originalBookCoverImage;
 	private Integer categoryId;
 	private Integer genreId;
 	private String serialDay;
 	private List<String> customTag;
 	private String age;
+	private MultipartFile bookCover;
+	private String uploadPath;
 
 	public Book toBook(Integer userId) {
 		return Book.builder().userId(userId).title(this.title).authorComment(this.authorComment).author(this.author)
 				.serialDay(this.serialDay).categoryId(this.categoryId).genreId(this.genreId)
-				.introduction(this.introduction).age(this.age).build();
+				.bookCoverImage(this.bookCoverImage).introduction(this.introduction).age(this.age).build();
 	}
 
 	public Book updateBook(Integer bookId) {
 		return Book.builder().bookId(bookId).title(this.title).authorComment(this.authorComment)
 				.introduction(this.introduction).serialDay(this.serialDay).age(this.age).customtags(this.customTag)
-				.build();
+				.bookCoverImage(this.bookCoverImage).build();
 	}
 }

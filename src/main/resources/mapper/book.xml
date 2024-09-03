@@ -8,11 +8,11 @@
 		INSERT INTO book_tb (user_id,
 		title, author_comment, author, serial_day, introduction,
 		category_id,
-		genre_id, age)
+		genre_id, age, book_cover_image)
 		VALUES (#{userId}, #{title}, #{authorComment},
 		#{author}, #{serialDay},
 		#{introduction}, #{categoryId}, #{genreId},
-		#{age})
+		#{age}, #{bookCoverImage})
 	</insert>
 
 	<select id="AllBookList"
@@ -22,6 +22,7 @@
 		b.title,
 		b.author,
 		b.likes,
+		b.book_cover_image,
 		GROUP_CONCAT(DISTINCT t.tag_name ORDER BY t.tag_name ASC) AS tagNames
 		FROM
 		book_tb b
@@ -35,13 +36,14 @@
 		ASC
 	</select>
 
-	<select id="AllBookListByUserId"
+	<select id="findAllBookListByUserId"
 		resultType="com.jam.repository.model.Book">
 		SELECT
 		b.book_id,
 		b.title,
 		b.author,
 		b.likes,
+		b.book_cover_image,
 		GROUP_CONCAT(DISTINCT t.tag_name ORDER BY t.tag_name ASC) AS tagNames
 		FROM
 		book_tb b
@@ -68,9 +70,11 @@
 		c.category_name, 
 		g.genre_name, 
 		b.age,
+		b.likes,
 		b.serial_day,
 		b.introduction,
 		b.created_at,
+		b.book_cover_image,
 		GROUP_CONCAT(DISTINCT t.tag_name ORDER BY t.tag_name ASC) AS tagNames
 		FROM
 		book_tb b
@@ -101,7 +105,8 @@
 		introduction = #{introduction},
 		serial_day =
 		#{serialDay},
-		age = #{age}
+		age = #{age},
+		book_cover_image = #{bookCoverImage}
 		WHERE
 		book_id = #{bookId}
 	</update>

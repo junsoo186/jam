@@ -15,20 +15,20 @@
                 	<div class="left--secition--top"></div>
                     <!-- 책 커버 선택 -->
                     <div class="cover">
-                        <label for="bookCover">책 커버 선택</label>
-                        <input type="file" id="bookCover" name="bookCover" style="display:none">
+                       <img id="bookCoverPreview"src="#" alt="미리보기" style="display: none; margin-top: 10px; max-width: 100%; height: auto;">
                     </div>
 
+                       <input type="file" id="bookCover" name="bookCover" class="bookCover" accept="image/*"> 
                     <!-- 이미지 선택 섹션 -->
                     <div class="left--secition--center">
                         <h3>이미지 선택</h3>
                         <div class="images">
-                            <div class="image">제공 이미지 1</div>
-                            <div class="image">제공 이미지 2</div>
-                            <div class="image">제공 이미지 3</div>
-                            <div class="image">제공 이미지 4</div>
+                            <div class="image"><img src="path/to/image1.jpg" alt="제공 이미지 1" class="selectable-image"></div>
+                            <div class="image"><img src="path/to/image2.jpg" alt="제공 이미지 2" class="selectable-image"></div>
+                            <div class="image"><img src="path/to/image3.jpg" alt="제공 이미지 3" class="selectable-image"></div>
+                            <div class="image"><img src="path/to/image4.jpg" alt="제공 이미지 4" class="selectable-image"></div>
                         </div>
-                    </div>
+                    </div> 
                     <br>
                 </div>
 
@@ -40,6 +40,7 @@
                     <label for="authorComment">코멘트:</label>
                     <textarea id="authorComment" name="authorComment" required>테스트 저자 코멘트</textarea>
 
+			
                     <label for="introduction">소개글:</label>
                     <textarea id="introduction" name="introduction" rows="4" required>테스트용 소개글</textarea>
 
@@ -54,6 +55,9 @@
                     </select>
                     <input type="hidden" id="age" name="age" value="전체">
 
+
+
+
                     <!-- 카테고리 선택 셀렉트 박스 -->
                     <label for="categorySelect">카테고리 선택:</label>
                     <select id="categorySelect" name="categoryId" onchange="updateHiddenInput('categorySelect', 'categoryId')">
@@ -63,14 +67,13 @@
                     </select>
                     <input type="hidden" id="categoryId" name="categoryId" value="1">
 
-                    <!-- 장르 선택 셀렉트 박스 -->
-                    <label for="genreSelect">장르 선택:</label>
-                    <select id="genreSelect" name="genreId" onchange="updateHiddenInput('genreSelect', 'genreId')">
-                        <c:forEach items="${genre}" var="genre">
-                            <option value="${genre.genreId}">${genre.genreName}</option>
-                        </c:forEach>
-                    </select>
-                    <input type="hidden" id="genreId" name="genreId" value="1">
+					<!-- 장르 선택 셀렉트 박스 -->
+					<label for="genreSelect">장르 선택:</label> <select id="genreSelect" name="genreId" onchange="updateHiddenInput('genreSelect', 'genreId')">
+						<c:forEach items="${genre}" var="genre">
+							<option value="${genre.genreId}">${genre.genreName}</option>
+						</c:forEach>
+					</select> <input type="hidden" id="genreId" name="genreId" value="1">
+					<!-- 기본값을 "추리"로 설정 -->
 
                     <!-- 연재 요일 선택 -->
                     <label for="serialDay">연재 요일:</label>
@@ -108,17 +111,17 @@
                         <p>경고문 텍스트를 여기에 추가합니다.</p>
                         <label><input type="checkbox" required> 동의합니다</label>
                     </div>
+                    </div>
 
+                </div>
                     <!-- 제출 및 취소 버튼 -->
                     <div class="submit-buttons">
                         <button type="button" class="cancel" onclick="location.href='workList'">취소</button>
                         <button type="submit" class="submit">작품 등록</button>
                     </div>
-                </div>
-            </div>
         </form>
     </div>
 
-    <script type="text/javascript" src="/js/insertTag.js"></script>
-    <script type="text/javascript" src="/js/workInsert.js"></script>
 </main>
+    <script type="text/javascript" src="/js/workInsert.js"></script>
+    <script type="text/javascript" src="/js/insertTag.js"></script>
