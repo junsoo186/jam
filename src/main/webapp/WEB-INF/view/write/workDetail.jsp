@@ -70,14 +70,14 @@
 		</div>
 
 		<div class="button-section">
-			<button onclick="sortStories('asc')" class="btn">오래된 EP 순</button>
-			<button onclick="sortStories('desc')" class="btn">최신 EP 순</button>
+			<button onclick="sortStories('asc')" class="btn">처음부터</button>
+			<button onclick="sortStories('desc')" class="btn">최신화</button>
 		</div>
 
 		<div id="storyListContainer" class="story-list-section">
 			<!-- ID 추가 -->
 			<c:forEach var="story" items="${storyList}">
-				<div class="story-container" data-ep="${story.number}">
+				<div class="story-container" data-ep="${story.number}" onclick="this.classList.toggle('open')">
 					<a href="/write/storyContents?storyId=${story.storyId}" class="story-title">${story.title}</a>
 					<div class="story-meta">
 						<c:choose>
@@ -100,6 +100,7 @@
 				</div>
 			</c:forEach>
 		</div>
+
 	</div>
 </main>
 
