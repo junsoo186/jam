@@ -12,13 +12,17 @@
     <script type="text/javascript">
         // 서버 측 변수를 클라이언트 측에서 사용할 수 있도록 JavaScript 변수에 할당
         var storyContentContents = `${storyContent.contents}`;
+<<<<<<< HEAD
       
+=======
+        <%-- var storyComment = `${storyContent.comment}`; --%>
+>>>>>>> f3b4634 (update-상세페이지 수정)
     </script>
     <script type="text/javascript" src="/js/storyContent.js"></script>
 </head>
 <body>
     <div class="title-area">
-        <h1>${storyContent.title}-회차 ${storyContent.number}</h1>
+        <h1>${storyContent.title}</h1>
     </div>
 
     <div class="container">
