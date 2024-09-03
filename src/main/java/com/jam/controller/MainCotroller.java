@@ -1,12 +1,32 @@
 package com.jam.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttribute;
+
+import com.jam.repository.model.User;
+import com.jam.utils.Define;
+
+
 
 @Controller
 public class MainCotroller {
-	@GetMapping({"/"})
+	@GetMapping("/")
 	public String mainPage() {
 		return "/index";
 	}
+	
+    /**
+     * 채팅창 열기
+     * @return
+     */
+	@GetMapping("/chat")
+	public String chatPage(@SessionAttribute(Define.PRINCIPAL) User principal, Model model) {
+		String nickname = principal.getNickName();
+		model.addAttribute("nickname",nickname );
+		return "/chatPage";
+	}
+	
 }

@@ -25,4 +25,20 @@ document.addEventListener("DOMContentLoaded", function() {
         event.stopPropagation();
     });
 });
+/*========*/
+   document.addEventListener('DOMContentLoaded', function() {
+        var chatLink = document.getElementById('chat-link');
+
+        chatLink.addEventListener('click', function(event) {
+            event.preventDefault(); 
+
+            // 창 열기
+            window.open('/chat', 'chatWindow', 'width=400,height=600');
+        });
+    });
+
+
+
+
+
 /*사이드바 관련 스크립트 종료*/
