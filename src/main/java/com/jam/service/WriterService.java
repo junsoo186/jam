@@ -38,13 +38,10 @@ public class WriterService {
 	public int createBook(BookDTO bookDTO, User principal) {
 		// BookDTO에 userId 설정
 		bookDTO.setUserId(principal.getUserId());
-<<<<<<< HEAD
 		bookDTO.setAuthor(principal.getNickName());
 		
-=======
-		bookDTO.setAuthor(principal.getNickname());
+		bookDTO.setAuthor(principal.getNickName());
 
->>>>>>> f3b4634 (update-상세페이지 수정)
 		// 책 정보 저장 (bookId는 bookDTO에 자동으로 설정됩니다)
 		bookRepository.insertBook(bookDTO);
 
