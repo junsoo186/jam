@@ -75,6 +75,8 @@
 		</div>
 
 		<!-- 책 목록 -->
+
+		<!-- 인기 순위 -->
 		<h3>지금 가장 인기있는 웹소설</h3>
 		<div class="book--list--1">
 			<div class="book--item">
@@ -120,9 +122,11 @@
 			</div>
 		</div>
 
-		<!-- 신작 -->
 		<!-- 책 목록 -->
+
+		<!-- 신작 -->
 		<h3>따끈 따끈 , 새로들어온 책</h3>
+
 		<div class="book--list--2">
 			<div class="book--item">
 				<img src="/images/bannerimg1.jpg" alt="매직 스플릿">
@@ -167,8 +171,22 @@
 			</div>
 		</div>
 
-		<!-- 이번주 주목할 펀딩 -->
+		<div class="event--container">
+			<button class="slider--btn prev--btn">&#10094;</button>
+			<div class="slider--wrapper">
+				<div class="slider">
+					<div class="slide">
+						<a href=""><img class="event--banner" src="/images/test1.png" alt="슬라이드 이미지 1"></a> 
+						<a href=""><img class="event--banner" src="/images/test2.png" alt="슬라이드 이미지 2"></a>
+						<a href=""><img class="event--banner" src="/images/test3.png" alt="슬라이드 이미지 3"></a>
+					</div>
+				</div>
+			</div>
+			<button class="slider--btn next--btn">&#10095;</button>
+		</div>
 		<!-- 책 목록 -->
+
+		<!-- 이번주 주목할 펀딩 -->
 		<h3>이번주 주목할 펀딩</h3>
 		<div class="book--list--3">
 			<div class="book--item--funding">
