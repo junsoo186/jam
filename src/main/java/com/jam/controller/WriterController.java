@@ -248,13 +248,9 @@ public class WriterController {
 				}
 			}
 		}
-		if (bookDetail == null) {
-			model.addAttribute("bookDetail", null);
-		} else {
 			model.addAttribute("selectTags", selectTags);
 			model.addAttribute("bookId", bookId);
 			model.addAttribute("bookDetail", bookDetail);
-		}
 		return "write/workUpdate";
 	}
 
@@ -265,7 +261,6 @@ public class WriterController {
 	 */
 	@PostMapping("/workUpdate")
 	public String workUpdateProc(BookDTO bookDTO, @RequestParam("bookId") Integer bookId) {
-		User principal = (User) session.getAttribute("principal");
 		// BookDTO에서 Book 객체로 변환
 		Book book = bookDTO.updateBook(bookId); // 업데이트에 필요한 빌드
 		System.out.println("book" + book);
