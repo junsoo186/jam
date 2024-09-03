@@ -44,10 +44,9 @@
 						<option value="12">12</option>
 						<option value="15">15</option>
 						<option value="19">19</option>
-					</select> <br>
-					<br>
+					</select> <br> <br>
 					<!-- 선택된 연령을 저장할 숨겨진 input 필드 -->
-					
+
 					<!-- 카테고리 선택 셀렉트 박스 -->
 					<label for="categorySelect">카테고리 선택:</label> <select id="categorySelect" name="categoryId" onchange="updateHiddenInput('categorySelect', 'categoryId')">
 						<c:forEach items="${category}" var="categroy">
@@ -121,5 +120,3 @@
 	<script type="text/javascript" src="/js/insertTag.js"></script>
 	<script type="text/javascript" src="/js/workInsert.js"></script>
 </main>
-
-

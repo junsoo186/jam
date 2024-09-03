@@ -28,7 +28,6 @@
     align-items: center; /* 요소들을 세로로 가운데 정렬 */
     max-width: 100%; /* 컨테이너가 최대 너비를 가질 수 있도록 설정 */
     height: auto;
-    
 }
 
 .tag-input input {
