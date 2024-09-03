@@ -11,8 +11,8 @@ import com.jam.repository.model.User;
 public interface UserRepository {
 	public int insert(User user); // 회원가입
 
-	public UserDTO findByEmailAndPassword(UserDTO dto); // 로그인
+	public User findByEmailAndPassword(User dto); // 로그인
 	
-	public int findByUserEmail(String email);
+	public int findByUserEmail(String email); // 이메일 찾기
 	
 }

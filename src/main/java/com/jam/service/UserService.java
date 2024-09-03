@@ -4,9 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.jam.dto.UserDTO;
-import com.jam.dto.signInDTO;
-import com.jam.dto.signUpDTO;
 import com.jam.repository.interfaces.UserRepository;
 import com.jam.repository.model.User;
 
@@ -21,10 +18,10 @@ public class UserService {
 	 * @param user
 	 */
 	@Transactional // 트랜잭션 처리
-	public void createUser(signUpDTO dto) {
+	public void createUser(User dto) {
 		int result = 0;
 		System.out.println("dto : " + dto);
-		result = userRepository.insert(dto.toUser());
+		result = userRepository.insert(dto);
 
 		if (result == 1) {
 			System.out.println("회원가입 성공");
@@ -40,10 +37,10 @@ public class UserService {
 	 * @param dto
 	 * @return
 	 */
-	public UserDTO login(UserDTO dto) {
+	public User login(User dto) {
 
-		UserDTO user = null;
-		System.out.println("signInDTO : " + dto);
+		User user = null;
+		System.out.println("User : " + dto);
 		user = userRepository.findByEmailAndPassword(dto);
 		return user;
 
