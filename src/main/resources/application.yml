@@ -33,6 +33,23 @@ spring:
   output:
     ansi:
       enabled: always #콘솔 출력에 ANSI 색상 코드를 사용할 수 있도록 설정 
+# 구글 이메일 인증 yml  
+mail:
+host: smtp.gmail.com
+port: 587 # SMTP 서버의 포트 번호. Gmail SMTP 서버는 587 포트를 사용한다.
+username: ekhvoed5555@gmail.com #  이메일을 보내는 용
+password: gwsb hqqz akxv fdyj #  생성했던 앱 비밀번호 입력
+properties:
+  mail:
+    smtp:
+      auth: true
+      starttls:
+        enable: true
+        required: true
+      connectiontimeout: 5000 # 클라이언트가 SMTP 서버와의 연결을 설정하는 데 대기해야 하는 시간
+      timeout: 5000 #  클라이언트가 SMTP 서버로부터 응답을 대기해야 하는 시간
+      writetimeout: 5000 # 클라이언트가 작업을 완료하는데 대기해야 하는 시간
+auth-code-expiration-millis: 1800000 # 30 * 60 * 1000 == 30분 (이메일 인증 코드의 만료 시간)
       
 #mybatis 설정
 mybatis:
