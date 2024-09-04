@@ -12,39 +12,12 @@
 
 		<div>
 			<label for="nickName">닉네임:</label> <input type="text" id="nickName" name="nickName" required value="${nickName}">
+			<button type="button" onclick="checkNickName">중복확인</button>
 		</div>
 
-		<input type="hidden" id="phoneNumber" name="phoneNumber" required value="01012345678">
-
-		<%--
-         <div>
-            <label>통신사:</label>
-            <input type="radio" id="skt" name="carrier" value="SKT" required>
-            <label for="skt">SKT</label>
-            <input type="radio" id="kt" name="carrier" value="KT">
-            <label for="kt">KT</label>
-            <input type="radio" id="lgup" name="carrier" value="LGU+">
-            <label for="lgup">LGU+</label>
-        </div>
- --%>
-
-		<%-- 
-        <div>
-            <label for="phoneNumber">휴대폰 번호:</label>
-            <input type="text" id="phoneNumber" name="phoneNumber" required value="${phoneNumber}">
-            <button type="button" onclick="sendSMS()">발송</button>
-        </div>
-  --%>
-
-		<%--
-        <div>
-            <label for="verificationCode">인증번호:</label>
-            <input type="text" id="verificationCode" name="verificationCode" required>
-            <button type="button" onclick="verifyCode()">인증</button>
-        </div>
- --%>
 		<div>
 			<label for="email">이메일:</label> <input type="email" id="email" name="email" required value="${email}">
+			<button type="button" onclick="checkEmail">인증</button>
 		</div>
 
 		<div>
