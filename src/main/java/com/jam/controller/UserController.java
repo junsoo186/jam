@@ -38,7 +38,8 @@ public class UserController {
 	private final UserService userService;
 	
 	@GetMapping("/find-id")
-	public String findId(@RequestParam String param) {
+	public String findId() {
+		System.out.println("아이디찾기");
 		return "user/findId";
 	}
 	
@@ -622,5 +623,7 @@ public class UserController {
 			return "user/signUp";
 		}
 	} // end of googleLogin()
+	
+	
 	
 }

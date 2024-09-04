@@ -6,6 +6,22 @@ server:
       force: true # 요청과 응답에 대해 이 인코딩을 강제로 사용하도록 설정합니다. 
       
 spring:
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: justinjung1133@gmail.com
+    password: qjtq dbtj odph kkqp
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
+    auth-code-expiration-millis: 1800000  # 30 * 60 * 1000 == 30분
   mvc:
     view: 
       prefix: /WEB-INF/view/ #JSP파일이 위치한 디렉토리 접두사를 설정합니다.

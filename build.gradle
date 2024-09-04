@@ -25,6 +25,10 @@ repositories {
 }
 
 dependencies {
+
+	// 구글 SMTP 의존성 추가
+	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-mail', version: '3.0.5'
+	
 	
 	implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
 	implementation group: 'org.glassfish.web', name: 'jakarta.servlet.jsp.jstl', version: '3.0.0'
