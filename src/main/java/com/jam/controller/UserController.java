@@ -19,7 +19,6 @@ import com.jam.dto.GoogleProfile;
 import com.jam.dto.KakaoProfile;
 import com.jam.dto.NaverProfile;
 import com.jam.dto.OAuthToken;
-import com.jam.dto.UserDTO;
 import com.jam.dto.signInDTO;
 import com.jam.dto.signUpDTO;
 import com.jam.repository.model.User;
@@ -39,6 +38,14 @@ public class UserController {
 	@Autowired
 	private final UserService userService;
 	
+
+	// 회원가입 JSP 버튼 테스트
+	@GetMapping("/messageTest")
+	public String email() {
+		System.out.println("컨트롤러 성공");
+		return "user/signIn";
+	}
+	// 테스트 전용
 	@GetMapping("/find-id")
 	public String findId() {
 		System.out.println("아이디찾기");

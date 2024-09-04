@@ -8,8 +8,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 
-import com.jam.dto.UserPropertiesDTO;
-
 @Configuration
 public class EmailRepository {
 	 @Value("${spring.mail.host}")
@@ -56,7 +54,7 @@ public class EmailRepository {
 	    }
 
 	    private Properties getMailProperties() {
-	    	Properties properties = new UserPropertiesDTO();
+	    	Properties properties = new Properties();
 	        properties.put("mail.smtp.auth", auth);
 	        properties.put("mail.smtp.starttls.enable", starttlsEnable);
 	        properties.put("mail.smtp.starttls.required", starttlsRequired);
