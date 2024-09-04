@@ -9,9 +9,118 @@ values( '정해주', '010-4548-5678', 'test1@naver.com', '1234');
 insert into user_tb (nick_name, phone_number, email, password, role)
 values( '정해주1', '010-4548-5678', 'test2@naver.com', '1234', 'admin');
 
+INSERT INTO user_tb (nick_name, phone_number, email, password)
+VALUES ('사용자1', '010-1000-0001', 'user1@example.com', '1234');
+INSERT INTO user_tb (nick_name, phone_number, email, password)
+VALUES ('사용자2', '010-1000-0002', 'user2@example.com', '1234');
+INSERT INTO user_tb (nick_name, phone_number, email, password)
+VALUES ('사용자3', '010-1000-0003', 'user3@example.com', '1234');
+INSERT INTO user_tb (nick_name, phone_number, email, password)
+VALUES ('사용자4', '010-1000-0004', 'user4@example.com', '1234');
+INSERT INTO user_tb (nick_name, phone_number, email, password)
+VALUES ('사용자5', '010-1000-0005', 'user5@example.com', '1234');
+INSERT INTO user_tb (nick_name, phone_number, email, password)
+VALUES ('사용자6', '010-1000-0006', 'user6@example.com', '1234');
+INSERT INTO user_tb (nick_name, phone_number, email, password)
+VALUES ('사용자7', '010-1000-0007', 'user7@example.com', '1234');
+INSERT INTO user_tb (nick_name, phone_number, email, password)
+VALUES ('사용자8', '010-1000-0008', 'user8@example.com', '1234');
+INSERT INTO user_tb (nick_name, phone_number, email, password)
+VALUES ('사용자9', '010-1000-0009', 'user9@example.com', '1234');
+INSERT INTO user_tb (nick_name, phone_number, email, password)
+VALUES ('사용자10', '010-1000-0010', 'user10@example.com', '1234');
+INSERT INTO user_tb (nick_name, phone_number, email, password)
+VALUES ('사용자11', '010-1000-0011', 'user11@example.com', '1234');
+INSERT INTO user_tb (nick_name, phone_number, email, password)
+VALUES ('사용자12', '010-1000-0012', 'user12@example.com', '1234');
+INSERT INTO user_tb (nick_name, phone_number, email, password)
+VALUES ('사용자13', '010-1000-0013', 'user13@example.com', '1234');
+INSERT INTO user_tb (nick_name, phone_number, email, password)
+VALUES ('사용자14', '010-1000-0014', 'user14@example.com', '1234');
+INSERT INTO user_tb (nick_name, phone_number, email, password)
+VALUES ('사용자15', '010-1000-0015', 'user15@example.com', '1234');
+INSERT INTO user_tb (nick_name, phone_number, email, password)
+VALUES ('사용자16', '010-1000-0016', 'user16@example.com', '1234');
+INSERT INTO user_tb (nick_name, phone_number, email, password)
+VALUES ('사용자17', '010-1000-0017', 'user17@example.com', '1234');
+INSERT INTO user_tb (nick_name, phone_number, email, password)
+VALUES ('사용자18', '010-1000-0018', 'user18@example.com', '1234');
+INSERT INTO user_tb (nick_name, phone_number, email, password)
+VALUES ('사용자19', '010-1000-0019', 'user19@example.com', '1234');
+INSERT INTO user_tb (nick_name, phone_number, email, password)
+VALUES ('사용자20', '010-1000-0020', 'user20@example.com', '1234');
+INSERT INTO user_tb (nick_name, phone_number, email, password)
+VALUES ('사용자21', '010-1000-0021', 'user21@example.com', '1234');
+INSERT INTO user_tb (nick_name, phone_number, email, password)
+VALUES ('사용자22', '010-1000-0022', 'user22@example.com', '1234');
+INSERT INTO user_tb (nick_name, phone_number, email, password)
+VALUES ('사용자23', '010-1000-0023', 'user23@example.com', '1234');
+INSERT INTO user_tb (nick_name, phone_number, email, password)
+VALUES ('사용자24', '010-1000-0024', 'user24@example.com', '1234');
+INSERT INTO user_tb (nick_name, phone_number, email, password)
+VALUES ('사용자25', '010-1000-0025', 'user25@example.com', '1234');
+INSERT INTO user_tb (nick_name, phone_number, email, password)
+VALUES ('사용자26', '010-1000-0026', 'user26@example.com', '1234');
+INSERT INTO user_tb (nick_name, phone_number, email, password)
+VALUES ('사용자27', '010-1000-0027', 'user27@example.com', '1234');
+INSERT INTO user_tb (nick_name, phone_number, email, password)
+VALUES ('사용자28', '010-1000-0028', 'user28@example.com', '1234');
+INSERT INTO user_tb (nick_name, phone_number, email, password)
+VALUES ('사용자29', '010-1000-0029', 'user29@example.com', '1234');
+INSERT INTO user_tb (nick_name, phone_number, email, password)
+VALUES ('사용자30', '010-1000-0030', 'user30@example.com', '1234');
+-- 유저 디테일 
+insert into user_de_tb (user_id,point ) values( 1, 1000);
+INSERT INTO user_de_tb (user_id, point) VALUES (2, 250);
+INSERT INTO user_de_tb (user_id, point) VALUES (3, 350);
+INSERT INTO user_de_tb (user_id, point) VALUES (4, 450);
+INSERT INTO user_de_tb (user_id, point) VALUES (5, 550);
+INSERT INTO user_de_tb (user_id, point) VALUES (6, 650);
+INSERT INTO user_de_tb (user_id, point) VALUES (7, 750);
+INSERT INTO user_de_tb (user_id, point) VALUES (8, 850);
+INSERT INTO user_de_tb (user_id, point) VALUES (9, 950);
+INSERT INTO user_de_tb (user_id, point) VALUES (10, 1050);
+INSERT INTO user_de_tb (user_id, point) VALUES (11, 1150);
+INSERT INTO user_de_tb (user_id, point) VALUES (12, 1250);
+INSERT INTO user_de_tb (user_id, point) VALUES (13, 1350);
+INSERT INTO user_de_tb (user_id, point) VALUES (14, 1450);
+INSERT INTO user_de_tb (user_id, point) VALUES (15, 1550);
+INSERT INTO user_de_tb (user_id, point) VALUES (16, 1650);
+INSERT INTO user_de_tb (user_id, point) VALUES (17, 1750);
+INSERT INTO user_de_tb (user_id, point) VALUES (18, 1850);
+INSERT INTO user_de_tb (user_id, point) VALUES (19, 1950);
+INSERT INTO user_de_tb (user_id, point) VALUES (20, 2000);
+INSERT INTO user_de_tb (user_id, point) VALUES (21, 1900);
+INSERT INTO user_de_tb (user_id, point) VALUES (22, 1800);
+INSERT INTO user_de_tb (user_id, point) VALUES (23, 1700);
+INSERT INTO user_de_tb (user_id, point) VALUES (24, 1600);
+INSERT INTO user_de_tb (user_id, point) VALUES (25, 1500);
+INSERT INTO user_de_tb (user_id, point) VALUES (26, 1400);
+INSERT INTO user_de_tb (user_id, point) VALUES (27, 1300);
+INSERT INTO user_de_tb (user_id, point) VALUES (28, 1200);
+INSERT INTO user_de_tb (user_id, point) VALUES (29, 1100);
+INSERT INTO user_de_tb (user_id, point) VALUES (30, 1000);
+-- 카테고리 테이블에 데이터 삽입
+insert into category_tb (category_id, category_name) values (1, '문학');
+insert into category_tb (category_id, category_name) values (2, '시/에세이');
+insert into category_tb (category_id, category_name) values (3, '소설');
 
+-- 프로젝트 테이블
 
+insert into project_tb (user_id,title,contents,category_id,collected_amount,goal
+			,date_end)
+values( 1, '임시프로젝트타이틀','내용입니다',1,5000,20000,'2024-09-09');
 
+-- 펀드 테이블
+insert into funding_tb (project_id)
+values(1);
+
+-- 펀딩 히스토리 테이블
+insert into funding_history_tb (funding_id,project_id,user_id,subject,project_reward,
+								after_balance,request)
+values(1,1,1,'임시펀딩제목',1,200,3000);
+
+-- 
 
 insert into staff_tb(staff_name,staff_password)values
 ('a1' , '0000'),
@@ -56,12 +165,7 @@ insert into user_tb (nick_name, phone_number, email, password, role)
 values( '관리자박정훈', '010-4548-5678', 'test3@naver.com', '1234', 'admin');
 
 
-            
--- 카테고리 테이블에 데이터 삽입
-insert into category_tb (category_id, category_name) values (1, '문학');
-insert into category_tb (category_id, category_name) values (2, '시/에세이');
-insert into category_tb (category_id, category_name) values (3, '소설');
-
+		
 -- 장르 테이블에 데이터 삽입
 insert into genre_tb (genre_id, genre_name) values (1, '추리');
 insert into genre_tb (genre_id, genre_name) values (2, '스릴러');
