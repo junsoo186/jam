@@ -110,7 +110,7 @@ public class UserService {
 		this.checkDuplicatedEmail(toEmail);
 		String title = "Travel with me 이메일 인증 번호";
 		String authCode = this.createCode();
-		
+
 		System.out.println("인증 요청");
 		System.out.println(authCode);
 		// 이메일 발송
@@ -125,20 +125,19 @@ public class UserService {
 
 	// 인증 코드 생성
 	private String createCode() {
-	    int length = 6;
-	    try {
-	        Random random = SecureRandom.getInstanceStrong();
-	        StringBuilder builder = new StringBuilder();
-	        for (int i = 0; i < length; i++) {
-	            builder.append(random.nextInt(10)); // 0부터 9 사이의 숫자를 추가
-	        }
-	        return builder.toString(); // 루프가 완료된 후 문자열 반환
-	    } catch (NoSuchAlgorithmException e) {
-	        log.debug("MemberService.createCode() exception occurred", e);
-	        throw new RuntimeException("인증 코드 생성 중 오류가 발생했습니다."); // 예외를 던지거나 적절히 처리
-	    }
+		int length = 6;
+		try {
+			Random random = SecureRandom.getInstanceStrong();
+			StringBuilder builder = new StringBuilder();
+			for (int i = 0; i < length; i++) {
+				builder.append(random.nextInt(10)); // 0부터 9 사이의 숫자를 추가
+			}
+			return builder.toString(); // 루프가 완료된 후 문자열 반환
+		} catch (NoSuchAlgorithmException e) {
+			log.debug("MemberService.createCode() exception occurred", e);
+			throw new RuntimeException("인증 코드 생성 중 오류가 발생했습니다."); // 예외를 던지거나 적절히 처리
+		}
 	}
-
 
 	// 인증 코드 검증
 	public EmailVerificationResult verifiedCode(String email, String authCode) {
@@ -159,4 +158,9 @@ public class UserService {
 		}, expirationMillis); // 인증 코드 만료 시간 후 삭제
 	}
 
+	// 이메일 중복 여부 확인 메서드
+	public boolean isEmailDuplicate(String email) {
+		// 이메일로 사용자를 조회하고, 있으면 true, 없으면 false 반환
+		return userRepository.findByEmail(email).isPresent();
+	}	
 }
