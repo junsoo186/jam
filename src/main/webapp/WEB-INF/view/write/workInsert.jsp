@@ -5,35 +5,36 @@
 <link rel="stylesheet" href="/css/workInsert.css">
 
 <main>
-    <div class="container">
+    <div class="container--area">
         <form id="bookForm" action="workInsert" method="post" onsubmit="return prepareFormForSubmit()">
     <h2>도서 정보 입력 폼</h2>
             <!-- 폼 섹션 -->
-            <div class="content">
+            <div class="content--area">
                 <!-- 왼쪽 섹션: 도서 정보 입력 및 이미지 선택 -->
-                <div class="left--section">
-                	<div class="left--secition--top"></div>
+                <div class="left--area">
+                	<div class="left--area--top"></div>
                     <!-- 책 커버 선택 -->
-                    <div class="cover">
+                    <div class="img--cover">
                        <img id="bookCoverPreview"src="#" alt="미리보기" style="display: none; margin-top: 10px; max-width: 100%; height: auto;">
                     </div>
 
                        <input type="file" id="bookCover" name="bookCover" class="bookCover" accept="image/*"> 
                     <!-- 이미지 선택 섹션 -->
-                    <div class="left--secition--center">
+                    <div class="left--area--center">
                         <h3>이미지 선택</h3>
-                        <div class="images">
-                            <div class="image"><img src="path/to/image1.jpg" alt="제공 이미지 1" class="selectable-image"></div>
-                            <div class="image"><img src="path/to/image2.jpg" alt="제공 이미지 2" class="selectable-image"></div>
-                            <div class="image"><img src="path/to/image3.jpg" alt="제공 이미지 3" class="selectable-image"></div>
-                            <div class="image"><img src="path/to/image4.jpg" alt="제공 이미지 4" class="selectable-image"></div>
+                        <div class="img--area--images">
+                            <div class="images"><img src="path/to/image1.jpg" alt="제공 이미지 1" class="selectable-image"></div>
+                            <div class="images"><img src="path/to/image2.jpg" alt="제공 이미지 2" class="selectable-image"></div>
+                            <div class="images"><img src="path/to/image3.jpg" alt="제공 이미지 3" class="selectable-image"></div>
+                            <div class="images"><img src="path/to/image4.jpg" alt="제공 이미지 4" class="selectable-image"></div>
                         </div>
                     </div> 
                     <br>
                 </div>
 
                 <!-- 오른쪽 섹션: 입력 필드 -->
-                <div class="right--section">
+                <div class="right--area">
+                	<div class="right-area--top">          
                     <label for="title">작품명:</label>
                     <input type="text" id="title" name="title" value="테스트 제목" required />
 
@@ -44,20 +45,9 @@
                     <label for="introduction">소개글:</label>
                     <textarea id="introduction" name="introduction" rows="4" required>테스트용 소개글</textarea>
 
-                    <!-- 연령 선택 셀렉트 박스 -->
-                    <label for="ageSelect">연령 선택:</label>
-                    <select id="ageSelect" name="age" onchange="updateHiddenInput('ageSelect', 'age')">
-                        <option value="전체">전체</option>
-                        <option value="7">7</option>
-                        <option value="12">12</option>
-                        <option value="15">15</option>
-                        <option value="19">19</option>
-                    </select>
-                    <input type="hidden" id="age" name="age" value="전체">
+				</div>
 
-
-
-
+				<div class="right-area--center">
                     <!-- 카테고리 선택 셀렉트 박스 -->
                     <label for="categorySelect">카테고리 선택:</label>
                     <select id="categorySelect" name="categoryId" onchange="updateHiddenInput('categorySelect', 'categoryId')">
@@ -77,7 +67,7 @@
 
                     <!-- 연재 요일 선택 -->
                     <label for="serialDay">연재 요일:</label>
-                    <div class="radio-buttons">
+                    <div class="btn--day">
                         <label><input type="checkbox" name="serialDay" value="월요일"> 월요일</label>
                         <label><input type="checkbox" name="serialDay" value="화요일"> 화요일</label>
                         <label><input type="checkbox" name="serialDay" value="수요일"> 수요일</label>
@@ -87,15 +77,29 @@
                         <label><input type="checkbox" name="serialDay" value="일요일"> 일요일</label>
                         <label><input type="checkbox" name="serialDay" value="비 정기 연재"> 비 정기 연재</label>
                     </div>
+               </div>
+               
+                <!--  연령 ,태그 -->
+               <div class="right-area--bottom">
+                    <!-- 연령 선택 셀렉트 박스 -->
+                    <label for="ageSelect">연령 선택:</label>
+                    <select id="ageSelect" name="age" onchange="updateHiddenInput('ageSelect', 'age')">
+                        <option value="전체">전체</option>
+                        <option value="7">7</option>
+                        <option value="12">12</option>
+                        <option value="15">15</option>
+                        <option value="19">19</option>
+                    </select>
+                    <input type="hidden" id="age" name="age" value="전체">
 
                     <!-- 태그 목록과 추가 필드 -->
                     <label for="tagList">태그 목록:</label>
-                    <div id="tagList" class="tag-input">
+                    <div id="tagList" class="tag--input">
                         <!-- 태그가 여기에 추가됩니다 -->
                     </div>
 
                     <!-- 태그 추가를 위한 인풋 필드와 셀렉트 박스 -->
-                    <div class="tag-input">
+                    <div class="tag--input">
                         <input type="text" id="customTag" onkeydown="addTagOnEnter(event)" placeholder="태그를 입력하세요">
                         <select id="presetTags" name="presetTags" onchange="addSelectedOption()">
                             <option value=""></option>
@@ -105,9 +109,9 @@
                             <option value="공포">공포</option>
                         </select>
                     </div>
-
+               </div>
                     <!-- 경고문 섹션 -->
-                    <div class="warning-section">
+                    <div class="warning--area">
                         <p>경고문 텍스트를 여기에 추가합니다.</p>
                         <label><input type="checkbox" required> 동의합니다</label>
                     </div>
@@ -115,10 +119,10 @@
 
                 </div>
                     <!-- 제출 및 취소 버튼 -->
-                    <div class="submit-buttons">
-                        <button type="button" class="cancel" onclick="location.href='workList'">취소</button>
-                        <button type="submit" class="submit">작품 등록</button>
-                    </div>
+                    <div class="bottom--btn--area">
+                        <button type="button" class="btn--cancel" onclick="location.href='workList'">취소</button>
+                        <button type="submit" class="btn--submit">작품 등록</button>
+                </div>
         </form>
     </div>
 

@@ -68,7 +68,7 @@ function previewNewImage(event) {
 }
 
 // 선택 가능한 이미지 목록에서 클릭 시 미리 보기를 업데이트하는 함수
-const selectableImages = document.querySelectorAll('.image');
+const selectableImages = document.querySelectorAll('.image--image');
 selectableImages.forEach(image => {
     image.addEventListener('click', function() {
         const preview = document.getElementById('bookCoverPreview');

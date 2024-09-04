@@ -4,18 +4,17 @@
 <link rel="stylesheet" href="/css/workInsert.css">
 
 <main>
-    <div class="container">
+    <div class="container--area">
         <form id="bookForm" action="workUpdate" method="post" onsubmit="return prepareFormForSubmit()">
             <h2>도서 정보 수정 폼</h2>
             <!-- 폼 섹션 -->
-            <div class="content">
+            <div class="content--area">
             
                 <div class="left--area">
-            
                 <!-- 왼쪽 섹션: 도서 정보 입력 및 이미지 선택 -->
                 <div class="left--area--top">
                     <!-- 책 커버 선택 -->
-                    <div class="cover">
+                    <div class="img--cover">
 
                         <!-- 기존 이미지 표시 -->
                         <img id="bookCoverPreview" src="${bookDetail.bookCoverImage}" alt="현재 책 커버 이미지" style="max-width: 100%; height: auto;">
@@ -31,17 +30,17 @@
                     <!-- 이미지 선택 섹션 -->
                     <div class="left--area--center">
                         <h3>이미지 선택</h3>
-                        <div class="images">
-                            <div class="image">
+                        <div class="img--area--images">
+                            <div class="images">
                                 <img src="path/to/image1.jpg" alt="제공 이미지 1" class="selectable-image">
                             </div>
-                            <div class="image">
+                            <div class="images">
                                 <img src="path/to/image2.jpg" alt="제공 이미지 2" class="selectable-image">
                             </div>
-                            <div class="image">
+                            <div class="images">
                                 <img src="path/to/image3.jpg" alt="제공 이미지 3" class="selectable-image">
                             </div>
-                            <div class="image">
+                            <div class="images">
                                 <img src="path/to/image4.jpg" alt="제공 이미지 4" class="selectable-image">
                             </div>
                         </div>
@@ -49,16 +48,20 @@
                     <br>
                     
                 </div>
-                
-			</div>
+              </div>
+
                 <!-- 오른쪽 섹션: 연재 요일 및 기타 설정 -->
                 <!--  위 : 제목,코멘트,소개 -->
                 <div class="right--area">
                     <div class="right-area--top">
-                        <label for="title">제목:</label> 
+                        <label for="title">작품명:</label> 
                         <input type="text" id="title" name="title" value="${bookDetail.title}" required />
 
-                        <label for="introduction">소개:</label>
+                    <label for="authorComment">저자 코멘트:</label>
+                    <textarea id="authorComment" name="authorComment" required>${bookDetail.authorComment}</textarea>
+
+
+                        <label for="introduction">소개글:</label>
                         <textarea id="introduction" name="introduction" required>${bookDetail.introduction}</textarea>
 
 					</div>
@@ -83,7 +86,7 @@
                         <input type="hidden" id="genreId" name="genreId" value="1">
 
                         <label for="serialDay">연재 요일:</label>
-                        <div class="radio-buttons">
+                        <div class="btn--day">
                             <label><input type="checkbox" name="serialDay" value="월요일"> 월요일</label>
                             <label><input type="checkbox" name="serialDay" value="화요일"> 화요일</label>
                             <label><input type="checkbox" name="serialDay" value="수요일"> 수요일</label>
@@ -96,7 +99,7 @@
                     </div>
 
                     <!--  연령 ,태그 -->
-                    <div class="right-section--bottom">
+                    <div class="right-area--bottom">
                         <!-- 연령 선택 -->
                         <label for="ageSelect">연령 선택:</label> 
                         <select id="ageSelect" name="age" onchange="updateHiddenInput('ageSelect', 'age')">
@@ -138,12 +141,15 @@
             </div>
             <!-- 숨겨진 책 ID 필드 -->
             <input type="hidden" name="bookId" value="${bookId}">
-
             <!-- 제출 및 취소 버튼 -->
             <div class="bottom--btn--area">
+            	<div class="cancel--btn--area">
                 <button type="button" class="btn--cancel" onclick="location.href='workList'">취소</button>
+            	</div>
+            	<div class="submit--btn--area">
                 <button type="submit" class="btn--submit">제출</button>
                 <button type="button" class="btn--submit" onclick="submitFormToDifferentAction('workDelete')">작품 삭제</button>
+           		</div>
             </div>
         </form>
     </div>

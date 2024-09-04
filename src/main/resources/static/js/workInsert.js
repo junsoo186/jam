@@ -11,26 +11,32 @@ document.addEventListener('DOMContentLoaded', function () {
     updateHiddenInput('categorySelect', 'categoryId');
 
     // 기존 이미지 파일 선택 시 미리 보기를 표시하는 함수
-    document.getElementById('bookCover').addEventListener('change', function (event) {
-        const reader = new FileReader();
-        reader.onload = function () {
-            const output = document.getElementById('bookCoverPreview');
-            output.src = reader.result;
-            output.style.display = 'block';
+    const bookCoverInput = document.getElementById('bookCover');
+    if (bookCoverInput) {
+        bookCoverInput.addEventListener('change', function (event) {
+            const reader = new FileReader();
+            reader.onload = function () {
+                const output = document.getElementById('bookCoverPreview');
+                output.src = reader.result;
+                output.style.display = 'block';
 
-            // 기존 이미지 숨기기 (요소가 존재하는지 확인)
-            const currentCoverImage = document.getElementById('currentCoverImage');
-            if (currentCoverImage) {
-                currentCoverImage.style.display = 'none';
-            }
-        };
-        reader.readAsDataURL(event.target.files[0]);
-    });
+                // 기존 이미지 숨기기 (요소가 존재하는지 확인)
+                const currentCoverImage = document.getElementById('currentCoverImage');
+                if (currentCoverImage) {
+                    currentCoverImage.style.display = 'none';
+                }
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        });
+    }
 
     // 라벨을 클릭하면 파일 선택 창이 열리도록 설정
-    document.querySelector('label[for="bookCover"]').onclick = function () {
-        document.getElementById('bookCover').click();
-    };
+    const bookCoverLabel = document.querySelector('label[for="bookCover"]');
+    if (bookCoverLabel) {
+        bookCoverLabel.onclick = function () {
+            bookCoverInput.click();
+        };
+    }
 
     // 새로운 이미지 파일 선택 시 미리 보기를 표시하는 함수
     function previewNewImage(event) {
@@ -74,6 +80,8 @@ document.addEventListener('DOMContentLoaded', function () {
 // 다른 주소로 폼을 제출하는 함수
 function submitFormToDifferentAction(actionUrl) {
     var form = document.getElementById('bookForm');
-    form.action = actionUrl;  // 폼의 action 속성을 변경
-    form.submit();  // 폼을 제출
+    if (form) {
+        form.action = actionUrl;  // 폼의 action 속성을 변경
+        form.submit();  // 폼을 제출
+    }
 }
