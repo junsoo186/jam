@@ -1,6 +1,14 @@
 package com.jam.repository.interfaces;
 
+import java.util.Properties;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
+
+import com.jam.dto.UserPropertiesDTO;
 
 @Configuration
 public class EmailRepository {
@@ -48,7 +56,7 @@ public class EmailRepository {
 	    }
 
 	    private Properties getMailProperties() {
-	        Properties properties = new Properties();
+	    	Properties properties = new UserPropertiesDTO();
 	        properties.put("mail.smtp.auth", auth);
 	        properties.put("mail.smtp.starttls.enable", starttlsEnable);
 	        properties.put("mail.smtp.starttls.required", starttlsRequired);
@@ -56,7 +64,6 @@ public class EmailRepository {
 	        properties.put("mail.smtp.timeout", timeout);
 	        properties.put("mail.smtp.writetimeout", writeTimeout);
 
-	        return properties;
-	    }
-
+			return properties;
+		}
 }
