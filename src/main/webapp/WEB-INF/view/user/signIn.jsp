@@ -21,8 +21,10 @@
      <div class="bottom--easyLogin">
         <a href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=6d77c46fd0cf14b69558985620414300&redirect_uri=http://localhost:8080/user/kakaoLogin"> <img
 			alt="카카오로그인이미지" src="/images/kakaologin.png" style="width: 50px; height: auto;"></a>
+			
 		<a href="https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=VV02L4roYlvMO2qxf3n7&state=STATE_STRING&redirect_uri=http://localhost:8080/user//naverLogin"><img
 			alt="네이버로그인이미지" src="/images/naverlogin.png" style="width: 50px; height: auto;"></a>
+			
 		<a href="https://accounts.google.com/o/oauth2/v2/auth
 			?client_id=371075313637-tr9gs2bsjn7u4o5qk79s800e1g9r30u6.apps.googleusercontent.com
 			&redirect_uri=http://localhost:8080/user/googleLogin

@@ -13,6 +13,6 @@ import lombok.ToString;
 public class KakaoProfile {
 	private Long id; 
 	private String connectedAt; 
-	private Properties properties;
+	private UserPropertiesDTO properties;
 	private KakaoAccount kakaoAccount;
 }

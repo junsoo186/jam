@@ -1,9 +1,9 @@
 package com.jam.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 
+import com.jam.dto.EmailVerificationResult;
 import com.jam.dto.GoogleProfile;
 import com.jam.dto.KakaoProfile;
 import com.jam.dto.NaverProfile;
@@ -33,48 +34,69 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UserController {
 
-	@Autowired
 	private final HttpSession session;
-	@Autowired
 	private final UserService userService;
-	
 
 	// 회원가입 JSP 버튼 테스트
-	@GetMapping("/messageTest")
-	public String email() {
+	@PostMapping("/messageTest")
+	public String email(@RequestParam(name = "checkNickName") String checkNickName) {
 		System.out.println("컨트롤러 성공");
+		System.out.println("컨트롤러" + checkNickName);
 		return "user/signIn";
 	}
-	// 테스트 전용
-	@GetMapping("/find-id")
-	public String findId() {
-		System.out.println("아이디찾기");
-		return "user/findId";
-	}
-	
 
+	/**
+	 * 로그인 페이지 이동
+	 * 
+	 * @return
+	 */
 	@GetMapping("/sign-up")
 	public String signUpPage() {
 		return "user/signUp";
-
 	}
 
+	/**
+	 * 회원가입 페이지에서 회원가입 시도
+	 * 
+	 * @param dto
+	 * @return
+	 */
 	@PostMapping("/sign-up")
 	public String signUp(signUpDTO dto) {
-		userService.createUser(dto);
+		/**
+		 * DB에 저장되어 있는 이메일로 회원가입 시도할 시 checkEmail로 이메일 유무를 확인 후 emailCount = 1이면 email
+		 * 존재 emailCount = 0 이면 DB에 이메일 없음
+		 */
+		int emailCount = userService.checkDuplicatedEmail(dto.getEmail());
+		if (emailCount == 1) {
+			return "user/signUp";
+		} else {
+			userService.createUser(dto);
+		}
 		return "redirect:/user/sign-in";
 	}
 
+	/**
+	 * 로그인 페이지 이동
+	 * 
+	 * @return
+	 */
 	@GetMapping("/sign-in")
 	public String signInPage() {
 		return "user/signIn";
 
 	}
 
+	/**
+	 * 로그인 페이지 에서 로그인 시도
+	 * 
+	 * @param dto
+	 * @return
+	 */
 	@PostMapping("/sign-in")
 
-	public String signProc(signInDTO dto) {
 
+	public String signProc(signInDTO dto) {
 		// 사용자 인증 로직
 		User principal = userService.login(dto); // 로그인 시도 및 User 객체 반환
 		session.setAttribute("principal", principal);
@@ -83,6 +105,11 @@ public class UserController {
 		return "redirect:/"; // 로그인 성공 시 메인 페이지로 리다이렉트
 	}
 
+	/**
+	 * 로그아웃
+	 * 
+	 * @return
+	 */
 	@GetMapping("/logout")
 	public String logout() {
 		session.invalidate();
@@ -92,8 +119,8 @@ public class UserController {
 	}
 
 	/**
-	 * 카카오 간편 회원가입
-	 * 이미 회원가입한 기록이 있다면 자동 로그인처리
+	 * 카카오 간편 회원가입 이미 회원가입한 기록이 있다면 자동 로그인처리
+	 * 
 	 * @param code
 	 * @param model
 	 * @return
@@ -145,43 +172,22 @@ public class UserController {
 
 		KakaoProfile kakaoProfile = resposne2.getBody();
 		// return kakaoProfile.toString();
-		
-		// 기존에 (카카오) 회원가입 되어있는지 정보 확인 (중복검사) -- ----------
 
-		// ---- 카카오 사용자 정보 응답 완료 ----------
+		signUpDTO dtoUp = signUpDTO.builder().nickName(kakaoProfile.getProperties().getNickname())
+				.email(kakaoProfile.getKakaoAccount().getEmail()).password("1234").build();
 
-		// 최초 사용자라면 자동 회원 가입 처리 (우리 서버)
-		// 회원가입 이력이 있는 사용자라면 바로 세션 처리 (우리 서버)
-		// 사전기반 --> 소셜 사용자는 비밀번호를 입력하는가? 안하는가?
-		// 우리서버에 회원가입시에 --> password -> not null (무건 만들어 넣어야 함 DB 정책)
-
-		// 전화번호 +82 10-1234-5678 => 010-1234-5678 로 변경 (국제전화코드 제거)
-		String internationalNumber = userService.convertPhoneNumber(kakaoProfile.getKakaoAccount().getPhoneNumber());
-
-		// 전화번호 하이폰 제거 ex) 010-1234-5678 => 01012345678 로 변경
-		String removeHypone = userService.removeHyphens(internationalNumber);
-
-		signUpDTO dtoUp = signUpDTO.builder()
-				.nickName(kakaoProfile.getProperties().getNickname())
-				.email(kakaoProfile.getKakaoAccount().getEmail())
-				.phoneNumber(removeHypone) // +82 10-1234-5678 --> // 010-1234-5678
-				.password("1234")
-				.build();
-		
 		// 회원가입시 이메일 중복 체크
-		int result = userService.checkEemail(dtoUp.getEmail());
-	
-		if(result == 0) {
-			
+		int result = userService.checkDuplicatedEmail(dtoUp.getEmail());
+
+		if (result == 0) {
+
 			if (dtoUp != null) {
 				// 회원가입
 				userService.createUser(dtoUp);
 
 				// signUpDTO에 있는 값 (이메일, 패스워드)를 User dto 카카오에서 받은 이메일, 패스워드를 받음
-				signInDTO dtoIn = signInDTO.builder()
-						.email(kakaoProfile.getKakaoAccount().getEmail())
-						.password(dtoUp.getPassword())
-						.build();
+				signInDTO dtoIn = signInDTO.builder().email(kakaoProfile.getKakaoAccount().getEmail())
+						.password(dtoUp.getPassword()).build();
 
 				User principal = userService.login(dtoIn); // 로그인 시도 및 User 객체 반환
 				session.setAttribute("principal", principal);
@@ -189,31 +195,30 @@ public class UserController {
 
 			}
 			return "redirect:/";
-			
+
 		} else {
-			signInDTO dtoIn = signInDTO.builder()
-					.email(kakaoProfile.getKakaoAccount().getEmail())
-					.password(dtoUp.getPassword())
-					.build();
-			
+			signInDTO dtoIn = signInDTO.builder().email(kakaoProfile.getKakaoAccount().getEmail())
+					.password(dtoUp.getPassword()).build();
+
 			User principal = userService.login(dtoIn); // 로그인 시도 및 User 객체 반환
 			session.setAttribute("principal", principal);
 			System.out.println("principal : " + principal);
-			
+
 			userService.login(dtoIn);
 			// return "user/signIn";
 			return "redirect:/";
 		}
-		
+
 	} // end of getMethodName();
-	
+
 	/**
 	 * 로그인 페이지에서 카카오톡 간편 로그인 @@@@@
+	 * 
 	 * @return
 	 */
 	@GetMapping("/kakaoLogin")
 	public String kakoLogin(@RequestParam(name = "code") String code) {
-		
+
 		// 토큰 확인 전에 확인할 수 있는 카카오 코드 (인가 코드)
 		System.out.println("code : " + code);
 
@@ -237,7 +242,7 @@ public class UserController {
 		// 통신 요청 (토큰 받기)
 		ResponseEntity<OAuthToken> response1 = rt1.exchange("https://kauth.kakao.com/oauth/token", HttpMethod.POST,
 				reqkakoMessage, OAuthToken.class);
-		System.out.println("response1 <OAuthToken> : " + response1.getBody().toString()); 
+		System.out.println("response1 <OAuthToken> : " + response1.getBody().toString());
 
 		// 카카오 리소스서버 사용자 정보 가져오기 (토큰 갱신하기)
 		RestTemplate rt2 = new RestTemplate();
@@ -257,36 +262,34 @@ public class UserController {
 				reqKakoInfoMessage, KakaoProfile.class);
 
 		KakaoProfile kakaoProfile = resposne2.getBody();
-		
+
 		// 카카오 이메일 존재 유무 체크
-		int number = userService.checkEemail(kakaoProfile.getKakaoAccount().getEmail());
-		// db에서 카카오 이메일이 검색되면 1을 반환 이메일이 없으면 0을 반환  1을 반환하면 메인페이지, 이메일이 없으면 회원가입 페이지
-		if(number == 1) {
-			
+		int number = userService.checkDuplicatedEmail(kakaoProfile.getKakaoAccount().getEmail());
+		// db에서 카카오 이메일이 검색되면 1을 반환 이메일이 없으면 0을 반환 1을 반환하면 메인페이지, 이메일이 없으면 회원가입 페이지
+		if (number == 1) {
+
 			// signUpDTO에 있는 값 (이메일, 패스워드)를 User dto 카카오에서 받은 이메일, 패스워드를 받음
-			signInDTO dtoIn = signInDTO.builder()
-					.email(kakaoProfile.getKakaoAccount().getEmail())
-					.password("1234")
+			signInDTO dtoIn = signInDTO.builder().email(kakaoProfile.getKakaoAccount().getEmail()).password("1234")
 					.build();
-			
+
 			// 로그인 기능
 			// userService.login(dto);
-			
+
 			User principal = userService.login(dtoIn); // 로그인 시도 및 User 객체 반환
 			session.setAttribute("principal", principal);
 			System.out.println("principal : " + principal);
-			
+
 			// return kakaoProfile.toString();
 			return "redirect:/";
 		} else {
 			return "user/signUp";
 		}
-		
+
 	}
 
 	/**
-	 * 네이버 간편 회원가입 
-	 * 이미 회원가입한 기록이 있다면 자동 로그인처리
+	 * 네이버 간편 회원가입 이미 회원가입한 기록이 있다면 자동 로그인처리
+	 * 
 	 * @param code
 	 * @param model
 	 * @return
@@ -336,65 +339,55 @@ public class UserController {
 		NaverProfile naverProfile = response2.getBody();
 		System.out.println("naverProfile : " + naverProfile.toString());
 
-		// 전화번호 하이폰 제거 ex) 010-1234-5678 => 01012345678 로 변경
-		String removeHypone = userService.removeHyphens(naverProfile.getResponse().getMobile());
-
 		// 네이버 회원가입 dto 작동 확인
 		signUpDTO dtoUp = signUpDTO.builder()
 				// name, birth_date, gender, address, nick_name, phone_number, email, password,
 				// admin_check
-				.nickName(naverProfile.getResponse().getNickname())
-				.email(naverProfile.getResponse().getEmail())
-				.phoneNumber(removeHypone)
-				.password("1234")
-				.build();
+				.nickName(naverProfile.getResponse().getNickname()).email(naverProfile.getResponse().getEmail())
+				.password("1234").build();
 
 		System.out.println(dtoUp.toString());
-		
+
 		// 회원가입시 이메일 중복 체크
-		int result = userService.checkEemail(dtoUp.getEmail());
-		
-		if(result == 0) {
-			
+		int result = userService.checkDuplicatedEmail(dtoUp.getEmail());
+
+		if (result == 0) {
+
 			if (dtoUp != null) {
 				// 회원가입
 				userService.createUser(dtoUp);
 
 				// signUpDTO에 있는 값 (이메일, 패스워드)를 User dto 카카오에서 받은 이메일, 패스워드를 받음
-				signInDTO dtoIn = signInDTO.builder()
-						.email(naverProfile.getResponse().getEmail())
-						.password(dtoUp.getPassword())
-						.build();
-				
+				signInDTO dtoIn = signInDTO.builder().email(naverProfile.getResponse().getEmail())
+						.password(dtoUp.getPassword()).build();
+
 				User principal = userService.login(dtoIn); // 로그인 시도 및 User 객체 반환
-				
+
 				session.setAttribute("principal", principal);
 				System.out.println("principal : " + principal);
 			}
 			return "redirect:/";
-			
+
 		} else {
-			signInDTO dtoIn = signInDTO.builder()
-					.email(naverProfile.getResponse().getEmail())
-					.password(dtoUp.getPassword())
-					.build();
-			
+			signInDTO dtoIn = signInDTO.builder().email(naverProfile.getResponse().getEmail())
+					.password(dtoUp.getPassword()).build();
+
 			User principal = userService.login(dtoIn); // 로그인 시도 및 User 객체 반환
 			session.setAttribute("principal", principal);
 			System.out.println("principal : " + principal);
-			
+
 			userService.login(dtoIn);
 			// return "user/signIn";
 			return "redirect:/";
-		} 	
+		}
 	} // end of naver
-	
+
 	/**
 	 * 로그인 페이지에서 네이버 간편 로그인 @@@@@ @@@@@@@@@@@@@@@@@@
 	 */
 	@GetMapping("/naverLogin")
 	public String naverLogin(@RequestParam(name = "code") String code) {
-		
+
 		RestTemplate rt1 = new RestTemplate();
 		// 헤더 구성 (접근 토큰 발급 요청)
 		HttpHeaders header1 = new HttpHeaders();
@@ -436,31 +429,28 @@ public class UserController {
 
 		NaverProfile naverProfile = response2.getBody();
 		System.out.println("naverProfile : " + naverProfile.toString());
-		
+
 		// 네이버 이메일 유무 체크
-		int number = userService.checkEemail(naverProfile.getResponse().getEmail());
-		
-		// db에서 카카오 이메일이 검색되면 1을 반환 이메일이 없으면 0을 반환  1을 반환하면 메인페이지, 이메일이 없으면 회원가입 페이지
-		if(number == 1) {
+		int number = userService.checkDuplicatedEmail(naverProfile.getResponse().getEmail());
+
+		// db에서 카카오 이메일이 검색되면 1을 반환 이메일이 없으면 0을 반환 1을 반환하면 메인페이지, 이메일이 없으면 회원가입 페이지
+		if (number == 1) {
 			// signInDTO에 있는 값 (이메일, 패스워드)를 User dto 카카오에서 받은 이메일, 패스워드를 받음
-			signInDTO dtoIn = signInDTO.builder()
-							.email(naverProfile.getResponse().getEmail())
-							.password("1234")
-							.build();
-		
+			signInDTO dtoIn = signInDTO.builder().email(naverProfile.getResponse().getEmail()).password("1234").build();
+
 			User principal = userService.login(dtoIn); // 로그인 시도 및 User 객체 반환
 			session.setAttribute("principal", principal);
 			System.out.println("principal : " + principal);
-			
+
 			return "redirect:/";
 		} else {
 			return "user/signUp";
 		}
 	}
-	
+
 	/**
-	 * 구글 간편 회원가입
-	 * 이미 회원가입한 기록이 있다면 자동 로그인처리
+	 * 구글 간편 회원가입 이미 회원가입한 기록이 있다면 자동 로그인처리
+	 * 
 	 * @param code
 	 * @return
 	 */
@@ -514,28 +504,22 @@ public class UserController {
 		signUpDTO dtoUp = signUpDTO.builder()
 				// name, birth_date, gender, address, nick_name, phone_number, email, password,
 				// admin_check
-				.nickName(googleProfile.getName())
-				.email(googleProfile.getEmail())
-				.phoneNumber("") // 구글은 휴대폰 번호를 api로			// 제공하지 않는거 같음
-				.password("1234")
-				.build();
-		
+				.nickName(googleProfile.getName()).email(googleProfile.getEmail()).password("1234").build();
+
 		System.out.println(dtoUp.toString());
-		
+
 		// 회원가입시 이메일 중복 체크
-		int result = userService.checkEemail(dtoUp.getEmail());
-		
+		int result = userService.checkDuplicatedEmail(dtoUp.getEmail());
+
 		// 회원가입이 안되어 있다면 db에서 0을 출력 회원가입 되어있다면 1을 출력
-		if(result == 0) {
-			
+		if (result == 0) {
+
 			if (dtoUp != null) {
 				// 회원가입
 				userService.createUser(dtoUp);
 
 				// signInDTO에 있는 값 (이메일, 패스워드)를 User dto 카카오에서 받은 이메일, 패스워드를 받음
-				signInDTO dtoIn = signInDTO.builder()
-						.email(googleProfile.getEmail())
-						.password(dtoUp.getPassword())
+				signInDTO dtoIn = signInDTO.builder().email(googleProfile.getEmail()).password(dtoUp.getPassword())
 						.build();
 
 				User principal = userService.login(dtoIn); // 로그인 시도 및 User 객체 반환
@@ -544,31 +528,28 @@ public class UserController {
 
 			}
 			return "redirect:/";
-			
+
 		} else {
 			// 1이 출력
 			// signInDTO에 있는 값 (이메일, 패스워드)를 User dto 카카오에서 받은 이메일, 패스워드를 받음
-			signInDTO dtoIn = signInDTO.builder()
-					.email(googleProfile.getEmail())
-					.password(dtoUp.getPassword())
-					.build();
-			
+			signInDTO dtoIn = signInDTO.builder().email(googleProfile.getEmail()).password(dtoUp.getPassword()).build();
+
 			// userService.login(dtoIn);
-			
+
 			User principal = userService.login(dtoIn); // 로그인 시도 및 User 객체 반환
 			session.setAttribute("principal", principal);
 			System.out.println("principal : " + principal);
-			
+
 			return "redirect:/";
 		}
 	} // end of google
-	
+
 	/**
 	 * 로그인 페이지에서 구글 간편 로그인 (구글 인증키 다른거 써야 함 - 정훈 -)
 	 */
 	@GetMapping("/googleLogin")
 	public String googleLogin(@RequestParam(name = "code") String code) {
-		
+
 		System.out.println("code : " + code);
 		RestTemplate rt1 = new RestTemplate();
 		// 헤더 구성
@@ -614,28 +595,78 @@ public class UserController {
 		GoogleProfile googleProfile = resposne2.getBody();
 		System.out.println(googleProfile.toString());
 //		return googleProfile.toString();
-		
+
 		// 이메일 중복 체크
-		int number = userService.checkEemail(googleProfile.getEmail());
-		
-		if(number == 1) {
-			
+		int number = userService.checkDuplicatedEmail(googleProfile.getEmail());
+
+		if (number == 1) {
+
 			// signInDTO에 있는 값 (이메일, 패스워드)를 User dto 카카오에서 받은 이메일, 패스워드를 받음
-			signInDTO dtoIn = signInDTO.builder()
-					.email(googleProfile.getEmail())
-					.password("1234")
-					.build();
-			
+			signInDTO dtoIn = signInDTO.builder().email(googleProfile.getEmail()).password("1234").build();
+
 			User principal = userService.login(dtoIn); // 로그인 시도 및 User 객체 반환
 			session.setAttribute("principal", principal);
 			System.out.println("principal : " + principal);
-	
+
 			return "redirect:/";
 		} else {
 			return "user/signUp";
 		}
 	} // end of googleLogin()
+
+	/**
+	 * 이메일 인증 메일 보내는 영역
+	 * 
+	 * @param email
+	 * @return
+	 */
+	@PostMapping("/emails/verification-requests")
+	public ResponseEntity<Void> sendMessage(@RequestParam("email") String email) {
+		userService.sendCodeToEmail(email);
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+
+	/**
+	 * 이메일 인증 확인 영역
+	 * 
+	 * @param email
+	 * @param authCode
+	 * @return
+	 */
+	@GetMapping("/emails/verifications")
+	public ResponseEntity<EmailVerificationResult> verificationEmail(@RequestParam("email") String email,
+			@RequestParam("code") String authCode) {
+
+		EmailVerificationResult result = userService.verifiedCode(email, authCode);
+		return new ResponseEntity<>(result, HttpStatus.OK);
+	}
+
+	/**
+	 * 이메일 중복 체크 검사
+	 * 
+	 * @param email
+	 * @return
+	 */
+	@GetMapping("/check-email")
+	public ResponseEntity<String> checkEmail(@RequestParam("email") String email) {
+		boolean isEmailExist = userService.isEmailDuplicate(email);
+
+		if (isEmailExist) {
+			// 이미 사용 중인 이메일인 경우 409 상태 코드 반환
+			return ResponseEntity.status(HttpStatus.CONFLICT).body("이미 사용 중인 이메일입니다.");
+		} else {
+			// 사용 가능한 이메일인 경우 200 상태 코드 반환
+			return ResponseEntity.ok("사용 가능한 이메일입니다.");
+		}
+	}
 	
-	
-	
+	// 닉네임 중복 체크 API
+    @GetMapping("/check-nickname")
+    public ResponseEntity<Void> checkNickNameDuplicate(@RequestParam("nickName") String nickName) {
+        if (userService.isNickNameDuplicate(nickName)) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).build(); // 409 Conflict
+        }
+        return ResponseEntity.ok().build(); // 200 OK
+    }
+
 }

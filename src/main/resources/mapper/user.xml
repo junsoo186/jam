@@ -4,22 +4,42 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jam.repository.interfaces.UserRepository">
 
-<insert id="insert">
-	insert into user_tb (nick_name, phone_number, email, password)
-	values(#{nickName}, #{phoneNumber}, #{email}, #{password});
-</insert>
+	<insert id="insert">
+		insert into user_tb (nick_name, phone_number, email,
+		password)
+		values(#{nickName}, #{phoneNumber}, #{email}, #{password});
+	</insert>
+
+	<select id="findByEmailAndPassword"
+		resultType="com.jam.repository.model.User">
+		select * from user_tb where email = #{email} and password =
+		#{password};
+	</select>
+
+	<select id="findByUserEmail" resultType="int">
+		SELECT COUNT(*) FROM
+		user_tb WHERE email = #{email};
+	</select>
+
+	<select id="findByEmail"
+		resultType="com.jam.repository.model.User">
+		SELECT *
+		FROM user_tb
+		WHERE email = #{email}
+	</select>
+
+	<select id="fineByUserNickName" resultType="int">
+		SELECT COUNT(*) FROM
+		user_tb WHERE nick_name = #{nickName};
+	</select>
 
 
+	<select id="findByNickName"
+		resultType="com.jam.repository.model.User">
+		SELECT *
+		FROM user_tb
+		WHERE nick_name = #{nickName};
+	</select>
 
-<select id="findByEmailAndPassword">
-	select * from user_tb where email = #{email} and password = #{password};
-</select>
-
-<select id="findByUserEmail" resultType="int">
-	SELECT COUNT(*) FROM user_tb WHERE email = #{email};
-</select>
-
-
-	
 </mapper>
 
