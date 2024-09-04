@@ -19,6 +19,9 @@
 	SELECT COUNT(*) FROM user_tb WHERE email = #{email};
 </select>
 
+<select id="fineByUserNickName" resultType="int">
+	SELECT COUNT(*) FROM user_tb WHERE nick_name = #{nickName};
+</select>
 
 	
 </mapper>

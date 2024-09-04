@@ -1,7 +1,7 @@
 
 
 insert into user_tb (nick_name, phone_number, email, password)
-values( '박정훈', '010-1234-5678', 'test@test.com', '1234');
+values( '박정훈', '010-4548-5678', 'test@test.com', '1234');
 
 insert into user_tb (nick_name, phone_number, email, password)
 values( '정해주', '010-4548-5678', 'test1@naver.com', '1234');

@@ -15,4 +15,6 @@ public interface UserRepository {
 	
 	public int findByUserEmail(String email); // 이메일 찾기
 	
+	public int fineByUserNickName(String nickName); // 닉네임 찾기
+	
 }

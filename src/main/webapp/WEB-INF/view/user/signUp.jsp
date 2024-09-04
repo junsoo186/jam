@@ -12,7 +12,7 @@
 
 		<div>
 			<label for="nickName">닉네임:</label> <input type="text" id="nickName" name="nickName" required value="${nickName}">
-			<button type="button" onclick="checkNickName">중복확인</button>
+			<button type="button" id = "checkNickName">중복확인</button>
 		</div>
 
 		<div>
@@ -42,46 +42,11 @@
 		alt="구글로그인이미지" src="/images/googlelogin.png" style="width: 50px; height: auto;"></a>	
 
 	<a href="/user/sign-in">로그인 페이지 이동</a>
-	
-	<script>
-	
-	// 닉네임 중복 확이
-	
-	// 이메일 인증 확인 버튼
-	let checkEmail = window.document.getElementById("emailButton");
-	let email = window.document.getElementById("email");
-	
-	checkEmail.addEventListener("click", function () {
-		
-		alert("이메일 중복 버튼 연결 알림");
-		
-		
-		 fetch('/user/messageTest', {
-             method: 'GET'
-         })
-         .then(response => {
-             if (email != null) {
-                 return email;
-             } else {
-                 throw new Error('Network response was not ok');
-             }
-         })
-         .then(email => {
-             // Handle the response data if necessary
-             alert('GET request was successful: ' + email.value);
-         })
-         .catch(error => {
-             console.error('There has been a problem with your fetch operation:', error);
-             alert('Error occurred while sending GET request');
-         });
-		
-		
-			
-	});
 
-	</script>
 		
+	<script src="/js/nickName.js"></script>
 	
+
 		
 	
 
