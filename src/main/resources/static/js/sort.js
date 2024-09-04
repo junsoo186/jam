@@ -9,7 +9,7 @@ function sortStories(order) {
         return;
     }
 
-    const stories = Array.from(container.getElementsByClassName('story-container'));
+    const stories = Array.from(container.getElementsByClassName('area--story--container'));
 
     stories.sort((a, b) => {
         const epA = parseInt(a.getAttribute('data-ep'), 10);
