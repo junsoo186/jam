@@ -11,10 +11,11 @@
 	<!-- 회원가입 폼 -->
 	<form action="/user/sign-up" method="post">
 		<div>
-			<label for="nickName">닉네임:</label> 
-			<input type="text" id="nickName" name="nickName" required value="${nickName}">
-			<button type="button" onclick="checkNickName()">중복확인</button>
-		</div>
+        <label for="nickName">닉네임:</label>
+        <input type="text" id="nickName" name="nickName" required>
+        <span id="nickNameCheckMessage"></span>
+        <button type="button" onclick="checkNickName()">중복확인</button>
+    </div>
 
 		<!-- 이메일 입력 섹션 -->
 		<div id="emailSection">

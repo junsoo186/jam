@@ -657,5 +657,14 @@ public class UserController {
 			return ResponseEntity.ok("사용 가능한 이메일입니다.");
 		}
 	}
+	
+	// 닉네임 중복 체크 API
+    @GetMapping("/check-nickname")
+    public ResponseEntity<Void> checkNickNameDuplicate(@RequestParam("nickName") String nickName) {
+        if (userService.isNickNameDuplicate(nickName)) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).build(); // 409 Conflict
+        }
+        return ResponseEntity.ok().build(); // 200 OK
+    }
 
 }

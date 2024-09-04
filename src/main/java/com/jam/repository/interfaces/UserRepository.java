@@ -19,4 +19,6 @@ public interface UserRepository {
 	Optional<User> findByEmail(String email); // 이메일 중복 확인
 	
 	public int fineByUserNickName(String nickName); // 닉네임 찾기
+	
+	Optional<User> findByNickName(String nickName); // 닉네임으로 사용자 찾기
 }
