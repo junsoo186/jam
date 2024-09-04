@@ -1,4 +1,4 @@
-package com.jam.repository.interfaces;
+package com.jam.config;
 
 import java.util.Properties;
 
@@ -9,7 +9,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 
 @Configuration
-public class EmailRepository {
+public class EmailConfig {
 	 @Value("${spring.mail.host}")
 	    private String host;
 

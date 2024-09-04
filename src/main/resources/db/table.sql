@@ -2,9 +2,9 @@
 
 CREATE TABLE `user_tb` (
     `user_id` int PRIMARY KEY AUTO_INCREMENT NOT NULL COMMENT 'auto',
-    `nick_name` varchar(20) NOT NULL,
+    `nick_name` varchar(20) NOT NULL UNIQUE,
+    `email` varchar(40) UNIQUE NOT NULL,
     `phone_number` varchar(30)  NULL,
-    `email` varchar(40)  unique NOT NULL,
     `password` varchar(1000) NOT NULL,
 	`role` VARCHAR(50) NOT NULL DEFAULT 'user',  -- 기본값 'user' 설정
     CHECK (role IN ('admin', 'user')),    

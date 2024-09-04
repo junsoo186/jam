@@ -1,5 +1,7 @@
 package com.jam.repository.interfaces;
 
+import java.util.Optional;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import com.jam.dto.UserDTO;
