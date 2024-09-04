@@ -1,4 +1,4 @@
-package com.jam.repository.interfaces;
+package com.jam.config;
 
 import java.util.Properties;
 
@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class EmailRepository {
+public class EmailConfig {
 	 @Value("${spring.mail.host}")
 	    private String host;
 

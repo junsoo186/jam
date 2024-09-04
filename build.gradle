@@ -25,10 +25,10 @@ repositories {
 }
 
 dependencies {
-<<<<<<< HEAD
 // dependencies
-implementation 'org.springframework.boot:spring-boot-starter-mail'
-
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+	
 	
 	implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
 	implementation group: 'org.glassfish.web', name: 'jakarta.servlet.jsp.jstl', version: '3.0.0'

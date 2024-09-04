@@ -2,7 +2,6 @@ package com.jam.repository.interfaces;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.jam.dto.UserDTO;
 import com.jam.dto.signInDTO;
 import com.jam.dto.signUpDTO;
 import com.jam.repository.model.User;
@@ -17,4 +16,5 @@ public interface UserRepository {
 	
 	public int fineByUserNickName(String nickName); // 닉네임 찾기
 	
+
 }

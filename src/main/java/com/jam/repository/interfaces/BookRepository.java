@@ -7,6 +7,8 @@ import org.apache.ibatis.annotations.Param;
 
 import com.jam.dto.BookDTO;
 import com.jam.repository.model.Book;
+import com.jam.repository.model.Category;
+import com.jam.repository.model.Genre;
 
 @Mapper
 public interface BookRepository {
@@ -26,7 +28,7 @@ public interface BookRepository {
 	public List<Book> AllBookList();
 
 	// userId 기반 책 리스트
-	public List<Book> AllBookListByUserId(Integer userId);
+	public List<Book> findAllBookListByUserId(Integer userId);
 
 	// 책 자세히
 	public Book detailBookByBookId(@Param("bookId") Integer bookId);
@@ -38,5 +40,9 @@ public interface BookRepository {
 	public void deleteBook(@Param("bookId") Integer bookId);
 
 	public Book findBookByBookId(Integer bookId);
+	
+	public List<Category> findAllCategory();
+
+	public List<Genre> findAllGenre();
 
 }

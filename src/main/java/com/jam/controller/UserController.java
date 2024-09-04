@@ -1,12 +1,10 @@
 package com.jam.controller;
 
-import java.util.HashMap;
-import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 
+import com.jam.dto.EmailVerificationResult;
 import com.jam.dto.GoogleProfile;
 import com.jam.dto.KakaoProfile;
 import com.jam.dto.NaverProfile;
@@ -36,19 +35,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UserController {
 
-	@Autowired
 	private final HttpSession session;
-	@Autowired
 	private final UserService userService;
 	
-	 @GetMapping("/api/check-nickname")
-	 public Map<String, Boolean> checkNickname(@RequestParam String nickname) {
-	// boolean isDuplicate = nicknameService.isNicknameDuplicate(nickname);
-	 Map<String, Boolean> response = new HashMap<>();
-//	 response.put("isDuplicate", isDuplicate);
-	 System.out.println(nickname);
-	 return response;
-	 }
 	
 	// 회원가입 JSP 버튼 테스트
 	@PostMapping("/messageTest")
@@ -79,7 +68,7 @@ public class UserController {
 		 * DB에 저장되어 있는 이메일로 회원가입 시도할 시
 		 * checkEmail로 이메일 유무를 확인 후 emailCount = 1이면 email 존재 emailCount = 0 이면 DB에 이메일 없음
 		 */
-		int emailCount = userService.checkEemail(dto.getEmail());
+		int emailCount = userService.checkDuplicatedEmail(dto.getEmail());
 		if(emailCount == 1) {
 			return "user/signUp"; 
 		} else {
@@ -187,7 +176,7 @@ public class UserController {
 				.build();
 		
 		// 회원가입시 이메일 중복 체크
-		int result = userService.checkEemail(dtoUp.getEmail());
+		int result = userService.checkDuplicatedEmail(dtoUp.getEmail());
 	
 		if(result == 0) {
 			
@@ -277,7 +266,7 @@ public class UserController {
 		KakaoProfile kakaoProfile = resposne2.getBody();
 		
 		// 카카오 이메일 존재 유무 체크
-		int number = userService.checkEemail(kakaoProfile.getKakaoAccount().getEmail());
+		int number = userService.checkDuplicatedEmail(kakaoProfile.getKakaoAccount().getEmail());
 		// db에서 카카오 이메일이 검색되면 1을 반환 이메일이 없으면 0을 반환  1을 반환하면 메인페이지, 이메일이 없으면 회원가입 페이지
 		if(number == 1) {
 			
@@ -366,7 +355,7 @@ public class UserController {
 		System.out.println(dtoUp.toString());
 		
 		// 회원가입시 이메일 중복 체크
-		int result = userService.checkEemail(dtoUp.getEmail());
+		int result = userService.checkDuplicatedEmail(dtoUp.getEmail());
 		
 		if(result == 0) {
 			
@@ -452,7 +441,7 @@ public class UserController {
 		System.out.println("naverProfile : " + naverProfile.toString());
 		
 		// 네이버 이메일 유무 체크
-		int number = userService.checkEemail(naverProfile.getResponse().getEmail());
+		int number = userService.checkDuplicatedEmail(naverProfile.getResponse().getEmail());
 		
 		// db에서 카카오 이메일이 검색되면 1을 반환 이메일이 없으면 0을 반환  1을 반환하면 메인페이지, 이메일이 없으면 회원가입 페이지
 		if(number == 1) {
@@ -536,7 +525,7 @@ public class UserController {
 		System.out.println(dtoUp.toString());
 		
 		// 회원가입시 이메일 중복 체크
-		int result = userService.checkEemail(dtoUp.getEmail());
+		int result = userService.checkDuplicatedEmail(dtoUp.getEmail());
 		
 		// 회원가입이 안되어 있다면 db에서 0을 출력 회원가입 되어있다면 1을 출력
 		if(result == 0) {
@@ -629,7 +618,7 @@ public class UserController {
 //		return googleProfile.toString();
 		
 		// 이메일 중복 체크
-		int number = userService.checkEemail(googleProfile.getEmail());
+		int number = userService.checkDuplicatedEmail(googleProfile.getEmail());
 		
 		if(number == 1) {
 			
@@ -649,6 +638,31 @@ public class UserController {
 		}
 	} // end of googleLogin()
 	
+	/**
+	 * 이메일 인증 메일 보내는 영역
+	 * @param email
+	 * @return
+	 */
+	@PostMapping("/emails/verification-requests")
+	public ResponseEntity<Void> sendMessage(@RequestParam("email") String email) {
+	    userService.sendCodeToEmail(email);
+	    return new ResponseEntity<>(HttpStatus.OK);
+	}
 	
+	/**
+	 * 이메일 인증 확인 영역
+	 * @param email
+	 * @param authCode
+	 * @return
+	 */
+	@GetMapping("/emails/verifications")
+	public ResponseEntity<EmailVerificationResult> verificationEmail(
+	    @RequestParam("email") String email,
+	    @RequestParam("code") String authCode) {
+
+	    EmailVerificationResult result = userService.verifiedCode(email, authCode);
+	    return new ResponseEntity<>(result, HttpStatus.OK);
+	}
+
 	
 }
