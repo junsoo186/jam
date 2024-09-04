@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <link rel="stylesheet" href="/css/noticeInsert.css">
 
+<main>
 <div class="container p-5">
 	<div class="card">
 		<div class="card-header">
@@ -45,3 +46,4 @@
 
 	</div>
 </div>
+</main>

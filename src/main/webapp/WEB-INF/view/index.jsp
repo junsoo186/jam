@@ -8,9 +8,7 @@
 <meta charset="UTF-8">
 <title>메인화면</title>
 <link rel="stylesheet" href="/css/index.css">
-</head>
-<body>
-
+<main>
 	<div class="container--banner">
 		<!-- 배너 -->
 		<section class="top--banner" id="top--banner">
@@ -61,7 +59,7 @@
 		</section>
 	</div>
 
-	<div class="container mt--5">
+	<div class="cennter--container">
 		<!-- 카테고리 필터 -->
 		<div class="category--filter">
 			<button class="category--btn active">종합</button>
@@ -216,7 +214,7 @@
 		</div>
 	</div>
 
+</main>
 	<!-- JavaScript 파일을 여기에 포함 -->
 	<script type="text/javascript" src="/js/index.js"></script>
-</body>
-</html>
+<%@ include file="/WEB-INF/view/layout/footer.jsp"%>

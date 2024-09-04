@@ -305,3 +305,11 @@ CREATE TABLE `book_comment_tb` (
     FOREIGN KEY (`book_id`) REFERENCES `book_tb`(`book_id`),
     FOREIGN KEY (`user_id`) REFERENCES `user_tb`(`user_id`)
 );
+
+CREATE TABLE `banner_tb`(
+`banner_id`int PRIMARY KEY AUTO_INCREMENT NOT NULL,
+`title` varchar(1000) COMMENT '베너 제목',
+`content_one` varchar(1000) COMMENT '베너 내용1',
+`content_two` varchar(1000) COMMENT '베너 내용2',
+`img` varchar(2000) COMMENT '이미지'
+);
