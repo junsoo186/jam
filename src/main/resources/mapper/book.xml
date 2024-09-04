@@ -40,9 +40,11 @@
 		resultType="com.jam.repository.model.Book">
 		SELECT
 		b.book_id,
+		b.user_id,
 		b.title,
-		b.author,
+		b.author,	
 		b.likes,
+		b.author_comment,
 		b.book_cover_image,
 		GROUP_CONCAT(DISTINCT t.tag_name ORDER BY t.tag_name ASC) AS tagNames
 		FROM
