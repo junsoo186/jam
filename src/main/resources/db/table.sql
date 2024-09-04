@@ -3,7 +3,7 @@
 CREATE TABLE `user_tb` (
     `user_id` int PRIMARY KEY AUTO_INCREMENT NOT NULL COMMENT 'auto',
     `nick_name` varchar(20) NOT NULL,
-    `phone_number` varchar(30) NOT NULL,
+    `phone_number` varchar(30)  NULL,
     `email` varchar(40) NOT NULL,
     `password` varchar(1000) NOT NULL,
 	`role` VARCHAR(50) NOT NULL DEFAULT 'user',  -- 기본값 'user' 설정

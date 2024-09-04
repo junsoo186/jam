@@ -33,5 +33,14 @@ public class signUpDTO {
 				.build();
 	}
 	
+	public signInDTO toSignInDTO() {
+		return signInDTO.builder()
+				.email(this.email)
+				.password(this.password)
+				.build();
+		
+	}
+	
+	
 	
 }
