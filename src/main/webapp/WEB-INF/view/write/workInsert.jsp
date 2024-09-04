@@ -90,7 +90,6 @@
                         <option value="15">15</option>
                         <option value="19">19</option>
                     </select>
-                    <input type="hidden" id="age" name="age" value="전체">
 
                     <!-- 태그 목록과 추가 필드 -->
                     <label for="tagList">태그 목록:</label>
