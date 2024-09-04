@@ -38,36 +38,61 @@ public class UserController {
 	private final UserService userService;
 
 	// 회원가입 JSP 버튼 테스트
-	@GetMapping("/messageTest")
-	public String email() {
+	@PostMapping("/messageTest")
+	public String email(@RequestParam(name = "checkNickName") String checkNickName) {
 		System.out.println("컨트롤러 성공");
+		System.out.println("컨트롤러" + checkNickName);
 		return "user/signIn";
 	}
 
-	// 테스트 전용
-	@GetMapping("/find-id")
-	public String findId() {
-		System.out.println("아이디찾기");
-		return "user/findId";
-	}
-
+	/**
+	 * 로그인 페이지 이동
+	 * 
+	 * @return
+	 */
 	@GetMapping("/sign-up")
 	public String signUpPage() {
 		return "user/signUp";
 	}
 
+	/**
+	 * 회원가입 페이지에서 회원가입 시도
+	 * 
+	 * @param dto
+	 * @return
+	 */
 	@PostMapping("/sign-up")
 	public String signUp(signUpDTO dto) {
-		userService.createUser(dto);
+		/**
+		 * DB에 저장되어 있는 이메일로 회원가입 시도할 시 checkEmail로 이메일 유무를 확인 후 emailCount = 1이면 email
+		 * 존재 emailCount = 0 이면 DB에 이메일 없음
+		 */
+		int emailCount = userService.checkDuplicatedEmail(dto.getEmail());
+		if (emailCount == 1) {
+			return "user/signUp";
+		} else {
+			userService.createUser(dto);
+		}
 		return "redirect:/user/sign-in";
 	}
 
+	/**
+	 * 로그인 페이지 이동
+	 * 
+	 * @return
+	 */
 	@GetMapping("/sign-in")
 	public String signInPage() {
 		return "user/signIn";
 
 	}
 
+	/**
+	 * 로그인 페이지 에서 로그인 시도
+	 * 
+	 * @param dto
+	 * @return
+	 */
 	@PostMapping("/sign-in")
 	public String signProc(signInDTO dto) {
 		// 사용자 인증 로직
@@ -78,6 +103,11 @@ public class UserController {
 		return "redirect:/"; // 로그인 성공 시 메인 페이지로 리다이렉트
 	}
 
+	/**
+	 * 로그아웃
+	 * 
+	 * @return
+	 */
 	@GetMapping("/logout")
 	public String logout() {
 		session.invalidate();
@@ -141,25 +171,8 @@ public class UserController {
 		KakaoProfile kakaoProfile = resposne2.getBody();
 		// return kakaoProfile.toString();
 
-		// 기존에 (카카오) 회원가입 되어있는지 정보 확인 (중복검사) -- ----------
-
-		// ---- 카카오 사용자 정보 응답 완료 ----------
-
-		// 최초 사용자라면 자동 회원 가입 처리 (우리 서버)
-		// 회원가입 이력이 있는 사용자라면 바로 세션 처리 (우리 서버)
-		// 사전기반 --> 소셜 사용자는 비밀번호를 입력하는가? 안하는가?
-		// 우리서버에 회원가입시에 --> password -> not null (무건 만들어 넣어야 함 DB 정책)
-
-		// 전화번호 +82 10-1234-5678 => 010-1234-5678 로 변경 (국제전화코드 제거)
-		String internationalNumber = userService.convertPhoneNumber(kakaoProfile.getKakaoAccount().getPhoneNumber());
-
-		// 전화번호 하이폰 제거 ex) 010-1234-5678 => 01012345678 로 변경
-		String removeHypone = userService.removeHyphens(internationalNumber);
-
 		signUpDTO dtoUp = signUpDTO.builder().nickName(kakaoProfile.getProperties().getNickname())
-				.email(kakaoProfile.getKakaoAccount().getEmail()).phoneNumber(removeHypone) // +82 10-1234-5678 --> //
-																							// 010-1234-5678
-				.password("1234").build();
+				.email(kakaoProfile.getKakaoAccount().getEmail()).password("1234").build();
 
 		// 회원가입시 이메일 중복 체크
 		int result = userService.checkDuplicatedEmail(dtoUp.getEmail());
@@ -324,15 +337,12 @@ public class UserController {
 		NaverProfile naverProfile = response2.getBody();
 		System.out.println("naverProfile : " + naverProfile.toString());
 
-		// 전화번호 하이폰 제거 ex) 010-1234-5678 => 01012345678 로 변경
-		String removeHypone = userService.removeHyphens(naverProfile.getResponse().getMobile());
-
 		// 네이버 회원가입 dto 작동 확인
 		signUpDTO dtoUp = signUpDTO.builder()
 				// name, birth_date, gender, address, nick_name, phone_number, email, password,
 				// admin_check
 				.nickName(naverProfile.getResponse().getNickname()).email(naverProfile.getResponse().getEmail())
-				.phoneNumber(removeHypone).password("1234").build();
+				.password("1234").build();
 
 		System.out.println(dtoUp.toString());
 
@@ -492,9 +502,7 @@ public class UserController {
 		signUpDTO dtoUp = signUpDTO.builder()
 				// name, birth_date, gender, address, nick_name, phone_number, email, password,
 				// admin_check
-				.nickName(googleProfile.getName()).email(googleProfile.getEmail()).phoneNumber("") // 구글은 휴대폰 번호를 api로
-																									// // 제공하지 않는거 같음
-				.password("1234").build();
+				.nickName(googleProfile.getName()).email(googleProfile.getEmail()).password("1234").build();
 
 		System.out.println(dtoUp.toString());
 
@@ -633,6 +641,7 @@ public class UserController {
 
 	/**
 	 * 이메일 중복 체크 검사
+	 * 
 	 * @param email
 	 * @return
 	 */

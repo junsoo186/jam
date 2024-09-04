@@ -11,7 +11,8 @@
 	<!-- 회원가입 폼 -->
 	<form action="/user/sign-up" method="post">
 		<div>
-			<label for="nickName">닉네임:</label> <input type="text" id="nickName" name="nickName" required value="${nickName}">
+			<label for="nickName">닉네임:</label> 
+			<input type="text" id="nickName" name="nickName" required value="${nickName}">
 			<button type="button" onclick="checkNickName()">중복확인</button>
 		</div>
 
@@ -59,8 +60,7 @@
 
 	<!-- 로그인 페이지 이동 -->
 	<a href="/user/sign-in">로그인 페이지 이동</a>
-
+	<script src="/js/nickName.js"></script>
 	<script src="/js/signUp.js"></script>
-
 </body>
 </html>
