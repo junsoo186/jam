@@ -110,12 +110,15 @@ public class WriterService {
 	@Transactional
 	public void updateBook(Book book, BookDTO bookDTO) {
 		int result = 0;
+		String[] fileNames = uploadFile(bookDTO.getBookCover());
+		System.out.println("책 경로 확인 : " + fileNames[1]);
+		System.out.println("책 경로 확인 2 : " + bookDTO.getBookCoverImage());
+		System.out.println("책 경로 확인 3 : " + bookDTO.getBookCover().toString());
 		if (bookDTO.getBookCover() == null || bookDTO.getBookCover().isEmpty()) {
 	        // 기존 이미지 경로를 유지하도록 로직을 추가
 	        book.setBookCoverImage(bookDTO.getBookCoverImage()); // 기존 이미지 경로를 할당
 	    } else {
 	        // 업로드된 파일을 처리
-	        String[] fileNames = uploadFile(bookDTO.getBookCover());
 	        book.setBookCoverImage(fileNames[1]); // 새로 업로드된 파일 경로를 설정
 	    }
 		// TODO - 오류 처리

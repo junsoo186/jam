@@ -5,7 +5,7 @@
 
 <main>
     <div class="container">
-        <form id="bookForm" action="workUpdate" method="post" onsubmit="return prepareFormForSubmit()">
+        <form id="bookForm" action="workUpdate" method="post" onsubmit="return prepareFormForSubmit()" enctype="multipart/form-data">
             <h2>도서 정보 수정 폼</h2>
             <!-- 폼 섹션 -->
             <div class="content">
