@@ -69,7 +69,6 @@ public class UserController {
 	}
 
 	@PostMapping("/sign-in")
-
 	public String signProc(signInDTO dto) {
 		// 사용자 인증 로직
 		User principal = userService.login(dto); // 로그인 시도 및 User 객체 반환

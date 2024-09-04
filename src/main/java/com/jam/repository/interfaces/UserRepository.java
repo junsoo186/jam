@@ -14,5 +14,4 @@ public interface UserRepository {
 	public User findByEmailAndPassword(signInDTO dto); // 로그인
 	
 	public int findByUserEmail(String email); // 이메일 찾기
-	
 }

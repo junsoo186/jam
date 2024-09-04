@@ -10,6 +10,10 @@
 		resultType="com.jam.repository.model.Tag">
 		select * from tag_tb
 	</select>
+	<select id="selectTagByBookId"
+		resultType="com.jam.repository.model.Tag">
+		select * from book_tag_tb WHERE book_id= #{bookId}
+	</select>
 
 	<insert id="insertTagIdAndBookId">
 		insert into book_tag_tb (book_id, tag_id) values
