@@ -6,6 +6,7 @@ CREATE TABLE `user_tb` (
     `email` varchar(40) UNIQUE NOT NULL,
     `phone_number` varchar(30)  NULL,
     `password` varchar(1000) NOT NULL,
+    `profile_img` TEXT null,
 	`role` VARCHAR(50) NOT NULL DEFAULT 'user',  -- 기본값 'user' 설정
     CHECK (role IN ('admin', 'user')),    
     `created_at` timestamp NOT NULL DEFAULT current_timestamp COMMENT 'current'

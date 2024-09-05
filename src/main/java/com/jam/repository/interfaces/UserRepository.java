@@ -13,7 +13,7 @@ import com.jam.repository.model.User;
 public interface UserRepository{
 	public int insert(signUpDTO user); // 회원가입
 
-	public User findByEmailAndPassword(signInDTO dto); // 로그인
+	public User findEmail(@Param("email") String email); // 로그인
 	
 	public int findByUserEmail(String email); // 이메일 찾기
 	
