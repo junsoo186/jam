@@ -77,7 +77,12 @@
 		<!-- 사이드바 추가 -->
 		<div class="sidebar">
 			<ul>
-				<a href="/write/workList" class="nav-link"> <img class="pencil-icon" src="/images/layout/write.png">
+				<a href="/write/workList" class="nav-link"> 
+				<c:choose>
+				<c:when test="${principal. != null}">
+				</c:when>
+				</c:choose>
+				<img class="pencil-icon" src="/images/layout/write.png">
 				</a>
 				<br>
 				<li><a href="#">내 정보</a></li>

@@ -25,21 +25,10 @@ public class MainCotroller {
 	@GetMapping("/chatPage")
 	public String chatPage(@SessionAttribute(Define.PRINCIPAL) User principal, Model model) {
 		String nickname = principal.getNickName();
+		int userId = principal.getUserId();
 		model.addAttribute("nickname",nickname );
+		model.addAttribute("userId",userId);
 		return "/chatPage";
 	}
-//	@GetMapping("/chatRoom{}")
-//	public String chatRoom(@SessionAttribute(Define.PRINCIPAL) User principal, Model model) {
-//		String nickname = principal.getNickName();
-//		model.addAttribute("nickname",nickname );
-//		return "/chatPage";
-//	}
-//	
-//	
-//	  @GetMapping("/chat")
-//	    public String chating(){
-//	      
-//	        return "chat";
-//	    }
-	
+
 }
