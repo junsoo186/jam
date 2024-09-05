@@ -45,6 +45,7 @@ CREATE TABLE `book_tb` (
     `likes` int NULL DEFAULT 0 COMMENT '좋아요',
     `age` ENUM('전체', '7','12', '15', '19') NOT NULL COMMENT '등급 표시제',
     `serial_day` varchar(10) NULL DEFAULT '비 정기 연재' COMMENT '연재 방식',
+    `views` int null DEFAULT 0,
     FOREIGN KEY (`user_id`) REFERENCES `user_tb`(`user_id`),
     FOREIGN KEY (`category_id`) REFERENCES `category_tb`(`category_id`),
     FOREIGN KEY (`genre_id`) REFERENCES `genre_tb`(`genre_id`)
@@ -65,7 +66,7 @@ CREATE TABLE `story_tb` (
     `user_id` int NOT NULL COMMENT '외래 키, user_tb 참조',
     `number` varchar(10) NOT NULL COMMENT '회차',
     `type` varchar(20) NOT NULL COMMENT '프롤로그,무료,유료',
-    `title` varchar(20) NOT NULL COMMENT '회차 제목',
+    `title` varchar(50) NOT NULL COMMENT '회차 제목',
     `upload_day` DATETIME NULL DEFAULT CURRENT_TIMESTAMP COMMENT '예약 일자',
     `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `save` varchar(10) NOT NULL DEFAULT 'Y' COMMENT 'Y,N',

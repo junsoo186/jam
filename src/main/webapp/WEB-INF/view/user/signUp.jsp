@@ -11,10 +11,11 @@
 	<!-- 회원가입 폼 -->
 	<form action="/user/sign-up" method="post">
 		<div>
-			<label for="nickName">닉네임:</label> 
-			<input type="text" id="nickName" name="nickName" required value="${nickName}">
-			<button type="button" onclick="checkNickName()">중복확인</button>
-		</div>
+        <label for="nickName">닉네임:</label>
+        <input type="text" id="nickName" name="nickName" required>
+        <span id="nickNameCheckMessage"></span>
+        <button type="button" onclick="checkNickName()">중복확인</button>
+    </div>
 
 		<!-- 이메일 입력 섹션 -->
 		<div id="emailSection">
@@ -43,7 +44,7 @@
 	</form>
 
 	<!-- 소셜 로그인 버튼 -->
-	<a href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=6d77c46fd0cf14b69558985620414300
+	<a href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=da70bb7a1f4babcdcd8957d9785e99c4
 &redirect_uri=http://localhost:8080/user/kakao"> <img
 		alt="카카오로그인이미지" src="/images/kakaologin.png" style="width: 50px; height: auto;">
 	</a>

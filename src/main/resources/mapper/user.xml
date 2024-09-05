@@ -33,5 +33,13 @@
 		user_tb WHERE nick_name = #{nickName};
 	</select>
 
+
+	<select id="findByNickName"
+		resultType="com.jam.repository.model.User">
+		SELECT *
+		FROM user_tb
+		WHERE nick_name = #{nickName};
+	</select>
+
 </mapper>
 

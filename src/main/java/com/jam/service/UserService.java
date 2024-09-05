@@ -3,6 +3,7 @@ package com.jam.service;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -163,4 +164,10 @@ public class UserService {
 		// 이메일로 사용자를 조회하고, 있으면 true, 없으면 false 반환
 		return userRepository.findByEmail(email).isPresent();
 	}	
+	
+	// 닉네임 중복 체크 메소드
+    public boolean isNickNameDuplicate(String nickName) {
+        Optional<User> user = userRepository.findByNickName(nickName); // 닉네임으로 사용자 조회
+        return user.isPresent(); // 사용자가 존재하면 true 반환
+    }
 }

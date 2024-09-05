@@ -94,6 +94,8 @@ public class UserController {
 	 * @return
 	 */
 	@PostMapping("/sign-in")
+
+
 	public String signProc(signInDTO dto) {
 		// 사용자 인증 로직
 		User principal = userService.login(dto); // 로그인 시도 및 User 객체 반환
@@ -139,7 +141,7 @@ public class UserController {
 		// 바디 구성
 		MultiValueMap<String, String> params1 = new LinkedMultiValueMap<String, String>();
 		params1.add("grant_type", "authorization_code");
-		params1.add("client_id", "6d77c46fd0cf14b69558985620414300"); // da70bb7a1f4babcdcd8957d9785e99c4
+		params1.add("client_id", "da70bb7a1f4babcdcd8957d9785e99c4"); // da70bb7a1f4babcdcd8957d9785e99c4
 		params1.add("redirect_uri", "http://localhost:8080/user/kakao");
 		params1.add("code", code);
 
@@ -171,12 +173,12 @@ public class UserController {
 		KakaoProfile kakaoProfile = resposne2.getBody();
 		// return kakaoProfile.toString();
 
-		signUpDTO dtoUp = signUpDTO.builder().nickName(kakaoProfile.getProperties().getNickname())
-				.email(kakaoProfile.getKakaoAccount().getEmail()).password("1234").build();
+		signUpDTO dtoUp = signUpDTO.builder().nickName(kakaoProfile.getProperties().getNickname()+ "_kakao")
+				.email(kakaoProfile.getKakaoAccount().getEmail()+"_kakao").password("1234").build();
 
 		// 회원가입시 이메일 중복 체크
 		int result = userService.checkDuplicatedEmail(dtoUp.getEmail());
-
+		System.out.println("result : "+result);
 		if (result == 0) {
 
 			if (dtoUp != null) {
@@ -184,7 +186,7 @@ public class UserController {
 				userService.createUser(dtoUp);
 
 				// signUpDTO에 있는 값 (이메일, 패스워드)를 User dto 카카오에서 받은 이메일, 패스워드를 받음
-				signInDTO dtoIn = signInDTO.builder().email(kakaoProfile.getKakaoAccount().getEmail())
+				signInDTO dtoIn = signInDTO.builder().email(kakaoProfile.getKakaoAccount().getEmail()+"_kakao")
 						.password(dtoUp.getPassword()).build();
 
 				User principal = userService.login(dtoIn); // 로그인 시도 및 User 객체 반환
@@ -195,9 +197,8 @@ public class UserController {
 			return "redirect:/";
 
 		} else {
-			signInDTO dtoIn = signInDTO.builder().email(kakaoProfile.getKakaoAccount().getEmail())
+			signInDTO dtoIn = signInDTO.builder().email(kakaoProfile.getKakaoAccount().getEmail()+"_kakao")
 					.password(dtoUp.getPassword()).build();
-
 			User principal = userService.login(dtoIn); // 로그인 시도 및 User 객체 반환
 			session.setAttribute("principal", principal);
 			System.out.println("principal : " + principal);
@@ -230,7 +231,7 @@ public class UserController {
 		// 바디 구성
 		MultiValueMap<String, String> params1 = new LinkedMultiValueMap<String, String>();
 		params1.add("grant_type", "authorization_code");
-		params1.add("client_id", "6d77c46fd0cf14b69558985620414300"); // da70bb7a1f4babcdcd8957d9785e99c4
+		params1.add("client_id", "da70bb7a1f4babcdcd8957d9785e99c4"); // da70bb7a1f4babcdcd8957d9785e99c4
 		params1.add("redirect_uri", "http://localhost:8080/user/kakaoLogin");
 		params1.add("code", code);
 
@@ -262,12 +263,12 @@ public class UserController {
 		KakaoProfile kakaoProfile = resposne2.getBody();
 
 		// 카카오 이메일 존재 유무 체크
-		int number = userService.checkDuplicatedEmail(kakaoProfile.getKakaoAccount().getEmail());
+		int number = userService.checkDuplicatedEmail(kakaoProfile.getKakaoAccount().getEmail()+"_kakao");
 		// db에서 카카오 이메일이 검색되면 1을 반환 이메일이 없으면 0을 반환 1을 반환하면 메인페이지, 이메일이 없으면 회원가입 페이지
 		if (number == 1) {
 
 			// signUpDTO에 있는 값 (이메일, 패스워드)를 User dto 카카오에서 받은 이메일, 패스워드를 받음
-			signInDTO dtoIn = signInDTO.builder().email(kakaoProfile.getKakaoAccount().getEmail()).password("1234")
+			signInDTO dtoIn = signInDTO.builder().email(kakaoProfile.getKakaoAccount().getEmail()+"_kakao").password("1234")
 					.build();
 
 			// 로그인 기능
@@ -341,14 +342,14 @@ public class UserController {
 		signUpDTO dtoUp = signUpDTO.builder()
 				// name, birth_date, gender, address, nick_name, phone_number, email, password,
 				// admin_check
-				.nickName(naverProfile.getResponse().getNickname()).email(naverProfile.getResponse().getEmail())
+				.nickName(naverProfile.getResponse().getNickname()+"_naver").email(naverProfile.getResponse().getEmail()+ "_naver")
 				.password("1234").build();
 
 		System.out.println(dtoUp.toString());
 
 		// 회원가입시 이메일 중복 체크
 		int result = userService.checkDuplicatedEmail(dtoUp.getEmail());
-
+System.out.println("result : "+result);
 		if (result == 0) {
 
 			if (dtoUp != null) {
@@ -356,7 +357,7 @@ public class UserController {
 				userService.createUser(dtoUp);
 
 				// signUpDTO에 있는 값 (이메일, 패스워드)를 User dto 카카오에서 받은 이메일, 패스워드를 받음
-				signInDTO dtoIn = signInDTO.builder().email(naverProfile.getResponse().getEmail())
+				signInDTO dtoIn = signInDTO.builder().email(naverProfile.getResponse().getEmail()+"_naver")
 						.password(dtoUp.getPassword()).build();
 
 				User principal = userService.login(dtoIn); // 로그인 시도 및 User 객체 반환
@@ -367,7 +368,7 @@ public class UserController {
 			return "redirect:/";
 
 		} else {
-			signInDTO dtoIn = signInDTO.builder().email(naverProfile.getResponse().getEmail())
+			signInDTO dtoIn = signInDTO.builder().email(naverProfile.getResponse().getEmail()+"_naver")
 					.password(dtoUp.getPassword()).build();
 
 			User principal = userService.login(dtoIn); // 로그인 시도 및 User 객체 반환
@@ -429,12 +430,12 @@ public class UserController {
 		System.out.println("naverProfile : " + naverProfile.toString());
 
 		// 네이버 이메일 유무 체크
-		int number = userService.checkDuplicatedEmail(naverProfile.getResponse().getEmail());
+		int number = userService.checkDuplicatedEmail(naverProfile.getResponse().getEmail()+"_naver");
 
 		// db에서 카카오 이메일이 검색되면 1을 반환 이메일이 없으면 0을 반환 1을 반환하면 메인페이지, 이메일이 없으면 회원가입 페이지
 		if (number == 1) {
 			// signInDTO에 있는 값 (이메일, 패스워드)를 User dto 카카오에서 받은 이메일, 패스워드를 받음
-			signInDTO dtoIn = signInDTO.builder().email(naverProfile.getResponse().getEmail()).password("1234").build();
+			signInDTO dtoIn = signInDTO.builder().email(naverProfile.getResponse().getEmail()+"_naver").password("1234").build();
 
 			User principal = userService.login(dtoIn); // 로그인 시도 및 User 객체 반환
 			session.setAttribute("principal", principal);
@@ -497,12 +498,12 @@ public class UserController {
 				HttpMethod.GET, reqGoogleInfoMessage, GoogleProfile.class);
 
 		GoogleProfile googleProfile = resposne2.getBody();
-//		return resposne2.toString();
 
 		signUpDTO dtoUp = signUpDTO.builder()
 				// name, birth_date, gender, address, nick_name, phone_number, email, password,
 				// admin_check
-				.nickName(googleProfile.getName()).email(googleProfile.getEmail()).password("1234").build();
+				
+				.nickName(googleProfile.getName() +"_google").email(googleProfile.getEmail()+"_google").password("1234").build();
 
 		System.out.println(dtoUp.toString());
 
@@ -517,7 +518,7 @@ public class UserController {
 				userService.createUser(dtoUp);
 
 				// signInDTO에 있는 값 (이메일, 패스워드)를 User dto 카카오에서 받은 이메일, 패스워드를 받음
-				signInDTO dtoIn = signInDTO.builder().email(googleProfile.getEmail()).password(dtoUp.getPassword())
+				signInDTO dtoIn = signInDTO.builder().email(googleProfile.getEmail()+"_google").password(dtoUp.getPassword())
 						.build();
 
 				User principal = userService.login(dtoIn); // 로그인 시도 및 User 객체 반환
@@ -530,7 +531,7 @@ public class UserController {
 		} else {
 			// 1이 출력
 			// signInDTO에 있는 값 (이메일, 패스워드)를 User dto 카카오에서 받은 이메일, 패스워드를 받음
-			signInDTO dtoIn = signInDTO.builder().email(googleProfile.getEmail()).password(dtoUp.getPassword()).build();
+			signInDTO dtoIn = signInDTO.builder().email(googleProfile.getEmail()+"_google").password(dtoUp.getPassword()).build();
 
 			// userService.login(dtoIn);
 
@@ -595,12 +596,12 @@ public class UserController {
 //		return googleProfile.toString();
 
 		// 이메일 중복 체크
-		int number = userService.checkDuplicatedEmail(googleProfile.getEmail());
+		int number = userService.checkDuplicatedEmail(googleProfile.getEmail()+"_google");
 
 		if (number == 1) {
 
 			// signInDTO에 있는 값 (이메일, 패스워드)를 User dto 카카오에서 받은 이메일, 패스워드를 받음
-			signInDTO dtoIn = signInDTO.builder().email(googleProfile.getEmail()).password("1234").build();
+			signInDTO dtoIn = signInDTO.builder().email(googleProfile.getEmail()+"_google").password("1234").build();
 
 			User principal = userService.login(dtoIn); // 로그인 시도 및 User 객체 반환
 			session.setAttribute("principal", principal);
@@ -657,5 +658,14 @@ public class UserController {
 			return ResponseEntity.ok("사용 가능한 이메일입니다.");
 		}
 	}
+	
+	// 닉네임 중복 체크 API
+    @GetMapping("/check-nickname")
+    public ResponseEntity<Void> checkNickNameDuplicate(@RequestParam("nickName") String nickName) {
+        if (userService.isNickNameDuplicate(nickName)) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).build(); // 409 Conflict
+        }
+        return ResponseEntity.ok().build(); // 200 OK
+    }
 
 }
