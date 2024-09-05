@@ -109,7 +109,7 @@ public class UserService {
 	// 이메일 보내는 메서드
 	public void sendCodeToEmail(String toEmail) {
 		this.checkDuplicatedEmail(toEmail);
-		String title = "Travel with me 이메일 인증 번호";
+		String title = "JAM 이메일 인증 번호";
 		String authCode = this.createCode();
 
 		System.out.println("인증 요청");
