@@ -13,8 +13,8 @@
 		<div>
         <label for="nickName">닉네임:</label>
         <input type="text" id="nickName" name="nickName" required>
-        <span id="nickNameCheckMessage"></span>
         <button type="button" onclick="checkNickName()">중복확인</button>
+        <div id="nickNameChek" style="color: red; font-size: 12px;"></div>
     </div>
 
 		<!-- 이메일 입력 섹션 -->
