@@ -38,7 +38,7 @@ public class UserController {
 
 	// 회원가입 JSP 버튼 테스트
 	@PostMapping("/messageTest")
-	public String email(@RequestParam(name = "checkNickName") String checkNickName) {
+	public String emailProc(@RequestParam(name = "checkNickName") String checkNickName) {
 		System.out.println("컨트롤러 성공");
 		System.out.println("컨트롤러" + checkNickName);
 		return "user/signIn";
@@ -50,7 +50,7 @@ public class UserController {
 	 * @return
 	 */
 	@GetMapping("/sign-up")
-	public String signUpPage() {
+	public String handleSignUpPage() {
 		return "user/signUp";
 	}
 
@@ -61,7 +61,7 @@ public class UserController {
 	 * @return
 	 */
 	@PostMapping("/sign-up")
-	public String signUp(signUpDTO dto) {
+	public String signUpProc(signUpDTO dto) {
 		/**
 		 * DB에 저장되어 있는 이메일로 회원가입 시도할 시 checkEmail로 이메일 유무를 확인 후 emailCount = 1이면 email 존재 
 		 * emailCount = 0 이면 DB에 이메일 없음
@@ -81,7 +81,7 @@ public class UserController {
 	 * @return
 	 */
 	@GetMapping("/sign-in")
-	public String signInPage() {
+	public String handleSignInPage() {
 		return "user/signIn";
 
 	}
@@ -108,7 +108,7 @@ public class UserController {
 	 * @return
 	 */
 	@GetMapping("/logout")
-	public String logout() {
+	public String handleLogout() {
 		session.invalidate();
 		System.out.println("로그아웃성공");
 		return "redirect:/";
@@ -121,7 +121,7 @@ public class UserController {
 	 * @return
 	 */
 	@GetMapping("/kakaoLogin")
-	public String kakoLogin(@RequestParam(name = "code") String code) {
+	public String handleKakoLogin(@RequestParam(name = "code") String code) {
 
 		// 토큰 확인 전에 확인할 수 있는 카카오 코드 (인가 코드)
 		System.out.println("code : " + code);
@@ -211,7 +211,7 @@ public class UserController {
 	 * 로그인 페이지에서 네이버 간편 로그인 @@@@@ @@@@@@@@@@@@@@@@@@
 	 */
 	@GetMapping("/naverLogin")
-	public String naverLogin(@RequestParam(name = "code") String code) {
+	public String handleNaverLogin(@RequestParam(name = "code") String code) {
 
 		RestTemplate rt1 = new RestTemplate();
 		// 헤더 구성 (접근 토큰 발급 요청)
@@ -301,7 +301,7 @@ public class UserController {
 	 * 로그인 페이지에서 구글 간편 로그인 (구글 인증키 다른거 써야 함 - 정훈 -)
 	 */
 	@GetMapping("/googleLogin")
-	public String googleLogin(@RequestParam(name = "code") String code) {
+	public String handleGoogleLogin(@RequestParam(name = "code") String code) {
 
 		System.out.println("code : " + code);
 		RestTemplate rt1 = new RestTemplate();
@@ -392,7 +392,7 @@ public class UserController {
 	 * @return
 	 */
 	@PostMapping("/emails/verification-requests")
-	public ResponseEntity<Void> sendMessage(@RequestParam("email") String email) {
+	public ResponseEntity<Void> sendMessageProc(@RequestParam("email") String email) {
 		userService.sendCodeToEmail(email);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
@@ -405,7 +405,7 @@ public class UserController {
 	 * @return
 	 */
 	@GetMapping("/emails/verifications")
-	public ResponseEntity<EmailVerificationResult> verificationEmail(@RequestParam("email") String email,
+	public ResponseEntity<EmailVerificationResult> handleVerificationEmail(@RequestParam("email") String email,
 			@RequestParam("code") String authCode) {
 
 		EmailVerificationResult result = userService.verifiedCode(email, authCode);
@@ -419,7 +419,7 @@ public class UserController {
 	 * @return
 	 */
 	@GetMapping("/check-email")
-	public ResponseEntity<String> checkEmail(@RequestParam("email") String email) {
+	public ResponseEntity<String> handleCheckEmail(@RequestParam("email") String email) {
 		boolean isEmailExist = userService.isEmailDuplicate(email);
 
 		if (isEmailExist) {
@@ -433,7 +433,7 @@ public class UserController {
 	
 	// 닉네임 중복 체크 API
     @GetMapping("/check-nickname")
-    public ResponseEntity<Void> checkNickNameDuplicate(@RequestParam("nickName") String nickName) {
+    public ResponseEntity<Void> handleCheckNickNameDuplicate(@RequestParam("nickName") String nickName) {
         if (userService.isNickNameDuplicate(nickName)) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build(); // 409 Conflict
         }
