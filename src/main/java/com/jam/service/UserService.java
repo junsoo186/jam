@@ -68,16 +68,18 @@ public class UserService {
 	 * @return
 	 */
 	public User login(signInDTO dto) {
-		User user = null;
-		try {
-			user = userRepository.findByEmailAndPassword(dto);
-		} catch (Exception e) {
-			// TODO: handle exception
-		} if (!passwordEncoder.matches(dto.getPassword(), user.getPassword())) {
-			// TODO - 오류 처리
+		// 이메일로 유저를 조회
+		User user = userRepository.findEmail(dto.getEmail());
+		if (user == null) {
+			throw new IllegalArgumentException("User not found with the provided email.");
 		}
-		return user;
 
+		// 비밀번호 확인
+		if (!passwordEncoder.matches(dto.getPassword(), user.getPassword())) {
+			throw new IllegalArgumentException("Password is incorrect.");
+		}
+
+		return user;
 	}
 
 	/**
@@ -189,7 +191,8 @@ public class UserService {
 	public int updatePasswordByEmail(String password, String email) {
 		int result = 0;
 		try {
-			result = userRepository.updatePasswordByEmail(password, email);
+			String hashPwd = passwordEncoder.encode(password);
+			result = userRepository.updatePasswordByEmail(hashPwd, email);
 		} catch (Exception e) {
 			// TODO - 오류 처리
 		}

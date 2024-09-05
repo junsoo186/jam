@@ -10,10 +10,9 @@
 		values(#{nickName}, #{phoneNumber}, #{email}, #{password});
 	</insert>
 
-	<select id="findByEmailAndPassword"
+	<select id="findEmail"
 		resultType="com.jam.repository.model.User">
-		select * from user_tb where email = #{email} and password =
-		#{password};
+		select * from user_tb where email = #{email}
 	</select>
 
 	<select id="findByUserEmail" resultType="int">
