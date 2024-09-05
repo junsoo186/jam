@@ -60,6 +60,7 @@ document.addEventListener('DOMContentLoaded', function () {
 				alert('인증 이메일이 전송되었습니다.');
 
 				// 이메일 필드를 숨기고 인증 코드 입력 섹션을 표시
+				document.getElementById('emailButton').style.display='none';
 				document.getElementById('verificationEmail').value = email;  // 숨겨진 이메일 필드에 값 저장
 				document.getElementById('verificationSection').style.display = 'block';  // 인증 코드 입력 섹션 표시
 			} else {

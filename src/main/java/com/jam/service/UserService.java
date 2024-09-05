@@ -170,4 +170,20 @@ public class UserService {
         Optional<User> user = userRepository.findByNickName(nickName); // 닉네임으로 사용자 조회
         return user.isPresent(); // 사용자가 존재하면 true 반환
     }
+    
+    /**
+     * 비밀 번호 수정
+     * @param password
+     * @param email
+     * @return
+     */
+    public int updatePasswordByEmail(String password, String email) {
+    	int result = 0;
+    	try {
+			result = userRepository.updatePasswordByEmail(password, email);
+		} catch (Exception e) {
+			// TODO - 오류 처리
+		}
+    	return result;
+    }
 }
