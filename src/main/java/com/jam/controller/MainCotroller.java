@@ -24,11 +24,13 @@ public class MainCotroller {
      */
 	@GetMapping("/chatPage")
 	public String chatPage(@SessionAttribute(Define.PRINCIPAL) User principal, Model model) {
-		String nickname = principal.getNickName();
-		int userId = principal.getUserId();
-		model.addAttribute("nickname",nickname );
-		model.addAttribute("userId",userId);
-		return "/chatPage";
+	    String nickname = principal.getNickName();
+	    int userId = principal.getUserId();
+	    String profileImg = principal.getProfileImg();
+	    model.addAttribute("nickname", nickname);
+	    model.addAttribute("userId", userId);
+	    model.addAttribute("profileImg", profileImg); // 프로필 이미지 추가
+	    return "/chatPage";
 	}
 
 }

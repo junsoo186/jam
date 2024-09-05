@@ -35,9 +35,14 @@
 					<div class="nav-item">
 						<c:choose>
 							<c:when test="${principal != null}">
-
-								<a class="profile-area" href="#"> <img class="nav-profile" src="/images/profile/profile.png">
+								<c:if test="${principal.profileImg != null}">
+								 <img class="nav-profile" src="${principal.profileImg}">
+								</c:if>
+								<c:if test="${principal == null}">
+									<a class="profile-area" href="#"> <img class="nav-profile" src="/images/profile/profile.png">
 								</a>
+								</c:if>
+							
 							</c:when>
 							<c:otherwise>
 								<li class="nav-login"><a class="nav-link" href="/user/sign-in">로그인</a></li>
@@ -78,10 +83,6 @@
 		<div class="sidebar">
 			<ul>
 				<a href="/write/workList" class="nav-link"> 
-				<c:choose>
-				<c:when test="${principal. != null}">
-				</c:when>
-				</c:choose>
 				<img class="pencil-icon" src="/images/layout/write.png">
 				</a>
 				<br>

@@ -19,7 +19,9 @@
         </div>
     </div>
     <script type="text/javascript">
-    const nickname = '${nickname}';
+    const profileImg = '${profileImg}';
+    const userId = '${userId}';
+    const nickname = '${nickname}'; 
     </script>
     <script type="text/javascript" src="/js/chat.js"></script>
 </body>

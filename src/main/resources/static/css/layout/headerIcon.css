@@ -22,6 +22,7 @@
     height: 50px; 
     object-fit: cover;
     border-radius: 50%; 
+    border:solid 3px #e1e3e1;
 }
 .img-rank{
 	 width: 20px;
