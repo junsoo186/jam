@@ -141,7 +141,7 @@ public class UserController {
 		// 바디 구성
 		MultiValueMap<String, String> params1 = new LinkedMultiValueMap<String, String>();
 		params1.add("grant_type", "authorization_code");
-		params1.add("client_id", "6d77c46fd0cf14b69558985620414300"); // da70bb7a1f4babcdcd8957d9785e99c4
+		params1.add("client_id", "da70bb7a1f4babcdcd8957d9785e99c4"); // da70bb7a1f4babcdcd8957d9785e99c4
 		params1.add("redirect_uri", "http://localhost:8080/user/kakao");
 		params1.add("code", code);
 
@@ -173,7 +173,7 @@ public class UserController {
 		KakaoProfile kakaoProfile = resposne2.getBody();
 		// return kakaoProfile.toString();
 
-		signUpDTO dtoUp = signUpDTO.builder().nickName(kakaoProfile.getProperties().getNickname())
+		signUpDTO dtoUp = signUpDTO.builder().nickName(kakaoProfile.getProperties().getNickname()+ "_" + kakaoProfile.getId())
 				.email(kakaoProfile.getKakaoAccount().getEmail()).password("1234").build();
 
 		// 회원가입시 이메일 중복 체크
@@ -232,7 +232,7 @@ public class UserController {
 		// 바디 구성
 		MultiValueMap<String, String> params1 = new LinkedMultiValueMap<String, String>();
 		params1.add("grant_type", "authorization_code");
-		params1.add("client_id", "6d77c46fd0cf14b69558985620414300"); // da70bb7a1f4babcdcd8957d9785e99c4
+		params1.add("client_id", "da70bb7a1f4babcdcd8957d9785e99c4"); // da70bb7a1f4babcdcd8957d9785e99c4
 		params1.add("redirect_uri", "http://localhost:8080/user/kakaoLogin");
 		params1.add("code", code);
 
@@ -343,7 +343,7 @@ public class UserController {
 		signUpDTO dtoUp = signUpDTO.builder()
 				// name, birth_date, gender, address, nick_name, phone_number, email, password,
 				// admin_check
-				.nickName(naverProfile.getResponse().getNickname()).email(naverProfile.getResponse().getEmail())
+				.nickName(naverProfile.getResponse().getNickname()+"_"+naverProfile.getResponse().getAge() ).email(naverProfile.getResponse().getEmail())
 				.password("1234").build();
 
 		System.out.println(dtoUp.toString());
@@ -499,12 +499,12 @@ public class UserController {
 				HttpMethod.GET, reqGoogleInfoMessage, GoogleProfile.class);
 
 		GoogleProfile googleProfile = resposne2.getBody();
-//		return resposne2.toString();
 
 		signUpDTO dtoUp = signUpDTO.builder()
 				// name, birth_date, gender, address, nick_name, phone_number, email, password,
 				// admin_check
-				.nickName(googleProfile.getName()).email(googleProfile.getEmail()).password("1234").build();
+				
+				.nickName(googleProfile.getName() +"_google").email(googleProfile.getEmail()).password("1234").build();
 
 		System.out.println(dtoUp.toString());
 
