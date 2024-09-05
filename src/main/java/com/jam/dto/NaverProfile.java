@@ -15,8 +15,4 @@ public class NaverProfile {
 	 private String message;
 	 private NaverProfileResponse response;  // 내부 객체
 	
-	
-   
-   
-   
 }

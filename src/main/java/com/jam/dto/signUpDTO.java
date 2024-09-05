@@ -1,5 +1,7 @@
 package com.jam.dto;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.jam.repository.model.User;
 
 import lombok.AllArgsConstructor;
@@ -21,6 +23,9 @@ public class signUpDTO {
 	private String email;
 	private String password;
 	private String role;
+	private MultipartFile mFile;
+	private String profileImg;
+	private String oriProfileImg;
 	
 	
 	public User toUser() {
@@ -30,6 +35,8 @@ public class signUpDTO {
 				.email(this.email)
 				.password(this.password)
 				.role(this.role)
+				.profileImg(this.profileImg)
+				.oriProfileImg(this.oriProfileImg)
 				.build();
 	}
 	

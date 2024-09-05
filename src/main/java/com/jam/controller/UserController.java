@@ -62,16 +62,9 @@ public class UserController {
 	 */
 	@PostMapping("/sign-up")
 	public String signUpProc(signUpDTO dto) {
-		/**
-		 * DB에 저장되어 있는 이메일로 회원가입 시도할 시 checkEmail로 이메일 유무를 확인 후 emailCount = 1이면 email
-		 * 존재 emailCount = 0 이면 DB에 이메일 없음
-		 */
-		int emailCount = userService.checkDuplicatedEmail(dto.getEmail());
-		if (emailCount == 1) {
-			return "user/signUp";
-		} else {
-			userService.createUser(dto);
-		}
+		System.out.println("dto : " + dto.toString());
+		userService.createUser(dto);
+
 		return "redirect:/user/sign-in";
 	}
 
@@ -100,6 +93,9 @@ public class UserController {
 		// 사용자 인증 로직
 		User principal = userService.login(dto); // 로그인 시도 및 User 객체 반환
 		// 세션에 사용자 정보를 등록
+		// 이미지
+		String profileImg = principal.setUpUserImage();
+		principal.setProfileImg(profileImg);
 		session.setAttribute("principal", principal);
 		System.out.println("principal : " + principal);
 		return "redirect:/"; // 로그인 성공 시 메인 페이지로 리다이렉트
@@ -473,7 +469,7 @@ public class UserController {
 		}
 
 		int result = userService.updatePasswordByEmail(newPassword, email);
-		
+
 		if (result == 0) {
 			// 비밀번호 변경 실패 시 처리
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("비밀번호 변경에 실패했습니다. 다시 시도하세요.");
