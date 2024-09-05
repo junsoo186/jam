@@ -23,3 +23,9 @@
     object-fit: cover;
     border-radius: 50%; 
 }
+.img-rank{
+	 width: 20px;
+    height: 16px; 
+    object-fit: cover;
+	
+}

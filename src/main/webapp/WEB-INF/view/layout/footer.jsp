@@ -6,7 +6,7 @@
 	<section class="bottom-footer">
     <div class="footer-content">
         <div class="footer-logo">
-            <a href="#"><img src="logo.png" alt="Logo"></a>
+            <!--<a href="#"><img src="logo.png" alt="Logo"></a>  -->
         </div>
         <div class="footer-links">
             <a href="#">About Us</a>

@@ -227,33 +227,11 @@ h3 {
 	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
-.slider--btn {
-	width: 50px;
-	position: absolute;
-	top: 50%;
-	transform: translateY(-50%);
-	background-color: rgba(255, 255, 255, 0.8); /* 반투명 흰색 */
-	color: #FF4D6D;
-	border: none;
-	font-size: 24px;
-	padding: 10px;
-	cursor: pointer;
-	z-index: 10;
-	border-radius: 50%;
-	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-}
 
-.slider--btn:hover {
-	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-}
 
-.prev--btn {
-	left: 20px;
-}
 
-.next--btn {
-	right: 20px;
-}
+
+
 
 /* 슬라이더 내부 래퍼 */
 .slider--wrapper {

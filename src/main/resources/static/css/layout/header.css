@@ -199,8 +199,7 @@ search-form {
    
 }
 
-.center-category li {
-	
+.center-category li {	
     margin: 0 15px;
 }
 
@@ -210,6 +209,11 @@ search-form {
     color: black;
     font-weight: bold;
 }
+
+.center-category a:hover{
+	color: #ff4081;
+}
+
 
 /* 헤더 하단 영역 유지 */
 header {

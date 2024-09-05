@@ -170,7 +170,6 @@
 		</div>
 
 		<div class="event--container">
-			<button class="slider--btn prev--btn">&#10094;</button>
 			<div class="slider--wrapper">
 				<div class="slider">
 					<div class="slide">
@@ -180,7 +179,6 @@
 					</div>
 				</div>
 			</div>
-			<button class="slider--btn next--btn">&#10095;</button>
 		</div>
 		<!-- 책 목록 -->
 

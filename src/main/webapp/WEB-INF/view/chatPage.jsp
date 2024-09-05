@@ -19,9 +19,12 @@
     </style>
 </head>
 <body>
-    <div id="messages"></div>
-    <input type="text" id="messageInput" placeholder="Type your message here...">
-    <button onclick="sendMessage()">Send</button>
+
+    <script type="text/javascript" src="/js/chat.js"></script>
+
+    <div id="messages" style="border: 1px solid black; height: 300px; overflow-y: scroll;"></div>
+    <input type="text" id="messageInput" placeholder="메시지를 입력하세요">
+    <button onclick="sendMessage()">전송</button>
 	<%-- <section>
 		<c:choose>
 			<c:when test="${chatRoom.roomId} != null">
@@ -35,5 +38,5 @@
 	
  --%>
  
-
+</body>
 </html>
