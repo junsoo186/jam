@@ -1,5 +1,7 @@
 package com.jam.dto;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,6 +20,5 @@ public class UserDTO {
 	private String nickname;
 	private String email;
 	private String password;
-	
 	
 }

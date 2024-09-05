@@ -9,7 +9,7 @@ import lombok.ToString;
 @Data
 @JsonNaming(value = PropertyNamingStrategies.SnakeCaseStrategy.class)
 @ToString
-public class Properties {
+public class UserPropertiesDTO {
 	
 	private String nickname; 
 	private String profileImage;
