@@ -42,7 +42,7 @@
 	
 	<update id="updatePasswordByEmail">
 		update user_tb
-		set password = #{password};
+		set password = #{password}
 		where email = #{email};
 	</update>
 
