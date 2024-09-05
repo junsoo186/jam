@@ -372,7 +372,7 @@ public class UserController {
 					.build();
 			
 			// 회원가입 진행
-			userService.createUser(dtoUp);
+			userService.createUser(dtoUp); 
 			
 			// 로그인 진행
 			User principal = userService.login(dtoIn); 
