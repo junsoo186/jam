@@ -10,6 +10,7 @@ import java.util.TimerTask;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,6 +30,7 @@ import lombok.extern.slf4j.Slf4j;
 public class UserService {
 
 	private final UserRepository userRepository;
+	private final PasswordEncoder passwordEncoder;
 
 	private static final String AUTH_CODE_PREFIX = "AuthCode ";
 
@@ -47,7 +49,8 @@ public class UserService {
 	@Transactional // 트랜잭션 처리
 	public void createUser(signUpDTO dto) {
 		int result = 0;
-		System.out.println("dto : " + dto);
+		String hashPwd = passwordEncoder.encode(dto.getPassword());
+		dto.setPassword(hashPwd);
 		result = userRepository.insert(dto);
 
 		if (result == 1) {
@@ -66,8 +69,13 @@ public class UserService {
 	 */
 	public User login(signInDTO dto) {
 		User user = null;
-		System.out.println("User : " + dto);
-		user = userRepository.findByEmailAndPassword(dto);
+		try {
+			user = userRepository.findByEmailAndPassword(dto);
+		} catch (Exception e) {
+			// TODO: handle exception
+		} if (!passwordEncoder.matches(dto.getPassword(), user.getPassword())) {
+			// TODO - 오류 처리
+		}
 		return user;
 
 	}
