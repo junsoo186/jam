@@ -74,7 +74,7 @@
 		<!-- 사이드바 추가 -->
 	<div class="sidebar">
 		    <ul>
-		        <li><a href="#">내 정보</a></li>
+		        <li><a href="/user/myPage">내 정보</a></li>
 		        <li><a href="#">보유 JAM: 0 </a></li>
 		        <li><a href="#">JAM 충전하기</a></li>		  
 		        <li><a href="#">설정</a></li>

@@ -484,5 +484,12 @@ public class UserController {
 	public String getMethodName() {
 		return "user/findEmail";
 	}
-
+	
+	/**
+	 * 마이페이지
+	 */
+	@GetMapping("/myPage")
+	public String getMyPage() {
+		return "redirect:/user/myPage";
+	}
 }
