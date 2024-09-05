@@ -29,4 +29,12 @@ public class User {
 	private Timestamp createdAt;
 	private String profileImg;
 	private String oriProfileImg;
+	
+	public String setUpUserImage() {
+		if (profileImg == null) {
+			return "https://picsum.photos/id/40/400/400";
+		} else {
+			return "/images/uploads/" + profileImg;
+		}
+	}
 }

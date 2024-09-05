@@ -90,6 +90,9 @@ public class UserController {
 		// 사용자 인증 로직
 		User principal = userService.login(dto); // 로그인 시도 및 User 객체 반환
 		// 세션에 사용자 정보를 등록
+		// 이미지
+		String profileImg = principal.setUpUserImage();
+		principal.setProfileImg(profileImg);
 		session.setAttribute("principal", principal);
 		System.out.println("principal : " + principal);
 		return "redirect:/"; // 로그인 성공 시 메인 페이지로 리다이렉트
