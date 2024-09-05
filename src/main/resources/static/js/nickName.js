@@ -3,6 +3,7 @@
 
 document.addEventListener('DOMContentLoaded', function() {
 	
+	
 	const signUpButton = document.querySelector('button[type="submit"]'); // 가입하기 버튼
 	
 	function updateSignUpButton(isEnabled) {
