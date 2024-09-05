@@ -27,4 +27,6 @@ public class User {
 	private String password;
 	private String role;
 	private Timestamp createdAt;
+	private String profileImg;
+	private String oriProfileImg;
 }

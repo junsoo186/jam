@@ -5,9 +5,9 @@
 <mapper namespace="com.jam.repository.interfaces.UserRepository">
 
 	<insert id="insert">
-		insert into user_tb (nick_name, phone_number, email,
-		password)
-		values(#{nickName}, #{phoneNumber}, #{email}, #{password});
+		insert into user_tb (nick_name, email,
+		password, profile_img)
+		values(#{nickName}, #{email}, #{password}, #{profileImg});
 	</insert>
 
 	<select id="findEmail"
