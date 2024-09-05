@@ -94,6 +94,9 @@ public class UserController {
 	 */
 	@PostMapping("/sign-in")
 	public String signProc(signInDTO dto) {
+		
+		
+		
 		// 사용자 인증 로직
 		User principal = userService.login(dto); // 로그인 시도 및 User 객체 반환
 		// 세션에 사용자 정보를 등록
@@ -486,10 +489,31 @@ public class UserController {
 	}
 	
 	/**
-	 * 마이페이지
+	 * 마이페이지 이동
 	 */
 	@GetMapping("/myPage")
 	public String getMyPage() {
-		return "redirect:/user/myPage";
+		return "user/myPage";
 	}
+	
+	/**
+	 * 마이페이지 회원정보 수정 페이지 이동
+	 */
+	@GetMapping("/myProfileModify")
+	public String getDetailMyPage() {
+		
+	//	userService.myPageModify(user);
+		
+		return "/user/myProfile";
+	}
+	
+	/*
+	 * 마이페이지 회원정보 수정 처리
+	 */
+	@PostMapping("/userModify1212")
+	public String modifyPage(User user) {
+		
+		return "redirect:/";
+	}
+	
 }
