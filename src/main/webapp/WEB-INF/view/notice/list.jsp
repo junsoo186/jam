@@ -36,12 +36,11 @@
 							<!-- onclick 이벤트 핸들러 추가 -->
 						</form>
 
-						<form id="update" method="post" action="/update">
+						<form id="update" method="post" action="update/${notice.noticeId}">
 							<input type="hidden" name="noticeId" value="${notice.noticeId}">
 							<!-- 실제 noticeId 값을 여기에 설정해야 합니다 -->
 							<input type="hidden" name="action" value="update">
-							<button type="button"
-								onclick="window.location.href='updateForm';">수정</button>
+							<button type="submit">수정</button>
 						</form>
 
 					</td>
@@ -50,30 +49,29 @@
 		</tbody>
 	</table>
 	<div class="bottom--page--area">
-							<ul class="pagination">
-								<!-- Previous Page Link -->
-								<li class="page-item"><a class="page-link"
-									href="?type=${type}&page=${currentPage - 1}&size=${size}"
-									<c:if test='${currentPage == 1}'>onclick="return false;"</c:if>><</a>
-								</li>
+		<ul class="pagination">
+			<!-- Previous Page Link -->
+			<li class="page-item"><a class="page-link"
+				href="?type=${type}&page=${currentPage - 1}&size=${size}"
+				<c:if test='${currentPage == 1}'>onclick="return false;"</c:if>><</a>
+			</li>
 
-								<!-- Page Numbers -->
-								<c:forEach begin="1" end="${totalPages}" var="page">
-									<li
-										class="page-item <c:if test='${page == currentPage}'>active</c:if>">
-										<a class="page-link"
-										href="?type=${type}&page=${page}&size=${size}"
-										onclick="animateStickEffect(event)">${page}</a>
-									</li>
-								</c:forEach>
+			<!-- Page Numbers -->
+			<c:forEach begin="1" end="${totalPages}" var="page">
+				<li
+					class="page-item <c:if test='${page == currentPage}'>active</c:if>">
+					<a class="page-link" href="?type=${type}&page=${page}&size=${size}"
+					onclick="animateStickEffect(event)">${page}</a>
+				</li>
+			</c:forEach>
 
-								<!-- Next Page Link -->
-								<li class="page-item"><a class="page-link"
-									href="?type=${type}&page=${currentPage + 1}&size=${size}"
-									<c:if test='${currentPage == totalPages}'>onclick="return false;"</c:if>>></a>
-								</li>
-							</ul>
-						</div>
+			<!-- Next Page Link -->
+			<li class="page-item"><a class="page-link"
+				href="?type=${type}&page=${currentPage + 1}&size=${size}"
+				<c:if test='${currentPage == totalPages}'>onclick="return false;"</c:if>>></a>
+			</li>
+		</ul>
+	</div>
 </div>
 <script type="text/javascript" src="/js/page.js"></script>
 

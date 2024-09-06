@@ -104,18 +104,20 @@ public class NoticeController {
 	 * 게시글 수정
 	 */
 	@GetMapping("update/{noticeId}")
-	public String updateForm(@PathVariable("noticeId") int noticeId, Model model) {
+	public String updateForm(@PathVariable("noticeId") int noticeId, Model model , 
+			@SessionAttribute(Define.PRINCIPAL) User principal ) {
 		Notice notice = new Notice();
+		notice = noticeService.selectByNoticeId(noticeId,principal.getUserId());
 		model.addAttribute("noticeList", notice);
-		model.addAttribute("noticeId", noticeId);
 		return "notice/updateForm";
+		
 	}
 
-	@PostMapping("/list/update/{noticeId}")
+	@PostMapping("update/{noticeId}")
 	public String update(NoticeDTO noticeDTO, @PathVariable(name = "noticeId") Integer noticeId, NoticeDTO dto) {
 		int boardTemp = noticeService.uploading(noticeId, dto);
 
-		return "redirect:/";
+		return "redirect:/notice/list";
 	}
 
 }

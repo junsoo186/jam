@@ -7,23 +7,19 @@
 
 <div class="container p-5">
     <div class="card">
-        <div class="card-header"><b>새글작성</b></div>
+        <div class="card-header"><b>게시글 수정</b></div>
         <div class="card-body">
             <!-- 폼 액션 URL 수정 -->
-            <form action="/notice/update/${notice.noticeId}" method="post">
+            <form action="/notice/update/${noticeList.noticeId}" method="post">
                 <div class="mb-3">
-                    <input type="text" class="form-control" placeholder="제목" name="title" required>
+                    <input type="text" class="form-control" value="${noticeList.noticeTitle}" name="noticeTitle"required>
                 </div>
+               
+               
                 <div class="mb-3">
-                    <input type="text" class="form-control" placeholder="작성자" name="staff_id" required>
+                    <textarea class="form-control" rows="5" name="noticeContent" required> ${noticeList.noticeContent}</textarea>
                 </div>
-                <div class="mb-3">
-                    <input type="password" class="form-control" placeholder="비밀번호" name="password" required>
-                </div>
-                <div class="mb-3">
-                    <textarea class="form-control" rows="5" name="content" required></textarea>
-                </div>
-                <button type="submit" class="btn btn-primary form-control" onclick="window.location.href='updateForm';">수정</button>
+                <button type="submit" class="btn btn-primary form-control">수정</button>
             </form>
         </div>
     </div>

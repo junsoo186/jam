@@ -17,7 +17,7 @@
     <!-- 게시글 수정 -->
     <update id="update">
         UPDATE notice_tb
-        SET staff_id = #{staffId}, notice_title = #{noticeTitle}, notice_content = #{noticeContent}, comment = #{comment}, created_at = NOW()
+        SET notice_title = #{noticeTitle}, notice_content = #{noticeContent}, created_at = NOW()
         WHERE notice_id = #{noticeId}
     </update>
 
