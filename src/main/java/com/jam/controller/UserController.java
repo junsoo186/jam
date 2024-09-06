@@ -1,5 +1,8 @@
 package com.jam.controller;
 
+import java.sql.Date;
+import java.text.SimpleDateFormat;
+
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -498,8 +501,6 @@ public class UserController {
 	@GetMapping("/myProfileModify")
 	public String getDetailMyPage() {
 		
-	//	userService.myPageModify(user);
-		
 		return "/user/myProfile";
 	}
 	
@@ -508,6 +509,30 @@ public class UserController {
 	 */
 	@PostMapping("/userModify1212")
 	public String modifyPage(User user) {
+		
+		user = User.builder()
+				.userId(user.getUserId())
+				.name(user.getName())
+				.birthDate(user.getBirthDate())
+				.address(user.getAddress())
+				.nickName(user.getNickName())
+				.phoneNumber(user.getPhoneNumber())
+				.email(user.getEmail())
+			//	.password(user.getPassword())
+				.point(user.getPoint())
+			//	.role(user.getRole())
+			//	.createdAt(user.getCreatedAt())
+			//	.profileImg(user.getProfileImg())
+			//	.oriProfileImg(user.getOriProfileImg())
+				.build();
+		
+		userService.updateProfile(user); // 유저 데이터 업데이트
+		System.out.println("@@@@ : " +user.toString());
+		
+		User principal = userService.InformationUpdate(user.getEmail()); // 이메일로 데이터 받기
+		
+		session.setAttribute("principal", principal);
+		System.out.println("principal : " + principal);
 		
 		return "redirect:/";
 	}
