@@ -1,5 +1,9 @@
 package com.jam.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.UUID;
+
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -13,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.jam.dto.EmailVerificationResult;
 import com.jam.dto.GoogleProfile;
@@ -506,7 +511,7 @@ public class UserController {
 	 * 마이페이지 회원정보 수정 처리
 	 */
 	@PostMapping("/userModify1212")
-	public String modifyPage(User user) {
+	public String modifyPage(User user, @RequestParam("mFile") MultipartFile mFile) throws IllegalStateException, IOException {
 		
 		user = User.builder()
 				.userId(user.getUserId())
@@ -524,13 +529,31 @@ public class UserController {
 			//	.oriProfileImg(user.getOriProfileImg())
 				.build();
 		
-		userService.updateProfile(user); // 유저 데이터 업데이트
-		System.out.println("@@@@ : " +user.toString());
-		
-		User principal = userService.InformationUpdate(user.getEmail()); // 이메일로 데이터 받기
-		
-		session.setAttribute("principal", principal);
-		System.out.println("principal : " + principal);
+		 // 만약 mFile이 비어 있으면 기존 이미지 사용
+	    if (mFile != null && !mFile.isEmpty()) {
+	        // 고유 파일명 생성
+	        String originalFilename = mFile.getOriginalFilename();
+	        String fileExtension = originalFilename.substring(originalFilename.lastIndexOf('.'));
+	        String uniqueFileName = UUID.randomUUID().toString() + fileExtension;
+
+	        // 파일 저장 경로 설정
+	        String uploadDir = "C:/work_spring/upload/";
+	        File destinationFile = new File(uploadDir + uniqueFileName);
+	        mFile.transferTo(destinationFile); // 파일을 해당 경로에 저장
+
+	        // 새로운 프로필 이미지 경로 업데이트
+	        user.setProfileImg("/images/uploads/" + uniqueFileName);
+	    } else {
+	        // 파일이 없으면 기존 프로필 이미지 사용
+	        user.setProfileImg(user.getProfileImg());
+	    }
+	    
+	    // 유저 정보 업데이트
+	    userService.updateProfile(user);
+	    
+	    // 업데이트된 유저 정보 가져와서 세션에 저장
+	    User principal = userService.InformationUpdate(user.getEmail());
+	    session.setAttribute("principal", principal);
 		
 		return "redirect:/";
 	}

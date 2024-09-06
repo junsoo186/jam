@@ -39,7 +39,7 @@
 
 				<!-- 프로필 이미지 업로드 섹션 -->
 				<div>
-					<label for="mFile">프로필 이미지:</label> <input type="file" id="mFile" name="mFile" accept="image/*" required>
+					<label for="mFile">프로필 이미지:</label> <input type="file" id="mFile" name="mFile" accept="image/*">
 					<!-- 이미지 미리보기 -->
 					<img id="previewImage" src="#" alt="이미지 미리보기" style="display: none; width: 100px; height: 100px;">
 				</div>
