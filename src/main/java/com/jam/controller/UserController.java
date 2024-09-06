@@ -94,8 +94,6 @@ public class UserController {
 	@PostMapping("/sign-in")
 	public String signProc(signInDTO dto) {
 		
-		
-		
 		// 사용자 인증 로직
 		User principal = userService.login(dto); // 로그인 시도 및 User 객체 반환
 		// 세션에 사용자 정보를 등록
@@ -199,12 +197,13 @@ public class UserController {
 					.password(dtoUp.getPassword()).build();
 			// 회원가입 진행
 			userService.createUser(dtoUp);
+			userService.createDetail(dtoUp);  // 방금 디테일 추가해봄
 			// 로그인 진행
 			User principal = userService.login(dtoIn); // 로그인 시도 및 User 객체 반환
 			session.setAttribute("principal", principal);
 			System.out.println("principal : " + principal);
 
-			userService.login(dtoIn);
+			userService.login(dtoIn); 
 
 			return "redirect:/";
 		}
@@ -288,6 +287,7 @@ public class UserController {
 
 			// 회원가입 진행
 			userService.createUser(dtoUp);
+			userService.createDetail(dtoUp);
 
 			// 로그인 진행
 			User principal = userService.login(dtoIn); // 로그인 시도 및 User 객체 반환
@@ -377,6 +377,7 @@ public class UserController {
 
 			// 회원가입 진행
 			userService.createUser(dtoUp);
+			userService.createDetail(dtoUp);
 
 			// 로그인 진행
 			User principal = userService.login(dtoIn);
