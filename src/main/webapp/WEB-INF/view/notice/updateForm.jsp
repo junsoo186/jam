@@ -9,6 +9,7 @@
     <div class="card">
         <div class="card-header"><b>게시글 수정</b></div>
         <div class="card-body">
+        <h3> 공지사항 수정</h3>
             <!-- 폼 액션 URL 수정 -->
             <form action="/notice/update/${noticeList.noticeId}" method="post">
                 <div class="mb-3">

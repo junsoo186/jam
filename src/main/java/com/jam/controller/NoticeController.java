@@ -114,9 +114,16 @@ public class NoticeController {
 	}
 
 	@PostMapping("update/{noticeId}")
-	public String update(NoticeDTO noticeDTO, @PathVariable(name = "noticeId") Integer noticeId, NoticeDTO dto) {
-		int boardTemp = noticeService.uploading(noticeId, dto);
-
+	public String update(@PathVariable(name = "noticeId") Integer noticeId ,@SessionAttribute(Define.PRINCIPAL) User principal,
+			@RequestParam("noticeTitle") String noticeTitle
+			,@RequestParam("noticeContent") String noticeContent	) {
+		Notice notice = noticeService.selectByNoticeId(noticeId,principal.getUserId());
+		NoticeDTO dto = NoticeDTO.builder()
+						.noticeId(notice.getNoticeId())
+						.noticeTitle(noticeTitle)
+						.noticeContent(noticeContent)
+						.build();
+		Notice notice2 = noticeService.uploading(noticeId, dto);
 		return "redirect:/notice/list";
 	}
 

@@ -36,7 +36,7 @@
 							<!-- onclick 이벤트 핸들러 추가 -->
 						</form>
 
-						<form id="update" method="post" action="update/${notice.noticeId}">
+						<form id="update" method="get" action="update/${notice.noticeId}">
 							<input type="hidden" name="noticeId" value="${notice.noticeId}">
 							<!-- 실제 noticeId 값을 여기에 설정해야 합니다 -->
 							<input type="hidden" name="action" value="update">

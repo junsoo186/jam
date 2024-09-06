@@ -59,9 +59,10 @@ public class NoticeService {
     
     // 게시글 수정
     @Transactional
-    public int uploading(int noticeId, NoticeDTO dto) {
-    	int resultRow = noticeRepository.update(noticeId, dto.getNoticeTitle(),dto.getStaffId(), dto.getNoticeContent());
-    	return resultRow;
+    public Notice uploading(int noticeId, NoticeDTO dto) {
+    	int resultRow = noticeRepository.update(noticeId, dto.getNoticeTitle(), dto.getNoticeContent());
+    	Notice notice = noticeRepository.selectByNoticeId(noticeId, dto.getUserId());
+    	return notice;
 
     }
 
@@ -75,10 +76,6 @@ public class NoticeService {
 	}
 	
 
-	public int upload(Integer noticeId, NoticeDTO dto) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 
 	public Notice selectByNoticeId(int noticeId ,int userId) {
 		Notice	notice=new Notice();
