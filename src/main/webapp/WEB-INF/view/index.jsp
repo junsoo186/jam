@@ -8,19 +8,8 @@
 <meta charset="UTF-8">
 <title>메인화면</title>
 <link rel="stylesheet" href="/css/index.css">
-<<<<<<< HEAD
 <main>
-=======
-</head>
-<body>
-<<<<<<< HEAD
-	${principal.userId}
-	${principal.email}
-	<h1>메인화면입니다</h1>
-</main>
-=======
 
->>>>>>> 32dc7eac90ccac187b5836ba26620f2a3e0a7385
 	<div class="container--banner">
 		<!-- 배너 -->
 		<section class="top--banner" id="top--banner">
@@ -223,14 +212,8 @@
 			</div>
 		</div>
 	</div>
-
 </main>
 	<!-- JavaScript 파일을 여기에 포함 -->
 	<script type="text/javascript" src="/js/index.js"></script>
-<<<<<<< HEAD
 <%@ include file="/WEB-INF/view/layout/footer.jsp"%>
-=======
->>>>>>> 57fda8d4de4f5146c8e4176641583d59e4bb2e2a
-</body>
-</html>
->>>>>>> 32dc7eac90ccac187b5836ba26620f2a3e0a7385
+

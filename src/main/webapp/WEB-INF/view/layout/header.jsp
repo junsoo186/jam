@@ -35,14 +35,15 @@
 					<div class="nav-item">
 						<c:choose>
 							<c:when test="${principal != null}">
-								<c:if test="${principal.profileImg != null}">
+							<c:choose>
+								<c:when test="${principal.profileImg != null}">
 								 <img class="nav-profile" src="${principal.profileImg}">
-								</c:if>
-								<c:if test="${principal == null}">
+								</c:when>
+								<c:otherwise>
 									<a class="profile-area" href="#"> <img class="nav-profile" src="/images/profile/profile.png">
 								</a>
-								</c:if>
-							
+								</c:otherwise>
+							</c:choose>
 							</c:when>
 							<c:otherwise>
 								<li class="nav-login"><a class="nav-link" href="/user/sign-in">로그인</a></li>
