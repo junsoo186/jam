@@ -28,7 +28,7 @@
 		<div class="section">
 			<h4>고객지원</h4>
 			<ul>
-				<li><a href="javascript:void(0);" onclick="loadContent('/staff/faq')">Q&A</a></li>
+				<li><a href="javascript:void(0);" onclick="loadContent('/staff/qna')">Q&A</a></li>
 				<li><a href="javascript:void(0);" onclick="loadContent('/staff/notice')">공지사항</a></li>
 				<li><a href="javascript:void(0);" onclick="loadContent('/staff/event')">이벤트</a></li>
 			</ul>

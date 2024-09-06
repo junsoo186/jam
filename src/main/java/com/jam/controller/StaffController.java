@@ -43,6 +43,20 @@ public class StaffController {
 		return "staff/event";
 	}
 	
+	@GetMapping("/content-management")
+	public String handleContentManage() {
+		return "staff/content-management";
+	}
+	
+	@GetMapping("/qna")
+	public String handleQna() {
+		return "staff/qna";
+	}
+	
+	@GetMapping("/notice")
+	public String handleNotice() {
+		return "staff/notice";
+	}
 	
 	
 	
