@@ -79,4 +79,10 @@ public class NoticeService {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
+	public Notice selectByNoticeId(int noticeId ,int userId) {
+		Notice	notice=new Notice();
+		 notice = noticeRepository.selectByNoticeId(noticeId,userId);
+		return notice;
+	}
 }
