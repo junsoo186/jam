@@ -81,6 +81,10 @@
 		        <li><a href="#">1:1 채팅</a></li>
 		        <li><a href="/qna/list"> Q&A</a></li>
 		        <li><a href="/user/logout">로그아웃</a></li>
+		        <br>
+		        <c:if test="${principal.role eq 'admin'}">
+		        <li><a href="/staff">관리자 페이지</a></li>
+		        </c:if>
 		    </ul>
 	</div>
 		

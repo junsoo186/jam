@@ -59,7 +59,9 @@
 						<td>이벤트</td>
 						<td>&lt;공지내용&gt;</td>
 						<td>
-							<button class="btn btn-edit">수정</button>
+							<button class="btn btn-view">보기</button>
+                            <button class="btn btn-edit">수정</button>
+                            <button class="btn btn-delete">삭제</button>
 						</td>
 					</tr>
 					<tr>
@@ -67,7 +69,9 @@
 						<td>일반</td>
 						<td>&lt;공지내용&gt;</td>
 						<td>
-							<button class="btn btn-edit">수정</button>
+							<button class="btn btn-view">보기</button>
+                            <button class="btn btn-edit">수정</button>
+                            <button class="btn btn-delete">삭제</button>
 						</td>
 					</tr>
 				</tbody>

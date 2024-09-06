@@ -58,6 +58,25 @@ public class StaffController {
 		return "staff/notice";
 	}
 	
+	@GetMapping("/reportContentDetail")
+	public String handleReportContentDetail() {
+		return "staff/reportContentDetail";
+	}
+	
+	@GetMapping("/reportUserDetail")
+	public String handleReportUserDetail() {
+		return "staff/reportUserDetail";
+	}
+	
+	@GetMapping("/payDetail")
+	public String handlePayDetail() {
+		return "staff/payDetail";
+	}
+	
+	@GetMapping("/donationDetail")
+	public String handleDonationDetail() {
+		return "staff/donationDetail";
+	}
 	
 	
 }
