@@ -1,6 +1,6 @@
 
-insert into user_tb (nick_name, phone_number, email, password)
-values( '박정훈1', '010-4548-5678', 'test@test.com', '$2a$10$Y1mXaXaj5Y2m.IJkH58IwOZF8SSctsvP37WTrp82ambaSeSEyxZwe');
+insert into user_tb (nick_name, phone_number, email, password, profile_img)
+values( '박정훈1', '010-4548-5678', 'test@test.com', '$2a$10$Y1mXaXaj5Y2m.IJkH58IwOZF8SSctsvP37WTrp82ambaSeSEyxZwe', '');
 
 insert into user_tb (nick_name, phone_number, email, password)
 values( '정해주', '010-4548-5678', 'test1@naver.com', '$2a$10$Y1mXaXaj5Y2m.IJkH58IwOZF8SSctsvP37WTrp82ambaSeSEyxZwe');
@@ -106,7 +106,6 @@ INSERT INTO user_de_tb (user_id, point) VALUES (26, 1400);
 INSERT INTO user_de_tb (user_id, point) VALUES (27, 1300);
 INSERT INTO user_de_tb (user_id, point) VALUES (28, 1200);
 INSERT INTO user_de_tb (user_id, point) VALUES (29, 1100);
-INSERT INTO user_de_tb (user_id, point) VALUES (30, 1000);
 
 
 -- 경고 테이블
