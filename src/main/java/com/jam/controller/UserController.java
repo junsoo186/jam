@@ -64,6 +64,7 @@ public class UserController {
 	public String signUpProc(signUpDTO dto) {
 		System.out.println("dto : " + dto.toString());
 		userService.createUser(dto);
+		userService.createDetail(dto);
 
 		return "redirect:/user/sign-in";
 	}
@@ -87,6 +88,9 @@ public class UserController {
 	 */
 	@PostMapping("/sign-in")
 	public String signProc(signInDTO dto) {
+		
+		
+		
 		// 사용자 인증 로직
 		User principal = userService.login(dto); // 로그인 시도 및 User 객체 반환
 		// 세션에 사용자 정보를 등록
@@ -480,5 +484,55 @@ public class UserController {
 	public String getMethodName() {
 		return "user/findEmail";
 	}
-
+	
+	/**
+	 * 마이페이지 이동
+	 */
+	@GetMapping("/myPage")
+	public String getMyPage() {
+		return "user/myPage";
+	}
+	
+	/**
+	 * 마이페이지 회원정보 수정 페이지 이동
+	 */
+	@GetMapping("/myProfileModify")
+	public String getDetailMyPage() {
+		
+		return "/user/myProfile";
+	}
+	
+	/*
+	 * 마이페이지 회원정보 수정 처리
+	 */
+	@PostMapping("/userModify1212")
+	public String modifyPage(User user) {
+		
+		user = User.builder()
+				.userId(user.getUserId())
+				.name(user.getName())
+				.birthDate(user.getBirthDate())
+				.address(user.getAddress())
+				.nickName(user.getNickName())
+				.phoneNumber(user.getPhoneNumber())
+				.email(user.getEmail())
+			//	.password(user.getPassword())
+				.point(user.getPoint())
+			//	.role(user.getRole())
+			//	.createdAt(user.getCreatedAt())
+				.profileImg(user.getProfileImg())
+			//	.oriProfileImg(user.getOriProfileImg())
+				.build();
+		
+		userService.updateProfile(user); // 유저 데이터 업데이트
+		System.out.println("@@@@ : " +user.toString());
+		
+		User principal = userService.InformationUpdate(user.getEmail()); // 이메일로 데이터 받기
+		
+		session.setAttribute("principal", principal);
+		System.out.println("principal : " + principal);
+		
+		return "redirect:/";
+	}
+	
 }

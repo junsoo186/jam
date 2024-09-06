@@ -5,14 +5,23 @@
 <mapper namespace="com.jam.repository.interfaces.UserRepository">
 
 	<insert id="insert">
-		insert into user_tb (nick_name, email,
-		password, profile_img)
+		insert into user_tb (nick_name, email, password,
+		profile_img)
 		values(#{nickName}, #{email}, #{password}, #{profileImg});
+	</insert>
+
+	<insert id="insertbyUserTb">
+		insert into user_de_tb (user_id)
+		values(#{userId})
 	</insert>
 
 	<select id="findEmail"
 		resultType="com.jam.repository.model.User">
-		select * from user_tb where email = #{email}
+		select *
+		from user_tb as u
+		join user_de_tb as d on u.user_id
+		= d.user_id
+		where email = #{email};
 	</select>
 
 	<select id="findByUserEmail" resultType="int">
@@ -38,12 +47,50 @@
 		FROM user_tb
 		WHERE nick_name = #{nickName};
 	</select>
-	
+
 	<update id="updatePasswordByEmail">
 		update user_tb
 		set password = #{password}
-		where email = #{email};
+		where email =
+#{email};
 	</update>
+
+	<update id="updateProfileByUserTb">
+
+		UPDATE user_tb
+		SET nick_name = #{nickName},
+		profile_img = #{profileImg}
+		WHERE email = #{email}
+
+	</update>
+
+	<update id="updateProfileByUserDeTb">
+		UPDATE user_de_tb
+		SET name = #{name},
+		address = #{address},
+		birth_date = #{birthDate}
+
+	</update>
+
+	<select id="InformationUpdate">
+
+		select *
+		from user_tb as u
+		join user_de_tb as d on u.user_id = d.user_id
+		where
+		email = #{email};
+
+	</select>
+
+	<select id="emailsearch"
+		resultType="com.jam.repository.model.User">
+		select *
+		from user_tb
+		where email = #{email};
+	</select>
+
+
+
 
 </mapper>
 

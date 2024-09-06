@@ -78,10 +78,15 @@ CREATE TABLE `story_tb` (
     FOREIGN KEY (`user_id`) REFERENCES `user_tb`(`user_id`)
 );
 
+/* 유저 상세 정보  (테스트) */
+-- 이름(본명), 생일, 전화번호, 주소, 포인트(잔액)
 CREATE TABLE `user_de_tb` (
     `user_detail_id` int PRIMARY KEY AUTO_INCREMENT NOT NULL,
     `user_id` int NOT NULL COMMENT '외래 키, user_tb 참조',
-    `point` bigint NOT NULL DEFAULT 0,
+    `point` bigint NULL DEFAULT 0,
+    name VARCHAR(20) NULL COMMENT '유저 이름(본명)',
+    birth_date DATE NULL COMMENT '생일',
+    address VARCHAR(100) NULL COMMENT '주소',
     FOREIGN KEY (`user_id`) REFERENCES `user_tb`(`user_id`)
 );
 

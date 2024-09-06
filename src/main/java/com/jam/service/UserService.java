@@ -67,6 +67,9 @@ public class UserService {
 		String hashPwd = passwordEncoder.encode(dto.getPassword());
 		dto.setPassword(hashPwd);
 		result = userRepository.insert(dto);
+		
+		
+		System.out.println("회원가입 서비스 : "+dto.toString());
 
 		if (result == 1) {
 			System.out.println("회원가입 성공");
@@ -214,6 +217,7 @@ public class UserService {
 		return result;
 	}
 	
+
 	/**
 	 * 서버 운영체제에 파일 업로드 기능 MultipartFile getOriginalFilename : 사용자가 작성한 파일 명
 	 * uploadFileName : 서버 컴퓨터에 저장 될 파일 명
@@ -249,4 +253,41 @@ public class UserService {
 
 		return new String[] { mFile.getOriginalFilename(), uploadFileName };
 	}
+	
+	/**
+	 * 유저 회원정보 수정
+	 * @param user
+	 */
+	public void updateProfile(User user) {
+		userRepository.updateProfileByUserTb(user);
+		userRepository.updateProfileByUserDeTb(user);
+	}
+	
+	/**
+	 * 유저 회원정보 수정 후 다시 정보 뿌리기 (1)
+	 * @param email
+	 */
+	public User InformationUpdate(String email) {
+		User user = null;
+		user = userRepository.InformationUpdate(email);
+		return user;
+	}
+	
+	/**
+	 * 유저 상세정보
+	 * @param email
+	 */
+	public User createDetail(signUpDTO dto) {
+		// TODO Auto-generated method stub
+		User user = userRepository.emailsearch(dto);
+		userRepository.insertbyUserTb(user.getUserId());
+				
+		System.out.println("@@@@"+user.toString());
+		
+		return user;
+		
+	}
+	
+	
+
 }
