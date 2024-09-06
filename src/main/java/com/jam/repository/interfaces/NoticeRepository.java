@@ -19,7 +19,10 @@ public interface NoticeRepository  {
     int update( @Param("noticeId")int noticeId,@Param("noticeTitle") String noticeTitle ,@Param("staffId") int staffId,
 			@Param("noticeContent") String noticeContent);
     
-    List<Notice> findAll(); // 게시글 조회
+    List<Notice> findAll(@Param("limit")int limit, 
+			@Param("offset")int offset); // 게시글 조회
 
+	public int countAll();
+    
     Notice findById(@Param("noticeId") int noticeId); // 게시글 상세 조회 메서드 추가
 }

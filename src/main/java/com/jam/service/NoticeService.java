@@ -1,6 +1,7 @@
 package com.jam.service;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.jam.dto.NoticeDTO;
 import com.jam.repository.interfaces.NoticeRepository;
 import com.jam.repository.model.Notice;
+import com.jam.repository.model.Qna;
 
 @Service
 public class NoticeService {
@@ -38,10 +40,23 @@ public class NoticeService {
     }
 
     // 게시글 전체 조회
-    public List<Notice> findAll() {
-        return noticeRepository.findAll();
+    public List<Notice> findAll(int page, int size) {
+		List<Notice> list = new ArrayList<>();
+		int limit = size;
+		int offset = (page - 1) * size;
+		list = noticeRepository.findAll(limit,offset);
+        return list;
     }
-
+    
+	/**
+	 * 페이징 처리 전체 숫자 확인
+	 * 
+	 */
+	public int allList(){
+		return noticeRepository.countAll();
+	}
+	
+    
     // 게시글 수정
     @Transactional
     public int uploading(int noticeId, NoticeDTO dto) {

@@ -5,7 +5,6 @@ import java.util.Optional;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import com.jam.dto.signInDTO;
 import com.jam.dto.signUpDTO;
 import com.jam.repository.model.User;
 
@@ -24,4 +23,5 @@ public interface UserRepository{
 	Optional<User> findByNickName(String nickName); // 닉네임으로 사용자 찾기
 	
 	int updatePasswordByEmail(@Param("password") String password, @Param("email") String email);
+	
 }

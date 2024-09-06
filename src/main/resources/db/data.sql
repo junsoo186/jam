@@ -1,82 +1,81 @@
 
+insert into user_tb (nick_name, phone_number, email, password)
+values( '박정훈1', '010-4548-5678', 'test@test.com', '$2a$10$Y1mXaXaj5Y2m.IJkH58IwOZF8SSctsvP37WTrp82ambaSeSEyxZwe');
 
 insert into user_tb (nick_name, phone_number, email, password)
-values( '박정훈1', '010-4548-5678', 'test@test.com', '$2a$10$7GyMGQV7MG0/zbdDu5DesuSIigEON71u2BsAc.2jiVReu12HCwudW');
-
-insert into user_tb (nick_name, phone_number, email, password)
-values( '정해주', '010-4548-5678', 'test1@naver.com', '$2a$10$7GyMGQV7MG0/zbdDu5DesuSIigEON71u2BsAc.2jiVReu12HCwudW');
+values( '정해주', '010-4548-5678', 'test1@naver.com', '$2a$10$Y1mXaXaj5Y2m.IJkH58IwOZF8SSctsvP37WTrp82ambaSeSEyxZwe');
 
 -- 관리자 ID------------------------- 3~6
 insert into user_tb (nick_name, phone_number, email, password, role)
-values( '정해주1', '010-4548-5678', 'test2@naver.com', '$2a$10$7GyMGQV7MG0/zbdDu5DesuSIigEON71u2BsAc.2jiVReu12HCwudW', 'admin');
+values( '정해주1', '010-4548-5678', 'test2@naver.com', '$2a$10$Y1mXaXaj5Y2m.IJkH58IwOZF8SSctsvP37WTrp82ambaSeSEyxZwe', 'admin');
 insert into user_tb (nick_name, phone_number, email, password, role)
-values( '관리자1', '010-1111-2222', 'admin@naver.com', '$2a$10$7GyMGQV7MG0/zbdDu5DesuSIigEON71u2BsAc.2jiVReu12HCwudW', 'admin');
+values( '관리자1', '010-1111-2222', 'admin@naver.com', '$2a$10$Y1mXaXaj5Y2m.IJkH58IwOZF8SSctsvP37WTrp82ambaSeSEyxZwe', 'admin');
 insert into user_tb (nick_name, phone_number, email, password, role)
-values( '관리자2', '010-2222-3333', 'admin2@naver.com', '$2a$10$7GyMGQV7MG0/zbdDu5DesuSIigEON71u2BsAc.2jiVReu12HCwudW', 'admin');
+values( '관리자2', '010-2222-3333', 'admin2@naver.com', '$2a$10$Y1mXaXaj5Y2m.IJkH58IwOZF8SSctsvP37WTrp82ambaSeSEyxZwe', 'admin');
 insert into user_tb (nick_name, phone_number, email, password, role)
-values( '관리자박정훈', '010-4548-5678', 'test3@naver.com', '$2a$10$7GyMGQV7MG0/zbdDu5DesuSIigEON71u2BsAc.2jiVReu12HCwudW', 'admin');
+values( '관리자박정훈', '010-4548-5678', 'test3@naver.com', '$2a$10$Y1mXaXaj5Y2m.IJkH58IwOZF8SSctsvP37WTrp82ambaSeSEyxZwe', 'admin');
 -- ---------------------------------
 
 INSERT INTO user_tb (nick_name, phone_number, email, password)
-VALUES ('사용자1', '010-1000-0001', 'user1@example.com', '$2a$10$7GyMGQV7MG0/zbdDu5DesuSIigEON71u2BsAc.2jiVReu12HCwudW');
+VALUES ('사용자1', '010-1000-0001', 'user1@example.com', '$2a$10$Y1mXaXaj5Y2m.IJkH58IwOZF8SSctsvP37WTrp82ambaSeSEyxZwe');
 INSERT INTO user_tb (nick_name, phone_number, email, password)
-VALUES ('사용자2', '010-1000-0002', 'user2@example.com', '$2a$10$7GyMGQV7MG0/zbdDu5DesuSIigEON71u2BsAc.2jiVReu12HCwudW');
+VALUES ('사용자2', '010-1000-0002', 'user2@example.com', '$2a$10$Y1mXaXaj5Y2m.IJkH58IwOZF8SSctsvP37WTrp82ambaSeSEyxZwe');
 INSERT INTO user_tb (nick_name, phone_number, email, password)
-VALUES ('사용자3', '010-1000-0003', 'user3@example.com', '$2a$10$7GyMGQV7MG0/zbdDu5DesuSIigEON71u2BsAc.2jiVReu12HCwudW');
+VALUES ('사용자3', '010-1000-0003', 'user3@example.com', '$2a$10$Y1mXaXaj5Y2m.IJkH58IwOZF8SSctsvP37WTrp82ambaSeSEyxZwe');
 INSERT INTO user_tb (nick_name, phone_number, email, password)
-VALUES ('사용자4', '010-1000-0004', 'user4@example.com', '$2a$10$7GyMGQV7MG0/zbdDu5DesuSIigEON71u2BsAc.2jiVReu12HCwudW');
+VALUES ('사용자4', '010-1000-0004', 'user4@example.com', '$2a$10$Y1mXaXaj5Y2m.IJkH58IwOZF8SSctsvP37WTrp82ambaSeSEyxZwe');
 INSERT INTO user_tb (nick_name, phone_number, email, password)
-VALUES ('사용자5', '010-1000-0005', 'user5@example.com', '$2a$10$7GyMGQV7MG0/zbdDu5DesuSIigEON71u2BsAc.2jiVReu12HCwudW');
+VALUES ('사용자5', '010-1000-0005', 'user5@example.com', '$2a$10$Y1mXaXaj5Y2m.IJkH58IwOZF8SSctsvP37WTrp82ambaSeSEyxZwe');
 INSERT INTO user_tb (nick_name, phone_number, email, password)
-VALUES ('사용자6', '010-1000-0006', 'user6@example.com', '$2a$10$7GyMGQV7MG0/zbdDu5DesuSIigEON71u2BsAc.2jiVReu12HCwudW');
+VALUES ('사용자6', '010-1000-0006', 'user6@example.com', '$2a$10$Y1mXaXaj5Y2m.IJkH58IwOZF8SSctsvP37WTrp82ambaSeSEyxZwe');
 INSERT INTO user_tb (nick_name, phone_number, email, password)
-VALUES ('사용자7', '010-1000-0007', 'user7@example.com', '$2a$10$7GyMGQV7MG0/zbdDu5DesuSIigEON71u2BsAc.2jiVReu12HCwudW');
+VALUES ('사용자7', '010-1000-0007', 'user7@example.com', '$2a$10$Y1mXaXaj5Y2m.IJkH58IwOZF8SSctsvP37WTrp82ambaSeSEyxZwe');
 INSERT INTO user_tb (nick_name, phone_number, email, password)
-VALUES ('사용자8', '010-1000-0008', 'user8@example.com', '$2a$10$7GyMGQV7MG0/zbdDu5DesuSIigEON71u2BsAc.2jiVReu12HCwudW');
+VALUES ('사용자8', '010-1000-0008', 'user8@example.com', '$2a$10$Y1mXaXaj5Y2m.IJkH58IwOZF8SSctsvP37WTrp82ambaSeSEyxZwe');
 INSERT INTO user_tb (nick_name, phone_number, email, password)
-VALUES ('사용자9', '010-1000-0009', 'user9@example.com', '$2a$10$7GyMGQV7MG0/zbdDu5DesuSIigEON71u2BsAc.2jiVReu12HCwudW');
+VALUES ('사용자9', '010-1000-0009', 'user9@example.com', '$2a$10$Y1mXaXaj5Y2m.IJkH58IwOZF8SSctsvP37WTrp82ambaSeSEyxZwe');
 INSERT INTO user_tb (nick_name, phone_number, email, password)
-VALUES ('사용자10', '010-1000-0010', 'user10@example.com', '$2a$10$7GyMGQV7MG0/zbdDu5DesuSIigEON71u2BsAc.2jiVReu12HCwudW');
+VALUES ('사용자10', '010-1000-0010', 'user10@example.com', '$2a$10$Y1mXaXaj5Y2m.IJkH58IwOZF8SSctsvP37WTrp82ambaSeSEyxZwe');
 INSERT INTO user_tb (nick_name, phone_number, email, password)
-VALUES ('사용자11', '010-1000-0011', 'user11@example.com', '$2a$10$7GyMGQV7MG0/zbdDu5DesuSIigEON71u2BsAc.2jiVReu12HCwudW');
+VALUES ('사용자11', '010-1000-0011', 'user11@example.com', '$2a$10$Y1mXaXaj5Y2m.IJkH58IwOZF8SSctsvP37WTrp82ambaSeSEyxZwe');
 INSERT INTO user_tb (nick_name, phone_number, email, password)
-VALUES ('사용자12', '010-1000-0012', 'user12@example.com', '$2a$10$7GyMGQV7MG0/zbdDu5DesuSIigEON71u2BsAc.2jiVReu12HCwudW');
+VALUES ('사용자12', '010-1000-0012', 'user12@example.com', '$2a$10$Y1mXaXaj5Y2m.IJkH58IwOZF8SSctsvP37WTrp82ambaSeSEyxZwe');
 INSERT INTO user_tb (nick_name, phone_number, email, password)
-VALUES ('사용자13', '010-1000-0013', 'user13@example.com', '$2a$10$7GyMGQV7MG0/zbdDu5DesuSIigEON71u2BsAc.2jiVReu12HCwudW');
+VALUES ('사용자13', '010-1000-0013', 'user13@example.com', '$2a$10$Y1mXaXaj5Y2m.IJkH58IwOZF8SSctsvP37WTrp82ambaSeSEyxZwe');
 INSERT INTO user_tb (nick_name, phone_number, email, password)
-VALUES ('사용자14', '010-1000-0014', 'user14@example.com', '$2a$10$7GyMGQV7MG0/zbdDu5DesuSIigEON71u2BsAc.2jiVReu12HCwudW');
+VALUES ('사용자14', '010-1000-0014', 'user14@example.com', '$2a$10$Y1mXaXaj5Y2m.IJkH58IwOZF8SSctsvP37WTrp82ambaSeSEyxZwe');
 INSERT INTO user_tb (nick_name, phone_number, email, password)
-VALUES ('사용자15', '010-1000-0015', 'user15@example.com', '$2a$10$7GyMGQV7MG0/zbdDu5DesuSIigEON71u2BsAc.2jiVReu12HCwudW');
+VALUES ('사용자15', '010-1000-0015', 'user15@example.com', '$2a$10$Y1mXaXaj5Y2m.IJkH58IwOZF8SSctsvP37WTrp82ambaSeSEyxZwe');
 INSERT INTO user_tb (nick_name, phone_number, email, password)
-VALUES ('사용자16', '010-1000-0016', 'user16@example.com', '$2a$10$7GyMGQV7MG0/zbdDu5DesuSIigEON71u2BsAc.2jiVReu12HCwudW');
+VALUES ('사용자16', '010-1000-0016', 'user16@example.com', '$2a$10$Y1mXaXaj5Y2m.IJkH58IwOZF8SSctsvP37WTrp82ambaSeSEyxZwe');
 INSERT INTO user_tb (nick_name, phone_number, email, password)
-VALUES ('사용자17', '010-1000-0017', 'user17@example.com', '$2a$10$7GyMGQV7MG0/zbdDu5DesuSIigEON71u2BsAc.2jiVReu12HCwudW');
+VALUES ('사용자17', '010-1000-0017', 'user17@example.com', '$2a$10$Y1mXaXaj5Y2m.IJkH58IwOZF8SSctsvP37WTrp82ambaSeSEyxZwe');
 INSERT INTO user_tb (nick_name, phone_number, email, password)
-VALUES ('사용자18', '010-1000-0018', 'user18@example.com', '$2a$10$7GyMGQV7MG0/zbdDu5DesuSIigEON71u2BsAc.2jiVReu12HCwudW');
+VALUES ('사용자18', '010-1000-0018', 'user18@example.com', '$2a$10$Y1mXaXaj5Y2m.IJkH58IwOZF8SSctsvP37WTrp82ambaSeSEyxZwe');
 INSERT INTO user_tb (nick_name, phone_number, email, password)
-VALUES ('사용자19', '010-1000-0019', 'user19@example.com', '$2a$10$7GyMGQV7MG0/zbdDu5DesuSIigEON71u2BsAc.2jiVReu12HCwudW');
+VALUES ('사용자19', '010-1000-0019', 'user19@example.com', '$2a$10$Y1mXaXaj5Y2m.IJkH58IwOZF8SSctsvP37WTrp82ambaSeSEyxZwe');
 INSERT INTO user_tb (nick_name, phone_number, email, password)
-VALUES ('사용자20', '010-1000-0020', 'user20@example.com', '$2a$10$7GyMGQV7MG0/zbdDu5DesuSIigEON71u2BsAc.2jiVReu12HCwudW');
+VALUES ('사용자20', '010-1000-0020', 'user20@example.com', '$2a$10$Y1mXaXaj5Y2m.IJkH58IwOZF8SSctsvP37WTrp82ambaSeSEyxZwe');
 INSERT INTO user_tb (nick_name, phone_number, email, password)
-VALUES ('사용자21', '010-1000-0021', 'user21@example.com', '$2a$10$7GyMGQV7MG0/zbdDu5DesuSIigEON71u2BsAc.2jiVReu12HCwudW');
+VALUES ('사용자21', '010-1000-0021', 'user21@example.com', '$2a$10$Y1mXaXaj5Y2m.IJkH58IwOZF8SSctsvP37WTrp82ambaSeSEyxZwe');
 INSERT INTO user_tb (nick_name, phone_number, email, password)
-VALUES ('사용자22', '010-1000-0022', 'user22@example.com', '$2a$10$7GyMGQV7MG0/zbdDu5DesuSIigEON71u2BsAc.2jiVReu12HCwudW');
+VALUES ('사용자22', '010-1000-0022', 'user22@example.com', '$2a$10$Y1mXaXaj5Y2m.IJkH58IwOZF8SSctsvP37WTrp82ambaSeSEyxZwe');
 INSERT INTO user_tb (nick_name, phone_number, email, password)
-VALUES ('사용자23', '010-1000-0023', 'user23@example.com', '$2a$10$7GyMGQV7MG0/zbdDu5DesuSIigEON71u2BsAc.2jiVReu12HCwudW');
+VALUES ('사용자23', '010-1000-0023', 'user23@example.com', '$2a$10$Y1mXaXaj5Y2m.IJkH58IwOZF8SSctsvP37WTrp82ambaSeSEyxZwe');
 INSERT INTO user_tb (nick_name, phone_number, email, password)
-VALUES ('사용자24', '010-1000-0024', 'user24@example.com', '$2a$10$7GyMGQV7MG0/zbdDu5DesuSIigEON71u2BsAc.2jiVReu12HCwudW');
+VALUES ('사용자24', '010-1000-0024', 'user24@example.com', '$2a$10$Y1mXaXaj5Y2m.IJkH58IwOZF8SSctsvP37WTrp82ambaSeSEyxZwe');
 INSERT INTO user_tb (nick_name, phone_number, email, password)
-VALUES ('사용자25', '010-1000-0025', 'user25@example.com', '$2a$10$7GyMGQV7MG0/zbdDu5DesuSIigEON71u2BsAc.2jiVReu12HCwudW');
+VALUES ('사용자25', '010-1000-0025', 'user25@example.com', '$2a$10$Y1mXaXaj5Y2m.IJkH58IwOZF8SSctsvP37WTrp82ambaSeSEyxZwe');
 INSERT INTO user_tb (nick_name, phone_number, email, password)
-VALUES ('사용자26', '010-1000-0026', 'user26@example.com', '$2a$10$7GyMGQV7MG0/zbdDu5DesuSIigEON71u2BsAc.2jiVReu12HCwudW');
+VALUES ('사용자26', '010-1000-0026', 'user26@example.com', '$2a$10$Y1mXaXaj5Y2m.IJkH58IwOZF8SSctsvP37WTrp82ambaSeSEyxZwe');
 INSERT INTO user_tb (nick_name, phone_number, email, password)
-VALUES ('사용자27', '010-1000-0027', 'user27@example.com', '$2a$10$7GyMGQV7MG0/zbdDu5DesuSIigEON71u2BsAc.2jiVReu12HCwudW');
+VALUES ('사용자27', '010-1000-0027', 'user27@example.com', '$2a$10$Y1mXaXaj5Y2m.IJkH58IwOZF8SSctsvP37WTrp82ambaSeSEyxZwe');
 INSERT INTO user_tb (nick_name, phone_number, email, password)
-VALUES ('사용자28', '010-1000-0028', 'user28@example.com', '$2a$10$7GyMGQV7MG0/zbdDu5DesuSIigEON71u2BsAc.2jiVReu12HCwudW');
+VALUES ('사용자28', '010-1000-0028', 'user28@example.com', '$2a$10$Y1mXaXaj5Y2m.IJkH58IwOZF8SSctsvP37WTrp82ambaSeSEyxZwe');
 INSERT INTO user_tb (nick_name, phone_number, email, password)
-VALUES ('사용자29', '010-1000-0029', 'user29@example.com', '$2a$10$7GyMGQV7MG0/zbdDu5DesuSIigEON71u2BsAc.2jiVReu12HCwudW');
+VALUES ('사용자29', '010-1000-0029', 'user29@example.com', '$2a$10$Y1mXaXaj5Y2m.IJkH58IwOZF8SSctsvP37WTrp82ambaSeSEyxZwe');
 INSERT INTO user_tb (nick_name, phone_number, email, password)
-VALUES ('사용자30', '010-1000-0030', 'user30@example.com', '$2a$10$7GyMGQV7MG0/zbdDu5DesuSIigEON71u2BsAc.2jiVReu12HCwudW');
+VALUES ('사용자30', '010-1000-0030', 'user30@example.com', '$2a$10$Y1mXaXaj5Y2m.IJkH58IwOZF8SSctsvP37WTrp82ambaSeSEyxZwe');
 -- 유저 디테일 
 insert into user_de_tb (user_id,point ) values( 1, 1000);
 INSERT INTO user_de_tb (user_id, point) VALUES (2, 250);
@@ -223,6 +222,21 @@ insert into notice_tb (staff_id, notice_title, notice_content, comment, created_
 (2, '공지사항 제목 2', '공지사항 내용 2입니다.', '두 번째 공지에 대한 코멘트입니다.', NOW()),
 (1, '공지사항 제목 3', '공지사항 내용 3입니다.', '세 번째 공지에 대한 코멘트입니다.', NOW()),
 (2, '공지사항 제목 4', '공지사항 내용 4입니다.', '네 번째 공지에 대한 코멘트입니다.', NOW()),
+(1, '공지사항 제목 5', '공지사항 내용 5입니다.', '다섯 번째 공지에 대한 코멘트입니다.', NOW()),
+(1, '공지사항 제목 1', '공지사항 내용 1입니다.', '첫 번째 공지에 대한 코멘트입니다.', NOW()),
+(2, '공지사항 제목 2', '공지사항 내용 2입니다.', '두 번째 공지에 대한 코멘트입니다.', NOW()),
+(1, '공지사항 제목 3', '공지사항 내용 3입니다.', '세 번째 공지에 대한 코멘트입니다.', NOW()),
+(2, '공지사항 제목 4', '공지사항 내용 4입니다.', '네 번째 공지에 대한 코멘트입니다.', NOW()),
+(1, '공지사항 제목 5', '공지사항 내용 5입니다.', '다섯 번째 공지에 대한 코멘트입니다.', NOW()),
+(1, '공지사항 제목 1', '공지사항 내용 1입니다.', '첫 번째 공지에 대한 코멘트입니다.', NOW()),
+(2, '공지사항 제목 2', '공지사항 내용 2입니다.', '두 번째 공지에 대한 코멘트입니다.', NOW()),
+(1, '공지사항 제목 3', '공지사항 내용 3입니다.', '세 번째 공지에 대한 코멘트입니다.', NOW()),
+(2, '공지사항 제목 4', '공지사항 내용 4입니다.', '네 번째 공지에 대한 코멘트입니다.', NOW()),
+(1, '공지사항 제목 5', '공지사항 내용 5입니다.', '다섯 번째 공지에 대한 코멘트입니다.', NOW()),
+(1, '공지사항 제목 1', '공지사항 내용 1입니다.', '첫 번째 공지에 대한 코멘트입니다.', NOW()),
+(2, '공지사항 제목 2', '공지사항 내용 2입니다.', '두 번째 공지에 대한 코멘트입니다.', NOW()),
+(1, '공지사항 제목 3', '공지사항 내용 3입니다.', '세 번째 공지에 대한 코멘트입니다.', NOW()),
+(2, '공지사항 제목 4', '공지사항 내용 4입니다.', '네 번째 공지에 대한 코멘트입니다.', NOW()),
 (1, '공지사항 제목 5', '공지사항 내용 5입니다.', '다섯 번째 공지에 대한 코멘트입니다.', NOW());
 
 insert into qna_tb (user_id, title, question_content, created_at) values 
@@ -249,6 +263,8 @@ insert into qna_tb (user_id, title, question_content, created_at) values
 (1, '질문3', '제이름은 명기입니다.', NOW()),
 (2, '질문4', '제이름은 명기입니다..', NOW()),
 (1, '질문3', '제이름은 명기입니다.', NOW()),
+(1, '질문3', '제이름은 명기입니다.', NOW()),
+(2, '질문4', '제이름은 명기입니다..', NOW()),
 (2, '질문4', '제이름은 명기입니다..', NOW()),
 (1, '질문5', '제이름은 명기입니다..', NOW());
 

@@ -33,9 +33,19 @@ public class NoticeController {
 	 * 게시글 목록 페이지 요청
 	 */
 	@GetMapping({ "/list", "/" })
-	public String listPage(Model model) {
-		List<Notice> noticeList = noticeService.findAll();
+	public String listPage(@RequestParam(name ="page", defaultValue = "1" )  int page,
+				@RequestParam(name ="size", defaultValue = "10" )  int size,
+				Model model) {
+		int totalRecords = noticeService.allList();
+		int totalPages = (int)Math.ceil((double)totalRecords / size);
+		List<Notice> noticeList = noticeService.findAll(page,size);
+		
+		
+		
 		model.addAttribute("noticeList", noticeList);
+		model.addAttribute("currentPage", page);
+		model.addAttribute("totalPages", totalPages);
+		model.addAttribute("size", size);
 		return "notice/list";
 	}
 

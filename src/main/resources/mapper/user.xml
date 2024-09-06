@@ -12,7 +12,10 @@
 
 	<select id="findEmail"
 		resultType="com.jam.repository.model.User">
-		select * from user_tb where email = #{email}
+		select *
+		from user_tb as u
+		join user_de_tb as d on u.user_id = d.user_id
+		where email = #{email};
 	</select>
 
 	<select id="findByUserEmail" resultType="int">
@@ -38,12 +41,14 @@
 		FROM user_tb
 		WHERE nick_name = #{nickName};
 	</select>
-	
+
 	<update id="updatePasswordByEmail">
 		update user_tb
 		set password = #{password}
 		where email = #{email};
 	</update>
+
+
 
 </mapper>
 
