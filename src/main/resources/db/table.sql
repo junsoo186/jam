@@ -164,25 +164,20 @@ CREATE TABLE `funding_history_tb` (
     FOREIGN KEY (`funding_id`) REFERENCES `funding_tb` (`funding_id`)
 );
 
-CREATE TABLE `staff_tb` (
-    `staff_id` int PRIMARY KEY AUTO_INCREMENT NOT NULL,
-    `staff_name` varchar(10) NOT NULL,
-    `staff_password` varchar(1000) NOT NULL
-);
+
 
 CREATE TABLE `notice_tb` (
     `notice_id` int PRIMARY KEY AUTO_INCREMENT NOT NULL,
-    `staff_id` int NOT NULL COMMENT '외래 키, staff_tb 참조',
+    `user_id` int NOT NULL COMMENT '외래 키, user_tb 참조',
     `notice_title` varchar(50) NOT NULL COMMENT '공지 사항 제목',
     `notice_content` text NOT NULL COMMENT '공지 사항 내용',
     `comment` text NULL COMMENT '공지 사항 댓글',
     `created_at` timestamp NULL DEFAULT current_timestamp,
-    FOREIGN KEY (`staff_id`) REFERENCES `staff_tb`(`staff_id`)
+    FOREIGN KEY (`user_id`) REFERENCES `user_tb`(`user_id`)
 );
 
 CREATE TABLE `qna_tb` (
     `qna_id` int PRIMARY KEY AUTO_INCREMENT NOT NULL,
-    `staff_id` int COMMENT '관리자인경우 staff id 에 user_id 넣기',
     `user_id` int NOT NULL COMMENT '외래 키, user_tb 참조',
 	`title` varchar(40) NOT NULL COMMENT '문의 제목',
     `question_content` text  COMMENT '질문 사항 내용',
@@ -199,10 +194,8 @@ CREATE TABLE `user_alert_list_tb` (
 CREATE TABLE `user_alert_history_tb` (
     `alert_history_id` int PRIMARY KEY AUTO_INCREMENT NOT NULL,
     `alert_id` int NOT NULL COMMENT '외래 키, user_alert_list_tb 참조',
-    `staff_id` int NOT NULL COMMENT '외래 키, staff_tb 참조',
-    `user_id` int NOT NULL COMMENT '외래 키, user_tb 참조',
+    `user_id` int NOT NULL COMMENT '외래 키, staff_tb 참조',
     `period_date` date NOT NULL COMMENT '경고 기간',
-    FOREIGN KEY (`staff_id`) REFERENCES `staff_tb`(`staff_id`),
     FOREIGN KEY (`user_id`) REFERENCES `user_tb`(`user_id`),
     FOREIGN KEY (`alert_id`) REFERENCES `user_alert_list_tb`(`alert_id`)
 );
@@ -260,12 +253,10 @@ CREATE TABLE `report_tb` (
 CREATE TABLE `report_history_tb` (
     `report_history_id` int PRIMARY KEY AUTO_INCREMENT NOT NULL,
     `report_id` int NOT NULL COMMENT '외래 키, report_tb 참조',
-    `staff_id` int NOT NULL COMMENT '외래 키, staff_tb 참조',
     `alert_id` int NOT NULL COMMENT '외래 키, user_alert_list_tb 참조',
     `user_id` int NOT NULL COMMENT '외래 키, user_tb 참조',
     `created_at` timestamp NULL DEFAULT current_timestamp,
     FOREIGN KEY (`report_id`) REFERENCES `report_tb`(`report_id`),
-    FOREIGN KEY (`staff_id`) REFERENCES `staff_tb`(`staff_id`),
     FOREIGN KEY (`alert_id`) REFERENCES `user_alert_list_tb`(`alert_id`),
     FOREIGN KEY (`user_id`) REFERENCES `user_tb`(`user_id`)
 );

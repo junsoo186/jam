@@ -23,8 +23,8 @@
 		<tbody>
 			<c:forEach var="notice" items="${noticeList}" varStatus="status">
 				<tr>
-					<td>${status.index +1}</td>
-					<td><a href="/notice/detail/S{notice.noticeId}">${notice.noticeTitle}</a></td>
+					<td>${(currentPage -1)*size + status.index +1}</td>
+					<td><a href="/notice/detail/${notice.noticeId}">${notice.noticeTitle}</a></td>
 					<td>${notice.staffId}</td>
 					<td>${notice.createdAt}</td>
 					<td>

@@ -10,11 +10,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.jam.dto.NoticeDTO;
 import com.jam.repository.interfaces.NoticeRepository;
 import com.jam.repository.model.Notice;
+import com.jam.repository.model.User;
 import com.jam.service.NoticeService;
+import com.jam.utils.Define;
 
 import lombok.RequiredArgsConstructor;
 
@@ -81,6 +84,22 @@ public class NoticeController {
 		return "redirect:/notice/list";
 	}
 
+	/**
+	 * 상세 페이지 detail
+	 * 
+	 */
+	@GetMapping("detail/{noticeId}")
+	public String detailPage(@PathVariable(name ="noticeId")int noticeId, Model model,
+			@SessionAttribute(Define.PRINCIPAL) User principal) {
+		
+		Notice myNotice = noticeService.selectByNoticeId(noticeId,principal.getUserId());
+		model.addAttribute("notice" , myNotice);
+		return "/notice/noticeDetail";
+	}
+	
+	
+	
+	
 	/**
 	 * 게시글 수정
 	 */
