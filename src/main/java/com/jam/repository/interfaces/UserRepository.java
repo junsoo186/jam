@@ -24,4 +24,9 @@ public interface UserRepository{
 	
 	int updatePasswordByEmail(@Param("password") String password, @Param("email") String email);
 	
+	int updateProfileByUserTb(User user); // 유저 프로필 업데이트 UserTb
+	
+	int updateProfileByUserDeTb(User user); // 유저 프로필 업데이트 UserDeTb
+	
+	public User InformationUpdate(@Param("email") String email); // 유저 프로필 업데이트 후 갱신
 }

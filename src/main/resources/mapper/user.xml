@@ -48,6 +48,32 @@
 		where email = #{email};
 	</update>
 
+	<update id="updateProfileByUserTb">
+	
+        UPDATE user_tb
+        SET nick_name = #{nickName}
+        WHERE email = #{email}
+		
+	</update>
+	
+	<update id="updateProfileByUserDeTb">
+     UPDATE user_de_tb
+        SET name = #{name},
+            address = #{address},
+            birth_date = #{birthDate}
+        
+	</update>
+
+	<select id="InformationUpdate">
+	
+		select *
+		from user_tb as u
+		join user_de_tb as d on u.user_id = d.user_id
+		where email = #{email};
+		
+	</select>
+
+
 
 
 </mapper>
