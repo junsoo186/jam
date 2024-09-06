@@ -47,13 +47,17 @@
             justify-content: space-between;
             margin-bottom: 20px;
         }
-        .profile-image {
-            width: 150px;
-            height: 150px;
-            background-color: #007bff;
-            border-radius: 50%;
-            margin-right: 20px;
+       .profile-image {
+	        width: 150px;  /* 부모 요소의 너비 */
+	        height: 150px; /* 부모 요소의 높이 */
+	        border-radius: 50%; /* 둥근 모양을 유지 */
+	        overflow: hidden; /* 이미지가 둥근 영역 안에 맞춰지도록 */
+	        border: 2px solid #007bff; /* 선택적으로 테두리 추가 */
+	        display: flex;
+	        align-items: center; /* 이미지가 중앙에 위치하도록 수직 정렬 */
+	        justify-content: center; /* 이미지가 중앙에 위치하도록 수평 정렬 */
         }
+
         .form-label {
             font-weight: bold;
             width: 150px;
@@ -100,7 +104,10 @@
     <!-- 프로필 정보 섹션 -->
     <div class="profile-section">
         <div class="profile-info">
-            <div class="profile-image">${principal.profileImg}</div> <!-- 프로필 원형 이미지 -->
+        
+        <div class="profile-image">
+                <img alt="Profile Image" src="${principal.profileImg}">
+            </div>
             <div>
                 <div class="info-item">닉네임: ${principal.nickName}</div>
                 <div class="info-item">이메일: ${principal.email}</div>
