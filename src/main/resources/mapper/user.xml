@@ -5,15 +5,17 @@
 <mapper namespace="com.jam.repository.interfaces.UserRepository">
 
 	<insert id="insert">
-		insert into user_tb (nick_name, phone_number, email,
-		password)
-		values(#{nickName}, #{phoneNumber}, #{email}, #{password});
+		insert into user_tb (nick_name, email,
+		password, profile_img)
+		values(#{nickName}, #{email}, #{password}, #{profileImg});
 	</insert>
 
-	<select id="findByEmailAndPassword"
+	<select id="findEmail"
 		resultType="com.jam.repository.model.User">
-		select * from user_tb where email = #{email} and password =
-		#{password};
+		select *
+		from user_tb as u
+		join user_de_tb as d on u.user_id = d.user_id
+		where email = #{email};
 	</select>
 
 	<select id="findByUserEmail" resultType="int">
@@ -33,13 +35,20 @@
 		user_tb WHERE nick_name = #{nickName};
 	</select>
 
-
 	<select id="findByNickName"
 		resultType="com.jam.repository.model.User">
 		SELECT *
 		FROM user_tb
 		WHERE nick_name = #{nickName};
 	</select>
+
+	<update id="updatePasswordByEmail">
+		update user_tb
+		set password = #{password}
+		where email = #{email};
+	</update>
+
+
 
 </mapper>
 

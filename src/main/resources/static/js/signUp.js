@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
 	let isEmailVerified = false;  // 이메일 인증 여부를 저장하는 변수
 	let isEmailDuplicate = false; // 이메일 중복 여부를 저장하는 변수
+	let isNickNameValid = false; // 닉네임 중복 체크 여부 저장하는 변수
 
 	// 이메일 중복 체크
 	document.getElementById('email').addEventListener('blur', function () {
@@ -60,6 +61,7 @@ document.addEventListener('DOMContentLoaded', function () {
 				alert('인증 이메일이 전송되었습니다.');
 
 				// 이메일 필드를 숨기고 인증 코드 입력 섹션을 표시
+				document.getElementById('emailButton').style.display='none';
 				document.getElementById('verificationEmail').value = email;  // 숨겨진 이메일 필드에 값 저장
 				document.getElementById('verificationSection').style.display = 'block';  // 인증 코드 입력 섹션 표시
 			} else {
@@ -105,6 +107,70 @@ document.addEventListener('DOMContentLoaded', function () {
 		if (!isEmailVerified) {
 			alert('이메일 인증을 완료해야 회원가입을 할 수 있습니다.');
 			event.preventDefault();  // 폼 제출 중지
+		} else if (!isNickNameValid) {
+			alert('닉네임 중복 체크를 완료해야 합니다.');
+			event.preventDefault();  // 폼 제출 중지
 		}
 	});
+
+	// 이미지 미리보기
+	document.getElementById('mFile').addEventListener('change', function(event) {
+		const file = event.target.files[0];
+		if (file) {
+			const reader = new FileReader();
+			reader.onload = function(e) {
+				const previewImage = document.getElementById('previewImage');
+				previewImage.src = e.target.result;
+				previewImage.style.display = 'block';
+			};
+			reader.readAsDataURL(file);
+		}
+	});
+	
+	// 닉네임 중복 체크
+	const signUpButton = document.querySelector('button[type="submit"]'); // 가입하기 버튼
+	
+	function updateSignUpButton(isEnabled) {
+		signUpButton.disabled = !isEnabled; // 버튼을 비활성화하거나 활성화
+	}
+    
+	updateSignUpButton(false); // 버튼 비활성화
+	
+	window.checkNickName = function() {
+		const nickName = document.getElementById('nickName').value;
+		const nickNameCheckMessage = document.getElementById('nickNameCheckMessage'); // 메시지 표시 영역
+
+		// 닉네임이 입력되지 않았을 경우 중복 검사 실행 안함
+		if (!nickName.trim()) {
+			nickNameCheckMessage.textContent = '닉네임을 입력하세요.';
+			nickNameCheckMessage.style.color = 'red';
+			updateSignUpButton(false);
+			return;
+		}
+
+		// 닉네임 중복 체크 API 호출
+		fetch(`/user/check-nickname?nickName=${encodeURIComponent(nickName)}`)
+			.then(response => {
+				if (response.status === 409) {
+					// 중복된 닉네임일 경우
+					nickNameCheckMessage.textContent = '이미 사용 중인 닉네임입니다.';
+					nickNameCheckMessage.style.color = 'red'; // 중복일 경우 빨간색 표시
+					updateSignUpButton(false); // 버튼 비활성화
+					isNickNameValid = false;
+				} else if (response.ok) {
+					// 사용 가능한 닉네임일 경우
+					nickNameCheckMessage.textContent = '사용 가능한 닉네임입니다.';
+					nickNameCheckMessage.style.color = 'green'; // 사용 가능할 경우 초록색 표시
+					updateSignUpButton(true); // 버튼 활성화
+					isNickNameValid = true;
+				}
+			})
+			.catch(error => {
+				console.error('Error:', error);
+				nickNameCheckMessage.textContent = '서버와의 통신 중 오류가 발생했습니다.';
+				nickNameCheckMessage.style.color = 'red';
+				updateSignUpButton(false); // 버튼 비활성화
+				isNickNameValid = false;
+			});
+	};
 });

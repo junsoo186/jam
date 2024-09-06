@@ -9,8 +9,8 @@ spring:
   mail:
     host: smtp.gmail.com
     port: 587
-    username: alsgur6811@gmail.com
-    password: rbse czix ygfa awvf
+    username: joinandmakes@gmail.com
+    password: tpbs dmlk iumy fyjk #!q@w3e4r 메일 비밀번호
     properties:
       mail:
         smtp:
@@ -21,7 +21,7 @@ spring:
           connectiontimeout: 5000
           timeout: 5000
           writetimeout: 5000
-    auth-code-expiration-millis: 1800000  # 30 * 60 * 1000 == 30분
+    auth-code-expiration-millis: 300000  # 30 * 60 * 1000 == 05분
   mvc:
     view: 
       prefix: /WEB-INF/view/ #JSP파일이 위치한 디렉토리 접두사를 설정합니다.
