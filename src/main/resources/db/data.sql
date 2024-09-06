@@ -126,10 +126,55 @@ INSERT INTO user_alert_history_tb ( alert_id,user_id,period_date) VALUES ( 3,17,
 INSERT INTO user_alert_history_tb ( alert_id,user_id,period_date) VALUES ( 4,24,'2024-10-01');
 INSERT INTO user_alert_history_tb ( alert_id,user_id,period_date) VALUES ( 5,28,'2024-10-05');
 
+INSERT INTO `event_tb` (
+    `event_title`, `event_content`, `start_day`, `end_day`, `user_id`
+) VALUES (
+    '회원가입 웰컴 반값 이벤트', '회원가입 후 첫 코인 구매 시 50% 할인 혜택을 제공합니다.', 
+    '2024-09-01', 
+    '2024-12-31', 
+    4  -- user_tb에서 user_id 101번 사용자가 이벤트를 관리
+);
+INSERT INTO `event_tb` (
+    `event_title`, `event_content`, `start_day`, `end_day`, `user_id`
+) VALUES (
+    '회원가입 웰컴 반값 이벤트', 
+    '회원가입 후 첫 코인 구매 시 50% 할인 혜택을 제공합니다.', 
+    '2024-09-01', 
+    '2024-12-31',
+    5 -- user_tb에서 user_id 101번 사용자가 이벤트를 관리
+);
+INSERT INTO `event_tb` (
+    `event_title`, `event_content`, `start_day`, `end_day`, `user_id`
+) VALUES (
+    '회원가입 웰컴 반값 이벤트', 
+    '회원가입 후 첫 코인 구매 시 50% 할인 혜택을 제공합니다.', 
+    '2024-09-01', 
+    '2024-12-31',
+    6  -- user_tb에서 user_id 101번 사용자가 이벤트를 관리
+);
+INSERT INTO `event_tb` (
+    `event_title`, `event_content`, `start_day`, `end_day`, `user_id`
+) VALUES (
+    '회원가입 웰컴 반값 이벤트', 
+    '회원가입 후 첫 코인 구매 시 50% 할인 혜택을 제공합니다.', 
+    '2024-09-01', 
+    '2024-12-31',
+    3  -- user_tb에서 user_id 101번 사용자가 이벤트를 관리
+);
 
+-- event_participants_tb 테이블에 참여자 데이터 삽입
+INSERT INTO `event_participants_tb` (`event_id`, `user_id`)
+VALUES 
+(1, 1),  -- 1번 이벤트에 user_id = 101 사용자가 참여
+(1, 6),  -- 1번 이벤트에 user_id = 102 사용자가 참여
+(1, 7),  -- 2번 이벤트에 user_id = 103 사용자가 참여
+(1, 8);  -- 2번 이벤트에 user_id = 104 사용자가 참여
 
-
-
+-- event_winners_tb 테이블에 당첨자 데이터 삽입
+INSERT INTO `event_winners_tb` (`event_id`, `user_id`, `winning_date`, `prize`)
+VALUES 
+(1, 6, NOW(), '50% 할인 쿠폰'),  -- 101번 사용자가 1번 이벤트에서 당첨, 50% 할인 쿠폰
+(1, 1, NOW(), '코인 1000개 추가 적립');  -- 103번 사용자가 2번 이벤트에서 당첨, 코인 1000개 추가 적립
 
 
 

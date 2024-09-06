@@ -132,6 +132,27 @@ CREATE TABLE `event_tb` (
     FOREIGN KEY (`user_id`) REFERENCES `user_tb`(`user_id`)
 );
 
+-- 참여자
+CREATE TABLE `event_participants_tb` (
+    `participant_id` INT PRIMARY KEY AUTO_INCREMENT NOT NULL COMMENT '참여자 ID',
+    `event_id` INT NOT NULL unique COMMENT '이벤트 ID',
+    `user_id` INT NOT NULL unique COMMENT '사용자 ID',
+    `participation_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '참여 일자',
+    FOREIGN KEY (`event_id`) REFERENCES `event_tb`(`event_id`) ON DELETE CASCADE,
+    FOREIGN KEY (`user_id`) REFERENCES `user_tb`(`user_id`) ON DELETE CASCADE
+);
+
+-- 당첨자
+CREATE TABLE `event_winners_tb` (
+    `winner_id` INT PRIMARY KEY AUTO_INCREMENT NOT NULL COMMENT '당첨자 ID',
+    `event_id` INT NOT NULL COMMENT '이벤트 ID',
+    `user_id` INT NOT NULL COMMENT '당첨된 사용자 ID',
+    `winning_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '당첨 일자',
+    `prize` VARCHAR(100) COMMENT '당첨 상품',
+    FOREIGN KEY (`event_id`) REFERENCES `event_tb`(`event_id`) ON DELETE CASCADE,
+    FOREIGN KEY (`user_id`) REFERENCES `user_tb`(`user_id`) ON DELETE CASCADE
+);
+
 CREATE TABLE `account_history_tb` (
     `account_history_id` int PRIMARY KEY AUTO_INCREMENT NOT NULL,
     `user_id` int NOT NULL COMMENT '외래 키, user_tb 참조',
