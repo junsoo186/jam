@@ -83,7 +83,7 @@ CREATE TABLE `story_tb` (
 CREATE TABLE `user_de_tb` (
     `user_detail_id` int PRIMARY KEY AUTO_INCREMENT NOT NULL,
     `user_id` int NOT NULL COMMENT '외래 키, user_tb 참조',
-    `point` bigint NOT NULL DEFAULT 0,
+    `point` bigint NULL DEFAULT 0,
     name VARCHAR(20) NULL COMMENT '유저 이름(본명)',
     birth_date DATE NULL COMMENT '생일',
     address VARCHAR(100) NULL COMMENT '주소',

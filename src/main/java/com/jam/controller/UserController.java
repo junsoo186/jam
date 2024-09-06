@@ -1,8 +1,5 @@
 package com.jam.controller;
 
-import java.sql.Date;
-import java.text.SimpleDateFormat;
-
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -67,6 +64,7 @@ public class UserController {
 	public String signUpProc(signUpDTO dto) {
 		System.out.println("dto : " + dto.toString());
 		userService.createUser(dto);
+		userService.createDetail(dto);
 
 		return "redirect:/user/sign-in";
 	}
@@ -522,7 +520,7 @@ public class UserController {
 				.point(user.getPoint())
 			//	.role(user.getRole())
 			//	.createdAt(user.getCreatedAt())
-			//	.profileImg(user.getProfileImg())
+				.profileImg(user.getProfileImg())
 			//	.oriProfileImg(user.getOriProfileImg())
 				.build();
 		

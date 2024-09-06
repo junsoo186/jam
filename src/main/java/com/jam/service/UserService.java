@@ -67,6 +67,9 @@ public class UserService {
 		String hashPwd = passwordEncoder.encode(dto.getPassword());
 		dto.setPassword(hashPwd);
 		result = userRepository.insert(dto);
+		
+		
+		System.out.println("회원가입 서비스 : "+dto.toString());
 
 		if (result == 1) {
 			System.out.println("회원가입 성공");
@@ -269,5 +272,22 @@ public class UserService {
 		user = userRepository.InformationUpdate(email);
 		return user;
 	}
+	
+	/**
+	 * 유저 상세정보
+	 * @param email
+	 */
+	public User createDetail(signUpDTO dto) {
+		// TODO Auto-generated method stub
+		User user = userRepository.emailsearch(dto);
+		userRepository.insertbyUserTb(user.getUserId());
+				
+		System.out.println("@@@@"+user.toString());
+		
+		return user;
+		
+	}
+	
+	
 
 }

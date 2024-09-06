@@ -17,7 +17,7 @@ import lombok.ToString;
 @Builder
 @ToString
 public class signUpDTO {
-
+	private int userId; // 추가
 	private String nickName;
 	private String phoneNumber;
 	private String email;
