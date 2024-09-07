@@ -8,11 +8,11 @@
 		INSERT INTO book_tb (user_id,
 		title, author_comment, author, serial_day, introduction,
 		category_id,
-		genre_id, age)
+		genre_id, age, book_cover_image)
 		VALUES (#{userId}, #{title}, #{authorComment},
 		#{author}, #{serialDay},
 		#{introduction}, #{categoryId}, #{genreId},
-		#{age})
+		#{age}, #{bookCoverImage})
 	</insert>
 
 	<select id="AllBookList"
@@ -22,6 +22,7 @@
 		b.title,
 		b.author,
 		b.likes,
+		b.book_cover_image,
 		GROUP_CONCAT(DISTINCT t.tag_name ORDER BY t.tag_name ASC) AS tagNames
 		FROM
 		book_tb b
@@ -35,13 +36,16 @@
 		ASC
 	</select>
 
-	<select id="AllBookListByUserId"
+	<select id="findAllBookListByUserId"
 		resultType="com.jam.repository.model.Book">
 		SELECT
 		b.book_id,
+		b.user_id,
 		b.title,
-		b.author,
+		b.author,	
 		b.likes,
+		b.author_comment,
+		b.book_cover_image,
 		GROUP_CONCAT(DISTINCT t.tag_name ORDER BY t.tag_name ASC) AS tagNames
 		FROM
 		book_tb b
@@ -61,18 +65,25 @@
 		resultType="com.jam.repository.model.Book">
 		SELECT
 		b.book_id,
+		b.user_id,
 		b.title,
 		b.author,
 		b.author_comment,
-		b.category_id,
-		b.genre_id,
+		c.category_name, 
+		g.genre_name, 
 		b.age,
+		b.likes,
 		b.serial_day,
 		b.introduction,
 		b.created_at,
+		b.book_cover_image,
 		GROUP_CONCAT(DISTINCT t.tag_name ORDER BY t.tag_name ASC) AS tagNames
 		FROM
 		book_tb b
+		LEFT JOIN
+		category_tb c ON b.category_id = c.category_id 
+		LEFT JOIN
+		genre_tb g ON b.genre_id = g.genre_id 
 		LEFT JOIN
 		book_tag_tb bt ON b.book_id = bt.book_id
 		LEFT JOIN
@@ -80,10 +91,11 @@
 		WHERE
 		b.book_id = #{bookId}
 		GROUP BY
-		b.book_id
+		b.book_id,
+		c.category_name, 
+		g.genre_name 
 		ORDER BY
-		b.title ASC
-
+		b.title ASC;
 	</select>
 
 	<update id="updateBook">
@@ -95,7 +107,8 @@
 		introduction = #{introduction},
 		serial_day =
 		#{serialDay},
-		age = #{age}
+		age = #{age},
+		book_cover_image = #{bookCoverImage}
 		WHERE
 		book_id = #{bookId}
 	</update>
@@ -110,4 +123,13 @@
 	<delete id="deleteBook">
 		delete book_tb where book_id = #{bookId}
 	</delete>
+	
+	<select id="findAllCategory"
+	resultType="com.jam.repository.model.Category">
+		select * from category_tb;
+	</select>
+	<select id="findAllGenre"
+	resultType="com.jam.repository.model.Genre">
+		select * from genre_tb;
+	</select>
 </mapper>

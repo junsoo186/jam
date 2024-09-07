@@ -28,4 +28,6 @@ public interface StoryRepository {
 	public void deleteStory(@Param("storyId") Integer storyId); // 회차 삭제
 	
 	public void updateNumberByStoryId(@Param("number") String number, @Param("storyId") Integer storyId); // 회차 넘버링만 변경
+	
+	public Story findStoryIdByBookIdAndUserId(@Param("bookId") Integer bookId, @Param("userId") Integer userId);
 }

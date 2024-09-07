@@ -1,6 +1,13 @@
 // 태그 중복 확인을 위한 Set 생성
 let tagSet = new Set();
 
+// 초기 태그 목록을 Set에 추가
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('#tagList .tag-item .tag-name').forEach(function(tag) {
+        tagSet.add(tag.textContent.trim());
+    });
+});
+
 function addTagOnEnter(event) {
     if (event.key === "Enter") {
         event.preventDefault(); // 엔터키의 기본 동작을 막음
@@ -53,7 +60,7 @@ function appendCustomTag(value = null) {
     // 숨겨진 input 필드에 태그 값 추가
     var hiddenInput = document.createElement("input");
     hiddenInput.type = "hidden";
-    hiddenInput.name = "customTag"; // BookDTO와 매핑되는 필드 이름
+    hiddenInput.name = "customTag";
     hiddenInput.value = customTag;
     tagItem.appendChild(hiddenInput);
 
@@ -76,4 +83,11 @@ function prepareFormForSubmit() {
         return false;
     }
     return true;
+}
+
+function removeTag(tagName, element) {
+    var tagList = document.getElementById("tagList");
+    var tagItem = element.parentNode;
+    tagList.removeChild(tagItem);
+    tagSet.delete(tagName);
 }

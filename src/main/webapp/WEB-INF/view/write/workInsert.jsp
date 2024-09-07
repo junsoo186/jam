@@ -1,81 +1,130 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-
-<head>
-<meta charset="UTF-8">
-<title>도서 정보 입력</title>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ include file="/WEB-INF/view/layout/header.jsp" %>
 <link rel="stylesheet" href="/css/insertTag.css">
-</head>
+<link rel="stylesheet" href="/css/workInsert.css">
 
-<body>
-	<h2>도서 정보 입력 폼</h2>
-	<form action="workInsert" method="post" onsubmit="return prepareFormForSubmit()">
-		<label for="title">제목:</label> <input type="text" id="title" name="title" value="테스트 제목" required /><br> <br> <label for="authorComment">저자 코멘트:</label>
-		<textarea id="authorComment" name="authorComment" required>테스트 저자 코멘트</textarea>
-		<br> <br> <label for="author">저자:</label> <input type="text" id="author" name="author" value="테스트 저자" required /><br> <br> <label for="serialDay">연재
-			요일:</label><br> <input type="radio" id="monday" name="serialDay" value="월요일"> <label for="monday">월요일</label><br> <input type="radio" id="tuesday" name="serialDay"
-			value="화요일"
-		> <label for="tuesday">화요일</label><br> <input type="radio" id="wednesday" name="serialDay" value="수요일"> <label for="wednesday">수요일</label><br> <input
-			type="radio" id="thursday" name="serialDay" value="목요일"
-		> <label for="thursday">목요일</label><br> <input type="radio" id="friday" name="serialDay" value="금요일"> <label for="friday">금요일</label><br> <input type="radio"
-			id="saturday" name="serialDay" value="토요일"
-		> <label for="saturday">토요일</label><br> <input type="radio" id="sunday" name="serialDay" value="일요일"> <label for="sunday">일요일</label><br> <input type="radio"
-			id="irregular" name="serialDay" value="비 정기 연재"
-		> <label for="irregular">비 정기 연재</label><br>
+<main>
+    <div class="container--area">
+        <form id="bookForm" action="workInsert" method="post" onsubmit="return prepareFormForSubmit()">
+    <h2>도서 정보 입력 폼</h2>
+            <!-- 폼 섹션 -->
+            <div class="content--area">
+                <!-- 왼쪽 섹션: 도서 정보 입력 및 이미지 선택 -->
+                <div class="left--area">
+                	<div class="left--area--top"></div>
+                    <!-- 책 커버 선택 -->
+                    <div class="img--cover">
+                       <img id="bookCoverPreview"src="#" alt="미리보기" style="display: none; margin-top: 10px; max-width: 100%; height: auto;">
+                    </div>
 
-		<!-- Introduction 필드 추가 -->
-		<label for="introduction">소개글:</label><br>
-		<textarea id="introduction" name="introduction" rows="4" cols="50" placeholder="도서의 소개글을 입력하세요" required>테스트용 소개글</textarea>
+                       <input type="file" id="bookCover" name="bookCover" class="bookCover" accept="image/*"> 
+                    <!-- 이미지 선택 섹션 -->
+                    <div class="left--area--center">
+                        <h3>이미지 선택</h3>
+                        <div class="img--area--images">
+                            <div class="images"><img src="path/to/image1.jpg" alt="제공 이미지 1" class="selectable-image"></div>
+                            <div class="images"><img src="path/to/image2.jpg" alt="제공 이미지 2" class="selectable-image"></div>
+                            <div class="images"><img src="path/to/image3.jpg" alt="제공 이미지 3" class="selectable-image"></div>
+                            <div class="images"><img src="path/to/image4.jpg" alt="제공 이미지 4" class="selectable-image"></div>
+                        </div>
+                    </div> 
+                    <br>
+                </div>
 
-		<br> <br> <label for="categoryId">카테고리 이름:</label> <select id="categoryId" name="categoryId" required>
-			<option value="1">문학</option>
-			<option value="2">시/에세이</option>
-			<option value="3">소설</option>
-		</select> <br>
-		<br> <label for="genreId">장르 이름:</label> <select id="genreId" name="genreId" required>
-			<option value="1">추리</option>
-			<option value="2">스릴러</option>
-			<option value="3">공포</option>
-			<option value="4">과학</option>
-			<option value="5">판타지</option>
-			<option value="6">무협</option>
-		</select>
-		<br>
-		<label for="tagList">태그 목록:</label>
-		<div id="tagList" class="tag-input">
-			<!-- 태그가 여기에 추가됩니다 -->
-		</div>
-		<br>
+                <!-- 오른쪽 섹션: 입력 필드 -->
+                <div class="right--area">
+                	<div class="right-area--top">          
+                    <label for="title">작품명:</label>
+                    <input type="text" id="title" name="title" value="테스트 제목" required />
 
-		<!-- 태그 추가를 위한 인풋 필드와 셀렉트 박스 -->
-		<div class="tag-input">
-			<input type="text" id="customTag" onkeydown="addTagOnEnter(event)" placeholder="태그를 입력하세요">
-			<select id="presetTags" name="presetTags" onchange="addSelectedOption()">
-				<option value=""></option>
-				<option value="판타지">판타지</option>
-				<option value="추리">추리</option>
-				<option value="로맨스">로맨스</option>
-				<option value="공포">공포</option>
-			</select>
-		</div>
-		<br> <br>
+                    <label for="authorComment">코멘트:</label>
+                    <textarea id="authorComment" name="authorComment" required>테스트 저자 코멘트</textarea>
 
-		<!-- 연령 선택 필드 -->
-		<label for="age">연령:</label> <select id="age" name="age" required>
-			<option value="전체">전체</option>
-			<option value="7">7</option>
-			<option value="12">12</option>
-			<option value="15">15</option>
-			<option value="19">19</option>
-		</select><br> <br>
+			
+                    <label for="introduction">소개글:</label>
+                    <textarea id="introduction" name="introduction" rows="4" required>테스트용 소개글</textarea>
 
+				</div>
 
+				<div class="right-area--center">
+                    <!-- 카테고리 선택 셀렉트 박스 -->
+                    <label for="categorySelect">카테고리 선택:</label>
+                    <select id="categorySelect" name="categoryId" onchange="updateHiddenInput('categorySelect', 'categoryId')">
+                        <c:forEach items="${category}" var="categroy">
+                            <option value="${categroy.categoryId}">${categroy.categoryName}</option>
+                        </c:forEach>
+                    </select>
+                    <input type="hidden" id="categoryId" name="categoryId" value="1">
 
-		<button type="submit">제출</button>
-	</form>
+					<!-- 장르 선택 셀렉트 박스 -->
+					<label for="genreSelect">장르 선택:</label> <select id="genreSelect" name="genreId" onchange="updateHiddenInput('genreSelect', 'genreId')">
+						<c:forEach items="${genre}" var="genre">
+							<option value="${genre.genreId}">${genre.genreName}</option>
+						</c:forEach>
+					</select> <input type="hidden" id="genreId" name="genreId" value="1">
+					<!-- 기본값을 "추리"로 설정 -->
 
-	<script type="text/javascript" src="/js/insertTag.js"></script>
-</body>
+                    <!-- 연재 요일 선택 -->
+                    <label for="serialDay">연재 요일:</label>
+                    <div class="btn--day">
+                        <label><input type="checkbox" name="serialDay" value="월요일"> 월요일</label>
+                        <label><input type="checkbox" name="serialDay" value="화요일"> 화요일</label>
+                        <label><input type="checkbox" name="serialDay" value="수요일"> 수요일</label>
+                        <label><input type="checkbox" name="serialDay" value="목요일"> 목요일</label>
+                        <label><input type="checkbox" name="serialDay" value="금요일"> 금요일</label>
+                        <label><input type="checkbox" name="serialDay" value="토요일"> 토요일</label>
+                        <label><input type="checkbox" name="serialDay" value="일요일"> 일요일</label>
+                        <label><input type="checkbox" name="serialDay" value="비 정기 연재"> 비 정기 연재</label>
+                    </div>
+               </div>
+               
+                <!--  연령 ,태그 -->
+               <div class="right-area--bottom">
+                    <!-- 연령 선택 셀렉트 박스 -->
+                    <label for="ageSelect">연령 선택:</label>
+                    <select id="ageSelect" name="age" onchange="updateHiddenInput('ageSelect', 'age')">
+                        <option value="전체">전체</option>
+                        <option value="7">7</option>
+                        <option value="12">12</option>
+                        <option value="15">15</option>
+                        <option value="19">19</option>
+                    </select>
 
-</html>
+                    <!-- 태그 목록과 추가 필드 -->
+                    <label for="tagList">태그 목록:</label>
+                    <div id="tagList" class="tag--input">
+                        <!-- 태그가 여기에 추가됩니다 -->
+                    </div>
+
+                    <!-- 태그 추가를 위한 인풋 필드와 셀렉트 박스 -->
+                    <div class="tag--input">
+                        <input type="text" id="customTag" onkeydown="addTagOnEnter(event)" placeholder="태그를 입력하세요">
+                        <select id="presetTags" name="presetTags" onchange="addSelectedOption()">
+                            <option value=""></option>
+                            <option value="판타지">판타지</option>
+                            <option value="추리">추리</option>
+                            <option value="로맨스">로맨스</option>
+                            <option value="공포">공포</option>
+                        </select>
+                    </div>
+               </div>
+                    <!-- 경고문 섹션 -->
+                    <div class="warning--area">
+                        <p>경고문 텍스트를 여기에 추가합니다.</p>
+                        <label><input type="checkbox" required> 동의합니다</label>
+                    </div>
+                    </div>
+
+                </div>
+                    <!-- 제출 및 취소 버튼 -->
+                    <div class="bottom--btn--area">
+                        <button type="button" class="btn--cancel" onclick="location.href='workList'">취소</button>
+                        <button type="submit" class="btn--submit">작품 등록</button>
+                </div>
+        </form>
+    </div>
+
+</main>
+    <script type="text/javascript" src="/js/workInsert.js"></script>
+    <script type="text/javascript" src="/js/insertTag.js"></script>

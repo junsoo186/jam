@@ -1,5 +1,7 @@
 package com.jam.dto;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.jam.repository.model.User;
 
 import lombok.AllArgsConstructor;
@@ -15,12 +17,15 @@ import lombok.ToString;
 @Builder
 @ToString
 public class signUpDTO {
-
+	private int userId; // 추가
 	private String nickName;
 	private String phoneNumber;
 	private String email;
 	private String password;
 	private String role;
+	private MultipartFile mFile;
+	private String profileImg;
+	private String oriProfileImg;
 	
 	
 	public User toUser() {
@@ -30,8 +35,19 @@ public class signUpDTO {
 				.email(this.email)
 				.password(this.password)
 				.role(this.role)
+				.profileImg(this.profileImg)
+				.oriProfileImg(this.oriProfileImg)
 				.build();
 	}
+	
+	public signInDTO toSignInDTO() {
+		return signInDTO.builder()
+				.email(this.email)
+				.password(this.password)
+				.build();
+		
+	}
+	
 	
 	
 }

@@ -13,6 +13,12 @@ public class KakaoAccount {
 	// 테스트 중
 //	 private Profile profile;
 	 private String email;
+	 private String name;
+	 private String phoneNumber;
+	 private String birthyear;
+	 private String birthday;
+	 private String gender;
+	 
 	
 
 }

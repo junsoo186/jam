@@ -1,6 +1,7 @@
 package com.jam.controller;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +14,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.jam.dto.BookDTO;
 import com.jam.dto.StoryDTO;
-import com.jam.dto.UserDTO;
 import com.jam.repository.model.Book;
+import com.jam.repository.model.Category;
+import com.jam.repository.model.Genre;
 import com.jam.repository.model.Story;
 import com.jam.repository.model.Tag;
+import com.jam.repository.model.User;
 import com.jam.service.WriterService;
 
 import jakarta.servlet.http.HttpSession;
@@ -41,9 +44,13 @@ public class WriterController {
 	 */
 	@GetMapping("/workList")
 	public String handleWorkList(Model model) {
-		UserDTO principal = (UserDTO) session.getAttribute("principal");
+		User principal = (User) session.getAttribute("principal");
 		List<Book> bookList = writerService.readAllBookListByprincipalId(principal.getUserId());
-		System.out.println("bookList : " + bookList.toString());
+		for (Book book : bookList) {
+			String bookImg = book.setUpUserImage();
+			book.setBookCoverImage(bookImg);
+		}
+
 		if (bookList.isEmpty()) {
 			model.addAttribute("bookList", null);
 		} else {
@@ -60,7 +67,15 @@ public class WriterController {
 	 * @return
 	 */
 	@GetMapping("/workInsert")
-	public String handleWorkInsert() {
+	public String handleWorkInsert(Model model) {
+		List<Category> categories = new ArrayList<>();
+		List<Genre> genres = new ArrayList<>();
+
+		categories = writerService.findAllCategory();
+		genres = writerService.findAllGenre();
+
+		model.addAttribute("category", categories);
+		model.addAttribute("genre", genres);
 		return "write/workInsert";
 	}
 
@@ -72,7 +87,7 @@ public class WriterController {
 	 */
 	@PostMapping("/workInsert")
 	public String completedWorkProc(BookDTO bookDTO) {
-		UserDTO principal = (UserDTO) session.getAttribute("principal");
+		User principal = (User) session.getAttribute("principal");
 
 		// 유효성 검사 (생략)
 
@@ -106,9 +121,7 @@ public class WriterController {
 		}
 
 		// 책 생성 및 bookId 가져오기
-		Integer bookId = writerService.createBook(bookDTO, principal.getUserId());
-		
-		System.out.println(bookId);
+		Integer bookId = writerService.createBook(bookDTO, principal);
 
 		// book_tag_tb 테이블에 bookId와 tagId들을 삽입합니다.
 		for (Integer tagId : tagIdsToInsert) {
@@ -136,7 +149,7 @@ public class WriterController {
 	 */
 	@PostMapping("/storyInsert")
 	public String StoryInsertProc(StoryDTO storyDTO, @RequestParam("bookId") Integer bookId) {
-
+		User principal = (User) session.getAttribute("principal");
 		if (storyDTO.getType().equals("프롤로그")) { // 프롤로그 선택시 무조건 number = 0
 			storyDTO.setNumber(0);
 		}
@@ -148,8 +161,8 @@ public class WriterController {
 			// TODO - alert 메시지 >> 내용 입력 요청
 		}
 
-		writerService.createStory(storyDTO, bookId, 1);
-		return "redirect:/write/storyContents?number=" + storyDTO.getNumber();
+		Integer storyId = writerService.createStory(storyDTO, bookId, principal.getUserId());
+		return "redirect:/write/storyContents?storyId=" + storyId;
 	}
 
 	/**
@@ -175,15 +188,17 @@ public class WriterController {
 	 */
 	@GetMapping("/workDetail")
 	public String handleWorkDetail(Model model, @RequestParam("bookId") Integer bookId) {
-		Book bookDetail = writerService.detailBook(bookId);
 		List<Story> storyList = writerService.findAllStoryByBookId(bookId);
-		if (bookDetail == null) {
-			model.addAttribute("bookDetail", null);
-		} else {
-			model.addAttribute("bookId", bookId);
-			System.out.println("bookDetail : " + bookDetail);
-			model.addAttribute("bookDetail", bookDetail);
-		}
+		User principal = (User) session.getAttribute("principal");
+		Book bookDetail = writerService.detailBook(bookId); // bookId로 책의 상세 정보를 가져옴
+		String bookImg = bookDetail.setUpUserImage(); // 책의 이미지 경로를 설정
+		bookDetail.setBookCoverImage(bookImg); // 설정한 이미지 경로를 Book 객체에 저장
+
+		model.addAttribute("bookId", bookId);
+		model.addAttribute("bookDetail", bookDetail);
+		model.addAttribute("principalId", principal.getUserId());
+
+		// 디버깅을 위해 각 Story 객체의 userId를 출력
 
 		if (storyList == null) {
 			model.addAttribute("storyList", null);
@@ -201,12 +216,41 @@ public class WriterController {
 	@GetMapping("/workUpdate")
 	public String handleWorkUpdate(Model model, @RequestParam("bookId") Integer bookId) {
 		Book bookDetail = writerService.detailBook(bookId);
-		if (bookDetail == null) {
-			model.addAttribute("bookDetail", null);
-		} else {
+		String bookImg = bookDetail.setUpUserImage(); // 책의 이미지 경로를 설정
+		bookDetail.setBookCoverImage(bookImg); // 설정한 이미지 경로를 Book 객체에 저장
+		
+		String tagNames = bookDetail.getTagNames();
+		String[] tagsArray = tagNames.split(",");
+		List<String> tagList = new ArrayList<String>();
+		Collections.addAll(tagList, tagsArray);
+
+		// 모든 태그 목록을 가져오기
+		List<Tag> existingTags = writerService.selectAllTags();
+
+		List<Tag> selectTags = new ArrayList<>();
+		List<Category> categories = new ArrayList<>();
+		List<Genre> genres = new ArrayList<>();
+
+		categories = writerService.findAllCategory();
+		genres = writerService.findAllGenre();
+
+		model.addAttribute("category", categories);
+		model.addAttribute("genre", genres);
+
+		Tag resultTag = new Tag();
+		for (Tag tags : existingTags) {
+
+			for (String tag : tagList) {
+
+				if (tags.getTagName().equals(tag)) {
+					resultTag = writerService.selectByName(tag);
+					selectTags.add(resultTag);
+				}
+			}
+		}
+			model.addAttribute("selectTags", selectTags);
 			model.addAttribute("bookId", bookId);
 			model.addAttribute("bookDetail", bookDetail);
-		}
 		return "write/workUpdate";
 	}
 
@@ -218,11 +262,64 @@ public class WriterController {
 	@PostMapping("/workUpdate")
 	public String workUpdateProc(BookDTO bookDTO, @RequestParam("bookId") Integer bookId) {
 		// BookDTO에서 Book 객체로 변환
-		Book book = bookDTO.updateBook(bookId);
+		Book book = bookDTO.updateBook(bookId); // 업데이트에 필요한 빌드
+		System.out.println("book" + book);
+
+		// 존재하는 태그
+		List<Tag> existingTags = writerService.selectAllTags();
+
+		// 수정하려는 태그
+		List<String> tagNames = bookDTO.getCustomTag();
+
+		// 없는 태그를 추가할 변수
+		List<Integer> tagIdsToInsert = new ArrayList<>();
+
+		// 현재 존재하는 태그들과 bookDTO의 태그 이름들을 비교합니다.
+		for (String tagName : tagNames) {
+			boolean tagExists = false;
+			int tagId = -1;
+
+			// 태그가 이미 존재하는지 확인
+			for (Tag tag : existingTags) {
+				if (tag.getTagName().equalsIgnoreCase(tagName)) {
+					tagExists = true;
+					tagId = tag.getTagId(); // 이미 존재하는 태그의 ID 저장
+					System.out.println("태그확인");
+					break;
+				}
+			}
+
+			// 태그가 존재하지 않으면 새로 추가하고 ID 가져오기
+			if (!tagExists) {
+				Tag newTag = writerService.insertTagName(tagName);
+				tagId = newTag.getTagId();
+				System.out.println("태그추가");
+			}
+
+			// 태그 ID를 삽입 리스트에 추가
+			tagIdsToInsert.add(tagId);
+		}
+
+		// 책 생성 및 bookId 가져오기
+
+		// 중복 삽입 방지를 위해 book_tag_tb 테이블에 해당 bookId와 tagId들이 이미 존재하는지 확인
+		List<Tag> existingBookTag = writerService.findTagName(bookId);// bookId와 일치하는 태그리스트
+		List<Integer> existingBookTagIds = new ArrayList<>();// 태그리스트의 tagId추가 변수
+		for (Tag tag : existingBookTag) {
+			existingBookTagIds.add(tag.getTagId());// 추가
+		}
+		// book_tag_tb 테이블에 bookId와 tagId들을 삽입합니다.
+		for (Integer tagId : tagIdsToInsert) {
+			if (!existingBookTagIds.contains(tagId)) { // 추가한 값에 tagId가 없을경우
+				writerService.insertTagIdAndBookId(bookId, tagId);// INSERT구문 실행
+				System.out.println("tagId:" + tagId);
+			}
+		}
+		// 이미지 처리
 
 		// 변환된 Book 객체를 사용하여 업데이트 작업 수행
 		try {
-			writerService.updateBook(book); // writerService는 Book을 업데이트하는 서비스
+			writerService.updateBook(book, bookDTO); // writerService는 Book을 업데이트하는 서비스
 		} catch (Exception e) {
 			// TODO - 오류 처리
 		}

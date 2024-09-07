@@ -15,13 +15,19 @@
 }
 
 .tag-input {
-    display: inline-block;
-    padding: 5px;
+    display: flex; /* display 속성을 inline-block에서 flex로 변경 */
+    flex-wrap: wrap; /* 내용을 줄 바꿈할 수 있도록 설정 */
+    padding: 25px;
     border: 1px solid #ccc;
     border-radius: 5px;
     margin-right: 5px;
     margin-bottom: 5px;
     min-width: 120px;
+    min-height:100px;
+    box-sizing: border-box;
+    align-items: center; /* 요소들을 세로로 가운데 정렬 */
+    max-width: 100%; /* 컨테이너가 최대 너비를 가질 수 있도록 설정 */
+    height: auto;
 }
 
 .tag-input input {
@@ -40,3 +46,24 @@
     vertical-align: middle;
     height: 100%;
 }
+
+ .tag-item {
+     display: inline-flex;
+     align-items: center;
+     margin: 5px;
+     padding: 5px 10px;
+     background-color: #f0f0f0;
+     border-radius: 15px;
+     font-size: 14px;
+ }
+ 
+ .tag-name {
+     margin-right: 8px; /* 태그명과 x 버튼 사이에 간격 추가 */
+ }
+
+ .remove-tag {
+     font-weight: bold;
+            color: blue;
+            border-radius: 50%; /* 동그란 모양으로 변경 */
+
+ }
