@@ -25,19 +25,33 @@ repositories {
 }
 
 dependencies {
+<<<<<<< HEAD
 
 // https://mvnrepository.com/artifact/com.google.code.gson/gson
 implementation group: 'com.google.code.gson', name: 'gson', version: '2.8.6'
 
 
 // dependencies
+=======
+	// dependencies
+>>>>>>> 3bbb13bfb23ebe526fed4a62ba019891a5064a39
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 	
 	
+	//캐시연결
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+	// 캐시 라이브러리 
+	implementation 'org.springframework.boot:spring-boot-starter-cache'
+	//구글 클라우드 라이브러리
+	implementation 'com.google.cloud:google-cloud-storage:2.21.2'
 	
+	// 웹소켓 라이브러리
     implementation 'org.springframework.boot:spring-boot-starter-websocket'
-	//////
+	
+	
+	
+	
 	implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
     implementation group: 'org.glassfish.web', name: 'jakarta.servlet.jsp.jstl', version: '3.0.0'
     providedCompile 'javax.servlet:javax.servlet-api:3.1.0'
