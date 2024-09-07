@@ -10,20 +10,15 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Data
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 @Builder
-public class Project {
-
-    private int projectId;
-    private int userId; 
-    private int rewardId; 
-    private int bookId; 
-    private String title;
-    private String contents;
-    private int goal;
-    private Date dateEnd;
+public class Funding {
+    private int fundingId;
+    private int userId; // Foreign key to user_tb
+    private int rewardId; // Foreign key to reward_tb
     private Timestamp createdAt;
-    private String staffAgree; // Enum ('N', 'Y')
+    private Date canceledAt;
+    private String confirmSuccess; // Enum ('N', 'Y')
 }

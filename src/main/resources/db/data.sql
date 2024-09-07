@@ -169,77 +169,6 @@ insert into category_tb (category_id, category_name) values (1, '문학');
 insert into category_tb (category_id, category_name) values (2, '시/에세이');
 insert into category_tb (category_id, category_name) values (3, '소설');
 
--- 프로젝트 테이블
-
-insert into project_tb (user_id,title,contents,category_id,collected_amount,goal
-			,date_end,staff_agree)
-values( 1, '임시프로젝트타이틀1','내용입니다',1,1200,20000,'2024-09-09','Y');
-
-insert into project_tb (user_id,title,contents,category_id,collected_amount,goal
-			,date_end,staff_agree)
-values( 2, '임시프로젝트타이틀2','내용입니다',1,500,25000,'2024-09-20','Y');
-
-insert into project_tb (user_id,title,contents,category_id,collected_amount,goal
-			,date_end,staff_agree)
-values( 7, '임시프로젝트타이틀3','내용입니다',1,100,40000,'2024-10-10','Y');
-
-insert into project_tb (user_id,title,contents,category_id,collected_amount,goal
-			,date_end,staff_agree)
-values( 8, '임시프로젝트타이틀4','내용입니다',1,1100,30000,'2024-09-05','Y');
-
-insert into project_tb (user_id,title,contents,category_id,collected_amount,goal
-			,date_end,staff_agree)
-values( 9, '임시프로젝트타이틀5','내용입니다',1,200,10000,'2024-11-09','Y');
-insert into project_tb (user_id,title,contents,category_id,collected_amount,goal
-			,date_end)
-values( 15, '임시프로젝트타이틀6','내용입니다',1,200,10000,'2024-11-09');
-
--- 펀드 테이블
-insert into funding_tb (project_id)
-values(1);
-insert into funding_tb (project_id)
-values(2);
-insert into funding_tb (project_id)
-values(3);
-insert into funding_tb (project_id)
-values(4);
-insert into funding_tb (project_id)
-values(5);
-
--- 펀딩 히스토리 테이블
-insert into funding_history_tb (funding_id,project_id,user_id,subject,project_reward,
-								after_balance,request,confirm_success)
-values(1,1,12,'임시펀딩제목',1,200,19800,'Y');
-insert into funding_history_tb (funding_id,project_id,user_id,subject,project_reward,
-								after_balance,request,confirm_success)
-values(1,1,14,'임시펀딩제목',1,300,19500,'Y');
-insert into funding_history_tb (funding_id,project_id,user_id,subject,project_reward,
-								after_balance,request,confirm_success)
-values(1,1,25,'임시펀딩제목',1,500,19000,'Y');
-insert into funding_history_tb (funding_id,project_id,user_id,subject,project_reward,
-								after_balance,request,confirm_success)
-values(1,1,29,'임시펀딩제목',1,200,18800,'Y');
-
-insert into funding_history_tb (funding_id,project_id,user_id,subject,project_reward,
-								after_balance,request,confirm_success)
-values(2,2,22,'임시펀딩제목2',1,500,24500,'Y');
-
-insert into funding_history_tb (funding_id,project_id,user_id,subject,project_reward,
-								after_balance,request,confirm_success)
-values(3,3,15,'임시펀딩제목3',1,100,39900,'Y');
-
-insert into funding_history_tb (funding_id,project_id,user_id,subject,project_reward,
-								after_balance,request,confirm_success)
-values(4,4,12,'임시펀딩제목4',1,1100,28900,'Y');
-
-insert into funding_history_tb (funding_id,project_id,user_id,subject,project_reward,
-								after_balance,request,confirm_success)
-values(5,5,1,'임시펀딩제목5',1,200,9800,'Y');
-insert into funding_history_tb (funding_id,project_id,user_id,subject,project_reward,
-								after_balance,request)
-values(5,5,1,'임시펀딩제목5',1,0,9800);
-
--- 
 
 
 
@@ -694,3 +623,35 @@ VALUES (18, 26, 1, '프롤로그', '별빛의 약속', '2023-10-15',
 주인공 레이아(Leia)는 왕국의 왕녀로, 어린 시절부터 별빛 숲에 대한 전설을 들으며 자랐다. 그녀는 그곳에서 진정한 사랑을 찾기를 꿈꾸며, 어느 날 밤 홀로 숲으로 떠난다. 그곳에서 만난 정체불명의 남자, 제드(Jed)는 별빛의 힘을 지닌 마법사로, 레이아와 운명적으로 연결된 인물이었다.
 
 그들은 함께 별빛 아래에서 서약을 하게 되지만, 이 서약은 곧 강력한 마법의 구속으로 변해 그들의 자유를 앗아간다. 그들은 서로를 사랑하면서도, 별빛의 서약에서 벗어나기 위해 힘을 합쳐야 한다. 그들의 여정은 위험으로 가득 차 있으며, 진정한 사랑과 희생의 의미를 깨닫게 된다.');
+
+
+-- 리워드 테이블 삽입
+INSERT INTO reward_tb (project_id, reward_content, reward_point)
+VALUES 
+(1, '프로젝트 1 리워드 내용', 10000),
+(2, '프로젝트 2 리워드 내용', 15000),
+(3, '프로젝트 3 리워드 내용', 20000),
+(4, '프로젝트 4 리워드 내용', 25000),
+(5, '프로젝트 5 리워드 내용', 30000);
+ 
+
+-- 프로젝트 테이블 삽입
+INSERT INTO project_tb (user_id, book_id, title, contents, reward_id, goal, date_end, staff_agree)
+VALUES (1, 1, '임시프로젝트타이틀1', '내용입니다', 1, 20000, '2024-09-09', 'Y'),
+       (2, 2, '임시프로젝트타이틀2', '내용입니다', 2, 25000, '2024-09-20', 'Y'),
+       (3, 3, '임시프로젝트타이틀3', '내용입니다', 3, 40000, '2024-10-10', 'Y'),
+       (4, 4, '임시프로젝트타이틀4', '내용입니다', 4, 30000, '2024-09-05', 'Y'),
+       (5, 5, '임시프로젝트타이틀5', '내용입니다', 5, 10000, '2024-11-09', 'Y');
+
+
+-- funding_tb에 데이터 삽입
+INSERT INTO funding_tb (user_id, reward_id, canceled_At, confirm_success)
+VALUES 
+(1, 1, '2024-09-09', 'Y'),
+(2, 2, '2024-09-10', 'Y'),
+(3, 3, '2024-09-11', 'Y'),
+(4, 4, '2024-09-12', 'Y'),
+(5, 5, '2024-09-13', 'Y');
+-- 펀딩 히스토리 테이블 삽입
+INSERT INTO funding_history_tb (project_id)
+VALUES (1), (2), (3), (4), (5);
