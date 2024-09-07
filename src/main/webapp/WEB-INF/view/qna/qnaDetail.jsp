@@ -4,10 +4,7 @@
 <meta charset="UTF-8">
 <link rel="stylesheet" href="/css/noticeInsert.css">
 
-<<<<<<< HEAD
 <main>
-=======
->>>>>>> d807565 (create - chat)
 <div class="container p-5">
 	<div class="card">
 		<div class="card-header">
@@ -31,38 +28,22 @@
 			<input type="hidden" name="qnaId" value="${qna.qnaId}">
 			<button type="submit" class="btn btn-primary form-control">삭제</button>
 		</form>
-<<<<<<< HEAD
 		<!-- 답변이 달린 글은 수정 버튼 없음  -->
 		<c:choose>
 		<c:when test="${qna.answerContent != null}">
 		<b></b>
 		</c:when>
-=======
-		<c:choose>
-		<!-- 답변이 달린 글은 수정 버튼 없음  -->
-		<c:when test="${qna.answerContent != null}">
-		<b></b>
-		</c:choose>
->>>>>>> d807565 (create - chat)
 		<c:otherwise>
 		<form action="/qna/updatePage/${qna.qnaId}" method="get" class="d-inline">
 			<input type="hidden" name="qnaId" value="${qna.qnaId}">
 			<button type="submit" class="btn btn-primary form-control">수정</button>
-<<<<<<< HEAD
 		</form>
 		</c:otherwise>
 		</c:choose>
-=======
-		</form></c:when>
-		</c:otherwise>
->>>>>>> d807565 (create - chat)
 		
 
 
 
 	</div>
 </div>
-<<<<<<< HEAD
 </main>
-=======
->>>>>>> d807565 (create - chat)

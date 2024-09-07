@@ -1,5 +1,4 @@
-<<<<<<< HEAD
-const ws = new WebSocket('ws://192.168.0.32:8080/ws/chat');
+const ws = new WebSocket('ws://172.30.1.84:8080/ws/chat');
 
 ws.onopen = function() {
     console.log('채팅방에 연결되었습니다.');
@@ -64,41 +63,3 @@ document.getElementById('messageInput').addEventListener('keyup', function(event
         sendMessage();
     }
 });
-=======
-/**
- * 
- */
-
-        const ws = new WebSocket('ws://localhost:8080/ws/chat');
-
-        ws.onopen = function() {
-            console.log('WebSocket connection opened');
-        };
-
-        ws.onmessage = function(event) {
-            const messagesDiv = document.getElementById('messages');
-            const message = document.createElement('div');
-            message.textContent = event.data;
-            messagesDiv.appendChild(message);
-            messagesDiv.scrollTop = messagesDiv.scrollHeight; 
-        };
-
-        ws.onclose = function() {
-            console.log('WebSocket connection closed');
-        };
-
-        ws.onerror = function(error) {
-            console.error('WebSocket error: ', error);
-        };
-
-        function sendMessage() {
-            const input = document.getElementById('messageInput');
-            const message = input.value.trim();
-            if (message) {
-                ws.send(message);
-                input.value = ''; 
-            } else {
-                console.log('Message cannot be empty');
-            }
-        }
->>>>>>> d11dece (update-chat)
