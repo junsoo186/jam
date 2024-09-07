@@ -170,7 +170,7 @@ form button:hover {
 
 /* 모달 스타일 */
 .modal {
-	display: block; /* 모달이 열렸을 때 표시되도록 설정 */
+	display: flex; /* 플렉스 박스 사용 */
 	position: fixed;
 	z-index: 1000;  /* 가장 앞에 표시 */
 	left: 0;
@@ -179,7 +179,6 @@ form button:hover {
 	height: 100%;
 	overflow: auto;
 	background-color: rgba(0, 0, 0, 0.5); /* 어두운 반투명 배경 */
-	display: flex; /* 플렉스 박스 사용 */
 	align-items: center; /* 세로 중앙 정렬 */
 	justify-content: center; /* 가로 중앙 정렬 */
 }
@@ -272,8 +271,8 @@ form button:hover {
 	cursor: pointer;
 }
 
-/* openEventModal 버튼 스타일 */
-#openEventModal {
+/* left--modal--btn 버튼 스타일 */
+.left--modal--btn {
     background-color: #4CAF50; /* 녹색 배경 */
     color: white; /* 텍스트 색상 */
     padding: 15px 30px; /* 버튼의 안쪽 여백 */
@@ -287,16 +286,16 @@ form button:hover {
 }
 
 
-#openEventModal:hover {
+.left--modal--btn:hover {
 	background-color: #45a049; /* 호버 시 더 짙은 녹색으로 변경 */
 }
 
-#openEventModal:active {
+.left--modal--btn:active {
 	background-color: #3e8e41; /* 클릭 시 색상 조금 더 어둡게 */
 	transform: translateY(2px); /* 클릭 시 살짝 눌린 듯한 효과 */
 }
 
-#openEventModal:focus {
+.left--modal--btn:focus {
 	outline: none; /* 포커스 시 기본 브라우저의 테두리 제거 */
 	box-shadow: 0 0 5px rgba(0, 0, 0, 0.3); /* 포커스 시 그림자 효과 */
 }
