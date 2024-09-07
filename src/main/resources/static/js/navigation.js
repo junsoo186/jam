@@ -393,3 +393,19 @@ document.addEventListener('DOMContentLoaded', function() {
 	// 페이지 로드 시 대시보드 콘텐츠를 기본으로 로드
 	loadContent('/staff/dashboard');
 });
+
+// 채팅 페이지 연결 
+
+   document.addEventListener('DOMContentLoaded', function() {
+        var chatLink = document.getElementById('chat-link');
+
+        chatLink.addEventListener('click', function(event) {
+            event.preventDefault(); 
+
+            // 창 열기
+            window.open('/chatPage', 'chatWindow', 'width=400,height=600');
+        });
+    });
+
+
+
