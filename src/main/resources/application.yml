@@ -56,9 +56,9 @@ spring:
 
   cloud:
     gcp:
-      project-id: carbide-anvil-434903-b3  # Google Cloud 프로젝트 ID
+      project-id: jamcache  # Google Cloud 프로젝트 ID
       storage:
-        bucket: jamcache  # Google Cloud Storage 버킷 이름
+        bucket: jamcache-gcs  # Google Cloud Storage 버킷 이름
 
   data:
     redis:

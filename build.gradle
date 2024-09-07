@@ -34,7 +34,7 @@ dependencies {
 	// 캐시 라이브러리 
 	implementation 'org.springframework.boot:spring-boot-starter-cache'
 	//구글 클라우드 라이브러리
-	implementation 'com.google.cloud:google-cloud-storage:2.21.2'
+	implementation 'com.google.cloud:spring-cloud-gcp-starter-storage:3.1.0'
 	
 	// 웹소켓 라이브러리
     implementation 'org.springframework.boot:spring-boot-starter-websocket'
