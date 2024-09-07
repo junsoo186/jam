@@ -11,9 +11,9 @@
 <body>
 
 	<!-- 결제하기 버튼 -->
-	<button class="button" style="margin-top: 30px"
-		onclick="requestPayment()">결제하기</button>
-
+	<div>
+		<button class="button" style="margin-top: 30px" onclick="requestPayment()">결제하기</button>
+	</div>
 	<script>
       // ------  SDK 초기화 ------
       // @docs https://docs.tosspayments.com/sdk/v2/js#토스페이먼츠-초기화
@@ -47,10 +47,10 @@
           method: "CARD", // 카드 결제
           amount: {
             currency: "KRW",
-            value: 100000, //  ${}
+            value: 100000, 
           },
           orderId: randomOrderId, // 고유 주분번호
-          orderName: "코인 100000개", // ${}
+          orderName: "코인 100000개", 
           successUrl:"http://localhost:8080/pay/success", // 결제 요청이 성공하면 리다이렉트되는 URL
           failUrl: "http://localhost:8080/pay/fail", // 결제 요청이 실패하면 리다이렉트되는 URL
           customerEmail: "JoinAndMaker@gmail.com",

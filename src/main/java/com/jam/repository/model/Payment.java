@@ -16,7 +16,7 @@ import lombok.ToString;
 @Builder
 @ToString
 public class Payment {
-	
+	private String userId; // 유저 아이디
 	private String mId;                    // 가맹점 ID
     private String lastTransactionKey;     // 마지막 거래 키
     private String paymentKey;             // 결제 키

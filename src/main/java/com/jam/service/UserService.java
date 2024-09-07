@@ -288,6 +288,46 @@ public class UserService {
 		
 	}
 	
+	/**
+	 * 유저 포인트 충전 내역이 들어간다.  (결제 히스토리)
+	 * @param userId
+	 * @param deposit
+	 * @param point
+	 * @param afterBalance
+	 */
+	public void insertPoint(int userId, long deposit, long point, long afterBalance) {
+		userRepository.insertPoint(userId, deposit, point, afterBalance);
+	}
+	
+	/**
+	 * 유저 아이디로 유저의 포인트를 조회한다.
+	 * @param userId
+	 */
+	public int searchPoint(int userId) {
+		
+		int a = userRepository.selectUserPoint(userId);
+		
+		if(a == 1) {
+			System.out.println("유저 포인트 조회 완료");
+		} else {
+			System.out.println("포인트 조회 실패 유저 없음!");
+		}
+		return a;
+	}
+	
+	/**
+	 * 유저 포인트를 저장한다. 유저 상세 페이지를 연결
+	 *  user_de_tb
+	 * @param amount
+	 * @param userId
+	 */
+	public void insert(Integer amount, long balance, int userId) {
+		
+		userRepository.insertUserTbPoint(amount, balance, userId);
+		
+	}
+	
+	
 	
 
 }

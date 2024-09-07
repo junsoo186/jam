@@ -88,8 +88,23 @@
 		from user_tb
 		where email = #{email};
 	</select>
+	
+	
+	<select id="selectUserPoint">
+		SELECT point FROM user_de_tb WHERE user_id = #{userId}
+	</select>
+		
+	<insert id="insertPoint">
+    INSERT INTO account_history_tb (user_id, deposit, point, after_balance)
+    VALUES (#{userId}, #{deposit}, #{point}, #{afterBalance});
+	</insert>
 
-
+	<insert id ="insertUserTbPoint">
+		UPDATE user_de_tb 
+		SET point = #{balance} + #{amount}
+		WHERE user_id = #{userId}    
+		
+	</insert>
 
 
 </mapper>

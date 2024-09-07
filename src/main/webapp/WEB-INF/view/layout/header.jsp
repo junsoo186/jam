@@ -88,7 +88,7 @@
 				</a>
 		        <li><a href="/user/myPage">내 정보</a></li>
 		        <li><a href="#">보유 JAM: 0 </a></li>
-		        <li><a href="#">JAM 충전하기</a></li>		  
+		        <li><a href="/pay/toss">JAM 충전하기</a></li>		  
 		        <li><a href="#">설정</a></li>
 		        <li><a href="#" id="chat-link">채팅</a></li>
 		        <li><a href="/qna/list"> Q&A</a></li>

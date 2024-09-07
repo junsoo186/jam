@@ -5,7 +5,6 @@ import java.util.Optional;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import com.jam.dto.signInDTO;
 import com.jam.dto.signUpDTO;
 import com.jam.repository.model.User;
 
@@ -33,6 +32,12 @@ public interface UserRepository {
 
 	int updateProfileByUserDeTb(User user); // 유저 프로필 업데이트 UserDeTb
 
-	public User InformationUpdate(@Param("email") String email); // 유저 프로필 업데이트 후 갱신
-
+	public User InformationUpdate(@Param("email") String email); // 유저 프로필 업데이트 후 갱신 
+	
+	// 유저가 포인트를 적립하려면 유저ID, 입금금액, 충전포인트, 기존포인트 + 충전포인트 
+	public int insertPoint(@Param("userId") Integer userId , @Param("deposit") long deposit, @Param("point") long point, @Param("afterBalance") long afterBalance);
+	
+	public int selectUserPoint(@Param("userId") Integer userId);
+	// 유저 상세 정보 db에 결제한 포인트 값을 넣는다.
+	public int insertUserTbPoint(@Param("amount") Integer amount, @Param("balance") long balance , @Param("userId") Integer userId);
 }
