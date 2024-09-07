@@ -66,6 +66,25 @@ properties:
       timeout: 5000 #  클라이언트가 SMTP 서버로부터 응답을 대기해야 하는 시간
       writetimeout: 5000 # 클라이언트가 작업을 완료하는데 대기해야 하는 시간
 auth-code-expiration-millis: 1800000 # 30 * 60 * 1000 == 30분 (이메일 인증 코드의 만료 시간)
+
+
+
+cloud:
+  gcp:
+    credentials:
+    location: file:/path/to/your/service-account-key.json  # 서비스 계정 키 파일 경로
+    project-id: your-google-cloud-project-id  # Google Cloud 프로젝트 ID
+storage:
+  bucket: your-google-storage-bucket-name  # Google Cloud Storage 버킷 이름
+  redis:
+    host: your-elasticache-endpoint.amazonaws.com  # AWS ElastiCache Redis 엔드포인트
+    port: 6379  # 기본 Redis 포트
+    password: your-redis-password  # 필요시 Redis 비밀번호 설정
+    
+
+
+
+
       
 #mybatis 설정
 mybatis:
