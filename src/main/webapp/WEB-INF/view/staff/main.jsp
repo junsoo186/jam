@@ -31,6 +31,7 @@
 				<li><a href="javascript:void(0);" class="menu-link" data-url="/staff/qna">Q&A</a></li>
 				<li><a href="javascript:void(0);" class="menu-link" data-url="/staff/notice">공지사항</a></li>
 				<li><a href="javascript:void(0);" class="menu-link" data-url="/staff/event">이벤트</a></li>
+				<li><a href="javascript:void(0);" class="menu-link"  id="chat-link">채팅</a></li>
 			</ul>
 		</div>
 	</div>

@@ -92,19 +92,27 @@ CREATE TABLE `user_de_tb` (
 
 CREATE TABLE `project_tb` (
     `project_id` int PRIMARY KEY AUTO_INCREMENT NOT NULL,
-    `user_id` int NOT NULL,
+    `user_id` int NOT NULL  COMMENT '등록 유저id',
+    `reward_id` int NOT NULL  COMMENT '등록 reward id',
+    `book_id` int not null comment '등록 book id',
     `title` varchar(50) NOT NULL COMMENT '프로젝트 제목',
     `contents` text NOT NULL COMMENT '프로젝트 내용',
-    `category_id` INT NOT NULL,
-    `collected_amount` bigint NOT NULL DEFAULT 0 COMMENT '현재 모인 금액',
     `goal` bigint NOT NULL COMMENT '프로젝트 목표',
     `date_end` date NOT NULL COMMENT '프로젝트 마감일',
-    `project_image` text NULL,
     `created_at` timestamp NOT NULL DEFAULT current_timestamp COMMENT '프로젝트 시작일',
     `staff_agree` enum('N','Y') NOT NULL DEFAULT 'N' COMMENT 'Y:N',
     FOREIGN KEY (`user_id`) REFERENCES `user_tb` (`user_id`),
-    FOREIGN KEY (`category_id`) REFERENCES `category_tb` (`category_id`)
+	FOREIGN KEY (`book_id`) REFERENCES `book_tb` (`book_id`)
 );
+	
+CREATE TABLE `content_tb` (
+    `content_id` int PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    `project_id` int  NOT NULL,
+    `img` text not null COMMENT 'project 컨텐츠 이미지' ,
+        FOREIGN KEY (`project_id`) REFERENCES `project_tb`(`project_id`)
+    );
+
+
 
 CREATE TABLE `book_rent_histry_tb` (
     `book_rent_history_id` int PRIMARY KEY AUTO_INCREMENT NOT NULL COMMENT 'auto',
@@ -163,26 +171,32 @@ CREATE TABLE `account_history_tb` (
     FOREIGN KEY (`user_id`) REFERENCES `user_tb`(`user_id`)
 );
 
+CREATE TABLE `reward_tb` (
+	`reward_id` int PRIMARY KEY AUTO_INCREMENT NOT NULL,
+        `project_id` int NOT NULL COMMENT '외래 키, project_tb 참조',
+        `reward_content` text NOT NULL COMMENT '공지 사항 내용',
+        `reward_point` int not null comment ' 리워드 금액'
+);
+
+
 CREATE TABLE `funding_tb` (
     `funding_id` int PRIMARY KEY AUTO_INCREMENT NOT NULL,
-    `project_id` int NOT NULL COMMENT '외래 키, project_tb 참조',
-    FOREIGN KEY (`project_id`) REFERENCES `project_tb`(`project_id`)
+        `user_id` int NOT NULL COMMENT '외래 키,참여 user_tb 참조',
+        `reward_id`  int NOT NULL COMMENT '외래 키,참여 reward_tb 참조',
+    `created_at` timestamp NOT NULL DEFAULT current_timestamp,
+    `canceled_At` date not null ,
+    `confirm_success` enum('N','Y') NOT NULL DEFAULT 'N' COMMENT 'Y:N',
+		FOREIGN KEY (`reward_id`) REFERENCES `reward_tb`(`reward_id`),
+       FOREIGN KEY (`user_id`) REFERENCES `user_tb`(`user_id`)
 );
+
+
+
 
 CREATE TABLE `funding_history_tb` (
     `funding_history_id` int PRIMARY KEY AUTO_INCREMENT NOT NULL COMMENT 'auto',
-    `funding_id` int NOT NULL,
     `project_id` int NOT NULL COMMENT '외래 키, project_tb 참조',
-    `user_id` int NOT NULL COMMENT '외래 키, user_tb 참조',
-    `subject` varchar(50) NULL COMMENT '펀딩 제목',
-    `project_reward` bigint NOT NULL COMMENT '유저 선택 리워드',
-    `after_balance` bigint NULL COMMENT '포인트 결제 시 사용',
-    `request` int NOT NULL COMMENT '남은 목표 금액',
-    `created_at` timestamp NOT NULL DEFAULT current_timestamp,
-    `confirm_success` enum('N','Y') NULL DEFAULT 'N' COMMENT 'Y:N 성공 여부',
-    FOREIGN KEY (`user_id`) REFERENCES `user_tb`(`user_id`),
-    FOREIGN KEY (`project_id`) REFERENCES `project_tb`(`project_id`),
-    FOREIGN KEY (`funding_id`) REFERENCES `funding_tb` (`funding_id`)
+    FOREIGN KEY (`project_id`) REFERENCES `project_tb`(`project_id`)
 );
 
 
@@ -227,8 +241,7 @@ CREATE TABLE `user_coupon_tb` (
     `coupon_name` varchar(50) NOT NULL,
     `coupon_content` varchar(50) NOT NULL,
     `coupon_date` date NOT NULL,
-    `coupon_price` bigint NOT NULL,
-    FOREIGN KEY (`user_id`) REFERENCES `user_tb`(`user_id`)
+    `coupon_price` bigint NOT NULL
 );
 
 CREATE TABLE `order_tb` (
@@ -332,3 +345,12 @@ CREATE TABLE `banner_tb`(
 `content_two` varchar(1000) COMMENT '베너 내용2',
 `img` varchar(2000) COMMENT '이미지'
 );
+-- project_tb에 reward_id에 대한 외래 키 추가
+ALTER TABLE `project_tb`
+ADD CONSTRAINT fk_project_reward FOREIGN KEY (`reward_id`) REFERENCES `reward_tb`(`reward_id`);
+
+
+-- fk 순환구조라 오류생김
+-- reward_tb에 project_id에 대한 외래 키 추가
+-- ALTER TABLE `reward_tb`
+-- ADD CONSTRAINT fk_reward_project FOREIGN KEY (`project_id`) REFERENCES `project_tb`(`project_id`);
