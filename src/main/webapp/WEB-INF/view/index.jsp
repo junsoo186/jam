@@ -1,20 +1,3 @@
-<<<<<<< HEAD
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ include file= "/WEB-INF/view/layout/header.jsp" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<meta charset="UTF-8">
-
-<main>
-
-	${principal.userId}
-	${principal.email}
-	<h1>메인화면입니다</h1>
-
-</main>
-</body>
-</html>
-=======
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/view/layout/header.jsp"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
@@ -233,5 +216,4 @@
 	<!-- JavaScript 파일을 여기에 포함 -->
 	<script type="text/javascript" src="/js/index.js"></script>
 <%@ include file="/WEB-INF/view/layout/footer.jsp"%>
->>>>>>> c213843d940592e143a7ae2b864a80a167bf16a3
 
