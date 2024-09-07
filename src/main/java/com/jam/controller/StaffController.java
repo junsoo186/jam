@@ -18,7 +18,7 @@ public class StaffController {
 
 	@GetMapping("/dashboard")
 	public String handleDashboard() {
-		
+
 		return "staff/dashboard";
 	}
 
@@ -76,5 +76,4 @@ public class StaffController {
 	public String handleDonationDetail() {
 		return "staff/donationDetail";
 	}
-
 }

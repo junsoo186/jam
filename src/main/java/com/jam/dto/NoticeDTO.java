@@ -18,7 +18,7 @@ import lombok.Builder;
 public class NoticeDTO {
 
     private int noticeId; // 공지사항 ID (테이블에 있는 경우)
-    private int staffId;  // 직원 ID
+    private int userId;  // 직원 ID
     private String noticeTitle;  // 공지사항 제목
     private String noticeContent;  // 공지사항 내용
     private String comment;  // 댓글 (코멘트)

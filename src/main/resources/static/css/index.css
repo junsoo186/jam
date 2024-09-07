@@ -1,15 +1,9 @@
 /* 기존 CSS 스타일 유지 */
 /* index.css */
-body {
-	margin: 0;
-	padding: 0;
-	font-family: Arial, sans-serif;
-	overflow-x: hidden; /* 수평 스크롤 막기 */
-}
 
 .container--banner {
-	max-width: 1200px;
 	padding-top: 20px; /* 헤더 아래의 간격 */
+	display: flex;
 }
 
 .top--banner {
@@ -33,6 +27,7 @@ body {
 	height: 400px; /* 고정 높이 */
 	border-radius: 15px;
 	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+	transition: transform 5s ease-in-out; /* 확대 애니메이션 추가 */
 }
 
 .banner--text--container {
@@ -45,6 +40,20 @@ body {
 	text-align: left;
 	color: black;
 	margin-bottom: 3px; /* 텍스트 박스와 페이지 번호 사이의 간격 */
+	opacity: 0; /* 초기 상태: 투명하게 설정 */
+	transform: translateY(20px); /* 초기 상태: 아래로 이동 */
+	animation: slideUp 1s ease forwards; /* 애니메이션 효과 추가 */
+}
+
+@keyframes slideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px); /* 아래에서 시작 */
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0); /* 원래 위치로 이동 */
+  }
 }
 
 p {
@@ -81,23 +90,26 @@ p {
 }
 
 .category--btn {
+	margin-top: 15px;
+	margin-bottom: 15px;
 	height: 40px;
 	padding: 10px 15px;
 	background-color: #f9f9f9;
-	border-width: 0.5px;
-	border-color: #c0c0c0;
+	border-width: 1px; /* 변경된 부분: 1px로 설정 */
+	border-color: #dedede;
+	border-style: solid; /* 추가된 부분: solid로 명시적 설정 */
 	border-radius: 25px;
 	cursor: pointer;
-	transition: background-color 0.3s ease;
 }
 
 .category--btn:hover {
-	background-color: #FFF9D8; /* 마우스 오버 시 배경색 변경 */
+	border-color: #FF4D6D; /* 변경된 부분 */
+	transition: background-color 0.3s ease;
 }
 
 .category--btn.active {
-	background-color: #808080;
-	color: #fff;
+	background-color: #FFF9D8;
+	color: #444;
 }
 
 /* 책 목록 스타일 */
@@ -190,4 +202,53 @@ h3 {
 .book--info--funding p {
 	font-size: 14px;
 	color: #666;
+}
+
+/* 슬라이더 전체 컨테이너 스타일 */
+.event--container {
+	padding: 50px;
+	padding-top: 60px;
+	padding-left: 130px; position : relative;
+	width: 100%;
+	max-width: 1200px; /* 슬라이더의 최대 너비 */
+	margin: auto; /* 중앙 정렬 */
+	overflow: hidden; /* 슬라이드가 밖으로 나가지 않도록 숨김 */
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: relative;
+}
+
+/* 슬라이더 버튼 스타일 */
+.event--banner {
+	width: 350px; /* 고정 너비 */
+	height: 150px; /* 고정 높이 */
+	border-radius: 10px;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+
+
+
+
+
+
+/* 슬라이더 내부 래퍼 */
+.slider--wrapper {
+	width: 100%;
+	overflow: hidden;
+}
+
+/* 슬라이더 스타일 */
+.slider {
+	display: flex;
+	transition: transform 0.5s ease; /* 슬라이드 전환 애니메이션 */
+}
+
+/* 개별 슬라이드 스타일 */
+.slide {
+	min-width: 100%;
+	box-sizing: border-box;
+	display: inline-flex;
+	gap: 40px;
 }

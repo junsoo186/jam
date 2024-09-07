@@ -107,11 +107,6 @@ INSERT INTO user_de_tb (user_id, point) VALUES (27, 1300);
 INSERT INTO user_de_tb (user_id, point) VALUES (28, 1200);
 INSERT INTO user_de_tb (user_id, point) VALUES (29, 1100);
 
--- 스태프 테이블
-insert into staff_tb(staff_name,staff_password)values
-('a1' , '1234'),
-('a2' , '1234'),
-('admin' , '1234');
 
 -- 경고 테이블
 INSERT INTO user_alert_list_tb ( alert_content) VALUES ( '준수 afk 왜캐못함');
@@ -124,15 +119,47 @@ INSERT INTO user_alert_list_tb ( alert_content) VALUES ( '준수 범부 그자�
 
 
 -- 경고 히스토리 테이블
-INSERT INTO user_alert_history_tb ( alert_id,staff_id,user_id,period_date) VALUES ( 1,1,20,'2024-09-15');
-INSERT INTO user_alert_history_tb ( alert_id,staff_id,user_id,period_date) VALUES ( 2,2,15,'2024-09-20');
-INSERT INTO user_alert_history_tb ( alert_id,staff_id,user_id,period_date) VALUES ( 3,1,17,'2024-09-25');
-INSERT INTO user_alert_history_tb ( alert_id,staff_id,user_id,period_date) VALUES ( 4,2,24,'2024-10-01');
-INSERT INTO user_alert_history_tb ( alert_id,staff_id,user_id,period_date) VALUES ( 5,1,28,'2024-10-05');
+INSERT INTO user_alert_history_tb ( alert_id,user_id,period_date) VALUES ( 1,20,'2024-09-15');
+INSERT INTO user_alert_history_tb ( alert_id,user_id,period_date) VALUES ( 2,15,'2024-09-20');
+INSERT INTO user_alert_history_tb ( alert_id,user_id,period_date) VALUES ( 3,17,'2024-09-25');
+INSERT INTO user_alert_history_tb ( alert_id,user_id,period_date) VALUES ( 4,24,'2024-10-01');
+INSERT INTO user_alert_history_tb ( alert_id,user_id,period_date) VALUES ( 5,28,'2024-10-05');
 
-
-
-
+INSERT INTO `event_tb` (
+    `event_title`, `event_content`, `start_day`, `end_day`, `user_id`
+) VALUES (
+    '회원가입 웰컴 반값 이벤트', '회원가입 후 첫 코인 구매 시 50% 할인 혜택을 제공합니다.', 
+    '2024-09-01', 
+    '2024-12-31', 
+    4  -- user_tb에서 user_id 101번 사용자가 이벤트를 관리
+);
+INSERT INTO `event_tb` (
+    `event_title`, `event_content`, `start_day`, `end_day`, `user_id`
+) VALUES (
+    '회원가입 웰컴 반값 이벤트', 
+    '회원가입 후 첫 코인 구매 시 50% 할인 혜택을 제공합니다.', 
+    '2024-09-01', 
+    '2024-12-31',
+    5 -- user_tb에서 user_id 101번 사용자가 이벤트를 관리
+);
+INSERT INTO `event_tb` (
+    `event_title`, `event_content`, `start_day`, `end_day`, `user_id`
+) VALUES (
+    '회원가입 웰컴 반값 이벤트', 
+    '회원가입 후 첫 코인 구매 시 50% 할인 혜택을 제공합니다.', 
+    '2024-09-01', 
+    '2024-12-31',
+    6  -- user_tb에서 user_id 101번 사용자가 이벤트를 관리
+);
+INSERT INTO `event_tb` (
+    `event_title`, `event_content`, `start_day`, `end_day`, `user_id`
+) VALUES (
+    '회원가입 웰컴 반값 이벤트', 
+    '회원가입 후 첫 코인 구매 시 50% 할인 혜택을 제공합니다.', 
+    '2024-09-01', 
+    '2024-12-31',
+    3  -- user_tb에서 user_id 101번 사용자가 이벤트를 관리
+);
 
 
 
@@ -216,12 +243,28 @@ values(5,5,1,'임시펀딩제목5',1,0,9800);
 
 
 
-insert into notice_tb (staff_id, notice_title, notice_content, comment, created_at) values 
-(1, '공지사항 제목 1', '공지사항 내용 1입니다.', '첫 번째 공지에 대한 코멘트입니다.', NOW()),
-(2, '공지사항 제목 2', '공지사항 내용 2입니다.', '두 번째 공지에 대한 코멘트입니다.', NOW()),
-(1, '공지사항 제목 3', '공지사항 내용 3입니다.', '세 번째 공지에 대한 코멘트입니다.', NOW()),
-(2, '공지사항 제목 4', '공지사항 내용 4입니다.', '네 번째 공지에 대한 코멘트입니다.', NOW()),
-(1, '공지사항 제목 5', '공지사항 내용 5입니다.', '다섯 번째 공지에 대한 코멘트입니다.', NOW());
+insert into notice_tb (user_id, notice_title, notice_content, comment, created_at) values 
+(3, '공지사항 제목 1', '공지사항 내용 1입니다.', '첫 번째 공지에 대한 코멘트입니다.', NOW()),
+(4, '공지사항 제목 2', '공지사항 내용 2입니다.', '두 번째 공지에 대한 코멘트입니다.', NOW()),
+(5, '공지사항 제목 3', '공지사항 내용 3입니다.', '세 번째 공지에 대한 코멘트입니다.', NOW()),
+(6, '공지사항 제목 4', '공지사항 내용 4입니다.', '네 번째 공지에 대한 코멘트입니다.', NOW()),
+(3, '공지사항 제목 1', '공지사항 내용 1입니다.', '첫 번째 공지에 대한 코멘트입니다.', NOW()),
+(4, '공지사항 제목 2', '공지사항 내용 2입니다.', '두 번째 공지에 대한 코멘트입니다.', NOW()),
+(5, '공지사항 제목 3', '공지사항 내용 3입니다.', '세 번째 공지에 대한 코멘트입니다.', NOW()),
+(6, '공지사항 제목 4', '공지사항 내용 4입니다.', '네 번째 공지에 대한 코멘트입니다.', NOW()),
+(3, '공지사항 제목 1', '공지사항 내용 1입니다.', '첫 번째 공지에 대한 코멘트입니다.', NOW()),
+(4, '공지사항 제목 2', '공지사항 내용 2입니다.', '두 번째 공지에 대한 코멘트입니다.', NOW()),
+(5, '공지사항 제목 3', '공지사항 내용 3입니다.', '세 번째 공지에 대한 코멘트입니다.', NOW()),
+(6, '공지사항 제목 4', '공지사항 내용 4입니다.', '네 번째 공지에 대한 코멘트입니다.', NOW()),
+(3, '공지사항 제목 1', '공지사항 내용 1입니다.', '첫 번째 공지에 대한 코멘트입니다.', NOW()),
+(4, '공지사항 제목 2', '공지사항 내용 2입니다.', '두 번째 공지에 대한 코멘트입니다.', NOW()),
+(5, '공지사항 제목 3', '공지사항 내용 3입니다.', '세 번째 공지에 대한 코멘트입니다.', NOW()),
+(6, '공지사항 제목 4', '공지사항 내용 4입니다.', '네 번째 공지에 대한 코멘트입니다.', NOW()),
+(3, '공지사항 제목 1', '공지사항 내용 1입니다.', '첫 번째 공지에 대한 코멘트입니다.', NOW()),
+(4, '공지사항 제목 2', '공지사항 내용 2입니다.', '두 번째 공지에 대한 코멘트입니다.', NOW()),
+(5, '공지사항 제목 3', '공지사항 내용 3입니다.', '세 번째 공지에 대한 코멘트입니다.', NOW()),
+(6, '공지사항 제목 4', '공지사항 내용 4입니다.', '네 번째 공지에 대한 코멘트입니다.', NOW()),
+(3, '공지사항 제목 5', '공지사항 내용 5입니다.', '다섯 번째 공지에 대한 코멘트입니다.', NOW());
 
 insert into qna_tb (user_id, title, question_content, created_at) values 
 (1, '질문1', '제이름은 명기입니다.', NOW()),
@@ -247,6 +290,8 @@ insert into qna_tb (user_id, title, question_content, created_at) values
 (1, '질문3', '제이름은 명기입니다.', NOW()),
 (2, '질문4', '제이름은 명기입니다..', NOW()),
 (1, '질문3', '제이름은 명기입니다.', NOW()),
+(1, '질문3', '제이름은 명기입니다.', NOW()),
+(2, '질문4', '제이름은 명기입니다..', NOW()),
 (2, '질문4', '제이름은 명기입니다..', NOW()),
 (1, '질문5', '제이름은 명기입니다..', NOW());
 
