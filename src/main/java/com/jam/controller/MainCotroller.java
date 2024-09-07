@@ -22,6 +22,7 @@ public class MainCotroller {
      * 채팅창 열기
      * @return
      */
+<<<<<<< HEAD
 	@GetMapping("/chatPage")
 	public String chatPage(@SessionAttribute(Define.PRINCIPAL) User principal, Model model) {
 	    String nickname = principal.getNickName();
@@ -33,4 +34,13 @@ public class MainCotroller {
 	    return "/chatPage";
 	}
 
+=======
+	@GetMapping("/chat")
+	public String chatPage(@SessionAttribute(Define.PRINCIPAL) User principal, Model model) {
+		String nickname = principal.getNickName();
+		model.addAttribute("nickname",nickname );
+		return "/chatPage";
+	}
+	
+>>>>>>> d807565 (create - chat)
 }

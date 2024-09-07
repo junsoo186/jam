@@ -7,6 +7,7 @@
 <title>${nickname}님 채팅</title>
 </head>
 <body>
+<<<<<<< HEAD
 <th:block th:replace="~{/layout/basic :: setContent(~{this :: content})}">
     <th:block th:fragment="content">
     
@@ -33,3 +34,16 @@
 </body>
 </html>
 <script type="text/javascript" src="/js/chat.js"></script>
+=======
+	<section>
+		<textarea class="text" rows="10" ></textarea>
+	<form class = "bottom--send--area" action="">
+	<input class = "text">
+	<div class = "btn--area ">
+		<button type="button">전송</button>
+	</div>
+	</form>
+
+</body>
+</html>
+>>>>>>> d807565 (create - chat)
