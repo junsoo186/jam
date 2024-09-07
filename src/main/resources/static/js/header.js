@@ -34,10 +34,14 @@ document.addEventListener("DOMContentLoaded", function() {
 
             // 창 열기
 <<<<<<< HEAD
+<<<<<<< HEAD
             window.open('/chatPage', 'chatWindow', 'width=400,height=600');
 =======
             window.open('/chat', 'chatWindow', 'width=400,height=600');
 >>>>>>> d807565 (create - chat)
+=======
+            window.open('/chatPage', 'chatWindow', 'width=400,height=600');
+>>>>>>> d11dece (update-chat)
         });
     });
 

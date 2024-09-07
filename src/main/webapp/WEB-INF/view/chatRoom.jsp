@@ -8,6 +8,9 @@
 </head>
 <body>
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> d11dece (update-chat)
 <th:block th:replace="~{/layout/basic :: setContent(~{this :: content})}">
     <th:block th:fragment="content">
     
@@ -30,6 +33,7 @@
         
     </th:block>
 </th:block>
+<<<<<<< HEAD
 
 </body>
 </html>
@@ -47,3 +51,9 @@
 </body>
 </html>
 >>>>>>> d807565 (create - chat)
+=======
+
+</body>
+</html>
+<script type="text/javascript" src="/js/chat.js"></script>
+>>>>>>> d11dece (update-chat)

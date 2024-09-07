@@ -1,10 +1,14 @@
 package com.jam.handler;
 
 import java.io.IOException;
+<<<<<<< HEAD
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+=======
+import java.util.List;
+>>>>>>> d11dece (update-chat)
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.springframework.web.socket.CloseStatus;
@@ -14,15 +18,20 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 public class ChatHandler extends TextWebSocketHandler {
 
+<<<<<<< HEAD
 	 // 현재 연결된 세션
     private final Set<WebSocketSession> sessions = Collections.synchronizedSet(new HashSet<>());
 
     // 채팅 메시지 저장소
     private final List<String> chatHistory = new CopyOnWriteArrayList<>();
+=======
+    private final List<WebSocketSession> sessions = new CopyOnWriteArrayList<>();
+>>>>>>> d11dece (update-chat)
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         sessions.add(session);
+<<<<<<< HEAD
         // 새로운 사용자에게 기존 채팅 기록 전송
         for (String message : chatHistory) {
             session.sendMessage(new TextMessage(message));
@@ -35,15 +44,31 @@ public class ChatHandler extends TextWebSocketHandler {
         chatHistory.add(message.getPayload());
 
         // 모든 사용자에게 메시지 전송
+=======
+        System.out.println("New WebSocket session established: " + session.getId());
+    }
+
+    @Override
+    public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
+        sessions.remove(session);
+        System.out.println("WebSocket session closed: " + session.getId());
+    }
+
+    @Override
+    protected void handleTextMessage(WebSocketSession session, TextMessage message) throws IOException {
+>>>>>>> d11dece (update-chat)
         for (WebSocketSession webSocketSession : sessions) {
             if (webSocketSession.isOpen()) {
                 webSocketSession.sendMessage(message);
             }
         }
     }
+<<<<<<< HEAD
 
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
         sessions.remove(session);
     }
+=======
+>>>>>>> d11dece (update-chat)
 }

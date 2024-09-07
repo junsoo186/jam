@@ -11,6 +11,7 @@
 <meta charset="UTF-8">
 <title>${nickname}님 채팅</title>
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 </head>
 <body>
@@ -32,6 +33,25 @@
 </head>
 <body>
 	<section>
+=======
+ <style>
+        #messages {
+            height: 300px;
+            border: 1px solid #ccc;
+            overflow-y: scroll;
+            margin-bottom: 10px;
+        }
+        #messageInput {
+            width: 80%;
+        }
+    </style>
+</head>
+<body>
+    <div id="messages"></div>
+    <input type="text" id="messageInput" placeholder="Type your message here...">
+    <button onclick="sendMessage()">Send</button>
+	<%-- <section>
+>>>>>>> d11dece (update-chat)
 		<c:choose>
 			<c:when test="${chatRoom.roomId} != null">
 			<label><a href="#">${chatRoom.roomname}</a></label>
@@ -42,7 +62,12 @@
 		</c:choose>
 	</section>
 	
+ --%>
+ 
 
+<<<<<<< HEAD
 >>>>>>> d807565 (create - chat)
 </body>
+=======
+>>>>>>> d11dece (update-chat)
 </html>

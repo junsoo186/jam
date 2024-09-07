@@ -23,6 +23,7 @@ public class MainCotroller {
      * @return
      */
 <<<<<<< HEAD
+<<<<<<< HEAD
 	@GetMapping("/chatPage")
 	public String chatPage(@SessionAttribute(Define.PRINCIPAL) User principal, Model model) {
 	    String nickname = principal.getNickName();
@@ -36,11 +37,27 @@ public class MainCotroller {
 
 =======
 	@GetMapping("/chat")
+=======
+	@GetMapping("/chatPage")
+>>>>>>> d11dece (update-chat)
 	public String chatPage(@SessionAttribute(Define.PRINCIPAL) User principal, Model model) {
 		String nickname = principal.getNickName();
 		model.addAttribute("nickname",nickname );
 		return "/chatPage";
 	}
+//	@GetMapping("/chatRoom{}")
+//	public String chatRoom(@SessionAttribute(Define.PRINCIPAL) User principal, Model model) {
+//		String nickname = principal.getNickName();
+//		model.addAttribute("nickname",nickname );
+//		return "/chatPage";
+//	}
+//	
+//	
+//	  @GetMapping("/chat")
+//	    public String chating(){
+//	      
+//	        return "chat";
+//	    }
 	
 >>>>>>> d807565 (create - chat)
 }
