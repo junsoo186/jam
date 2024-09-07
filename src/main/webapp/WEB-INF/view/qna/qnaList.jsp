@@ -5,7 +5,7 @@
     pageEncoding="UTF-8"%>
  <link rel="stylesheet" href="/css/noticeList.css"> 
  <link rel="stylesheet" href="/css/page.css"> 
-
+<main>
 <div class="container mt-5">
     <h2>Q&A</h2>
 	<button type="submit" class="btn btn-danger" onclick="window.location.href='write';">문의 남기기</button>
@@ -20,10 +20,10 @@
             </tr>
         </thead>
         <tbody>
-            <c:forEach var="qna" items="${qnaList}">
+            <c:forEach var="qna" items="${qnaList}" varStatus="status">
                <a href=""><tr>
-                    <td>${qna.qnaId}</td>
-                    <td>${qna.title}</td>
+                    <td>${status.index + 1}</td>
+                    <td><a href="/qna/detail/${qna.qnaId}">${qna.title}</a></td>
                     <td>${qna.nickname}</td>            
                     <td>${qna.createdAt}</td>
                     <td>
@@ -59,4 +59,5 @@
         </li>
     </ul>
 </div>
+</main>
 <script type="text/javascript" src="/js/page.js"></script>

@@ -1,19 +1,29 @@
 package com.jam.service;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.jam.dto.BookDTO;
 import com.jam.dto.StoryDTO;
+import com.jam.dto.UserDTO;
 import com.jam.repository.interfaces.BookRepository;
 import com.jam.repository.interfaces.StoryRepository;
 import com.jam.repository.interfaces.TagRepository;
 import com.jam.repository.model.Book;
+import com.jam.repository.model.Category;
+import com.jam.repository.model.Genre;
 import com.jam.repository.model.Story;
 import com.jam.repository.model.Tag;
+import com.jam.repository.model.User;
+import com.jam.utils.Define;
 
 import lombok.RequiredArgsConstructor;
 
@@ -25,6 +35,10 @@ public class WriterService {
 	private final BookRepository bookRepository;
 	private final StoryRepository storyRepository;
 	private final TagRepository tagRepository;
+	
+	@Value("${file.upload-dir}")
+	private String uploadDir;
+
 
 	/**
 	 * 책 생성 기능
@@ -33,10 +47,19 @@ public class WriterService {
 	 * @param principalId 현재 로그인한 사용자의 ID
 	 */
 	@Transactional
-	public int createBook(BookDTO bookDTO, int userId) {
+	public int createBook(BookDTO bookDTO, User principal) {
+		System.out.println(bookDTO.toString());
 		// BookDTO에 userId 설정
-		bookDTO.setUserId(userId);
+		bookDTO.setUserId(principal.getUserId());
+		bookDTO.setAuthor(principal.getNickName());
+		
+		if (bookDTO.getBookCover() != null && !bookDTO.getBookCover().isEmpty()) {
+			// 파일 업로드 로직 구현
+			String[] fileNames = uploadFile(bookDTO.getBookCover());
 
+			bookDTO.setOriginalBookCoverImage(fileNames[0]);
+			bookDTO.setBookCoverImage(fileNames[1]);
+		}
 		// 책 정보 저장 (bookId는 bookDTO에 자동으로 설정됩니다)
 		bookRepository.insertBook(bookDTO);
 
@@ -72,7 +95,7 @@ public class WriterService {
 		// TODO - 페이징 추가
 		// TODO - 오류 처리
 		try {
-			books = bookRepository.AllBookListByUserId(principalId);
+			books = bookRepository.findAllBookListByUserId(principalId);
 		} catch (Exception e) {
 
 		}
@@ -85,9 +108,19 @@ public class WriterService {
 	 * @param book
 	 */
 	@Transactional
-	public void updateBook(Book book) {
+	public void updateBook(Book book, BookDTO bookDTO) {
 		int result = 0;
-		System.out.println(book.toString());
+		String[] fileNames = uploadFile(bookDTO.getBookCover());
+		System.out.println("책 경로 확인 : " + fileNames[1]);
+		System.out.println("책 경로 확인 2 : " + bookDTO.getBookCoverImage());
+		System.out.println("책 경로 확인 3 : " + bookDTO.getBookCover().toString());
+		if (bookDTO.getBookCover() == null || bookDTO.getBookCover().isEmpty()) {
+	        // 기존 이미지 경로를 유지하도록 로직을 추가
+	        book.setBookCoverImage(bookDTO.getBookCoverImage()); // 기존 이미지 경로를 할당
+	    } else {
+	        // 업로드된 파일을 처리
+	        book.setBookCoverImage(fileNames[1]); // 새로 업로드된 파일 경로를 설정
+	    }
 		// TODO - 오류 처리
 		try {
 			result = bookRepository.updateBook(book);
@@ -120,17 +153,20 @@ public class WriterService {
 	 * @param principalId 작가 번호
 	 */
 	@Transactional
-	public void createStory(StoryDTO storyDTO, Integer bookId, Integer principalId) {
+	public Integer createStory(StoryDTO storyDTO, Integer bookId, Integer principalId) {
 		int result = 0;
+		Story story = new Story();
 		try {
-			// TODO - 사용자 ID 테스트값 1로 고정, 나중에 principalId로 수정
 			result = storyRepository.insertStory(storyDTO.toStroy(bookId, principalId));
+			story = storyRepository.findStoryIdByBookIdAndUserId(bookId, principalId);
 		} catch (Exception e) {
 			// TODO - 오류 처리
 		}
 		if (result != 1) {
 			// TODO - 오류 처리
 		}
+		System.out.println("storyId : " + story.toString());
+		return story.getStoryId();
 	}
 
 	/**
@@ -278,12 +314,35 @@ public class WriterService {
 		return newTag;
 	}
 
+	/**
+	 * 태그 전체 출력
+	 * 
+	 * @return
+	 */
 	public List<Tag> selectAllTags() {
 		List<Tag> tags = new ArrayList<Tag>();
 		tags = tagRepository.selectAllTags();
 		return tags;
 	}
 
+	/**
+	 * 태그 이름별 출력
+	 * 
+	 * @param tagName
+	 * @return
+	 */
+	public Tag selectByName(String tagName) {
+		Tag tags = null;
+		tags = tagRepository.findByName(tagName);
+		return tags;
+	}
+
+	/**
+	 * 태그와 책 테이블에 삽입
+	 * 
+	 * @param bookId
+	 * @param tagId
+	 */
 	public void insertTagIdAndBookId(Integer bookId, Integer tagId) {
 		try {
 			// 데이터베이스에 bookId와 tagId를 삽입
@@ -294,13 +353,77 @@ public class WriterService {
 			throw new RuntimeException("Failed to insert bookId and tagId into book_tag_tb", e);
 		}
 	}
-	
+
+	/**
+	 * 태그와 책테이블 갱신
+	 * 
+	 * @param bookId
+	 * @param tagId
+	 */
 	public void updateTagIdByBookId(Integer bookId, Integer tagId) {
 		try {
 			tagRepository.updateTagIdByBookId(bookId, tagId);
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
+	}
+
+	/**
+	 * 모든 카테고리 리스트 불러오기
+	 * 
+	 * @return
+	 */
+	public List<Category> findAllCategory() {
+		List<Category> categories = new ArrayList<>();
+		categories = bookRepository.findAllCategory();
+		return categories;
+	}
+
+	/**
+	 * 모든 장르 리스트 불러오기
+	 * 
+	 * @return
+	 */
+	public List<Genre> findAllGenre() {
+		List<Genre> genres = new ArrayList<>();
+		genres = bookRepository.findAllGenre();
+		return genres;
+	}
+
+	/**
+	 * 서버 운영체제에 파일 업로드 기능 MultipartFile getOriginalFilename : 사용자가 작성한 파일 명
+	 * uploadFileName : 서버 컴퓨터에 저장 될 파일 명
+	 * 
+	 * @param mFile
+	 * @return
+	 */
+	private String[] uploadFile(MultipartFile mFile) {
+		if (mFile.getSize() > Define.MAX_FILE_SIZE) {
+			// TODO - 오류 처리
+//			throw new DataDeliveryException("파일 크기는 20MB 이상 클 수 없습니다.", HttpStatus.BAD_REQUEST);
+		}
+
+		// 코드 수정
+		// File - getAbsolutePath()
+		// (리눅스 또는 MacOS)에 맞춰서 절대 경로 생성을 시킬 수 있다.
+		String saveDirectory = new File(uploadDir).getAbsolutePath();
+
+		// 파일 이름 생성(중복 이름 예방)
+		String uploadFileName = UUID.randomUUID() + "_" + mFile.getOriginalFilename();
+		// 파일 전체 경로 + 새로생성한 파일명
+		String uploadPath = saveDirectory + File.separator + uploadFileName;
+		File destination = new File(uploadPath);
+		
+		// 반드시 수행
+		try {
+			mFile.transferTo(destination);
+		} catch (IllegalStateException | IOException e) {
+			// TODO - 오류 처리
+//			e.printStackTrace();
+//			throw new DataDeliveryException("파일 업로드 중 오류가 발생했습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+		return new String[] { mFile.getOriginalFilename(), uploadFileName };
 	}
 
 }

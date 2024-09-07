@@ -16,15 +16,14 @@ import lombok.ToString;
 @Builder
 public class Project {
 
-	private Integer projectId;
-	private String author;
-	private String title;
-	private String contents;
-	private Integer categoryId;
-	private Integer collectedAmount; // 현재 모금액
-	private Integer goal; // 목표 금액
-	private Date dateEnd;
-	private String projectImage;
-	private Timestamp createdAt;
-	private String staffAgree;
+    private int projectId;
+    private int userId; 
+    private int rewardId; 
+    private int bookId; 
+    private String title;
+    private String contents;
+    private int goal;
+    private Date dateEnd;
+    private Timestamp createdAt;
+    private String staffAgree; // Enum ('N', 'Y')
 }

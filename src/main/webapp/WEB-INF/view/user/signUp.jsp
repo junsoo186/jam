@@ -1,73 +1,59 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
+<%@ include file="/WEB-INF/view/layout/header.jsp"%>
+<link rel="stylesheet" type="text/css" href="/css/signIn.css">
 <body>
 
-	<h1>회원가입</h1>
-	<form action="/user/sign-up" method="post">
+	<main>
 
-		<div>
-			<label for="nickName">닉네임:</label> <input type="text" id="nickName" name="nickName" required value="${nickName}">
-		</div>
+		<section class="center--login--area">
+			<h1>회원가입</h1>
+			<!-- 회원가입 폼 -->
+			<form action="/user/sign-up" method="post" enctype="multipart/form-data">
+				<div>
+					<label for="nickName">닉네임</label> <input type="text" id="nickName" name="nickName" class="input--area" required> <span id="nickNameCheckMessage"></span>
+					<button type="button" onclick="checkNickName()" class="side--btn--check">중복확인</button>
+				</div><br>
 
-		<input type="hidden" id="phoneNumber" name="phoneNumber" required value="01012345678">
+				<!-- 이메일 입력 섹션 -->
+				<div id="emailSection">
+					<label for="email">이메일</label> <input type="email" id="email" name="email" class="input--area"  required placeholder="이메일을 입력하세요">
+					<button type="button" id="emailButton" class="side--btn--check">인증 요청</button>
 
-		<%--
-         <div>
-            <label>통신사:</label>
-            <input type="radio" id="skt" name="carrier" value="SKT" required>
-            <label for="skt">SKT</label>
-            <input type="radio" id="kt" name="carrier" value="KT">
-            <label for="kt">KT</label>
-            <input type="radio" id="lgup" name="carrier" value="LGU+">
-            <label for="lgup">LGU+</label>
-        </div>
- --%>
+					<!-- 이메일 중복 여부를 표시할 텍스트 -->
+					<div id="emailCheckMessage" style="color: red; font-size: 12px;"></div>
+					<!-- 여기에 메시지가 표시됩니다. -->
+				</div>
 
-		<%-- 
-        <div>
-            <label for="phoneNumber">휴대폰 번호:</label>
-            <input type="text" id="phoneNumber" name="phoneNumber" required value="${phoneNumber}">
-            <button type="button" onclick="sendSMS()">발송</button>
-        </div>
-  --%>
+				<!-- 인증 코드 입력 섹션 -->
+				<div id="verificationSection" style="display: none;">
+					<!-- 숨겨진 이메일 필드 (input type="hidden"으로 설정) -->
+					<input type="hidden" id="verificationEmail"> <label for="authCode">인증 번호</label> <input type="text" id="authCode" class="input--area"  name="code" required placeholder="인증 코드를 입력하세요">
+					<button type="button" id="verificationButton" >인증 확인</button>
+				</div><br>
 
-		<%--
-        <div>
-            <label for="verificationCode">인증번호:</label>
-            <input type="text" id="verificationCode" name="verificationCode" required>
-            <button type="button" onclick="verifyCode()">인증</button>
-        </div>
- --%>
-		<div>
-			<label for="email">이메일:</label> <input type="email" id="email" name="email" required value="${email}">
-		</div>
+				<!-- 비밀번호 입력 섹션 -->
+				<div>
+					<label for="password">비밀번호</label> <input type="password" id="password" name="password" class="input--area"  required value="${password}">
+				</div>
 
-		<div>
-			<label for="password">비밀번호:</label> <input type="password" id="password" name="password" required value="${password}">
-		</div>
+				<!-- 프로필 이미지 업로드 섹션 -->
+				<div>
+					<label for="mFile">프로필 이미지:</label> <input type="file" id="mFile" name="mFile" accept="image/*">
+					<!-- 이미지 미리보기 -->
+					<img id="previewImage" src="#" alt="이미지 미리보기" style="display: none; width: 100px; height: 100px;">
+				</div>
 
-		<div>
-			<button type="submit">가입하기</button>
-		</div>
-	</form>
-	<a href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=da70bb7a1f4babcdcd8957d9785e99c4&redirect_uri=http://localhost:8080/user/kakao"> <img
-		alt="카카오로그인이미지" src="/images/kakaologin.png" style="width: 50px; height: auto;">
-	</a>
-	<a href="https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=VV02L4roYlvMO2qxf3n7&state=STATE_STRING&redirect_uri=http://localhost:8080/user/naver"><img
-		alt="네이버로그인이미지" src="/images/naverlogin.png" style="width: 50px; height: auto;"></a>
+				<div>
+					<button type="submit">가입하기</button>
+				</div>
+			</form>
 
-	<a href="https://accounts.google.com/o/oauth2/v2/auth
-	?client_id=255102770612-bdsf8jq495pk9qi7nm76vprplo1upve7.apps.googleusercontent.com
-	&redirect_uri=http://localhost:8080/user/google
-	&response_type=code&scope=email profile"><img
-		alt="구글로그인이미지" src="/images/googlelogin.png" style="width: 50px; height: auto;"></a>	
 
-	<a href="/user/sign-in">로그인 페이지 이동</a>
-
+			<!-- 로그인 페이지 이동 -->
+			<a href="/user/sign-in">로그인 페이지 이동</a>
+		</section>
+	</main>
+	<script src="/js/signUp.js"></script>
 </body>
 </html>

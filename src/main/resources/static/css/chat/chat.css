@@ -1,0 +1,111 @@
+@charset "UTF-8";
+
+  
+body {
+    font-family: Arial, sans-serif;
+    background-color: pink;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    height: 100vh;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.messages {
+    margin-top: 20px;
+    height: 650px;
+    border: 1px solid #ccc;
+    overflow-y: scroll;
+    padding: 10px;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+    box-sizing: border-box;
+    margin-left: 14px;
+    margin-right: 14px;  
+}
+
+.bottom--sendarea {
+    display: flex;
+    align-items: center;
+    margin: 14px;
+}
+
+#messageInput {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    margin-right: 5px;
+    outline: none; 
+}
+
+button {
+    padding: 10px 15px;
+    background-color: #ff4d6d;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #fdeb60;
+}
+
+.message-container {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 10px;
+}
+
+/* 본인 메시지는 오른쪽 정렬 */
+.my-message-container {
+    justify-content: flex-end;
+}
+
+/* 상대방 메시지는 왼쪽 정렬 */
+.other-message-container {
+    justify-content: flex-start;
+}
+
+.profile-image {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+/* 본인 메시지 스타일 */
+.my-message {
+    background-color: #dcf8c6;
+    border-radius: 10px;
+    padding: 10px;
+    max-width: 60%;
+    word-wrap: break-word;
+    display: inline-block;
+    text-align: left;
+}
+
+/* 상대방 메시지 스타일 */
+.other-message {
+    background-color: #f1f0f0;
+    border-radius: 10px;
+    padding: 10px;
+    max-width: 60%;
+    word-wrap: break-word;
+    display: inline-block;
+    text-align: left;
+}
+
+.system-message {
+    text-align: center;
+    background-color: #e0e0e0;
+    color: #555;
+    border-radius: 10px;
+    padding: 5px;
+    margin: 5px;
+    max-width: 80%;
+    word-wrap: break-word;
+    font-style: italic;
+}
