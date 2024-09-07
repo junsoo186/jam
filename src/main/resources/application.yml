@@ -85,3 +85,10 @@ file:
   
 tenco:
   key: 54d5cb2d332dbdb4850293caae4559ce88b65163f1ea5d4e4b3ac49d772ded14 
+  
+payment:
+  toss:
+    test_client_api_key : test_ck_ma60RZblrqzdY5bJvqgW8wzYWBn1
+    test_secrete_api_key : test_sk_DLJOpm5Qrl6KR7dZbeX03PNdxbWn
+    success_url : "http://localhost:8080/api/v1/payments/toss/success"
+    fail_url : "http://localhost:8080/api/v1/payments/toss/fail"
