@@ -60,9 +60,10 @@ spring:
       storage:
         bucket: jamcache  # Google Cloud Storage 버킷 이름
 
-  redis:
-    host: jamcache-amsh83.serverless.apn2.cache.amazonaws.com  # AWS ElastiCache Redis 엔드포인트
-    port: 6379  # 기본 Redis 포트
+  data:
+    redis:
+      host: jamcache-amsh83.serverless.apn2.cache.amazonaws.com  # AWS ElastiCache Redis 엔드포인트
+      port: 6379  # 기본 Redis 포트
 
 mybatis:
   mapper-locations:
