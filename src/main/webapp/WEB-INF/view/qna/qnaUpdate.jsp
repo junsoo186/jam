@@ -10,6 +10,7 @@
         <div class="card-body">
             <!-- 폼 액션 URL 수정 -->
             <form action="/qna/update" method="post">
+              <input type="hidden" name="qnaId" value="${qna.qnaId}">
                 <div class="mb-3">
                     <input type="text" class="form-control" placeholder="${qna.title}" name="title" required>
                 </div>

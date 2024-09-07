@@ -3,8 +3,7 @@
 <%@ include file="/WEB-INF/view/layout/header.jsp"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
- <link rel="stylesheet" href="/css/noticeList.css"> 
- <link rel="stylesheet" href="/css/page.css"> 
+ <link rel="stylesheet" href="/css/eventList.css"> 
 
 <div class="container mt-5">
     <h2>eventPage</h2>

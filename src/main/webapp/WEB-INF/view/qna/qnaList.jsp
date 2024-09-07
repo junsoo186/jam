@@ -5,7 +5,7 @@
     pageEncoding="UTF-8"%>
  <link rel="stylesheet" href="/css/noticeList.css"> 
  <link rel="stylesheet" href="/css/page.css"> 
-
+<main>
 <div class="container mt-5">
     <h2>Q&A</h2>
 	<button type="submit" class="btn btn-danger" onclick="window.location.href='write';">문의 남기기</button>
@@ -59,4 +59,5 @@
         </li>
     </ul>
 </div>
+</main>
 <script type="text/javascript" src="/js/page.js"></script>

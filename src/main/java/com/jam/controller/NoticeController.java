@@ -10,11 +10,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.jam.dto.NoticeDTO;
 import com.jam.repository.interfaces.NoticeRepository;
 import com.jam.repository.model.Notice;
+import com.jam.repository.model.User;
 import com.jam.service.NoticeService;
+import com.jam.utils.Define;
 
 import lombok.RequiredArgsConstructor;
 
@@ -33,9 +36,19 @@ public class NoticeController {
 	 * 게시글 목록 페이지 요청
 	 */
 	@GetMapping({ "/list", "/" })
-	public String listPage(Model model) {
-		List<Notice> noticeList = noticeService.findAll();
+	public String listPage(@RequestParam(name ="page", defaultValue = "1" )  int page,
+				@RequestParam(name ="size", defaultValue = "10" )  int size,
+				Model model) {
+		int totalRecords = noticeService.allList();
+		int totalPages = (int)Math.ceil((double)totalRecords / size);
+		List<Notice> noticeList = noticeService.findAll(page,size);
+		
+		
+		
 		model.addAttribute("noticeList", noticeList);
+		model.addAttribute("currentPage", page);
+		model.addAttribute("totalPages", totalPages);
+		model.addAttribute("size", size);
 		return "notice/list";
 	}
 
@@ -72,21 +85,46 @@ public class NoticeController {
 	}
 
 	/**
+	 * 상세 페이지 detail
+	 * 
+	 */
+	@GetMapping("detail/{noticeId}")
+	public String detailPage(@PathVariable(name ="noticeId")int noticeId, Model model,
+			@SessionAttribute(Define.PRINCIPAL) User principal) {
+		
+		Notice myNotice = noticeService.selectByNoticeId(noticeId,principal.getUserId());
+		model.addAttribute("notice" , myNotice);
+		return "/notice/noticeDetail";
+	}
+	
+	
+	
+	
+	/**
 	 * 게시글 수정
 	 */
 	@GetMapping("update/{noticeId}")
-	public String updateForm(@PathVariable("noticeId") int noticeId, Model model) {
+	public String updateForm(@PathVariable("noticeId") int noticeId, Model model , 
+			@SessionAttribute(Define.PRINCIPAL) User principal ) {
 		Notice notice = new Notice();
+		notice = noticeService.selectByNoticeId(noticeId,principal.getUserId());
 		model.addAttribute("noticeList", notice);
-		model.addAttribute("noticeId", noticeId);
 		return "notice/updateForm";
+		
 	}
 
-	@PostMapping("/list/update/{noticeId}")
-	public String update(NoticeDTO noticeDTO, @PathVariable(name = "noticeId") Integer noticeId, NoticeDTO dto) {
-		int boardTemp = noticeService.uploading(noticeId, dto);
-
-		return "redirect:/";
+	@PostMapping("update/{noticeId}")
+	public String update(@PathVariable(name = "noticeId") Integer noticeId ,@SessionAttribute(Define.PRINCIPAL) User principal,
+			@RequestParam("noticeTitle") String noticeTitle
+			,@RequestParam("noticeContent") String noticeContent	) {
+		Notice notice = noticeService.selectByNoticeId(noticeId,principal.getUserId());
+		NoticeDTO dto = NoticeDTO.builder()
+						.noticeId(notice.getNoticeId())
+						.noticeTitle(noticeTitle)
+						.noticeContent(noticeContent)
+						.build();
+		Notice notice2 = noticeService.uploading(noticeId, dto);
+		return "redirect:/notice/list";
 	}
 
 }

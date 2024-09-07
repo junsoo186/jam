@@ -39,7 +39,7 @@ public class QnaController {
 	
 	/**
 	 * -Q&A 전체 화면 출력-
-	 * 추후 수정 필요 - 인증 처리 (본인 아닌경우 글 상세보기 불가) 
+	 * 추후 수정 필요 - 인증 처리 (본인 아닌경우 글 상세보기 불가)  완료
 	 * 페이징 처리
 	 * @param page
 	 * @param size
@@ -68,6 +68,10 @@ public class QnaController {
 		
 		return "/qna/qnaList";
 	}
+	/**
+	 *insert 기능 구현
+	 * @return
+	 */
 	@GetMapping("/write")
 	public String qnaWritePage() {
 		return "/qna/qnaWrite";
@@ -119,7 +123,12 @@ public class QnaController {
 		qnaService.delete(qnaId);
 		return "redirect:/qna/list";
 	}
-	
+	/**
+	 * update 페이지 이동
+	 * @param qnaId
+	 * @param model
+	 * @return
+	 */
 	@GetMapping("updatePage/{qnaId}")
 	public String updatePage(@PathVariable(name ="qnaId")int qnaId , Model model) {
 		Qna myQna = qnaService.selectByQnaId(qnaId);
@@ -128,10 +137,17 @@ public class QnaController {
 		return "/qna/qnaUpdate";
 	}
 	
-	@PostMapping("update/{qnaId}")
-	public String updateQna(@PathVariable(name ="qnaId") int qnaId, QnaDTO dto){
+	/**
+	 * update 기능구현
+	 * @param qnaId
+	 * @param dto
+	 * @return
+	 */
+	@PostMapping("update")
+	public String updateQna(@RequestParam(name ="qnaId") int qnaId, QnaDTO dto){
 		qnaService.updateMyqna(dto, qnaId);
-		
 		return"redirect:/qna/list";
 	}
+	
+	
 }
