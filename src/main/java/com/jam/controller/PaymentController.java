@@ -89,9 +89,11 @@ public class PaymentController {
             		.orderId(dto.getOrderId())
             		.orderName(dto.getOrderName())
             		.totalAmount(dto.getTotalAmount())
+            		.paymentKey(dto.getPaymentKey())
             		.build();
                  
             model.addAttribute("payment", payment);
+            session.setAttribute("payment", payment);
             System.out.println("#@#@#@# : " + payment.toString());
             
             // 여기서 유저 서비스를 이용해서 결제 쿼리가 작동하도록 설정해야 한다.
@@ -114,6 +116,8 @@ public class PaymentController {
         	
         	// 유저 상세 정보에 기존에 포인트에 충전한 포인트 입력
         	userService.insert (amount, balance , userId);
+        	
+        //	session.setAttribute("TossPaymentResponseDTO", payment);
             
         } catch (Exception e) {
             e.printStackTrace();
@@ -136,9 +140,22 @@ public class PaymentController {
         return "/payment/refund";
     }
     
+    /**
+     * 환불 준비
+     * @param paymentKey
+     * @param refundAmount
+     * @param refundReason
+     * @return
+     */
     @PostMapping("/refunding")
-    public String tossRefund(String paymentKey, long refundAmount, String refundReason) {
+    public String tossRefund(@RequestParam("paymentKey")String paymentKey,
+    						 @RequestParam("refundAmount")long refundAmount,
+    						 @RequestParam("refundReason") String refundReason) {
     	System.out.println("환불");
+    	
+    	System.out.println("paymentKey : " + paymentKey);
+    	System.out.println("refundAmount : " + refundAmount);
+    	System.out.println("refundReason : " + refundReason);
     	
     	 RestTemplate restTemplate = new RestTemplate();
 
@@ -169,10 +186,13 @@ public class PaymentController {
 
          } catch (Exception e) {
              e.printStackTrace();
-             return "redirect:/refund/error";  // 에러 발생 시
+           //  return "redirect:/refund/error";  // 에러 발생 시
+             System.out.println("환불실패");
+             return "redirect:/pay/fail"; // 환불 실패
          }
-
-         return "redirect:/refund/success";  // 환불 성공 시
+         
+         System.out.println("환불성공");
+         return "redirect:/"; // 환불 성공 시
      }
     	
 //    	return "/payment/refund";
