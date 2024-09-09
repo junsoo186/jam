@@ -41,7 +41,6 @@
                     <label for="authorComment">코멘트:</label>
                     <textarea id="authorComment" name="authorComment" required>테스트 저자 코멘트</textarea>
 
-			
                     <label for="introduction">소개글:</label>
                     <textarea id="introduction" name="introduction" rows="4" required>테스트용 소개글</textarea>
 
