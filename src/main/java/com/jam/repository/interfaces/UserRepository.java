@@ -8,7 +8,6 @@ import org.apache.ibatis.annotations.Param;
 
 import com.jam.dto.signUpDTO;
 import com.jam.repository.model.AccountHistoryDTO;
-import com.jam.repository.model.Payment;
 import com.jam.repository.model.User;
 
 @Mapper
