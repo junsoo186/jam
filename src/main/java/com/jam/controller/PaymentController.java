@@ -261,7 +261,7 @@ public class PaymentController {
          	// 유저 상세 정보에 기존 포인트에  포인트 제거
          	userService.delete(refundAmount, balance, userId);
          	
-         // 유저의 업데이트된 정보를 가져온다.
+         // 유저의 업데이트된 정보를 가져온다. 
             User updatedUser = userService.InformationUpdate(principal.getEmail()); // DB에서 갱신된 유저 정보 가져오기
         	
         	session.setAttribute("principal", updatedUser);
