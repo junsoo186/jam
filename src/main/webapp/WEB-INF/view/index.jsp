@@ -8,14 +8,7 @@
 <meta charset="UTF-8">
 <title>메인화면</title>
 <link rel="stylesheet" href="/css/index.css">
-</head>
-<body>
-<<<<<<< HEAD
-	${principal.userId}
-	${principal.email}
-	<h1>메인화면입니다</h1>
-</main>
-=======
+<main>
 
 	<div class="container--banner">
 		<!-- 배너 -->
@@ -67,7 +60,7 @@
 		</section>
 	</div>
 
-	<div class="container mt--5">
+	<div class="cennter--container">
 		<!-- 카테고리 필터 -->
 		<div class="category--filter">
 			<button class="category--btn active">종합</button>
@@ -81,6 +74,8 @@
 		</div>
 
 		<!-- 책 목록 -->
+
+		<!-- 인기 순위 -->
 		<h3>지금 가장 인기있는 웹소설</h3>
 		<div class="book--list--1">
 			<div class="book--item">
@@ -126,9 +121,11 @@
 			</div>
 		</div>
 
-		<!-- 신작 -->
 		<!-- 책 목록 -->
+
+		<!-- 신작 -->
 		<h3>따끈 따끈 , 새로들어온 책</h3>
+
 		<div class="book--list--2">
 			<div class="book--item">
 				<img src="/images/bannerimg1.jpg" alt="매직 스플릿">
@@ -173,8 +170,20 @@
 			</div>
 		</div>
 
-		<!-- 이번주 주목할 펀딩 -->
+		<div class="event--container">
+			<div class="slider--wrapper">
+				<div class="slider">
+					<div class="slide">
+						<a href=""><img class="event--banner" src="/images/test1.png" alt="슬라이드 이미지 1"></a> 
+						<a href=""><img class="event--banner" src="/images/test2.png" alt="슬라이드 이미지 2"></a>
+						<a href=""><img class="event--banner" src="/images/test3.png" alt="슬라이드 이미지 3"></a>
+					</div>
+				</div>
+			</div>
+		</div>
 		<!-- 책 목록 -->
+
+		<!-- 이번주 주목할 펀딩 -->
 		<h3>이번주 주목할 펀딩</h3>
 		<div class="book--list--3">
 			<div class="book--item--funding">
@@ -203,9 +212,8 @@
 			</div>
 		</div>
 	</div>
-
+</main>
 	<!-- JavaScript 파일을 여기에 포함 -->
 	<script type="text/javascript" src="/js/index.js"></script>
->>>>>>> 57fda8d4de4f5146c8e4176641583d59e4bb2e2a
-</body>
-</html>
+<%@ include file="/WEB-INF/view/layout/footer.jsp"%>
+

@@ -78,10 +78,15 @@ CREATE TABLE `story_tb` (
     FOREIGN KEY (`user_id`) REFERENCES `user_tb`(`user_id`)
 );
 
+/* 유저 상세 정보  (테스트) */
+-- 이름(본명), 생일, 전화번호, 주소, 포인트(잔액)
 CREATE TABLE `user_de_tb` (
     `user_detail_id` int PRIMARY KEY AUTO_INCREMENT NOT NULL,
     `user_id` int NOT NULL COMMENT '외래 키, user_tb 참조',
-    `point` bigint NOT NULL DEFAULT 0,
+    `point` bigint NULL DEFAULT 0,
+    name VARCHAR(20) NULL COMMENT '유저 이름(본명)',
+    birth_date DATE NULL COMMENT '생일',
+    address VARCHAR(100) NULL COMMENT '주소',
     FOREIGN KEY (`user_id`) REFERENCES `user_tb`(`user_id`)
 );
 
@@ -127,6 +132,27 @@ CREATE TABLE `event_tb` (
     FOREIGN KEY (`user_id`) REFERENCES `user_tb`(`user_id`)
 );
 
+-- 참여자
+CREATE TABLE `event_participants_tb` (
+    `participant_id` INT PRIMARY KEY AUTO_INCREMENT NOT NULL COMMENT '참여자 ID',
+    `event_id` INT NOT NULL unique COMMENT '이벤트 ID',
+    `user_id` INT NOT NULL unique COMMENT '사용자 ID',
+    `participation_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '참여 일자',
+    FOREIGN KEY (`event_id`) REFERENCES `event_tb`(`event_id`) ON DELETE CASCADE,
+    FOREIGN KEY (`user_id`) REFERENCES `user_tb`(`user_id`) ON DELETE CASCADE
+);
+
+-- 당첨자
+CREATE TABLE `event_winners_tb` (
+    `winner_id` INT PRIMARY KEY AUTO_INCREMENT NOT NULL COMMENT '당첨자 ID',
+    `event_id` INT NOT NULL COMMENT '이벤트 ID',
+    `user_id` INT NOT NULL COMMENT '당첨된 사용자 ID',
+    `winning_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '당첨 일자',
+    `prize` VARCHAR(100) COMMENT '당첨 상품',
+    FOREIGN KEY (`event_id`) REFERENCES `event_tb`(`event_id`) ON DELETE CASCADE,
+    FOREIGN KEY (`user_id`) REFERENCES `user_tb`(`user_id`) ON DELETE CASCADE
+);
+
 CREATE TABLE `account_history_tb` (
     `account_history_id` int PRIMARY KEY AUTO_INCREMENT NOT NULL,
     `user_id` int NOT NULL COMMENT '외래 키, user_tb 참조',
@@ -159,25 +185,20 @@ CREATE TABLE `funding_history_tb` (
     FOREIGN KEY (`funding_id`) REFERENCES `funding_tb` (`funding_id`)
 );
 
-CREATE TABLE `staff_tb` (
-    `staff_id` int PRIMARY KEY AUTO_INCREMENT NOT NULL,
-    `staff_name` varchar(10) NOT NULL,
-    `staff_password` varchar(1000) NOT NULL
-);
+
 
 CREATE TABLE `notice_tb` (
     `notice_id` int PRIMARY KEY AUTO_INCREMENT NOT NULL,
-    `staff_id` int NOT NULL COMMENT '외래 키, staff_tb 참조',
+    `user_id` int NOT NULL COMMENT '외래 키, user_tb 참조',
     `notice_title` varchar(50) NOT NULL COMMENT '공지 사항 제목',
     `notice_content` text NOT NULL COMMENT '공지 사항 내용',
     `comment` text NULL COMMENT '공지 사항 댓글',
     `created_at` timestamp NULL DEFAULT current_timestamp,
-    FOREIGN KEY (`staff_id`) REFERENCES `staff_tb`(`staff_id`)
+    FOREIGN KEY (`user_id`) REFERENCES `user_tb`(`user_id`)
 );
 
 CREATE TABLE `qna_tb` (
     `qna_id` int PRIMARY KEY AUTO_INCREMENT NOT NULL,
-    `staff_id` int COMMENT '관리자인경우 staff id 에 user_id 넣기',
     `user_id` int NOT NULL COMMENT '외래 키, user_tb 참조',
 	`title` varchar(40) NOT NULL COMMENT '문의 제목',
     `question_content` text  COMMENT '질문 사항 내용',
@@ -194,10 +215,8 @@ CREATE TABLE `user_alert_list_tb` (
 CREATE TABLE `user_alert_history_tb` (
     `alert_history_id` int PRIMARY KEY AUTO_INCREMENT NOT NULL,
     `alert_id` int NOT NULL COMMENT '외래 키, user_alert_list_tb 참조',
-    `staff_id` int NOT NULL COMMENT '외래 키, staff_tb 참조',
-    `user_id` int NOT NULL COMMENT '외래 키, user_tb 참조',
+    `user_id` int NOT NULL COMMENT '외래 키, staff_tb 참조',
     `period_date` date NOT NULL COMMENT '경고 기간',
-    FOREIGN KEY (`staff_id`) REFERENCES `staff_tb`(`staff_id`),
     FOREIGN KEY (`user_id`) REFERENCES `user_tb`(`user_id`),
     FOREIGN KEY (`alert_id`) REFERENCES `user_alert_list_tb`(`alert_id`)
 );
@@ -255,12 +274,10 @@ CREATE TABLE `report_tb` (
 CREATE TABLE `report_history_tb` (
     `report_history_id` int PRIMARY KEY AUTO_INCREMENT NOT NULL,
     `report_id` int NOT NULL COMMENT '외래 키, report_tb 참조',
-    `staff_id` int NOT NULL COMMENT '외래 키, staff_tb 참조',
     `alert_id` int NOT NULL COMMENT '외래 키, user_alert_list_tb 참조',
     `user_id` int NOT NULL COMMENT '외래 키, user_tb 참조',
     `created_at` timestamp NULL DEFAULT current_timestamp,
     FOREIGN KEY (`report_id`) REFERENCES `report_tb`(`report_id`),
-    FOREIGN KEY (`staff_id`) REFERENCES `staff_tb`(`staff_id`),
     FOREIGN KEY (`alert_id`) REFERENCES `user_alert_list_tb`(`alert_id`),
     FOREIGN KEY (`user_id`) REFERENCES `user_tb`(`user_id`)
 );
@@ -306,4 +323,12 @@ CREATE TABLE `book_comment_tb` (
     `likes` int NULL DEFAULT 0,
     FOREIGN KEY (`book_id`) REFERENCES `book_tb`(`book_id`),
     FOREIGN KEY (`user_id`) REFERENCES `user_tb`(`user_id`)
+);
+
+CREATE TABLE `banner_tb`(
+`banner_id`int PRIMARY KEY AUTO_INCREMENT NOT NULL,
+`title` varchar(1000) COMMENT '베너 제목',
+`content_one` varchar(1000) COMMENT '베너 내용1',
+`content_two` varchar(1000) COMMENT '베너 내용2',
+`img` varchar(2000) COMMENT '이미지'
 );

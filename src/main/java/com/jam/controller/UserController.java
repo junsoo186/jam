@@ -1,5 +1,9 @@
 package com.jam.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.UUID;
+
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -13,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.jam.dto.EmailVerificationResult;
 import com.jam.dto.GoogleProfile;
@@ -62,16 +67,10 @@ public class UserController {
 	 */
 	@PostMapping("/sign-up")
 	public String signUpProc(signUpDTO dto) {
-		/**
-		 * DB에 저장되어 있는 이메일로 회원가입 시도할 시 checkEmail로 이메일 유무를 확인 후 emailCount = 1이면 email
-		 * 존재 emailCount = 0 이면 DB에 이메일 없음
-		 */
-		int emailCount = userService.checkDuplicatedEmail(dto.getEmail());
-		if (emailCount == 1) {
-			return "user/signUp";
-		} else {
-			userService.createUser(dto);
-		}
+		System.out.println("dto : " + dto.toString());
+		userService.createUser(dto);
+		userService.createDetail(dto);
+
 		return "redirect:/user/sign-in";
 	}
 
@@ -94,9 +93,13 @@ public class UserController {
 	 */
 	@PostMapping("/sign-in")
 	public String signProc(signInDTO dto) {
+		
 		// 사용자 인증 로직
 		User principal = userService.login(dto); // 로그인 시도 및 User 객체 반환
 		// 세션에 사용자 정보를 등록
+		// 이미지
+		String profileImg = principal.setUpUserImage();
+		principal.setProfileImg(profileImg);
 		session.setAttribute("principal", principal);
 		System.out.println("principal : " + principal);
 		return "redirect:/"; // 로그인 성공 시 메인 페이지로 리다이렉트
@@ -194,12 +197,13 @@ public class UserController {
 					.password(dtoUp.getPassword()).build();
 			// 회원가입 진행
 			userService.createUser(dtoUp);
+			userService.createDetail(dtoUp);  // 방금 디테일 추가해봄
 			// 로그인 진행
 			User principal = userService.login(dtoIn); // 로그인 시도 및 User 객체 반환
 			session.setAttribute("principal", principal);
 			System.out.println("principal : " + principal);
 
-			userService.login(dtoIn);
+			userService.login(dtoIn); 
 
 			return "redirect:/";
 		}
@@ -283,6 +287,7 @@ public class UserController {
 
 			// 회원가입 진행
 			userService.createUser(dtoUp);
+			userService.createDetail(dtoUp);
 
 			// 로그인 진행
 			User principal = userService.login(dtoIn); // 로그인 시도 및 User 객체 반환
@@ -372,6 +377,7 @@ public class UserController {
 
 			// 회원가입 진행
 			userService.createUser(dtoUp);
+			userService.createDetail(dtoUp);
 
 			// 로그인 진행
 			User principal = userService.login(dtoIn);
@@ -470,7 +476,7 @@ public class UserController {
 		}
 
 		int result = userService.updatePasswordByEmail(newPassword, email);
-		
+
 		if (result == 0) {
 			// 비밀번호 변경 실패 시 처리
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("비밀번호 변경에 실패했습니다. 다시 시도하세요.");
@@ -491,5 +497,72 @@ public class UserController {
 		return "payment/charge";
 	}
 	
+	/**
+	 * 마이페이지 이동
+	 */
+	@GetMapping("/myPage")
+	public String getMyPage() {
+		return "user/myPage";
+	}
+	
+	/**
+	 * 마이페이지 회원정보 수정 페이지 이동
+	 */
+	@GetMapping("/myProfileModify")
+	public String getDetailMyPage() {
+		
+		return "/user/myProfile";
+	}
+	
+	/*
+	 * 마이페이지 회원정보 수정 처리
+	 */
+	@PostMapping("/userModify1212")
+	public String modifyPage(User user, @RequestParam("mFile") MultipartFile mFile) throws IllegalStateException, IOException {
+		
+		user = User.builder()
+				.userId(user.getUserId())
+				.name(user.getName())
+				.birthDate(user.getBirthDate())
+				.address(user.getAddress())
+				.nickName(user.getNickName())
+				.phoneNumber(user.getPhoneNumber())
+				.email(user.getEmail())
+			//	.password(user.getPassword())
+				.point(user.getPoint())
+			//	.role(user.getRole())
+			//	.createdAt(user.getCreatedAt())
+				.profileImg(user.getProfileImg())
+			//	.oriProfileImg(user.getOriProfileImg())
+				.build();
+		
+		 // 만약 mFile이 비어 있으면 기존 이미지 사용
+	    if (mFile != null && !mFile.isEmpty()) {
+	        // 고유 파일명 생성
+	        String originalFilename = mFile.getOriginalFilename();
+	        String fileExtension = originalFilename.substring(originalFilename.lastIndexOf('.'));
+	        String uniqueFileName = UUID.randomUUID().toString() + fileExtension;
 
+	        // 파일 저장 경로 설정
+	        String uploadDir = "C:/work_spring/upload/";
+	        File destinationFile = new File(uploadDir + uniqueFileName);
+	        mFile.transferTo(destinationFile); // 파일을 해당 경로에 저장
+
+	        // 새로운 프로필 이미지 경로 업데이트
+	        user.setProfileImg("/images/uploads/" + uniqueFileName);
+	    } else {
+	        // 파일이 없으면 기존 프로필 이미지 사용
+	        user.setProfileImg(user.getProfileImg());
+	    }
+	    
+	    // 유저 정보 업데이트
+	    userService.updateProfile(user);
+	    
+	    // 업데이트된 유저 정보 가져와서 세션에 저장
+	    User principal = userService.InformationUpdate(user.getEmail());
+	    session.setAttribute("principal", principal);
+		
+		return "redirect:/";
+	}
+	
 }

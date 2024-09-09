@@ -1,5 +1,7 @@
 package com.jam.service;
 
+import java.io.File;
+import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Map;
@@ -7,18 +9,21 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.jam.dto.EmailVerificationResult;
 import com.jam.dto.signInDTO;
 import com.jam.dto.signUpDTO;
 import com.jam.repository.interfaces.UserRepository;
 import com.jam.repository.model.User;
+import com.jam.utils.Define;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -41,6 +46,9 @@ public class UserService {
 
 	@Value("${spring.mail.auth-code-expiration-millis}")
 	private long authCodeExpirationMillis;
+	
+	@Value("${file.upload-dir}")
+	private String uploadDir;
 
 	/**
 	 * 
@@ -49,9 +57,19 @@ public class UserService {
 	@Transactional // 트랜잭션 처리
 	public void createUser(signUpDTO dto) {
 		int result = 0;
+		if (dto.getMFile() != null && !dto.getMFile().isEmpty()) {
+			// 파일 업로드 로직 구현
+			String[] fileNames = uploadFile(dto.getMFile());
+
+			dto.setOriProfileImg(fileNames[0]);
+			dto.setProfileImg(fileNames[1]);
+		}
 		String hashPwd = passwordEncoder.encode(dto.getPassword());
 		dto.setPassword(hashPwd);
 		result = userRepository.insert(dto);
+		
+		
+		System.out.println("회원가입 서비스 : "+dto.toString());
 
 		if (result == 1) {
 			System.out.println("회원가입 성공");
@@ -198,4 +216,118 @@ public class UserService {
 		}
 		return result;
 	}
+	
+
+	/**
+	 * 서버 운영체제에 파일 업로드 기능 MultipartFile getOriginalFilename : 사용자가 작성한 파일 명
+	 * uploadFileName : 서버 컴퓨터에 저장 될 파일 명
+	 * 
+	 * @param mFile
+	 * @return
+	 */
+	private String[] uploadFile(MultipartFile mFile) {
+		if (mFile.getSize() > Define.MAX_FILE_SIZE) {
+			// TODO - 오류 처리
+//			throw new DataDeliveryException("파일 크기는 20MB 이상 클 수 없습니다.", HttpStatus.BAD_REQUEST);
+		}
+
+		// 코드 수정
+		// File - getAbsolutePath()
+		// (리눅스 또는 MacOS)에 맞춰서 절대 경로 생성을 시킬 수 있다.
+		String saveDirectory = new File(uploadDir).getAbsolutePath();
+
+		// 파일 이름 생성(중복 이름 예방)
+		String uploadFileName = UUID.randomUUID() + "_" + mFile.getOriginalFilename();
+		// 파일 전체 경로 + 새로생성한 파일명
+		String uploadPath = saveDirectory + File.separator + uploadFileName;
+		File destination = new File(uploadPath);
+		
+		// 반드시 수행
+		try {
+			mFile.transferTo(destination);
+		} catch (IllegalStateException | IOException e) {
+			// TODO - 오류 처리
+//			e.printStackTrace();
+//			throw new DataDeliveryException("파일 업로드 중 오류가 발생했습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+		return new String[] { mFile.getOriginalFilename(), uploadFileName };
+	}
+	
+	/**
+	 * 유저 회원정보 수정
+	 * @param user
+	 */
+	public void updateProfile(User user) {
+		userRepository.updateProfileByUserTb(user);
+		userRepository.updateProfileByUserDeTb(user);
+	}
+	
+	/**
+	 * 유저 회원정보 수정 후 다시 정보 뿌리기 (1)
+	 * @param email
+	 */
+	public User InformationUpdate(String email) {
+		User user = null;
+		user = userRepository.InformationUpdate(email);
+		return user;
+	}
+	
+	/**
+	 * 유저 상세정보
+	 * @param email
+	 */
+	public User createDetail(signUpDTO dto) {
+		// TODO Auto-generated method stub
+		User user = userRepository.emailsearch(dto);
+		userRepository.insertbyUserTb(user.getUserId());
+				
+		System.out.println("@@@@"+user.toString());
+		
+		return user;
+		
+	}
+	
+	/**
+	 * 유저 포인트 충전 내역이 들어간다.  (결제 히스토리)
+	 * @param userId
+	 * @param deposit
+	 * @param point
+	 * @param afterBalance
+	 */
+	public void insertPoint(int userId, long deposit, long point, long afterBalance) {
+		userRepository.insertPoint(userId, deposit, point, afterBalance);
+	}
+	
+	/**
+	 * 유저 아이디로 유저의 포인트를 조회한다.
+	 * @param userId
+	 */
+	public int searchPoint(int userId) {
+		
+		int a = userRepository.selectUserPoint(userId);
+		
+		if(a == 1) {
+			System.out.println("유저 포인트 조회 완료");
+		} else {
+			System.out.println("포인트 조회 실패 유저 없음!");
+		}
+		return a;
+	}
+	
+	/**
+	 * 유저 포인트를 저장한다. 유저 상세 페이지를 연결
+	 *  user_de_tb
+	 * @param amount
+	 * @param userId
+	 */
+	public void insert(Integer amount, long balance, int userId) {
+		
+		userRepository.insertUserTbPoint(amount, balance, userId);
+		
+	}
+	
+	
+	
+
 }
