@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jam.dto.RefundRequest;
 import com.jam.dto.TossPaymentResponseDTO;
 import com.jam.repository.model.AccountHistoryDTO;
 import com.jam.repository.model.Payment;
@@ -108,7 +109,7 @@ public class PaymentController {
             		.build();
                  
             model.addAttribute("payment", payment);
-          //  session.setAttribute("payment", payment);
+          //  	session.setAttribute("payment", payment);
             System.out.println("#@#@#@# : " + payment.toString());
             
             // 여기서 유저 서비스를 이용해서 결제 쿼리가 작동하도록 설정해야 한다.
@@ -198,7 +199,7 @@ public class PaymentController {
      * @param refundReason : 환불 이유 
      * @return
      */
-    @PostMapping("/refunding")
+    @PostMapping("/reques")
     public String tossRefund( Model model,
     						 @RequestParam("paymentKey")String paymentKey,
     						 @RequestParam("refundAmount")long refundAmount,
@@ -209,72 +210,17 @@ public class PaymentController {
     	System.out.println("refundAmount : " + refundAmount); // 환불 가겨
     	System.out.println("refundReason : " + refundReason); // 환불 사유
     	
-    	 RestTemplate restTemplate = new RestTemplate();
-
-         // 헤더 구성
-         HttpHeaders headers = new HttpHeaders();
-         headers.add("Authorization", "Basic " + Base64.getEncoder().encodeToString((SECRET_KEY + ":").getBytes()));
-         headers.add("Content-type", "application/json");
-
-         // 바디 구성 (환불 요청에 필요한 데이터)
-         Map<String, Object> params = new HashMap<>();
-         params.put("cancelReason", refundReason); // 환불 사유
-         params.put("cancelAmount", refundAmount); // 환불할 금액
-
-         try {
-             // JSON 데이터를 String으로 변환
-             ObjectMapper objectMapper = new ObjectMapper();
-             String jsonBody = objectMapper.writeValueAsString(params);
-
-             // 헤더 + 바디 결합
-             HttpEntity<String> requestEntity = new HttpEntity<>(jsonBody, headers);
-
-             // 환불 요청 API 호출
-             String url = "https://api.tosspayments.com/v1/payments/" + paymentKey + "/cancel";
-             ResponseEntity<TossPaymentResponseDTO> response = restTemplate.exchange(url, HttpMethod.POST, requestEntity, TossPaymentResponseDTO.class);
-             
-             // 환불 응답 처리
-             System.out.println("환불 응답: " + response.getBody());
-             
-             
-             // 여기서 유저 서비스를 이용해서 결제 쿼리가 작동하도록 설정해야 한다.
-             
-             // 1. 유저 
-             User principal = (User) session.getAttribute("principal"); // 유저 세션 가져옴
-         	System.out.println("payController /success : " +principal);
-         	
-         	int userId = principal.getUserId();
-         	
-         	String payKey = paymentKey; // 페이먼트 키 확인
-         	System.out.println("페이먼트 키 : " + payKey);
-       
-         	System.out.println(userId);
-         	
-         	long balance  = userService.searchPoint(userId); // 유저가 가지고 있는 포인트 잔액 조회
-         	
-         	long deposit = refundAmount; // 입금 금액
-         	long point  = refundAmount; // 충전할 포인트
-         	long afterBalance = balance  - refundAmount; // 소지하고 있는 포인트 - 충전할 포인트 = afterBalance
-         	
-         	userService.insertPoint(userId, deposit, point, afterBalance, paymentKey); // 포인트 충전내역 
-         	
-         	// 유저 상세 정보에 기존 포인트에  포인트 제거
-         	userService.delete(refundAmount, balance, userId);
-         	
-         // 유저의 업데이트된 정보를 가져온다. 
-            User updatedUser = userService.InformationUpdate(principal.getEmail()); // DB에서 갱신된 유저 정보 가져오기
-        	
-        	session.setAttribute("principal", updatedUser);
-            System.out.println("세션 유저 정보가 갱신되었습니다: " + updatedUser);
-        
-         } catch (Exception e) {
-             e.printStackTrace();
-           //  return "redirect:/refund/error";  // 에러 발생 시
-             System.out.println("환불실패");
-             return "redirect:/pay/fail"; // 환불 실패
-         }
-         
-         System.out.println("환불성공");
+    	  User user = (User) session.getAttribute("principal");
+    	    RefundRequest refundRequest = RefundRequest.builder()
+    	            .userId(user.getUserId())
+    	            .paymentKey(paymentKey)
+    	            .refundAmount(refundAmount)
+    	            .refundReason(refundReason)
+    	            .status("PENDING")
+    	            .build();
+    	    System.out.println("리펀 dto 확인 :" + refundRequest.toString());
+    	//  List<RefundRequest> dto = userService.saveRefundRequest(refundRequest);
+    	    userService.saveRefundRequest(refundRequest); // 유저가 환불클릭하면 관리자가 요청? 
          return "redirect:/"; // 환불 성공 시
      }
     
@@ -285,6 +231,36 @@ public class PaymentController {
     @GetMapping("/termsAndConditions")
     public String termsAndConditions() {
     	return "/payment/termsAndConditions";
+    }
+    
+    /**
+     * 관리자 페이지 이동
+     * @return
+     */
+    @GetMapping("/managerTest")
+    public String managerTest(Model model) {
+    	System.out.println("@@@@@@@@@@@@@@@@@@@@");
+    	List<RefundRequest> payList = userService.selectRefundRequest();
+    	model.addAttribute("payList", payList);
+    	return "/payment/managerTest";
+    }
+    
+    /**
+     * 관리자가 환불요청이 들어온것을확인할 수 있다.
+     * @return
+     */
+    @PostMapping("/managerapprove")
+    public String managerTest2(Model model) {
+    	   
+    	List<RefundRequest> payList = userService.selectRefundRequest();
+    	
+    
+        System.out.println("관리자가 환불 요청 온거 확인? : " + payList);
+       	
+        // 모델에 결제 리스트를 추가
+        model.addAttribute("payList", payList);
+    	
+    	return "redirect:/pay/managerTest";
     }
   
 }

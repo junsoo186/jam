@@ -1,28 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>결제 리스트</title>
-<script type="text/javascript">
-    // 부모 창에서 실행되는 함수: 팝업 창에서 호출
-    function submitRefundForm(paymentKey) {
-        document.getElementById('refundForm_' + paymentKey).submit();
-    }
-
-    function showAlertAndOpenTerms(paymentKey, refundAmount) {
-        // 약관 창을 새 탭으로 열기
-        window.open('/pay/termsAndConditions?paymentKey=' + paymentKey, '_blank', 'width=500,height=500');
-    }
-</script>
+<title>Insert title here</title>
 </head>
 <body>
-	
-	<p>여기에 결제 리스트 내역 </p>
+
+
+
+<p>여기에 결제 리스트 내역 </p>
 	
 	<c:if test="${not empty payList}">
 		<table border="1">
@@ -34,7 +22,7 @@
 				<th>결제 히든키</th>
 				<th>환불</th>
 			</tr>
-			<c:forEach var="payment" items="${payList}">
+			<c:forEach var="payList" items="${payList}">
 			    <tr>
 			        <td>${payment.accountHistoryId}</td> <!-- 주문 번호 출력 -->
 			        <td>${payment.deposit}</td>  <!-- 결제 금액 출력 -->
@@ -61,6 +49,6 @@
 	<c:if test="${empty payList}">
 		<p>결제 내역이 없습니다.</p>
 	</c:if>
-	
+
 </body>
 </html>
