@@ -160,7 +160,8 @@ CREATE TABLE `account_history_tb` (
     `point` bigint NOT NULL COMMENT '충전 포인트',
     `after_balance` bigint NOT NULL COMMENT '충전 후 포인트' ,
     `created_at` timestamp NOT NULL DEFAULT current_timestamp,
-    FOREIGN KEY (`user_id`) REFERENCES `user_tb`(`user_id`)
+    FOREIGN KEY (`user_id`) REFERENCES `user_tb`(`user_id`),
+    `payment_key` varchar(50) null comment '토스 환불에서 paymentkey, 결제가격, 환불이유가 필요'
 );
 
 CREATE TABLE `funding_tb` (

@@ -96,7 +96,7 @@
     <!-- 네비게이션 메뉴 -->
     <ul class="nav-menu">
         <li><a href="#">회원 관리</a></li>
-        <li><a href="#">결제 내역</a></li>
+        <li><a href="/pay/paylist">결제 내역</a></li>
         <li><a href="#">차단 관리</a></li>
         <li><a href="#">이벤트 내역</a></li>
     </ul>

@@ -95,8 +95,8 @@
 	</select>
 		
 	<insert id="insertPoint">
-    INSERT INTO account_history_tb (user_id, deposit, point, after_balance)
-    VALUES (#{userId}, #{deposit}, #{point}, #{afterBalance});
+    INSERT INTO account_history_tb (user_id, deposit, point, after_balance, payment_key )
+    VALUES (#{userId}, #{deposit}, #{point}, #{afterBalance}, #{paymentKey});
 	</insert>
 
 	<insert id ="insertUserTbPoint">
@@ -105,6 +105,18 @@
 		WHERE user_id = #{userId}    
 		
 	</insert>
+	
+	<insert id="deleteUserTbPoint">
+		UPDATE user_de_tb 
+		SET point = #{balance} - #{refundAmount}
+		WHERE user_id = #{userId}    
+	</insert>
+	
+	<select id="findPayList" resultType="com.jam.repository.model.AccountHistoryDTO">
+		 SELECT * 
+    FROM account_history_tb
+    WHERE user_id = #{userId}
+	</select>
 
 
 </mapper>

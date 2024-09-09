@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
@@ -22,6 +23,8 @@ import com.jam.dto.EmailVerificationResult;
 import com.jam.dto.signInDTO;
 import com.jam.dto.signUpDTO;
 import com.jam.repository.interfaces.UserRepository;
+import com.jam.repository.model.AccountHistoryDTO;
+import com.jam.repository.model.Payment;
 import com.jam.repository.model.User;
 import com.jam.utils.Define;
 
@@ -295,8 +298,8 @@ public class UserService {
 	 * @param point
 	 * @param afterBalance
 	 */
-	public void insertPoint(int userId, long deposit, long point, long afterBalance) {
-		userRepository.insertPoint(userId, deposit, point, afterBalance);
+	public void insertPoint(int userId, long deposit, long point, long afterBalance, String payKey) {
+		userRepository.insertPoint(userId, deposit, point, afterBalance, payKey);
 	}
 	
 	/**
@@ -316,7 +319,7 @@ public class UserService {
 	}
 	
 	/**
-	 * 유저 포인트를 저장한다. 유저 상세 페이지를 연결
+	 * (결제)유저 포인트를 저장한다. 유저 상세 페이지를 연결
 	 *  user_de_tb
 	 * @param amount
 	 * @param userId
@@ -324,6 +327,28 @@ public class UserService {
 	public void insert(Integer amount, long balance, int userId) {
 		
 		userRepository.insertUserTbPoint(amount, balance, userId);
+		
+	}
+	
+	/**
+	 * 유저가 결제한 정보를 리스트로 뽑아낸다.
+	 * @param userId
+	 * @return
+	 */
+	public List<AccountHistoryDTO> findPayList(int userId) {
+		// TODO Auto-generated method stub
+		List<AccountHistoryDTO> dto = userRepository.findPayList(userId);
+		return dto;
+	}
+	
+	/**
+	 * (환불) 유저 포인트를 저장한다. 유저 상세 페이지를 연결
+	 * @param refundAmount
+	 * @param balance
+	 * @param userId
+	 */
+	public void delete(long refundAmount, long balance, int userId) {
+		userRepository.deleteUserTbPoint(refundAmount, balance, userId);
 		
 	}
 	

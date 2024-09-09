@@ -2,6 +2,7 @@ package com.jam.controller;
 
 import java.util.Base64;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.HttpEntity;
@@ -19,6 +20,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jam.dto.TossPaymentResponseDTO;
+import com.jam.repository.model.AccountHistoryDTO;
 import com.jam.repository.model.Payment;
 import com.jam.repository.model.User;
 import com.jam.service.UserService;
@@ -36,6 +38,10 @@ public class PaymentController {
 
     private final String SECRET_KEY = "test_sk_DLJOpm5Qrl6KR7dZbeX03PNdxbWn"; // 테스트 시크릿 키
     
+    /**
+     * 결제창으로 이동
+     * @return
+     */
     @GetMapping("/toss")
     public String tosspay() {
     	User principal = (User) session.getAttribute("principal"); // 유저 세션 가져옴
@@ -43,6 +49,15 @@ public class PaymentController {
         return "/payment/tossTest";
     }
 
+    /**
+     * 결제창에서 포인트 구매
+     * 
+     * @param model
+     * @param orderId
+     * @param amount
+     * @param paymentKey
+     * @return
+     */
     @GetMapping("/success")
     public String tossSuccess(Model model,
     		@RequestParam(value = "orderId") String orderId,
@@ -86,14 +101,14 @@ public class PaymentController {
             
             // model 패키지 안에 있는 Payment 사용
             Payment payment = Payment.builder()
-            		.orderId(dto.getOrderId())
-            		.orderName(dto.getOrderName())
-            		.totalAmount(dto.getTotalAmount())
-            		.paymentKey(dto.getPaymentKey())
+            		.orderId(dto.getOrderId()) // 주문번호
+            		.orderName(dto.getOrderName()) // 주문 이름
+            		.totalAmount(dto.getTotalAmount()) // 결제 금액
+            		.paymentKey(dto.getPaymentKey()) // 토스 고유번호 주문
             		.build();
                  
             model.addAttribute("payment", payment);
-            session.setAttribute("payment", payment);
+          //  session.setAttribute("payment", payment);
             System.out.println("#@#@#@# : " + payment.toString());
             
             // 여기서 유저 서비스를 이용해서 결제 쿼리가 작동하도록 설정해야 한다.
@@ -103,6 +118,9 @@ public class PaymentController {
         	System.out.println("payController /success : " +principal);
         	
         	int userId = principal.getUserId();
+        	
+        	String payKey = paymentKey; // 페이먼트 키 확인
+        	System.out.println("페이먼트 키 : " + payKey);
       
         	System.out.println(userId);
         	
@@ -112,12 +130,18 @@ public class PaymentController {
         	long point  = amount; // 충전할 포인트
         	long afterBalance = balance  + amount; // 소지하고 있는 포인트 + 충전할 포인트 = afterBalance
         	
-        	userService.insertPoint(userId, deposit, point, afterBalance); // 포인트 결제 
+        	userService.insertPoint(userId, deposit, point, afterBalance, paymentKey); // 포인트 충전
         	
         	// 유저 상세 정보에 기존에 포인트에 충전한 포인트 입력
         	userService.insert (amount, balance , userId);
-        	
         //	session.setAttribute("TossPaymentResponseDTO", payment);
+        	
+        	// 유저의 업데이트된 정보를 가져온다.
+            User updatedUser = userService.InformationUpdate(principal.getEmail()); // DB에서 갱신된 유저 정보 가져오기
+        	
+        	session.setAttribute("principal", updatedUser);
+            System.out.println("세션 유저 정보가 갱신되었습니다: " + updatedUser);
+        	
             
         } catch (Exception e) {
             e.printStackTrace();
@@ -134,28 +158,56 @@ public class PaymentController {
         return "/payment/fail";
     }
     
+    /**
+     * 안쓸수도 있음 테스트용
+     * @return
+     */
     @GetMapping("/refund")
     public String handletossrefund() {
     	System.out.println("결제 환불 창 이동");
         return "/payment/refund";
     }
     
+   /**
+    * 결제 내역 페이지로 이동 
+    * @param model
+    * @return
+    */
+    @GetMapping("/paylist")
+    public String handlePayList(Model model) {
+    	System.out.println("결제 목록 창으로 이동");
+    	
+    	// 유저 세션에서 유저 정보 가져오기
+        User principal = (User) session.getAttribute("principal"); 
+        int userId = principal.getUserId();
+        
+     // 유저의 결제 리스트 가져오기
+     List<AccountHistoryDTO> payList = userService.findPayList(userId);
+     System.out.println("결제 리스트 추가 : " + payList);
+    	
+     // 모델에 결제 리스트를 추가
+     model.addAttribute("payList", payList);
+    	
+    	return "/payment/paylist";
+    }
+    
     /**
      * 환불 준비
-     * @param paymentKey
-     * @param refundAmount
-     * @param refundReason
+     * @param paymentKey : 주문번호
+     * @param refundAmount : 결제 가격
+     * @param refundReason : 환불 이유 
      * @return
      */
     @PostMapping("/refunding")
-    public String tossRefund(@RequestParam("paymentKey")String paymentKey,
+    public String tossRefund( Model model,
+    						 @RequestParam("paymentKey")String paymentKey,
     						 @RequestParam("refundAmount")long refundAmount,
     						 @RequestParam("refundReason") String refundReason) {
     	System.out.println("환불");
     	
-    	System.out.println("paymentKey : " + paymentKey);
-    	System.out.println("refundAmount : " + refundAmount);
-    	System.out.println("refundReason : " + refundReason);
+    	System.out.println("paymentKey : " + paymentKey); // 환불 고유키
+    	System.out.println("refundAmount : " + refundAmount); // 환불 가겨
+    	System.out.println("refundReason : " + refundReason); // 환불 사유
     	
     	 RestTemplate restTemplate = new RestTemplate();
 
@@ -179,11 +231,42 @@ public class PaymentController {
 
              // 환불 요청 API 호출
              String url = "https://api.tosspayments.com/v1/payments/" + paymentKey + "/cancel";
-             ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
-
+             ResponseEntity<TossPaymentResponseDTO> response = restTemplate.exchange(url, HttpMethod.POST, requestEntity, TossPaymentResponseDTO.class);
+             
              // 환불 응답 처리
              System.out.println("환불 응답: " + response.getBody());
-
+             
+             
+             // 여기서 유저 서비스를 이용해서 결제 쿼리가 작동하도록 설정해야 한다.
+             
+             // 1. 유저 
+             User principal = (User) session.getAttribute("principal"); // 유저 세션 가져옴
+         	System.out.println("payController /success : " +principal);
+         	
+         	int userId = principal.getUserId();
+         	
+         	String payKey = paymentKey; // 페이먼트 키 확인
+         	System.out.println("페이먼트 키 : " + payKey);
+       
+         	System.out.println(userId);
+         	
+         	long balance  = userService.searchPoint(userId); // 유저가 가지고 있는 포인트 잔액 조회
+         	
+         	long deposit = refundAmount; // 입금 금액
+         	long point  = refundAmount; // 충전할 포인트
+         	long afterBalance = balance  - refundAmount; // 소지하고 있는 포인트 - 충전할 포인트 = afterBalance
+         	
+         	userService.insertPoint(userId, deposit, point, afterBalance, paymentKey); // 포인트 충전내역 
+         	
+         	// 유저 상세 정보에 기존 포인트에  포인트 제거
+         	userService.delete(refundAmount, balance, userId);
+         	
+         // 유저의 업데이트된 정보를 가져온다.
+            User updatedUser = userService.InformationUpdate(principal.getEmail()); // DB에서 갱신된 유저 정보 가져오기
+        	
+        	session.setAttribute("principal", updatedUser);
+            System.out.println("세션 유저 정보가 갱신되었습니다: " + updatedUser);
+        
          } catch (Exception e) {
              e.printStackTrace();
            //  return "redirect:/refund/error";  // 에러 발생 시
@@ -194,10 +277,14 @@ public class PaymentController {
          System.out.println("환불성공");
          return "redirect:/"; // 환불 성공 시
      }
-    	
-//    	return "/payment/refund";
     
-    
-    
-    
+    /**
+     * 환불 리스트 페이지에서 환불 누를 때 약관 확인해라는 창
+     * @return
+     */
+    @GetMapping("/termsAndConditions")
+    public String termsAndConditions() {
+    	return "/payment/termsAndConditions";
+    }
+  
 }
