@@ -184,7 +184,7 @@ CREATE TABLE `funding_tb` (
         `user_id` int NOT NULL COMMENT '외래 키,참여 user_tb 참조',
         `reward_id`  int NOT NULL COMMENT '외래 키,참여 reward_tb 참조',
     `created_at` timestamp NOT NULL DEFAULT current_timestamp,
-    `canceled_At` date not null ,
+    `canceled_At` DATE DEFAULT '2099-12-31' ,
     `confirm_success` enum('N','Y') NOT NULL DEFAULT 'N' COMMENT 'Y:N',
 		FOREIGN KEY (`reward_id`) REFERENCES `reward_tb`(`reward_id`),
        FOREIGN KEY (`user_id`) REFERENCES `user_tb`(`user_id`)
