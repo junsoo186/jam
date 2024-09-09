@@ -1,0 +1,28 @@
+@charset "UTF-8";
+
+body {
+    background-color: #ffe3e3; /* 연한 핑크색 배경 */
+    font-family: Arial, sans-serif;
+    text-align: center;
+    padding: 20px;
+}
+
+h2 {
+    color: #333; /* 헤더 텍스트의 진한 회색 */
+}
+
+button {
+    background-color: #007bff; /* 버튼의 파란색 배경 */
+    color: white; /* 흰색 텍스트 색상 */
+    border: none;
+    border-radius: 5px; /* 둥근 모서리 */
+    padding: 10px 20px;
+    margin: 10px; /* 버튼 간의 간격 */
+    cursor: pointer;
+    font-size: 16px; /* 텍스트 크기 */
+    transition: background-color 0.3s ease; /* 부드러운 배경색 전환 효과 */
+}
+
+button:hover {
+    background-color: #0056b3; /* 호버 시 더 진한 파란색 */
+}

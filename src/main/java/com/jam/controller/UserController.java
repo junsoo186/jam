@@ -491,6 +491,12 @@ public class UserController {
 		return "user/findEmail";
 	}
 	
+	@GetMapping("/charge")
+	public String chargeCoin() {
+		System.out.println("코인충전페이지");
+		return "payment/charge";
+	}
+	
 	/**
 	 * 마이페이지 이동
 	 */
