@@ -178,6 +178,7 @@ function initialize() {
 
     // 텍스트를 이미지로 변환 후 페이지 추가
     var content = storyContentContents.replace(/(\r\n|\n|\r)/gm, "<br>"); // JSP 파일에서 전달된 변수 사용
+    content = content.replace(/(<br>\s*)+$/, '');
     var pages = splitContentIntoPages(content, 1000);
 
     pages.forEach(function(pageContent, index) {
