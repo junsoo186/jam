@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import com.jam.dto.RefundRequest;
 import com.jam.dto.signUpDTO;
 import com.jam.repository.model.AccountHistoryDTO;
 import com.jam.repository.model.User;
@@ -47,5 +48,10 @@ public interface UserRepository {
 	public int deleteUserTbPoint(@Param("refundAmount") long refundAmount, @Param("balance") long balance , @Param("userId") Integer userId);
 	
 	// 유저가 결제한 정보를 출력한다. (유저 아이디를 기준으로 한다.)
-	List<AccountHistoryDTO> findPayList(@Param("userId") int userId);
+	List<AccountHistoryDTO> findPayList(@Param("userId") Integer userId);
+	
+	// 유저가 환불을 신청하면 환불요청 테이블로 유정의 정보값이 들어간다.
+	List<RefundRequest>findRefundList(RefundRequest refundRequest );
+	
+	List<RefundRequest>selectRefundList();
 }

@@ -117,6 +117,18 @@
     FROM account_history_tb
     WHERE user_id = #{userId}
 	</select>
+	
+	<select id="findRefundList" resultType="com.jam.dto.RefundRequest">
+		insert into refund_request_tb (user_id, payment_key, refund_amount, refund_reason)
+		values(#{userId}, #{paymentKey}, #{refundAmount}, #{refundReason});
+		
+	</select>
+	
+	<select id="selectRefundList">
+		select *
+		from refund_request_tb
+		
+	</select>
 
 
 </mapper>
