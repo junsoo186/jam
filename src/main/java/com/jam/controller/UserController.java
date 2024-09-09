@@ -484,5 +484,12 @@ public class UserController {
 	public String getMethodName() {
 		return "user/findEmail";
 	}
+	
+	@GetMapping("/charge")
+	public String chargeCoin() {
+		System.out.println("코인충전페이지");
+		return "payment/charge";
+	}
+	
 
 }
