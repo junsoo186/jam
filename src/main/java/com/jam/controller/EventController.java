@@ -21,9 +21,6 @@ import lombok.RequiredArgsConstructor;
 public class EventController {
 
 	@Autowired
-	private final HttpSession session;
-	@Autowired
-	private final EventService eventService;
 
 	@GetMapping("list")
 	public String eventListPage() {

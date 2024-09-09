@@ -124,7 +124,8 @@ h3 {
 	display: flex;
 	flex-wrap: wrap;
 	gap: 20px;
-	justify-content: center; /* 책 목록 중앙 정렬 */
+	margin-left: 100px;
+	justify-content: flex-start; /* 책 목록 중앙 정렬 */
 }
 
 .book--item {
@@ -204,6 +205,12 @@ h3 {
 	color: #666;
 }
 
+.btn--area--filter{
+	display: flex;
+    width: 80%;
+    justify-content: flex-end;
+    
+}
 /* 슬라이더 전체 컨테이너 스타일 */
 .event--container {
 	padding: 50px;

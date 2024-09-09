@@ -59,25 +59,30 @@
 			</div>
 		</section>
 	</div>
+<!-- 카테고리 필터를 위한 영역 -->
+<div class="category--filter" id="categoryFilter">
+    <!-- 동적으로 카테고리 버튼이 생성됩니다 -->
+</div>
 
-	<div class="cennter--container">
-		<!-- 카테고리 필터 -->
-		<div class="category--filter">
-			<button class="category--btn active">종합</button>
-			<button class="category--btn">인기</button>
-			<button class="category--btn">신작</button>
-			<button class="category--btn">소설</button>
-			<button class="category--btn">시/에세이</button>
-			<button class="category--btn">인문/교양</button>
-			<button class="category--btn">어린이/청소년</button>
-			<button class="category--btn">판타지/무협</button>
-		</div>
+<div class="btn--area--filter">
+<!-- VIEWS 정렬 버튼 -->
+<button class="btn--views" id="viewsButton" onclick="toggleViewsOrder()">VIEWS (DESC)</button>
 
-		<!-- 책 목록 -->
+<!-- LIKES 정렬 버튼 -->
+<button class="bton--likes" id="likesButton" onclick="toggleLikesOrder()">LIKES (DESC)</button>
+
+</div>
+<!-- 선택된 카테고리의 책 목록을 보여줄 영역 -->
+<div class="book--list--1"  id="categoryContent">
+    <!-- 동적으로 책 목록이 이곳에 표시됩니다 -->
+</div>
+
+
+
 
 		<!-- 인기 순위 -->
 		<h3>지금 가장 인기있는 웹소설</h3>
-		<div class="book--list--1">
+		<div >
 			<div class="book--item">
 				<img src="/images/bannerimg1.jpg" alt="매직 스플릿">
 				<div class="book--info">

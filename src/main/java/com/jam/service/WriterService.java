@@ -83,6 +83,35 @@ public class WriterService {
 		}
 		return books;
 	}
+	
+	
+	/**
+	 * 
+	 * @param categoryId
+	 * @param filter
+	 * @param order
+	 * @return
+	 */
+	public List<Book> readAllBooksByCategoryIdOrder( int categoryId,String filter,String order){
+		List<Book> bookList= new ArrayList<>();
+		bookList=bookRepository.AllBookListCategoryOrderBy(categoryId, filter, order);
+		return bookList;
+	}
+	
+	
+	
+	/**
+	 *  카테고리 ver2
+	 * @param genreId
+	 * @param filter
+	 * @param order
+	 * @return
+	 */
+	public List<Book> readAllBooksByGenreIdOrder( int genreId,String filter,String order){
+		List<Book> bookList= new ArrayList<>();
+		bookList=bookRepository.AllBookListGenreOrderBy(genreId, filter, order);
+		return bookList;
+	}
 
 	/**
 	 * 작성한 책 리스트

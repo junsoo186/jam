@@ -1,8 +1,5 @@
-package com.jam.repository.model;
+package com.jam.dto;
 
-import java.util.List;
-
-import com.jam.dto.CategoryDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,15 +13,8 @@ import lombok.ToString;
 @Builder
 @ToString
 
-public class Category {
+public class CategoryDTO {
 
 	private Integer categoryId;
 	private String categoryName;
-	
-	public CategoryDTO toCategoryDTO() {
-		return CategoryDTO.builder()
-				.categoryId(categoryId)
-				.categoryName(categoryName)
-				.build();
-	}
 }

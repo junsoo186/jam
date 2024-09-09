@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 	// 이전 슬라이드로 이동
-	prevBtn.addEventListener('click', function() {
+/*	prevBtn.addEventListener('click', function() {
 		if (currentIndex > 0) {
 			currentIndex--;
 			updateSlider();
@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			currentIndex++;
 			updateSlider();
 		}
-	});
+	});*/
 
 	// 슬라이더 위치 업데이트
 	function updateSlider() {
@@ -88,6 +88,112 @@ document.addEventListener('DOMContentLoaded', function() {
 	startAutoSlide(); // 자동 슬라이드 시작
 });
 
+
+  document.addEventListener('DOMContentLoaded', function() {
+    // 페이지가 로드되면 카테고리 목록을 가져옴
+    fetchCategories();
+});
+
+let currentViewsOrder = 'DESC';  // 초기 VIEWS 정렬 순서
+let currentLikesOrder = 'DESC';  // 초기 LIKES 정렬 순서
+    let activeCategoryId = 3;        // 초기 카테고리 ID를 3으로 설정
+
+    // 카테고리 목록을 가져와서 버튼 생성
+    function fetchCategories() {
+        fetch('/api/categories')  // 카테고리 목록을 가져오는 API 호출
+            .then(response => response.json())
+            .then(categories => {
+                const categoryFilter = document.getElementById('categoryFilter');
+                categoryFilter.innerHTML = '';  // 기존 내용을 지움
+
+                categories.forEach(category => {
+                    const button = document.createElement('button');
+                    button.classList.add('category--btn');
+                    button.textContent = category.categoryName;
+                    button.setAttribute('data-category-id', category.categoryId);  // 카테고리 ID 설정
+
+                    // 카테고리 버튼 클릭 시 동작
+                    button.onclick = () => {
+                        document.querySelectorAll('.category--btn').forEach(btn => {
+                            btn.classList.remove('active');
+                        });
+                        button.classList.add('active');
+                        activeCategoryId = category.categoryId;  // 선택된 카테고리 저장
+
+                        // VIEWS 기준으로 초기 정렬하여 책 목록을 가져옴
+                        fetchBooksByCategoryOrder('views', currentViewsOrder);
+                    };
+
+                    categoryFilter.appendChild(button);  // 카테고리 버튼을 추가
+
+                    // 카테고리 ID가 3인 버튼을 초기 활성화
+                    if (category.categoryId === 3) {
+                        button.classList.add('active');
+                        fetchBooksByCategoryOrder('views', currentViewsOrder);  // 기본 정렬 기준으로 책 목록을 가져옴
+                    }
+                });
+            })
+            .catch(error => console.error('Error fetching categories:', error));
+    }
+
+
+// 선택한 카테고리의 책 목록을 가져옴
+function fetchBooksByCategoryOrder(filter, order) {
+    if (!activeCategoryId) return;  // 선택된 카테고리가 없는 경우 중단
+
+    fetch(`/api/booksByCategoryOrder?categoryId=${activeCategoryId}&filter=${filter}&order=${order}`)  // API 호출
+        .then(response => response.json())
+        .then(books => {
+            const bookListDiv = document.getElementById('categoryContent');
+            bookListDiv.innerHTML = '';  // 기존 콘텐츠 지움
+
+            if (books.length === 0) {
+                bookListDiv.innerHTML = '<p>해당 카테고리에 속한 책이 없습니다.</p>';
+            } else {
+                books.forEach(book => {
+                    const bookItem = document.createElement('div');
+                    bookItem.classList.add('book--item');
+                       // <img src="/images/${book.bookCoverImage}" alt="${book.title}">
+                    bookItem.innerHTML = `
+                        <div class="book--info">
+                        	<img src="/images/bannerimg1.jpg" alt="매직 스플릿">
+                            <h4>${book.title}</h4>
+                            <p>저자: ${book.author}</p>
+                            <p>조회수: ${book.views}</p>
+                            <p>좋아요: ${book.likes}</p>
+                        </div>
+                    `;
+                    bookListDiv.appendChild(bookItem);
+                });
+            }
+        })
+        .catch(error => console.error('Error fetching books:', error));
+}
+
+// VIEWS 정렬 버튼 토글
+function toggleViewsOrder() {
+    // 정렬 순서를 변경
+    currentViewsOrder = currentViewsOrder === 'ASC' ? 'DESC' : 'ASC';
+    document.getElementById('viewsButton').textContent = `VIEWS (${currentViewsOrder})`;
+
+    // 현재 선택된 카테고리로 VIEWS 기준 정렬된 책 목록을 가져옴
+    fetchBooksByCategoryOrder('views', currentViewsOrder);
+}
+
+// LIKES 정렬 버튼 토글
+function toggleLikesOrder() {
+    // 정렬 순서를 변경
+    currentLikesOrder = currentLikesOrder === 'ASC' ? 'DESC' : 'ASC';
+    document.getElementById('likesButton').textContent = `LIKES (${currentLikesOrder})`;
+
+    // 현재 선택된 카테고리로 LIKES 기준 정렬된 책 목록을 가져옴
+    fetchBooksByCategoryOrder('likes', currentLikesOrder);
+}
+
+// 페이지가 로드되면 카테고리 목록을 가져옴
+document.addEventListener('DOMContentLoaded', function() {
+    fetchCategories();
+});
 
 
 

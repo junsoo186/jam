@@ -1,8 +1,6 @@
-package com.jam.repository.model;
+package com.jam.dto;
 
-import java.util.List;
-
-import com.jam.dto.GenreDTO;
+import com.jam.repository.model.Genre;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,17 +13,8 @@ import lombok.ToString;
 @AllArgsConstructor
 @Builder
 @ToString
-
-public class Genre {
+public class GenreDTO {
 
 	private Integer genreId;
 	private String genreName;
-	
-	public GenreDTO toGenreDTO() {
-		return GenreDTO.builder()
-						.genreId(genreId)
-						.genreName(genreName)
-						.build();
-
-	}
 }
