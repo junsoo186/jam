@@ -20,6 +20,8 @@ public interface NoticeRepository {
 
 	List<Notice> findAll(@Param("limit") int limit, @Param("offset") int offset); // 게시글 조회
 
+	List<Notice> staffFindAll(@Param("limit")int limit, @Param("offset")int offset);
+	
 	public int countAll();
 
 	Notice findById(@Param("noticeId") int noticeId); // 게시글 상세 조회 메서드 추가
