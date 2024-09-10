@@ -59,7 +59,7 @@
             <input type="hidden" name="refundReason" value="환불"> <!-- 기본 환불 이유 -->
 
             <!-- 환불 버튼 클릭 시 showAlertAndOpenTerms 함수 호출 -->
-            <button type="button" onclick="showAlertAndOpenTerms('${payment.paymentKey}', '${payment.deposit}')">환불</button>
+            <button type="button" id="button" onclick="showAlertAndOpenTerms('${payment.paymentKey}', '${payment.deposit}')">환불</button>
         </form>
     </c:when>
     <c:otherwise>
@@ -85,6 +85,8 @@
 	<c:if test="${empty payList}">
 		<p>결제 내역이 없습니다.</p>
 	</c:if>
+	
+
 	
 </body>
 </html>

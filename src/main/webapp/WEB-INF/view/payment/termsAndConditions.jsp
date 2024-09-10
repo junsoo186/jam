@@ -74,6 +74,7 @@
     </style>
     <script type="text/javascript">
         function agreeAndSubmit(paymentKey) {
+        	
             // 부모 창의 함수 호출하여 환불 폼 제출
             if (window.opener && !window.opener.closed) {
                 window.opener.submitRefundForm(paymentKey);

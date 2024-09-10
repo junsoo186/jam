@@ -421,6 +421,23 @@ public class UserService {
 		
 	}
 	
+	/**
+	 * 사용자가 환불 버튼 클릭 시 paymentKey가 여러번 눌리도록 하지 않게 한다.
+	 * @param paymentKey 
+	 * @return refund_request_tb
+	 */ 
+	public int paymentCheck(String paymentKey) {
+		// TODO Auto-generated method stub
+		int number = 0;
+		number = userRepository.historyPaymentKeyCheck(paymentKey);
+		if(number == 0) {
+			System.out.println("환불 신청이 가능합니다.");
+		} else {
+			System.out.println("이미 환불 신청한 내용입니다.");
+		}
+		return number;
+	}
+	
 	
 	
 

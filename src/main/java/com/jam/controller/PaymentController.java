@@ -216,12 +216,19 @@ public class PaymentController {
     	            .status("PENDING")
     	            .build();
     	    
-    	   
+    	    int number = 0; // paymentKey 키로 account_history_tb 신청을 1번만 가능하도록 한다.
+    	    number = userService.paymentCheck(paymentKey);
     	    
-    	    System.out.println("RefundRequest 확인 :" + refundRequest.toString());
-    	    userService.saveRefundRequest(refundRequest); // 유저가 환불클릭하면 관리자가 요청? 
-    	
-    	    return "redirect:/"; // 환불 성공 시  refund_request_tb 데이터 
+    	    if(number == 0) { // insert
+    	    	System.out.println("RefundRequest 확인 :" + refundRequest.toString());
+        	    userService.saveRefundRequest(refundRequest); // 유저가 환불클릭하면 관리자가 요청? 
+        	
+        	    return "redirect:/"; // 환불 성공 시  refund_request_tb 데이터 
+    	    	
+    	    } else {
+    	    	
+    	    	return "redirect:/";
+    	    }    
     }
     
     /**

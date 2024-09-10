@@ -159,6 +159,13 @@
 		set status = '거절'
 		where payment_key = #{paymentKey}
 	</update>
+	
+	<select id="historyPaymentKeyCheck" resultType="int">
+		select count(*)
+		from refund_request_tb
+		where payment_key = #{paymentKey}
+		
+	</select>
 
 
 </mapper>
