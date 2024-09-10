@@ -10,6 +10,8 @@ body {
     flex-direction: column;
 }
 
+
+
 .top-area {
     padding: 10px 20px;
     border-bottom-color: #333;
@@ -17,8 +19,17 @@ body {
 
 .top-nav {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    justify-content: space-between; /* 양쪽 끝으로 배치 */
+    align-items: center; /* 세로 가운데 정렬 */
+}
+
+.top-logo {
+    flex: 1; /* 로고 영역을 왼쪽으로 배치 */
+}
+
+.top-staff {
+    flex: 1;
+    text-align: right; /* 관리자 페이지 링크를 오른쪽으로 정렬 */
 }
 
 

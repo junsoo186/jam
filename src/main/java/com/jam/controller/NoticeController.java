@@ -36,20 +36,19 @@ public class NoticeController {
 	 * 게시글 목록 페이지 요청
 	 */
 	@GetMapping({ "/list", "/" })
-	public String listPage(@RequestParam(name ="page", defaultValue = "1" )  int page,
-				@RequestParam(name ="size", defaultValue = "10" )  int size,
-				Model model) {
+	public String listPage(@RequestParam(name = "page", defaultValue = "1") int page,
+			@RequestParam(name = "size", defaultValue = "10") int size, Model model) {
 		int totalRecords = noticeService.allList();
-		int totalPages = (int)Math.ceil((double)totalRecords / size);
-		List<Notice> noticeList = noticeService.findAll(page,size);
-		
-		
-		
+		int totalPages = (int) Math.ceil((double) totalRecords / size);
+		List<Notice> noticeList = noticeService.findAll(page, size);
+
+		System.out.println("공시사항 목록 : " + noticeList);
+
 		model.addAttribute("noticeList", noticeList);
 		model.addAttribute("currentPage", page);
 		model.addAttribute("totalPages", totalPages);
 		model.addAttribute("size", size);
-		return "notice/list";
+		return "/notice";
 	}
 
 	/**
@@ -89,40 +88,34 @@ public class NoticeController {
 	 * 
 	 */
 	@GetMapping("detail/{noticeId}")
-	public String detailPage(@PathVariable(name ="noticeId")int noticeId, Model model,
+	public String detailPage(@PathVariable(name = "noticeId") int noticeId, Model model,
 			@SessionAttribute(Define.PRINCIPAL) User principal) {
-		
-		Notice myNotice = noticeService.selectByNoticeId(noticeId,principal.getUserId());
-		model.addAttribute("notice" , myNotice);
+
+		Notice myNotice = noticeService.selectByNoticeId(noticeId, principal.getUserId());
+		model.addAttribute("notice", myNotice);
 		return "/notice/noticeDetail";
 	}
-	
-	
-	
-	
+
 	/**
 	 * 게시글 수정
 	 */
 	@GetMapping("update/{noticeId}")
-	public String updateForm(@PathVariable("noticeId") int noticeId, Model model , 
-			@SessionAttribute(Define.PRINCIPAL) User principal ) {
+	public String updateForm(@PathVariable("noticeId") int noticeId, Model model,
+			@SessionAttribute(Define.PRINCIPAL) User principal) {
 		Notice notice = new Notice();
-		notice = noticeService.selectByNoticeId(noticeId,principal.getUserId());
+		notice = noticeService.selectByNoticeId(noticeId, principal.getUserId());
 		model.addAttribute("noticeList", notice);
 		return "notice/updateForm";
-		
+
 	}
 
 	@PostMapping("update/{noticeId}")
-	public String update(@PathVariable(name = "noticeId") Integer noticeId ,@SessionAttribute(Define.PRINCIPAL) User principal,
-			@RequestParam("noticeTitle") String noticeTitle
-			,@RequestParam("noticeContent") String noticeContent	) {
-		Notice notice = noticeService.selectByNoticeId(noticeId,principal.getUserId());
-		NoticeDTO dto = NoticeDTO.builder()
-						.noticeId(notice.getNoticeId())
-						.noticeTitle(noticeTitle)
-						.noticeContent(noticeContent)
-						.build();
+	public String update(@PathVariable(name = "noticeId") Integer noticeId,
+			@SessionAttribute(Define.PRINCIPAL) User principal, @RequestParam("noticeTitle") String noticeTitle,
+			@RequestParam("noticeContent") String noticeContent) {
+		Notice notice = noticeService.selectByNoticeId(noticeId, principal.getUserId());
+		NoticeDTO dto = NoticeDTO.builder().noticeId(notice.getNoticeId()).noticeTitle(noticeTitle)
+				.noticeContent(noticeContent).build();
 		Notice notice2 = noticeService.uploading(noticeId, dto);
 		return "redirect:/notice/list";
 	}

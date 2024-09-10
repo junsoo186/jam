@@ -7,7 +7,7 @@ values( '정해주', '010-4548-5678', 'test1@naver.com', '$2a$10$Y1mXaXaj5Y2m.IJ
 
 -- 관리자 ID------------------------- 3~6
 insert into user_tb (nick_name, phone_number, email, password, role)
-values( '정해주1', '010-4548-5678', 'test2@naver.com', '$2a$10$Y1mXaXaj5Y2m.IJkH58IwOZF8SSctsvP37WTrp82ambaSeSEyxZwe', 'admin');
+values( '관리자해주', '010-1234-5678', 't1@naver.com', '$2a$10$Y1mXaXaj5Y2m.IJkH58IwOZF8SSctsvP37WTrp82ambaSeSEyxZwe', 'admin');
 insert into user_tb (nick_name, phone_number, email, password, role)
 values( '관리자1', '010-1111-2222', 'admin@naver.com', '$2a$10$Y1mXaXaj5Y2m.IJkH58IwOZF8SSctsvP37WTrp82ambaSeSEyxZwe', 'admin');
 insert into user_tb (nick_name, phone_number, email, password, role)
