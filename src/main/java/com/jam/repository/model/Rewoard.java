@@ -1,19 +1,21 @@
 package com.jam.repository.model;
 
+import com.google.auto.value.AutoValue.Builder;
+
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Data
 @ToString
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-public class Reward {
-    private Integer rewardId;
-    private Integer projectId; 
+public class Rewoard {
+
+    private int rewardId;
+    private int projectId;
     private String rewardContent;
     private long rewardPoint;
 }

@@ -65,6 +65,11 @@
 						<input type="hidden" name="bookId" value="${bookId}">
 						<button type="submit" class="button">회차 생성</button>
 					</form>
+					<form action="/funding/createFunding" method="get">
+						<input type="hidden" name="bookId" value="${bookId}" id="bookId">
+						<input type="hidden" name="categoryName" value="${bookDetail.categoryName}" id="categoryName">
+						<button id="fundingButton">펀딩</button>
+					</form>
 				</div>
 			</c:if>
 		</div>
@@ -106,5 +111,6 @@
 
 <!-- JavaScript 파일은 body 끝부분에 포함 -->
 <script type="text/javascript" src="/js/sort.js"></script>
+
 </body>
 </html>

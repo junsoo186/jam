@@ -9,9 +9,11 @@
 		title, author_comment, author, serial_day, introduction,
 		category_id,
 		genre_id, age, book_cover_image)
-		VALUES (#{userId}, #{title}, #{authorComment},
+		VALUES (#{userId}, #{title},
+		#{authorComment},
 		#{author}, #{serialDay},
-		#{introduction}, #{categoryId}, #{genreId},
+		#{introduction},
+		#{categoryId}, #{genreId},
 		#{age}, #{bookCoverImage})
 	</insert>
 
@@ -23,13 +25,16 @@
 		b.author,
 		b.likes,
 		b.book_cover_image,
-		GROUP_CONCAT(DISTINCT t.tag_name ORDER BY t.tag_name ASC) AS tagNames
+		GROUP_CONCAT(DISTINCT t.tag_name ORDER BY
+		t.tag_name ASC) AS tagNames
 		FROM
 		book_tb b
-		LEFT JOIN book_tag_tb bt ON b.book_id = bt.book_id
+		LEFT JOIN book_tag_tb bt ON
+		b.book_id = bt.book_id
 		LEFT
 		JOIN tag_tb t ON bt.tag_id = t.tag_id
-		GROUP BY
+		GROUP
+		BY
 		b.book_id
 		ORDER BY
 		b.title
@@ -42,14 +47,16 @@
 		b.book_id,
 		b.user_id,
 		b.title,
-		b.author,	
+		b.author,
 		b.likes,
 		b.author_comment,
 		b.book_cover_image,
-		GROUP_CONCAT(DISTINCT t.tag_name ORDER BY t.tag_name ASC) AS tagNames
+		GROUP_CONCAT(DISTINCT t.tag_name
+		ORDER BY t.tag_name ASC) AS tagNames
 		FROM
 		book_tb b
-		LEFT JOIN book_tag_tb bt ON b.book_id = bt.book_id
+		LEFT JOIN book_tag_tb
+		bt ON b.book_id = bt.book_id
 		LEFT
 		JOIN tag_tb t ON bt.tag_id = t.tag_id
 		WHERE
@@ -69,8 +76,8 @@
 		b.title,
 		b.author,
 		b.author_comment,
-		c.category_name, 
-		g.genre_name, 
+		c.category_name,
+		g.genre_name,
 		b.age,
 		b.likes,
 		b.serial_day,
@@ -81,19 +88,20 @@
 		FROM
 		book_tb b
 		LEFT JOIN
-		category_tb c ON b.category_id = c.category_id 
+		category_tb c ON b.category_id = c.category_id
 		LEFT JOIN
-		genre_tb g ON b.genre_id = g.genre_id 
+		genre_tb g ON b.genre_id = g.genre_id
 		LEFT JOIN
 		book_tag_tb bt ON b.book_id = bt.book_id
 		LEFT JOIN
-		tag_tb t ON bt.tag_id = t.tag_id
+		tag_tb t ON
+		bt.tag_id = t.tag_id
 		WHERE
 		b.book_id = #{bookId}
 		GROUP BY
 		b.book_id,
-		c.category_name, 
-		g.genre_name 
+		c.category_name,
+		g.genre_name
 		ORDER BY
 		b.title ASC;
 	</select>
@@ -123,13 +131,18 @@
 	<delete id="deleteBook">
 		delete book_tb where book_id = #{bookId}
 	</delete>
-	
+
 	<select id="findAllCategory"
-	resultType="com.jam.repository.model.Category">
+		resultType="com.jam.repository.model.Category">
 		select * from category_tb;
 	</select>
 	<select id="findAllGenre"
-	resultType="com.jam.repository.model.Genre">
+		resultType="com.jam.repository.model.Genre">
 		select * from genre_tb;
+	</select>
+
+	<select id="findBookByBookId"
+		resultType="com.jam.repository.model.Book">
+		select * from book_tb where book_id = #{bookId}		
 	</select>
 </mapper>

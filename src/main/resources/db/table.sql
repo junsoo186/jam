@@ -93,13 +93,13 @@ CREATE TABLE `user_de_tb` (
 CREATE TABLE `project_tb` (
     `project_id` int PRIMARY KEY AUTO_INCREMENT NOT NULL,
     `user_id` int NOT NULL  COMMENT '등록 유저id',
-    `reward_id` int NOT NULL  COMMENT '등록 reward id',
     `book_id` int not null comment '등록 book id',
     `title` varchar(50) NOT NULL COMMENT '프로젝트 제목',
+    `oneline_comment` varchar(200) NOT NULL COMMENT '프로젝트 한줄 소개',
     `contents` text NOT NULL COMMENT '프로젝트 내용',
     `goal` bigint NOT NULL COMMENT '프로젝트 목표',
     `date_end` date NOT NULL COMMENT '프로젝트 마감일',
-    `created_at` timestamp NOT NULL DEFAULT current_timestamp COMMENT '프로젝트 시작일',
+    `created_at` timestamp NULL DEFAULT current_timestamp COMMENT '프로젝트 시작일',
     `staff_agree` enum('N','Y') NOT NULL DEFAULT 'N' COMMENT 'Y:N',
     FOREIGN KEY (`user_id`) REFERENCES `user_tb` (`user_id`),
 	FOREIGN KEY (`book_id`) REFERENCES `book_tb` (`book_id`)
@@ -109,10 +109,8 @@ CREATE TABLE `content_tb` (
     `content_id` int PRIMARY KEY AUTO_INCREMENT NOT NULL,
     `project_id` int  NOT NULL,
     `img` text not null COMMENT 'project 컨텐츠 이미지' ,
-        FOREIGN KEY (`project_id`) REFERENCES `project_tb`(`project_id`)
+	FOREIGN KEY (`project_id`) REFERENCES `project_tb`(`project_id`)
     );
-
-
 
 CREATE TABLE `book_rent_histry_tb` (
     `book_rent_history_id` int PRIMARY KEY AUTO_INCREMENT NOT NULL COMMENT 'auto',
@@ -173,25 +171,22 @@ CREATE TABLE `account_history_tb` (
 
 CREATE TABLE `reward_tb` (
 	`reward_id` int PRIMARY KEY AUTO_INCREMENT NOT NULL,
-        `project_id` int NOT NULL COMMENT '외래 키, project_tb 참조',
-        `reward_content` text NOT NULL COMMENT '공지 사항 내용',
-        `reward_point` int not null comment ' 리워드 금액'
+	`project_id` int NOT NULL COMMENT '외래 키, project_tb 참조',
+	`reward_content` text NOT NULL COMMENT '공지 사항 내용',
+	`reward_point` int not null comment ' 리워드 금액',
+    FOREIGN KEY (`project_id`) REFERENCES `project_tb` (`project_id`)
 );
-
 
 CREATE TABLE `funding_tb` (
     `funding_id` int PRIMARY KEY AUTO_INCREMENT NOT NULL,
-        `user_id` int NOT NULL COMMENT '외래 키,참여 user_tb 참조',
-        `reward_id`  int NOT NULL COMMENT '외래 키,참여 reward_tb 참조',
+    `user_id` int NOT NULL COMMENT '외래 키,참여 user_tb 참조',
+    `reward_id`  int NOT NULL COMMENT '외래 키,참여 reward_tb 참조',
     `created_at` timestamp NOT NULL DEFAULT current_timestamp,
     `canceled_At` date not null ,
     `confirm_success` enum('N','Y') NOT NULL DEFAULT 'N' COMMENT 'Y:N',
 		FOREIGN KEY (`reward_id`) REFERENCES `reward_tb`(`reward_id`),
        FOREIGN KEY (`user_id`) REFERENCES `user_tb`(`user_id`)
 );
-
-
-
 
 CREATE TABLE `funding_history_tb` (
     `funding_history_id` int PRIMARY KEY AUTO_INCREMENT NOT NULL COMMENT 'auto',
@@ -346,8 +341,8 @@ CREATE TABLE `banner_tb`(
 `img` varchar(2000) COMMENT '이미지'
 );
 -- project_tb에 reward_id에 대한 외래 키 추가
-ALTER TABLE `project_tb`
-ADD CONSTRAINT fk_project_reward FOREIGN KEY (`reward_id`) REFERENCES `reward_tb`(`reward_id`);
+-- ALTER TABLE `project_tb`
+-- ADD CONSTRAINT fk_project_reward FOREIGN KEY (`reward_id`) REFERENCES `reward_tb`(`reward_id`);
 
 
 -- fk 순환구조라 오류생김

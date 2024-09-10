@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jam.repository.interfaces.RewardRepository">
+
+    <insert id="insertRewardByProjectId">
+        INSERT INTO reward_tb (project_id, reward_content, reward_point)
+        VALUES (#{projectId}, #{rewardContent}, #{rewardPoint})
+    </insert>
+
+    <select id="finRewardByProjectId" resultType="com.jam.repository.model.Reward">
+        select * from reward_tb where project_id = #{projectId}
+    </select>
+
+    <update id="updateRewardByProjectId">
+        update reward_tb
+        set reward_content = #{rewardContent},
+        reward_point = #{rewardPoint},
+        where project_id = #{projectId}
+    </update>
+</mapper>

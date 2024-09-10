@@ -21,7 +21,7 @@
 					<li>
 					<li><a href="">이벤트</a>
 					<li>
-					<li><a href="">펀딩</a>
+					<li><a href="/funding/fundingList">펀딩</a>
 					<li>
 					<li><a href="/">공지</a>
 					<li>

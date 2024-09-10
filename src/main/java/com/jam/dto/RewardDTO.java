@@ -3,18 +3,16 @@ package com.jam.dto;
 import com.jam.repository.model.Reward;
 
 public class RewardDTO {
-    private int rewardId;
-    private int projectId; 
+    private Integer rewardId;
+    private Integer projectId; 
     private String rewardContent;
-    private int rewardPoint;
+    private long rewardPoint;
     
-    public Reward toReward(int id,int projectId) {
+    public Reward toReward(Integer projectId) {
     	return Reward.builder()
-    			.rewardId(id)
     			.projectId(projectId)
-    			.rewardContent(rewardContent)
-    			.rewardPoint(rewardPoint)
+    			.rewardContent(this.rewardContent)
+    			.rewardPoint(this.rewardPoint)
     			.build();
-    			
     }
 }

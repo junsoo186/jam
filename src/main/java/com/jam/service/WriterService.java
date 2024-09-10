@@ -425,5 +425,10 @@ public class WriterService {
 
 		return new String[] { mFile.getOriginalFilename(), uploadFileName };
 	}
+	
+	public Book findBookByBookId(Integer bookId) {
+		Book book = bookRepository.findBookByBookId(bookId);
+		return book;
+	}
 
 }

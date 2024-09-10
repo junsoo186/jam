@@ -5,58 +5,87 @@
 	namespace="com.jam.repository.interfaces.ProjectRepository">
 
 	<insert id="insertProject">
-		insert into project_tb (user_id, title, contents,
-		category_id, goal, date_end, project_image)
+		insert into project_tb (user_id, reward_id, book_id,
+		oneline_comment,
+		title, contents,
+		goal, date_end)
 		values (#{userId},
-		#{title}, #{contents}, #{categoryId}, #{goal},
-		#{dateEnd},
-		#{projectImage})
+		#{rewardId},
+		#{bookId}, #{onelineComment},
+		#{title}, #{contents},
+		#{goal},
+		#{dateEnd})
 	</insert>
 
 	<select id="findAllProject"
 		resultType="com.jam.repository.model.Project">
-		select project_id, user.name as 'author', title, goal,
-		date_end, project_image, category_id, collected_amount
-		from project_tb
-		as project
-		join user_tb as user on project.user_id = user.user_id
+		SELECT project.project_id, `user`.nick_name AS "author",
+		project.title, project.goal,
+		project.date_end, content.img,
+		project.oneline_comment,
+        cate.category_name,
+        SUM(reward.reward_point) AS `currentAmount`
+		FROM project_tb AS project
+		JOIN user_tb AS `user` ON project.user_id = `user`.user_id
+		LEFT JOIN
+		content_tb AS content ON content.project_id = project.project_id
+		JOIN
+		book_tb AS book ON project.book_id = book.book_id
+        JOIN
+        category_tb AS cate ON cate.category_id = book.category_id
+        JOIN
+        reward_tb AS reward ON reward.project_id = project.project_id
+        group by project.project_id;
 	</select>
 
 	<select id="detailProject"
 		resultType="com.jam.repository.model.Project">
-		select project.*, user.name as 'author'
-		from project_tb as
-		project
-		join user_tb as user on project.user_id = user.user_id
-		where
-		project_id = #{projectId}
+		SELECT project.*,
+		`user`.nick_name AS `author`,
+		cate.category_name,
+		content.img,
+		SUM(reward.reward_point) AS `currentAmount`
+		FROM project_tb AS project
+		JOIN user_tb AS `user` ON project.user_id = `user`.user_id
+		JOIN book_tb AS book ON project.book_id = book.book_id
+		JOIN category_tb AS cate ON cate.category_id = book.category_id
+		JOIN reward_tb AS reward ON reward.project_id = project.project_id
+		left JOIN content_tb AS content ON content.project_id = project.project_id
+		WHERE project.project_id = #{projectId}
+		GROUP BY project.project_id;
 	</select>
 
 	<update id="updateProject">
 		update project_tb
 		SET title = #{title}, contents =
-		#{contents}, category_id =
-		#{categoryId}, goal = #{goal},
-		date_end =
-		#{dateEnd}, project_image = #{projectImage}
+		#{contents}, goal = #{goal},
+		date_end = #{dateEnd},
+		online_comment =
+		#{onelineComment}
 		WHERE project_id =
 		#{projectId}
 	</update>
 
-	<update id="updateProjectCollectedAmount">
-		update project_tb
-		set collected_amount =
-		collected_amount + #{amount}
-		where project_id = #{projectId}
+	<update id="updateProjectImg">
+		UPDATE content_tb
+		SET img = #{projcetImg}
+		WEHRE project_id = #{projectId}
 	</update>
 
 	<update id="projectAgree">
 		update project_tb
 		SET staff_agree = #{staffAgree}
-		where project_id = #{projectTb}
+		where project_id = #{projectId}
 	</update>
 
 	<delete id="deleteProject">
 		delete project_tb where project_id = #{projectId}
 	</delete>
+
+	<insert id="insertProjectImg">
+		insert into content_tb (project_id, img)
+		values
+		(#{projectId}, #{projectImg])
+	</insert>
+	
 </mapper>
