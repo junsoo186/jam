@@ -55,6 +55,7 @@ public class WriterController {
 			model.addAttribute("bookList", null);
 		} else {
 			model.addAttribute("bookList", bookList);
+			
 		}
 		return "write/workList";
 	}

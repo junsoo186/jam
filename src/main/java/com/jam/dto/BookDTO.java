@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.jam.repository.model.Book;
+import com.mysql.cj.x.protobuf.MysqlxDatatypes.Scalar.String;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,7 +20,7 @@ import lombok.ToString;
 @Builder
 @ToString
 public class BookDTO {
-
+	
 	private Integer userId;
 	private Integer bookId;
 	private String title;
