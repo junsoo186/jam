@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	startAutoSlide(); // 자동 슬라이드 시작
 });
 
-
+// 카테고리별 스위칭
   document.addEventListener('DOMContentLoaded', function() {
     // 페이지가 로드되면 카테고리 목록을 가져옴
     fetchCategories();
@@ -196,4 +196,84 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
+// 장르별 스위칭
+document.addEventListener('DOMContentLoaded', function() {
+    // 페이지 로드 시 장르 목록을 가져옴
+    fetchGenres();
+});
+
+let currentFilter = 'views';  // 초기 정렬 기준: 조회수
+let currentOrder = 'DESC';    // 초기 정렬 순서: 내림차순
+let selectedGenreId = 1;      // 기본 선택된 장르 ID
+
+// 장르 목록을 가져와서 버튼 생성
+function fetchGenres() {
+    fetch('/api/genres')  // 장르 목록을 가져오는 API 호출
+        .then(response => response.json())
+        .then(genres => {
+            const genreFilter = document.getElementById('genreFilter');
+            genreFilter.innerHTML = '';  // 기존 내용을 지움
+
+            genres.forEach(genre => {
+                const button = document.createElement('button');
+                button.classList.add('genre--btn');
+                button.textContent = genre.genreName;
+                button.onclick = () => {
+                    // 장르 버튼 클릭 시, 해당 장르의 책 목록을 현재 정렬 기준으로 가져옴
+                    selectedGenreId = genre.genreId;
+                    fetchBooksByGenreOrder(selectedGenreId);
+                };
+                genreFilter.appendChild(button);  // 장르 버튼을 추가
+            });
+
+            // 기본 장르 ID로 책 목록을 불러옴
+            fetchBooksByGenreOrder(selectedGenreId);
+        })
+        .catch(error => console.error('Error fetching genres:', error));
+}
+
+// 선택한 장르의 책 목록을 가져옴
+function fetchBooksByGenreOrder(genreId) {
+    fetch(`/api/booksByGenreOrder?genreId=${genreId}&filter=${currentFilter}&order=${currentOrder}`)  // API 호출
+        .then(response => response.json())
+        .then(books => {
+            const bookListDiv = document.getElementById('genreContent');
+            bookListDiv.innerHTML = '';  // 기존 콘텐츠 지움
+
+            if (books.length === 0) {
+                bookListDiv.innerHTML = '<p>해당 장르에 속한 책이 없습니다.</p>';
+            } else {
+                books.forEach(book => {
+                    const bookItem = document.createElement('div');
+                    bookItem.classList.add('book--item');
+                    //    <img src="/images/${book.bookCoverImage}" alt="${book.title}">
+                    bookItem.innerHTML = `
+                        <div class="book--info">
+                            <img src="/images/bannerimg1.jpg" alt="매직 스플릿">
+                            <h4>${book.title}</h4>
+                            <p>저자: ${book.author}</p>
+                            <p>조회수: ${book.views}</p>
+                            <p>좋아요: ${book.likes}</p>
+                        </div>
+                    `;
+                    bookListDiv.appendChild(bookItem);
+                });
+            }
+        })
+        .catch(error => console.error('Error fetching books:', error));
+}
+
+// 조회수 정렬 버튼 클릭
+function toggleViewsOrder() {
+    currentFilter = 'views';  // 조회수 기준으로 설정
+    currentOrder = currentOrder === 'ASC' ? 'DESC' : 'ASC';  // 정렬 순서 토글
+    fetchBooksByGenreOrder(selectedGenreId);  // 선택된 장르로 책 목록을 다시 불러옴
+}
+
+// 좋아요 정렬 버튼 클릭
+function toggleLikesOrder() {
+    currentFilter = 'likes';  // 좋아요 기준으로 설정
+    currentOrder = currentOrder === 'ASC' ? 'DESC' : 'ASC';  // 정렬 순서 토글
+    fetchBooksByGenreOrder(selectedGenreId);  // 선택된 장르로 책 목록을 다시 불러옴
+}
 

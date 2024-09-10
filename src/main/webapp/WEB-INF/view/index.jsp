@@ -78,6 +78,24 @@
 </div>
 
 
+<!--  장르별 -->
+
+<!-- 장르 필터를 위한 영역 -->
+<div class="genre--filter" id="genreFilter">
+    <!-- 동적으로 장르 버튼이 생성됩니다 -->
+</div>
+
+<!-- 조회수와 좋아요를 기준으로 정렬할 버튼 -->
+<div class="btn--area--filter">
+<button id="viewsButton" onclick="toggleViewsOrder()">조회수 정렬 (DESC)</button>
+<button id="likesButton" onclick="toggleLikesOrder()">좋아요 정렬 (DESC)</button>
+</div>
+
+<!-- 선택된 장르의 책 목록을 보여줄 영역 -->
+<div class="book--list--1" id="genreContent">
+    <!-- 동적으로 책 목록이 이곳에 표시됩니다 -->
+</div>
+
 
 
 		<!-- 인기 순위 -->
