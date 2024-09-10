@@ -29,10 +29,12 @@
 			<tr>
 				<th>주문 번호</th>
 				<th>결제 금액</th>
+				<th>잔액</th>
 				<th>결제 상품</th>
 				<th>결제 날짜</th>
 				<th>결제 히든키</th>
 				<th>환불</th>
+				<th>버튼</th>
 			</tr>
 			<c:forEach var="payment" items="${payList}">
 			    <tr>
@@ -40,19 +42,41 @@
 			        <td>${payment.deposit}</td>  <!-- 결제 금액 출력 -->
 			        <td>${payment.point} 코인</td>  <!-- 결제 상품 출력 -->
 			        <td>${payment.createdAt}</td> <!-- 결제 날짜 출력 -->
+			        <td>${payment.afterBalance}</td>
 			    	<td>${payment.paymentKey}</td> <!-- 결제 히든키 출력 -->
-			        <td>
+			    	<td>${payment.status}</td>
+			    	
 			            <!-- 환불 버튼이 있는 폼 -->
-			            <form id="refundForm_${payment.paymentKey}" action="/pay/reques" method="POST">
-			                <!-- hidden input으로 paymentKey와 refundAmount (deposit) 전달 -->
-			                <input type="hidden" name="paymentKey" value="${payment.paymentKey}">
-			                <input type="hidden" name="refundAmount" value="${payment.deposit}">
-			                <input type="hidden" name="refundReason" value="환불"> <!-- 기본 환불 이유 -->
-			                
-			                <!-- 환불 버튼 클릭 시 showAlertAndOpenTerms 함수 호출 -->
-			                <button type="button" onclick="showAlertAndOpenTerms('${payment.paymentKey}', '${payment.deposit}')">환불</button>
-			            </form>
-			        </td>
+<td>		            
+<c:choose>
+    <c:when test="${payment.status == 'PENDING'}">
+        <!-- status가 'PENDING'일 때만 환불 버튼을 보여줌 -->
+        <form id="refundForm_${payment.paymentKey}" action="/pay/manager" method="POST">
+            <!-- hidden input으로 paymentKey와 refundAmount (deposit) 전달 -->
+            <input type="hidden" name="paymentKey" value="${payment.paymentKey}">
+            <input type="hidden" name="refundAmount" value="${payment.deposit}">
+            <input type="hidden" name="userId" value="${payment.userId}">
+            <input type="hidden" name="refundReason" value="환불"> <!-- 기본 환불 이유 -->
+
+            <!-- 환불 버튼 클릭 시 showAlertAndOpenTerms 함수 호출 -->
+            <button type="button" onclick="showAlertAndOpenTerms('${payment.paymentKey}', '${payment.deposit}')">환불</button>
+        </form>
+    </c:when>
+    <c:otherwise>
+        <!-- status가 'PENDING'이 아닐 때 버튼을 숨김 -->
+        <form id="refundForm_${payment.paymentKey}" action="/pay/manager" method="POST" style="display:none;">
+            <input type="hidden" name="paymentKey" value="${payment.paymentKey}">
+            <input type="hidden" name="refundAmount" value="${payment.deposit}">
+            <input type="hidden" name="userId" value="${payment.userId}">
+            <input type="hidden" name="refundReason" value="환불">
+            
+            <!-- 환불 버튼은 숨겨짐 -->
+            <button type="button" onclick="showAlertAndOpenTerms('${payment.paymentKey}', '${payment.deposit}')">환불</button>
+        </form>
+    </c:otherwise>
+</c:choose>
+			            
+		       </td>
 			    </tr>
 			</c:forEach>
 		</table>

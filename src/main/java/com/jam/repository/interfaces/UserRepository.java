@@ -1,5 +1,6 @@
 package com.jam.repository.interfaces;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,6 +23,8 @@ public interface UserRepository {
 	public User findEmail(@Param("email") String email); // 로그인
 
 	public int findByUserEmail(String email); // 이메일 찾기
+	
+	public User selectUserInfo(@Param("userId") Integer userId); // 유저 ID로 찾기
 
 	Optional<User> findByEmail(String email); // 이메일 중복 확인
 
@@ -41,6 +44,7 @@ public interface UserRepository {
 	public int insertPoint(@Param("userId") Integer userId , @Param("deposit") long deposit, @Param("point") long point, @Param("afterBalance") long afterBalance, @Param("paymentKey") String paymentKey);
 	
 	public int selectUserPoint(@Param("userId") Integer userId);
+	
 	// 유저 상세 정보 db에 결제한 포인트 값을 넣는다.
 	public int insertUserTbPoint(@Param("amount") Integer amount, @Param("balance") long balance , @Param("userId") Integer userId);
 	
@@ -50,8 +54,20 @@ public interface UserRepository {
 	// 유저가 결제한 정보를 출력한다. (유저 아이디를 기준으로 한다.)
 	List<AccountHistoryDTO> findPayList(@Param("userId") Integer userId);
 	
-	// 유저가 환불을 신청하면 환불요청 테이블로 유정의 정보값이 들어간다.
+	// 유저가 환불을 신청하면 환불요청 테이블로 유정의 정보값이 들어간다. (REFUND_REQUEST_TB )
 	List<RefundRequest>findRefundList(RefundRequest refundRequest );
 	
+	// 환불을 신청한 모든 사람들을 조회한다.
 	List<RefundRequest>selectRefundList();
+	
+	// 관리자가 유저의 포인트 환불에 대해 승인 할 수 있다.
+	public void pointAudit(RefundRequest dto);
+	
+	// 관리자가 유저의 포인트 환불에 대해 거절 할 수 있다.
+	public void pointreject(RefundRequest dto);
+	
+	// account_history_tb의 status 가 '승인'으로 변경
+	public void updateStatus1(String paymentKey);
+	// account_history_tb의 status 가 '거절'으로 변경
+	public void updateStatus2(String paymentKey);
 }

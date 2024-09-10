@@ -93,6 +93,12 @@
 	<select id="selectUserPoint">
 		SELECT point FROM user_de_tb WHERE user_id = #{userId}
 	</select>
+	
+	<select id="selectUserInfo">
+		select *
+		from user_tb
+		where user_id = #{userId}
+	</select>
 		
 	<insert id="insertPoint">
     INSERT INTO account_history_tb (user_id, deposit, point, after_balance, payment_key )
@@ -129,6 +135,30 @@
 		from refund_request_tb
 		
 	</select>
+	
+	<update id="pointAudit">
+	 update refund_request_tb
+    set staff_id = #{userId}, status = '승인', approved_at = CURRENT_TIMESTAMP
+    where payment_key = #{paymentKey}
+	</update>
+	
+	<update id="pointreject">
+	  update refund_request_tb
+    set staff_id = #{userId}, status = '거절', approved_at = CURRENT_TIMESTAMP
+    where payment_key = #{paymentKey}
+	</update>
+	
+	<update id="updateStatus1">
+		update account_history_tb
+		set status = '승인'
+		where payment_key = #{paymentKey}
+	</update>
+	
+	<update id="updateStatus2">
+		update account_history_tb
+		set status = '거절'
+		where payment_key = #{paymentKey}
+	</update>
 
 
 </mapper>

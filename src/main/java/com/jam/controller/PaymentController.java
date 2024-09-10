@@ -193,18 +193,15 @@ public class PaymentController {
     }
     
     /**
-     * 환불 준비
-     * @param paymentKey : 주문번호
-     * @param refundAmount : 결제 가격
-     * @param refundReason : 환불 이유 
-     * @return
+     * 사용자가 환불 버튼을 클릭한다.
      */
-    @PostMapping("/reques")
-    public String tossRefund( Model model,
-    						 @RequestParam("paymentKey")String paymentKey,
-    						 @RequestParam("refundAmount")long refundAmount,
-    						 @RequestParam("refundReason") String refundReason) {
-    	System.out.println("환불");
+    @PostMapping("/manager")
+    public String tossRefund12( Model model,
+			 @RequestParam("paymentKey")String paymentKey,
+			 @RequestParam("refundAmount")long refundAmount,
+			 @RequestParam("refundReason") String refundReason) {
+    	
+    		System.out.println("환불신청");
     	
     	System.out.println("paymentKey : " + paymentKey); // 환불 고유키
     	System.out.println("refundAmount : " + refundAmount); // 환불 가겨
@@ -218,11 +215,139 @@ public class PaymentController {
     	            .refundReason(refundReason)
     	            .status("PENDING")
     	            .build();
-    	    System.out.println("리펀 dto 확인 :" + refundRequest.toString());
-    	//  List<RefundRequest> dto = userService.saveRefundRequest(refundRequest);
+    	    
+    	   
+    	    
+    	    System.out.println("RefundRequest 확인 :" + refundRequest.toString());
     	    userService.saveRefundRequest(refundRequest); // 유저가 환불클릭하면 관리자가 요청? 
+    	
+    	    return "redirect:/"; // 환불 성공 시  refund_request_tb 데이터 
+    }
+    
+    /**
+     * 관리자가 환불버튼을 클릭하게 되면 환불을 할 수 있다.
+     * @param paymentKey : 주문번호
+     * @param refundAmount : 결제 가격
+     * @param refundReason : 환불 이유 
+     * @return
+     */
+    @PostMapping("/reques")
+    public String tossRefund( Model model,
+    						 @RequestParam("paymentKey")String paymentKey,
+    						 @RequestParam("refundAmount")long refundAmount,
+    						 @RequestParam("refundReason") String refundReason,
+    						 @RequestParam("userId") int userId ) {
+    	System.out.println("환불");
+    	
+    	System.out.println("paymentKey : " + paymentKey); // 환불 고유키
+    	System.out.println("refundAmount : " + refundAmount); // 환불 가겨
+    	System.out.println("refundReason : " + refundReason); // 환불 사유
+    	
+    	RestTemplate restTemplate = new RestTemplate();
+    	// 헤더 구성
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", "Basic " + Base64.getEncoder().encodeToString((SECRET_KEY + ":").getBytes()));
+        headers.add("Content-type", "application/json");
+        
+     // 바디 구성 (환불 요청에 필요한 데이터)
+        Map<String, Object> params = new HashMap<>();
+        params.put("cancelReason", refundReason); // 환불 사유
+        params.put("cancelAmount", refundAmount); // 환불할 금액
+        
+        try {
+            // JSON 데이터를 String으로 변환
+            ObjectMapper objectMapper = new ObjectMapper();
+            String jsonBody = objectMapper.writeValueAsString(params);
+
+            // 헤더 + 바디 결합
+            HttpEntity<String> requestEntity = new HttpEntity<>(jsonBody, headers);
+
+            // 환불 요청 API 호출
+            String url = "https://api.tosspayments.com/v1/payments/" + paymentKey + "/cancel";
+            ResponseEntity<TossPaymentResponseDTO> response = restTemplate.exchange(url, HttpMethod.POST, requestEntity, TossPaymentResponseDTO.class);
+            
+            // 환불 응답 처리
+            System.out.println("환불 응답: " + response.getBody());
+        	
+        	String payKey = paymentKey; // 페이먼트 키 확인
+        	System.out.println("페이먼트 키 : " + payKey);
+      
+        	System.out.println(userId);
+        	
+        	long balance  = userService.searchPoint(userId); // 유저가 가지고 있는 포인트 잔액 조회
+        	
+        	long deposit = refundAmount; // 입금 금액
+        	long point  = refundAmount; // 충전할 포인트
+        	long afterBalance = balance  - refundAmount; // 소지하고 있는 포인트 - 충전할 포인트 = afterBalance
+        	
+        	userService.insertPoint(userId, deposit, point, afterBalance, paymentKey); // 포인트 충전내역 
+        	
+        	// 유저 상세 정보에 기존 포인트에  포인트 제거
+        	userService.delete(refundAmount, balance, userId);
+        	
+        	// 유저의 업데이트된 정보를 가져온다.
+        	User updateUser = userService.InformationId(userId);
+       	
+           System.out.println("유저정보 확인 : " + updateUser);
+           
+           User user = (User) session.getAttribute("principal");
+   	    RefundRequest refundRequest = RefundRequest.builder()
+   	            .userId(user.getUserId())
+   	            .paymentKey(paymentKey)
+   	            .refundAmount(refundAmount)
+   	         //   .refundReason("승인")
+   	          //  .status()
+   	            .build();
+   	    
+   	 userService.updateStatus1(paymentKey); // pedding --> 승인으로 변경 
+   	    
+   	    System.out.println("리펀 dto 확인 :" + refundRequest.toString());
+   	    
+   	    userService.refundRequest(refundRequest);
+       
+        } catch (Exception e) {
+            e.printStackTrace();
+          //  return "redirect:/refund/error";  // 에러 발생 시
+            System.out.println("환불실패");
+            return "redirect:/pay/fail"; // 환불 실패
+        }
          return "redirect:/"; // 환불 성공 시
      }
+    
+    /**
+     * 관리자가 거절 버튼을 클릭하게 되면 환불을 받을 수 없다.
+     */
+    @PostMapping("/requesrefusal")
+    public String tossrefund2( Model model,
+			 @RequestParam("paymentKey")String paymentKey,
+			 @RequestParam("refundAmount")long refundAmount,
+			 @RequestParam("refundReason") String refundReason,
+			 @RequestParam("userId") int userId ) {
+    	
+    	System.out.println("userId @#!#@!#@!#@! : " +userId);
+    	
+    	 User user = (User) session.getAttribute("principal");
+    	    RefundRequest refundRequest = RefundRequest.builder()
+    	            .userId(userId)
+    	            .staffId(user.getUserId())
+    	            .paymentKey(paymentKey)
+    	            .refundAmount(refundAmount)
+    	            .refundReason("거절")
+    	    //        .status("거절")
+    	            .build();
+    	    
+    	    AccountHistoryDTO dto = AccountHistoryDTO.builder()
+    	    		.status("거절")
+    	    		.build();
+    	    System.out.println("@@#@ : " +dto.toString());
+    	    
+    	 System.out.println("@#@#@ : "+refundRequest.toString());
+    	 userService.refundreject(refundRequest);
+    	 
+    	 userService.updateStatus2(paymentKey); // pedding --> 승인으로 변경 
+    	
+    	return "redirect:/";
+    }
     
     /**
      * 환불 리스트 페이지에서 환불 누를 때 약관 확인해라는 창

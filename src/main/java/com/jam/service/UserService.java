@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.jam.dto.EmailVerificationResult;
 import com.jam.dto.RefundRequest;
+import com.jam.dto.refundRequestTbDTO;
 import com.jam.dto.signInDTO;
 import com.jam.dto.signUpDTO;
 import com.jam.repository.interfaces.UserRepository;
@@ -278,6 +279,15 @@ public class UserService {
 	}
 	
 	/**
+	 * 유저 회원정보 수정 후 다시 정보 뿌리기 (유저 ID)
+	 */
+	public User InformationId(Integer userId) {
+		User user;
+		user = userRepository.selectUserInfo(userId);
+		return user;
+	} 
+	
+	/**
 	 * 유저 상세정보
 	 * @param email
 	 */
@@ -370,6 +380,45 @@ public class UserService {
 	public List<RefundRequest> selectRefundRequest() {
 		List<RefundRequest> dto = userRepository.selectRefundList();
 		return dto;
+	}
+	
+	
+	/**
+	 * 환불에 대한 승인, update 사용 padding 에서 승인
+	 * @param refundRequest
+	 */
+	public void refundRequest(RefundRequest refundRequest) {
+		
+		userRepository.pointAudit(refundRequest);
+		
+	}
+	/**
+	 * 환불에 대한 거부, updqte 사용 padding에서 거부 
+	 * @param refundRequest
+	 */
+	public void refundreject(RefundRequest refundRequest) {
+		// TODO Auto-generated method stub
+		userRepository.pointreject(refundRequest);
+		
+	}
+	
+	/**
+	 * 사용자가 환불 신청 버튼 클릭 후 승인 되었을 때 status가 'PENDING' --> '승인'으로 변경
+	 * 
+	 * @param userId
+	 */
+	public void updateStatus1(String paymentKey) {
+		userRepository.updateStatus1(paymentKey);
+	}
+	
+	/**
+	 * 사용자가 환불 신청 버튼 클릭 후 승인 되었을 때 status가 'PENDING' --> '거절'으로 변경
+	 * @param paymentKey
+	 */
+	public void updateStatus2(String paymentKey) {
+		// TODO Auto-generated method stub
+		userRepository.updateStatus2(paymentKey);
+		
 	}
 	
 	

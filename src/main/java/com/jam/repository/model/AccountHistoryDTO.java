@@ -19,7 +19,7 @@ import lombok.ToString;
 
 @JsonNaming(value = PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class AccountHistoryDTO {
-
+	// account_history_tb
 	  	private int accountHistoryId; // 히스토리 id
 	  	private int userId; // 유저 아이디
 	  	private long deposit; // 현금
@@ -32,6 +32,9 @@ public class AccountHistoryDTO {
 	    private long amount;         // 결제 금액
 	    private Date paymentDate;    // 결제 날짜
 	    private String paymentKey;
+	    
+	    private String status;
+	    
 		
 
 }
