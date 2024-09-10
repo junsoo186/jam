@@ -59,42 +59,30 @@
 			</div>
 		</section>
 	</div>
-<!-- 카테고리 필터를 위한 영역 -->
-<div class="category--filter" id="categoryFilter">
-    <!-- 동적으로 카테고리 버튼이 생성됩니다 -->
-</div>
+<!-- 카테고리별 필터 영역 -->
+<div class="category--filter" id="categoryFilter"></div>
 
 <div class="btn--area--filter">
-<!-- VIEWS 정렬 버튼 -->
-<button class="btn--views" id="viewsButton" onclick="toggleViewsOrder()">VIEWS (DESC)</button>
-
-<!-- LIKES 정렬 버튼 -->
-<button class="bton--likes" id="likesButton" onclick="toggleLikesOrder()">LIKES (DESC)</button>
-
-</div>
-<!-- 선택된 카테고리의 책 목록을 보여줄 영역 -->
-<div class="book--list--1"  id="categoryContent">
-    <!-- 동적으로 책 목록이 이곳에 표시됩니다 -->
+    <!-- 카테고리별 정렬 버튼 -->
+    <button id="categoryViewsButton" onclick="toggleCategoryViewsOrder()">VIEWS (DESC)</button>
+    <button id="categoryLikesButton" onclick="toggleCategoryLikesOrder()">LIKES (DESC)</button>
 </div>
 
+<!-- 선택된 카테고리의 책 목록 -->
+<div class="book--list--1" id="categoryContent"></div>
 
-<!--  장르별 -->
+<!-- 장르별 필터 영역 -->
+<div class="genre--filter" id="genreFilter"></div>
 
-<!-- 장르 필터를 위한 영역 -->
-<div class="genre--filter" id="genreFilter">
-    <!-- 동적으로 장르 버튼이 생성됩니다 -->
-</div>
-
-<!-- 조회수와 좋아요를 기준으로 정렬할 버튼 -->
 <div class="btn--area--filter">
-<button id="viewsButton" onclick="toggleViewsOrder()">조회수 정렬 (DESC)</button>
-<button id="likesButton" onclick="toggleLikesOrder()">좋아요 정렬 (DESC)</button>
+    <!-- 장르별 정렬 버튼 -->
+    <button id="genreViewsButton" onclick="toggleGenreViewsOrder()">VIEWS (DESC)</button>
+    <button id="genreLikesButton" onclick="toggleGenreLikesOrder()">LIKES (DESC)</button>
 </div>
 
-<!-- 선택된 장르의 책 목록을 보여줄 영역 -->
-<div class="book--list--1" id="genreContent">
-    <!-- 동적으로 책 목록이 이곳에 표시됩니다 -->
-</div>
+<!-- 선택된 장르의 책 목록 -->
+<div class="book--list--1" id="genreContent"></div>
+
 
 
 
