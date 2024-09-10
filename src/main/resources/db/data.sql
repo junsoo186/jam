@@ -248,15 +248,16 @@ insert into tag_tb (tag_id, tag_name) values (2, '공포');
 insert into tag_tb (tag_id, tag_name) values (3, '추리');
 
 -- 북테이블 생성
-insert into book_tb (user_id, title, author_comment, author, category_id, genre_id, introduction, age,views,likes,serial_day) 
-values (1, '테스트하기1', '줄거리테스트1', '작가테스트1', '1', '1', '소개글1','19',220,15,'월요일');
+insert into book_tb (user_id, title, author_comment, author, category_id, genre_id, introduction, age,views,likes,serial_day,
+					book_cover_image) 
+values (1, '테스트하기1', '줄거리테스트1', '작가테스트1', '1', '1', '소개글1','19',220,15,'월요일','/images/cover/1');
 
 insert into book_tb (user_id,title,author_comment,author,category_id , genre_id,
-            introduction,age) 
-			values(2,'테스트하기2','줄거리테스트2','작가테스트2', '1', '1','소개글2', '15');
+            introduction,age,book_cover_image) 
+			values(2,'테스트하기2','줄거리테스트2','작가테스트2', '1', '1','소개글2', '15','');
             
-INSERT INTO book_tb (user_id, title, author_comment, author, category_id, genre_id, introduction, age,views,likes,serial_day) 
-VALUES (12, '신비의 연금술사와 황금의 약속', '연금술과 판타지 모험의 세계를 그린 소설', '작가 B', 3, 5, '잃어버린 여동생을 찾기 위해 다른 세계로 모험을 떠나는 청년의 이야기', '19',450,25,'화요일');
+INSERT INTO book_tb (user_id, title, author_comment, author, category_id, genre_id, introduction, age,views,likes,serial_day,book_cover_image) 
+VALUES (12, '신비의 연금술사와 황금의 약속', '연금술과 판타지 모험의 세계를 그린 소설', '작가 B', 3, 5, '잃어버린 여동생을 찾기 위해 다른 세계로 모험을 떠나는 청년의 이야기', '19',450,25,'화요일','');
 
 
 insert into book_tag_tb (book_id, tag_id) values (1,1);
@@ -386,8 +387,8 @@ VALUES (3, 12, 1, '프롤로그', '신비의 연금술사와 황금의 약속 - 
 여동생과의 재회는 과연 가능할까? 테오는 이 세계에서 무사히 돌아올 수 있을까? 그의 모험은 이제 막 시작되었다.');
 
 -- Book Information SQL
-INSERT INTO book_tb (user_id, title, author_comment, author, category_id, genre_id, introduction, age,views,likes,serial_day) 
-VALUES (21, '바람의 여정과 잃어버린 왕국', '바람 마법을 사용하는 소녀의 모험 이야기', '작가 C', 3, 5, '잃어버린 고대 왕국 에일라스를 찾아 떠나는 리아의 대모험 이야기', '15',100,10,'수요일');
+INSERT INTO book_tb (user_id, title, author_comment, author, category_id, genre_id, introduction, age,views,likes,serial_day,book_cover_image) 
+VALUES (21, '바람의 여정과 잃어버린 왕국', '바람 마법을 사용하는 소녀의 모험 이야기', '작가 C', 3, 5, '잃어버린 고대 왕국 에일라스를 찾아 떠나는 리아의 대모험 이야기', '15',100,10,'수요일','/images/cover/4');
 
 -- Story Information SQL
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, views,contents)
@@ -407,8 +408,8 @@ VALUES (4, 21, 1, '프롤로그', '바람의 속삭임', '2014-07-23',2,
 그러나 리아와 칼렌은 곧 그들만이 아닌 다른 세력이 이 유물을 노리고 있음을 알게 된다. 그들은 위험한 적들과 싸우며, 에일라스를 구원할 수 있는 마지막 희망이 된다.');
 
 -- Book Information SQL
-INSERT INTO book_tb (user_id, title, author_comment, author, category_id, genre_id, introduction, age,views,likes,serial_day) 
-VALUES (18, '어둠의 성에서 온 초대장', '저주받은 성과 그곳에 숨겨진 비밀을 밝히려는 모험 이야기', '작가 D', 3, 2, '어둠의 성에서 열리는 신비로운 연회에 초대된 사람들의 이야기', '15',450,50,'토요일');
+INSERT INTO book_tb (user_id, title, author_comment, author, category_id, genre_id, introduction, age,views,likes,serial_day,book_cover_image) 
+VALUES (18, '어둠의 성에서 온 초대장', '저주받은 성과 그곳에 숨겨진 비밀을 밝히려는 모험 이야기', '작가 D', 3, 2, '어둠의 성에서 열리는 신비로운 연회에 초대된 사람들의 이야기', '15',450,50,'토요일','/images/cover/5');
 
 -- Story Information SQL
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day,views, contents)
@@ -428,8 +429,8 @@ VALUES (5, 18, 1, '프롤로그', '어둠 속의 초대', '2005-11-12',153,
 에밀리는 자신의 용기와 지혜를 시험하며, 성에서 탈출하기 위해 마지막 도전에 나선다. 성의 저주는 과연 풀릴 수 있을까? 에밀리는 자신과 다른 사람들을 구할 수 있을까? 그녀의 여정은 점점 더 미궁으로 빠져들어간다.');
 
 -- Book Information SQL
-INSERT INTO book_tb (user_id, title, author_comment, author, category_id, genre_id, introduction, age,views,likes,serial_day) 
-VALUES (28, '붉은 달의 비밀', '금지된 숲과 마법, 그리고 치명적인 사랑 이야기', '작가 F', 3, 7, '붉은 달이 뜨는 밤, 금지된 숲에서 벌어지는 마법과 사랑의 위험한 게임', '19',1000,550,'수요일');
+INSERT INTO book_tb (user_id, title, author_comment, author, category_id, genre_id, introduction, age,views,likes,serial_day,book_cover_image) 
+VALUES (28, '붉은 달의 비밀', '금지된 숲과 마법, 그리고 치명적인 사랑 이야기', '작가 F', 3, 7, '붉은 달이 뜨는 밤, 금지된 숲에서 벌어지는 마법과 사랑의 위험한 게임', '19',1000,550,'수요일','/images/cover/6');
 
 -- Story Information SQL
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, views,contents)
@@ -447,8 +448,8 @@ VALUES (6, 28, 1, '프롤로그', '붉은 달의 저주', '2002-08-14',325,
 그러나 이들의 사랑은 금지된 마법의 힘으로 인해 점점 어두워지고, 그들이 내리는 선택은 왕국 전체의 운명을 결정짓게 된다. 엘레나와 다르케인은 과연 붉은 달의 비밀을 풀 수 있을까, 아니면 그들의 운명은 이 저주 속에 영원히 갇히게 될 것인가?');
 
 -- Book Information SQL
-INSERT INTO book_tb (user_id, title, author_comment, author, category_id, genre_id, introduction, age,views,likes,serial_day) 
-VALUES (15, '밤의 연금술사', '금단의 연금술을 탐구하는 두 사람의 어두운 이야기', '작가 G', 3, 5, '연금술의 금기를 깨고 강력한 힘을 얻기 위한 위험한 실험과 그로 인한 갈등', '19',800,80,'일요일');
+INSERT INTO book_tb (user_id, title, author_comment, author, category_id, genre_id, introduction, age,views,likes,serial_day,book_cover_image) 
+VALUES (15, '밤의 연금술사', '금단의 연금술을 탐구하는 두 사람의 어두운 이야기', '작가 G', 3, 5, '연금술의 금기를 깨고 강력한 힘을 얻기 위한 위험한 실험과 그로 인한 갈등', '19',800,80,'일요일','/images/cover/7');
 
 -- Story Information SQL
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents)
@@ -466,8 +467,8 @@ VALUES (7, 15, 1, '프롤로그', '밤의 시작', '2023-04-24',
 그녀는 과연 어떤 선택을 할 것인가? 루시안은 자신의 탐욕과 마주하며 구원받을 수 있을까? 그들의 운명은 금단의 연금술과 함께 어두운 밤 속으로 사라질 것인가?');
 
 -- Book Information SQL for a book suitable for minors
-INSERT INTO book_tb (user_id, title, author_comment, author, category_id, genre_id, introduction, age,views,likes,serial_day) 
-VALUES (10, '빛의 수호자와 마법의 샘', '마법의 세계에서 빛을 되찾기 위한 소년의 모험 이야기', '작가 H', 3, 5, '마법의 샘을 지키기 위해 떠나는 소년 알렉스의 이야기', '15',1253,100,'수요일');
+INSERT INTO book_tb (user_id, title, author_comment, author, category_id, genre_id, introduction, age,views,likes,serial_day,book_cover_image) 
+VALUES (10, '빛의 수호자와 마법의 샘', '마법의 세계에서 빛을 되찾기 위한 소년의 모험 이야기', '작가 H', 3, 5, '마법의 샘을 지키기 위해 떠나는 소년 알렉스의 이야기', '15',1253,100,'수요일','/images/cover/8');
 
 -- Story Information SQL for the book
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents)
@@ -481,8 +482,8 @@ VALUES (8, 10, 1, '프롤로그', '마법의 시작', '2023-05-18',
 이 과정에서 알렉스는 새로운 친구들을 만나고, 자신이 단순한 농부의 아들이 아니라는 사실을 알게 된다. 그는 사실 빛의 수호자의 후손이었으며, 마법의 샘을 지킬 운명을 가진 자였다. 알렉스는 세레나와 함께 힘을 모아 샘의 힘을 회복시키고, 세계의 균형을 되찾기 위해 마지막 전투에 나선다.');
 
 -- Book Information SQL for a book suitable for adults only
-INSERT INTO book_tb (user_id, title, author_comment, author, category_id, genre_id, introduction, age,views,likes,serial_day) 
-VALUES (20, '그림자의 연인', '귀족 사회의 어둠과 마법의 사랑 이야기', '작가 I', 3, 7, '아름다움과 금단의 마법에 얽힌 위험한 사랑 이야기', '19',250,23,'토요일');
+INSERT INTO book_tb (user_id, title, author_comment, author, category_id, genre_id, introduction, age,views,likes,serial_day,book_cover_image) 
+VALUES (20, '그림자의 연인', '귀족 사회의 어둠과 마법의 사랑 이야기', '작가 I', 3, 7, '아름다움과 금단의 마법에 얽힌 위험한 사랑 이야기', '19',250,23,'토요일','/images/cover/9');
 
 -- Story Information SQL for the book
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents)
@@ -496,8 +497,8 @@ VALUES (9, 20, 1, '프롤로그', '어둠 속의 매혹', '2023-11-03',
 라파엘은 그녀를 구하기 위해 위험한 결정을 내리고, 이사벨라는 자신의 사랑과 마법의 힘 중 하나를 선택해야 하는 기로에 서게 된다. 그들의 이야기는 사랑과 희생, 그리고 치명적인 선택으로 가득 차 있다.');
 
 -- Book Information SQL for a book suitable for minors
-INSERT INTO book_tb (user_id, title, author_comment, author, category_id, genre_id, introduction, age,views,likes,serial_day) 
-VALUES (14, '시간의 미로 속에서', '시간을 초월한 모험과 비밀을 찾아 나서는 이야기', '작가 J', 3, 5, '시간의 미로에 갇혀 잃어버린 기억과 과거의 죄책감을 마주하는 탐험 이야기', '15',450,15,'금요일');
+INSERT INTO book_tb (user_id, title, author_comment, author, category_id, genre_id, introduction, age,views,likes,serial_day,book_cover_image) 
+VALUES (14, '시간의 미로 속에서', '시간을 초월한 모험과 비밀을 찾아 나서는 이야기', '작가 J', 3, 5, '시간의 미로에 갇혀 잃어버린 기억과 과거의 죄책감을 마주하는 탐험 이야기', '15',450,15,'금요일','/images/cover/10');
 
 -- Story Information SQL for the book
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents)
@@ -515,8 +516,8 @@ VALUES (10, 14, 1, '프롤로그', '미로의 입구', '2024-01-15',
 하지만 시간이 거의 다가오고, 미로는 그녀에게 마지막 선택을 강요한다. 그녀는 과거를 바로잡고 미로에서 벗어날 수 있을 것인가, 아니면 영원히 시간 속에 갇혀버릴 것인가?');
 
 -- Book Information SQL for a book suitable for minors
-INSERT INTO book_tb (user_id, title, author_comment, author, category_id, genre_id, introduction, age,views,likes,serial_day) 
-VALUES (18, '얼어붙은 대지의 심장', '끝없는 겨울을 끝내기 위한 기사단의 희생과 모험 이야기', '작가 K', 3, 5, '얼어붙은 대지의 저주를 풀기 위해 설산의 심장부로 향하는 기사단의 여정', '15',120,10,'화요일');
+INSERT INTO book_tb (user_id, title, author_comment, author, category_id, genre_id, introduction, age,views,likes,serial_day,book_cover_image) 
+VALUES (18, '얼어붙은 대지의 심장', '끝없는 겨울을 끝내기 위한 기사단의 희생과 모험 이야기', '작가 K', 3, 5, '얼어붙은 대지의 저주를 풀기 위해 설산의 심장부로 향하는 기사단의 여정', '15',120,10,'화요일','/images/cover/11');
 
 -- Story Information SQL for the book
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents)
@@ -530,8 +531,8 @@ VALUES (11, 18, 1, '프롤로그', '얼어붙은 심장', '2023-08-30',
 얼어붙은 심장부에 도달한 그들은 얼음 거인을 깨우고, 그와 대면한다. 얼음 거인은 대지의 저주를 풀기 위해 요구하는 대가를 밝히며, 그들에게 무거운 선택을 강요한다. 레안드로는 자신의 희생과 기사단의 운명 사이에서 갈등하지만, 결국 희생의 길을 선택하기로 결심한다.');
 
 -- Book Information SQL for a book suitable for adults only
-INSERT INTO book_tb (user_id, title, author_comment, author, category_id, genre_id, introduction, age,views,likes,serial_day) 
-VALUES (22, '밤의 정원사', '어둠 속의 정원과 그곳에 숨겨진 치명적인 비밀 이야기', '작가 L', 3, 2, '밤마다 정원을 가꾸는 미스터리한 정원사와 그의 어두운 비밀', '19',222,20,'화요일');
+INSERT INTO book_tb (user_id, title, author_comment, author, category_id, genre_id, introduction, age,views,likes,serial_day,book_cover_image) 
+VALUES (22, '밤의 정원사', '어둠 속의 정원과 그곳에 숨겨진 치명적인 비밀 이야기', '작가 L', 3, 2, '밤마다 정원을 가꾸는 미스터리한 정원사와 그의 어두운 비밀', '19',222,20,'화요일','/images/cover/12');
 
 -- Story Information SQL for the book
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents)
@@ -547,8 +548,8 @@ VALUES (12, 22, 1, '프롤로그', '정원의 속삭임', '2024-02-09',
 사라는 진실을 파헤치려 하면서도 루시퍼에게 끌리게 되고, 그와의 위험한 유혹 속에서 자신이 결코 상상하지 못했던 비밀을 마주하게 된다. 그녀는 과연 정원의 비밀을 풀고 저택을 탈출할 수 있을 것인가, 아니면 영원히 밤의 정원에 갇히게 될 것인가?');
 
 -- Book Information SQL for a book suitable for minors
-INSERT INTO book_tb (user_id, title, author_comment, author, category_id, genre_id, introduction, age,views,likes,serial_day) 
-VALUES (13, '용의 숨결 속으로', '용들과의 싸움과 평화를 찾아 떠나는 소녀의 이야기', '작가 M', 3, 5, '용들의 폭주로 혼란에 빠진 왕국을 구하기 위한 아일라의 모험', '15',1220,150,'목요일');
+INSERT INTO book_tb (user_id, title, author_comment, author, category_id, genre_id, introduction, age,views,likes,serial_day,book_cover_image) 
+VALUES (13, '용의 숨결 속으로', '용들과의 싸움과 평화를 찾아 떠나는 소녀의 이야기', '작가 M', 3, 5, '용들의 폭주로 혼란에 빠진 왕국을 구하기 위한 아일라의 모험', '15',1220,150,'목요일','/images/cover/13');
 
 -- Story Information SQL for the book
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents)
@@ -560,8 +561,8 @@ VALUES (13, 13, 1, '프롤로그', '용의 울부짖음', '2023-12-11',
 아일라는 여행 도중 마법사 라그나(Ragna)를 만나 그의 도움을 받아 용들을 찾아 나선다. 그들은 용들의 영역에 다다르면서 용들이 폭주하게 된 진짜 이유를 알아내기 시작한다. 그것은 인간들이 용들의 보물을 훔쳤기 때문이었다. 용들의 보물을 되찾고 인간과 용 사이의 오랜 평화를 되찾기 위해, 아일라와 라그나는 용들과 맞서 싸워야 한다.');
 
 -- Book Information SQL for a book suitable for adults only
-INSERT INTO book_tb (user_id, title, author_comment, author, category_id, genre_id, introduction, age,views,likes,serial_day) 
-VALUES (24, '밤의 연회', '어둠 속의 연회에서 벌어지는 위험한 음모와 유혹 이야기', '작가 N', 3, 2, '비밀스러운 연회에서 도시의 어두운 비밀을 밝히려는 첩보원의 이야기', '19',430,44,'금요일');
+INSERT INTO book_tb (user_id, title, author_comment, author, category_id, genre_id, introduction, age,views,likes,serial_day,book_cover_image) 
+VALUES (24, '밤의 연회', '어둠 속의 연회에서 벌어지는 위험한 음모와 유혹 이야기', '작가 N', 3, 2, '비밀스러운 연회에서 도시의 어두운 비밀을 밝히려는 첩보원의 이야기', '19',430,44,'금요일','/images/cover/14');
 
 -- Story Information SQL for the book
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents)
@@ -573,8 +574,8 @@ VALUES (14, 24, 1, '프롤로그', '어둠의 서곡', '2024-03-18',
 에바는 자신의 정체가 드러나지 않도록 하면서도, 연회의 어둠 속에서 도시를 위협하는 음모를 밝혀야 한다. 그녀는 연회의 호스트인 미스터리한 남자, 알렉산더(Alexander)와 마주하게 되고, 둘 사이에는 알 수 없는 긴장감과 유혹이 흐른다. 에바는 알렉산더의 진정한 목적을 알아내기 위해 그의 신뢰를 얻어야 하지만, 그녀의 선택은 점점 더 위험해진다.');
 
 -- Book Information SQL for a book suitable for minors
-INSERT INTO book_tb (user_id, title, author_comment, author, category_id, genre_id, introduction, age,views,likes,serial_day) 
-VALUES (16, '불멸의 전사', '전설적인 힘을 가진 전사가 세상의 운명을 결정짓는 이야기', '작가 O', 3, 5, '불멸의 전사의 후손이 되어 세상을 지키기 위해 싸우는 칼릭스의 이야기', '15',864,57,'일요일');
+INSERT INTO book_tb (user_id, title, author_comment, author, category_id, genre_id, introduction, age,views,likes,serial_day,book_cover_image) 
+VALUES (16, '불멸의 전사', '전설적인 힘을 가진 전사가 세상의 운명을 결정짓는 이야기', '작가 O', 3, 5, '불멸의 전사의 후손이 되어 세상을 지키기 위해 싸우는 칼릭스의 이야기', '15',864,57,'일요일','/images/cover/15');
 
 -- Story Information SQL for the book
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents)
@@ -586,8 +587,8 @@ VALUES (15, 16, 1, '프롤로그', '전설의 검', '2024-04-21',
 하지만 불멸의 힘을 가진 자는 혼자가 아니었다. 오래된 적대 세력도 깨어나고, 그들은 칼릭스와 그의 새로운 힘을 위협으로 보고 제거하려 한다. 칼릭스는 불멸의 전사로서의 운명을 받아들이고, 자신과 마을을 지키기 위해 싸워야 한다. 그는 자신의 진정한 힘을 깨닫고, 불멸의 전사로서의 운명을 이끌어 가야 한다.');
 
 -- Book Information SQL for a book suitable for minors
-INSERT INTO book_tb (user_id, title, author_comment, author, category_id, genre_id, introduction, age,views,likes,serial_day) 
-VALUES (19, '검은 바다의 지배자', '전설의 바다에서 보물을 찾는 용감한 항해자의 이야기', '작가 P', 3, 11, '검은 바다에서 숨겨진 비밀을 찾기 위해 위험을 무릅쓰고 항해하는 리안의 모험', '15',2200,250,'화요일');
+INSERT INTO book_tb (user_id, title, author_comment, author, category_id, genre_id, introduction, age,views,likes,serial_day,book_cover_image) 
+VALUES (19, '검은 바다의 지배자', '전설의 바다에서 보물을 찾는 용감한 항해자의 이야기', '작가 P', 3, 11, '검은 바다에서 숨겨진 비밀을 찾기 위해 위험을 무릅쓰고 항해하는 리안의 모험', '15',2200,250,'화요일','/images/cover/16');
 
 -- Story Information SQL for the book
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents)
@@ -599,8 +600,8 @@ VALUES (16, 19, 1, '프롤로그', '바다의 부름', '2024-01-11',
 그의 여정은 시작부터 위험천만하다. 거대한 파도와 사나운 폭풍을 헤치고 나아가면서, 그는 자신이 모르는 세상의 많은 것을 배운다. 하지만 리안은 곧 검은 바다의 진정한 힘과 맞닥뜨리게 된다. 그는 무서운 바다 괴물과 싸워야 하고, 자신의 용기와 지혜를 시험받는다.');
 
 -- Book Information SQL for a book suitable for adults only
-INSERT INTO book_tb (user_id, title, author_comment, author, category_id, genre_id, introduction, age,views,likes,serial_day) 
-VALUES (17, '황혼의 성벽', '어둠의 세계와 싸우는 수호자의 이야기', '작가 Q', 3, 2, '세상과 어둠의 세계를 가르는 성벽을 지키기 위한 엘리야의 마지막 전투','19',225,22,'목요일');
+INSERT INTO book_tb (user_id, title, author_comment, author, category_id, genre_id, introduction, age,views,likes,serial_day,book_cover_image) 
+VALUES (17, '황혼의 성벽', '어둠의 세계와 싸우는 수호자의 이야기', '작가 Q', 3, 2, '세상과 어둠의 세계를 가르는 성벽을 지키기 위한 엘리야의 마지막 전투','19',225,22,'목요일','/images/cover/17');
 
 -- Story Information SQL for the book
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents)
@@ -612,8 +613,8 @@ VALUES (17, 17, 1, '프롤로그', '성벽의 균열', '2023-11-07',
 그는 그곳에서 어둠의 힘을 통제하려는 미스터리한 여성, 라비나(Ravina)를 만나게 된다. 그녀는 성벽의 힘을 자신의 것으로 만들기 위해 이곳에 왔고, 엘리야는 그녀와 불가피한 대립을 하게 된다. 그들은 서로에게 끌리지만, 동시에 서로를 경계하며 위험한 게임을 시작한다.');
 
 -- Book Information SQL for a book suitable for minors
-INSERT INTO book_tb (user_id, title, author_comment, author, category_id, genre_id, introduction, age,views,likes,serial_day) 
-VALUES (26, '별빛 아래의 서약', '별빛 아래에서 맺은 사랑과 모험 이야기', '작가 R', 3, 7, '별빛 숲에서 사랑을 찾고 마법적 서약을 맺은 연인의 이야기', '15',120,13,'토요일');
+INSERT INTO book_tb (user_id, title, author_comment, author, category_id, genre_id, introduction, age,views,likes,serial_day,book_cover_image) 
+VALUES (26, '별빛 아래의 서약', '별빛 아래에서 맺은 사랑과 모험 이야기', '작가 R', 3, 7, '별빛 숲에서 사랑을 찾고 마법적 서약을 맺은 연인의 이야기', '15',120,13,'토요일','/images/cover/18');
 
 -- Story Information SQL for the book
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents)

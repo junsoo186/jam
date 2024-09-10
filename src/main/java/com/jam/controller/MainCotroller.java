@@ -2,6 +2,7 @@ package com.jam.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
+import com.google.gson.Gson;
 import com.jam.dto.BookDTO;
 import com.jam.dto.CategoryDTO;
 import com.jam.dto.GenreDTO;
@@ -57,7 +59,9 @@ public class MainCotroller {
 		model.addAttribute("bookList",bookList);
 		model.addAttribute("categoryList",categoryList);
 		model.addAttribute("genreList",genreList);
-		
+		model.addAttribute("jsonBookCover", // 북커버 이미지를  json으로 보내서 파일마다 이미지 확장자 체크를 위함
+				new Gson().toJson
+				(bookList.stream().map(BookDTO::getBookCoverImage).collect(Collectors.toList()))); // foreach대신 stream으로 모든값 add
 		return "/index";
 	}
 	

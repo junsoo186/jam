@@ -87,17 +87,56 @@ document.addEventListener('DOMContentLoaded', function() {
 	}
 	startAutoSlide(); // 자동 슬라이드 시작
 });
-
-// 카테고리별 스위칭
-  document.addEventListener('DOMContentLoaded', function() {
-    // 페이지가 로드되면 카테고리 목록을 가져옴
+document.addEventListener('DOMContentLoaded', function() {
+    // 카테고리 및 장르 목록 가져오기
     fetchCategories();
+    fetchGenres();
 });
 
+// 카테고리 정렬을 위한 초기 설정
+let currentCategoryViewsOrder = 'DESC';
+let currentCategoryLikesOrder = 'DESC';
+let activeCategoryId = 3;  // 초기 카테고리 ID
 
-let currentCategoryViewsOrder = 'DESC';  // 초기 VIEWS 정렬 순서 (카테고리)
-let currentCategoryLikesOrder = 'DESC';  // 초기 LIKES 정렬 순서 (카테고리)
-let activeCategoryId = 3;                // 초기 카테고리 ID
+// 장르 정렬을 위한 초기 설정
+let currentGenreViewsOrder = 'DESC';
+let currentGenreLikesOrder = 'DESC';
+let selectedGenreId = 1;  // 초기 장르 ID
+
+function getValidImagePath(basePath, callback) {
+    const possibleExtensions = ['.jpg', '.png', '.jpeg'];
+    let index = 0;
+
+    function tryNextExtension() {
+        const url = basePath + possibleExtensions[index];
+        
+        fetch(url, { method: 'HEAD' })  // HEAD 요청으로 파일 존재 여부 확인
+            .then(response => {
+                if (response.ok) {
+                    callback(url);  // 이미지가 존재하면 해당 경로를 반환
+                } else if (index < possibleExtensions.length - 1) {
+                    index++;
+                    tryNextExtension();  // 다음 확장자를 시도
+                } else {
+                    callback('/images/bannerimg1.jpg');  // 이미지가 없으면 기본 이미지 반환
+                }
+            })
+            .catch(() => {
+                if (index < possibleExtensions.length - 1) {
+                    index++;
+                    tryNextExtension();  // 다음 확장자를 시도
+                } else {
+                    callback('/images/bannerimg1.jpg');  // 이미지가 없으면 기본 이미지 반환
+                }
+            });
+    }
+
+    tryNextExtension();  // 첫 번째 확장자부터 시도
+}
+
+
+
+
 
 // 카테고리 목록을 가져와서 버튼 생성
 function fetchCategories() {
@@ -105,36 +144,22 @@ function fetchCategories() {
         .then(response => response.json())
         .then(categories => {
             const categoryFilter = document.getElementById('categoryFilter');
-            categoryFilter.innerHTML = ''; 
+            categoryFilter.innerHTML = '';  // 필터 영역 초기화
 
             categories.forEach(category => {
                 const button = document.createElement('button');
                 button.classList.add('category--btn');
                 button.textContent = category.categoryName;
-                button.setAttribute('data-category-id', category.categoryId);
-
                 button.onclick = () => {
-                    document.querySelectorAll('.category--btn').forEach(btn => btn.classList.remove('active'));
-                    button.classList.add('active');
-                    activeCategoryId = category.categoryId; 
-
-                    // VIEWS 기준으로 초기 정렬하여 책 목록을 가져옴
+                    activeCategoryId = category.categoryId;
                     fetchBooksByCategoryOrder('views', currentCategoryViewsOrder);
                 };
-
                 categoryFilter.appendChild(button);
-
-                // 기본 카테고리 ID가 3인 버튼을 초기 활성화
-                if (category.categoryId === 3) {
-                    button.classList.add('active');
-                    fetchBooksByCategoryOrder('views', currentCategoryViewsOrder);
-                }
             });
-        })
-        .catch(error => console.error('Error fetching categories:', error));
+        });
 }
 
-// 선택한 카테고리의 책 목록을 가져옴
+// 책 목록을 렌더링할 때 이미지 처리
 function fetchBooksByCategoryOrder(filter, order) {
     if (!activeCategoryId) return;
 
@@ -150,54 +175,34 @@ function fetchBooksByCategoryOrder(filter, order) {
                 books.forEach(book => {
                     const bookItem = document.createElement('div');
                     bookItem.classList.add('book--item');
-                    bookItem.innerHTML = `
-                        <div class="book--info">
-                            <img src="/images/bannerimg1.jpg" alt="매직 스플릿">
-                            <h4>${book.title}</h4>
-                            <p>저자: ${book.author}</p>
-                            <p>조회수: ${book.views}</p>
-                            <p>좋아요: ${book.likes}</p>
-                        </div>
-                    `;
-                    bookListDiv.appendChild(bookItem);
+                    
+                    // 이미지 경로 유효성 확인 후 렌더링
+                    getValidImagePath(book.bookCoverImage, (validImagePath) => {
+                        bookItem.innerHTML = `
+                            <div class="book--info">
+                                <img src="${validImagePath}" alt="${book.title}">
+                                
+                                <h4>${book.title}</h4>
+                                <p>저자: ${book.author}</p>
+                                <p>조회수: ${book.views}</p>
+                                <p>좋아요: ${book.likes}</p>
+                            </div>
+                        `;
+                        bookListDiv.appendChild(bookItem);
+                    });
                 });
             }
         })
         .catch(error => console.error('Error fetching books:', error));
 }
 
-// VIEWS 정렬 버튼 토글 (카테고리)
-function toggleCategoryViewsOrder() {
-    currentCategoryViewsOrder = currentCategoryViewsOrder === 'ASC' ? 'DESC' : 'ASC';
-    document.getElementById('categoryViewsButton').textContent = `VIEWS (${currentCategoryViewsOrder})`;
-    fetchBooksByCategoryOrder('views', currentCategoryViewsOrder);
-}
-
-// LIKES 정렬 버튼 토글 (카테고리)
-function toggleCategoryLikesOrder() {
-    currentCategoryLikesOrder = currentCategoryLikesOrder === 'ASC' ? 'DESC' : 'ASC';
-    document.getElementById('categoryLikesButton').textContent = `LIKES (${currentCategoryLikesOrder})`;
-    fetchBooksByCategoryOrder('likes', currentCategoryLikesOrder);
-}
-
-
-document.addEventListener('DOMContentLoaded', function() {
-    fetchGenres();  // 장르 목록을 가져옴
-});
-
-
-
-// 장르별 스위칭
-let currentGenreViewsOrder = 'DESC';  // 초기 VIEWS 정렬 순서 (장르)
-let currentGenreLikesOrder = 'DESC';  // 초기 LIKES 정렬 순서 (장르)
-let selectedGenreId = 1;              // 기본 장르 ID
-
+// 장르 목록을 가져와서 버튼 생성
 function fetchGenres() {
     fetch('/api/genres')
         .then(response => response.json())
         .then(genres => {
             const genreFilter = document.getElementById('genreFilter');
-            genreFilter.innerHTML = ''; 
+            genreFilter.innerHTML = '';  // 필터 영역 초기화
 
             genres.forEach(genre => {
                 const button = document.createElement('button');
@@ -209,10 +214,7 @@ function fetchGenres() {
                 };
                 genreFilter.appendChild(button);
             });
-
-            fetchBooksByGenreOrder('views', currentGenreViewsOrder);
-        })
-        .catch(error => console.error('Error fetching genres:', error));
+        });
 }
 
 // 선택한 장르의 책 목록을 가져옴
@@ -221,7 +223,7 @@ function fetchBooksByGenreOrder(filter, order) {
         .then(response => response.json())
         .then(books => {
             const bookListDiv = document.getElementById('genreContent');
-            bookListDiv.innerHTML = '';
+            bookListDiv.innerHTML = '';  // 책 목록 초기화
 
             if (books.length === 0) {
                 bookListDiv.innerHTML = '<p>해당 장르에 속한 책이 없습니다.</p>';
@@ -231,7 +233,8 @@ function fetchBooksByGenreOrder(filter, order) {
                     bookItem.classList.add('book--item');
                     bookItem.innerHTML = `
                         <div class="book--info">
-                            <img src="/images/bannerimg1.jpg" alt="매직 스플릿">
+                            ${book.bookCoverImage ? `<img src="${book.bookCoverImage}" alt="${book.title}">`
+                            : `<img src="/images/bannerimg1.jpg" alt="기본 이미지">`}
                             <h4>${book.title}</h4>
                             <p>저자: ${book.author}</p>
                             <p>조회수: ${book.views}</p>
@@ -241,21 +244,27 @@ function fetchBooksByGenreOrder(filter, order) {
                     bookListDiv.appendChild(bookItem);
                 });
             }
-        })
-        .catch(error => console.error('Error fetching books:', error));
+        });
 }
 
-// VIEWS 정렬 버튼 토글 (장르)
+// 조회수와 좋아요 정렬 버튼
+function toggleCategoryViewsOrder() {
+    currentCategoryViewsOrder = currentCategoryViewsOrder === 'ASC' ? 'DESC' : 'ASC';
+    fetchBooksByCategoryOrder('views', currentCategoryViewsOrder);
+}
+
+function toggleCategoryLikesOrder() {
+    currentCategoryLikesOrder = currentCategoryLikesOrder === 'ASC' ? 'DESC' : 'ASC';
+    fetchBooksByCategoryOrder('likes', currentCategoryLikesOrder);
+}
+
 function toggleGenreViewsOrder() {
     currentGenreViewsOrder = currentGenreViewsOrder === 'ASC' ? 'DESC' : 'ASC';
-    document.getElementById('genreViewsButton').textContent = `VIEWS (${currentGenreViewsOrder})`;
     fetchBooksByGenreOrder('views', currentGenreViewsOrder);
 }
 
-// LIKES 정렬 버튼 토글 (장르)
 function toggleGenreLikesOrder() {
     currentGenreLikesOrder = currentGenreLikesOrder === 'ASC' ? 'DESC' : 'ASC';
-    document.getElementById('genreLikesButton').textContent = `LIKES (${currentGenreLikesOrder})`;
     fetchBooksByGenreOrder('likes', currentGenreLikesOrder);
 }
 
