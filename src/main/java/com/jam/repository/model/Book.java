@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import com.jam.dto.BookDTO;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -35,6 +37,7 @@ public class Book {
     private Timestamp createdAt;
     private String age;
     private Integer likes;	
+    private Integer views;
     private String serialDay;
 
     // tagNames를 List<String>으로 변환하는 메서드
@@ -52,4 +55,17 @@ public class Book {
 			return "/images/uploads/" + bookCoverImage;
 		}
 	}
+    
+    public BookDTO toBookDTO() {
+    	 return BookDTO.builder()
+    			 .bookId(bookId).userId(userId) //아이디
+    			 .title(title).authorComment(authorComment).author(author) //제목 코멘트 작가
+    			 .categoryId(categoryId).genreId(genreId).tagNames(tagNames) //카테고리 장르 태그
+    			 .bookCoverImage(bookCoverImage).originalBookCoverImage(originalBookCoverImage) //북커버
+    			 .customTag(customtags).introduction(introduction) // 커스텀태그 소개글
+    			 .createdAt(createdAt).age(age).likes(likes).serialDay(serialDay).views(views) // 생성일자, 나이제한, 좋아요 ,연재일
+    			 .build();
+    			 
+    	
+    }
 }

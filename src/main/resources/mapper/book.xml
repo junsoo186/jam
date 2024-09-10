@@ -14,6 +14,13 @@
 		#{introduction}, #{categoryId}, #{genreId},
 		#{age}, #{bookCoverImage})
 	</insert>
+	
+	
+	<insert id="insertBookId" parameterType="com.jam.repository.model.Book"
+        useGeneratedKeys="true" keyProperty="bookId">
+	
+	</insert>
+	
 
 	<select id="AllBookList"
 		resultType="com.jam.repository.model.Book">
@@ -22,6 +29,8 @@
 		b.title,
 		b.author,
 		b.likes,
+		b.category_id,
+		b.genre_id,
 		b.book_cover_image,
 		GROUP_CONCAT(DISTINCT t.tag_name ORDER BY t.tag_name ASC) AS tagNames
 		FROM
@@ -35,6 +44,93 @@
 		b.title
 		ASC
 	</select>
+	
+	<select id="AllBookListCategoryOrderBy" resultType="com.jam.repository.model.Book">
+	    SELECT
+	        b.book_id,
+	        b.title,
+	        b.author,
+	        b.likes,
+	        b.views,
+	        b.category_id,
+	        b.genre_id,
+	        b.book_cover_image,
+	        GROUP_CONCAT(DISTINCT t.tag_name ORDER BY t.tag_name ASC) AS tagNames
+	    FROM
+	        book_tb b
+	    LEFT JOIN
+	        book_tag_tb bt ON b.book_id = bt.book_id
+	    LEFT JOIN
+	        tag_tb t ON bt.tag_id = t.tag_id
+	    WHERE
+	        b.category_id = #{categoryId}  <!-- 파라미터로 카테고리 필터링 -->
+	    GROUP BY
+	        b.book_id, b.title, b.author, b.likes, b.views, b.category_id, b.genre_id, b.book_cover_image
+	    <choose>
+	        <when test="filter == 'views'">
+	            ORDER BY b.views
+	        </when>
+	        <when test="filter == 'likes'">
+	            ORDER BY b.likes
+	        </when>
+	        <otherwise>
+	            ORDER BY b.book_id  <!-- 기본 정렬 -->
+	        </otherwise>
+	    </choose>
+	    <choose>
+	        <when test="order == 'ASC'">
+	            ASC
+	        </when>
+	        <when test="order == 'DESC'">
+	            DESC
+	        </when>
+	    </choose>
+	</select>
+
+
+	<select id="AllBookListGenreOrderBy" resultType="com.jam.repository.model.Book">
+	    SELECT
+	        b.book_id,
+	        b.title,
+	        b.author,
+	        b.likes,
+	        b.views,
+	        b.category_id,
+	        b.genre_id,
+	        b.book_cover_image,
+	        GROUP_CONCAT(DISTINCT t.tag_name ORDER BY t.tag_name ASC) AS tagNames
+	    FROM
+	        book_tb b
+	    LEFT JOIN
+	        book_tag_tb bt ON b.book_id = bt.book_id
+	    LEFT JOIN
+	        tag_tb t ON bt.tag_id = t.tag_id
+	    WHERE
+	        b.genre_id = #{genreId} 
+	    GROUP BY
+	        b.book_id, b.title, b.author, b.likes, b.views, b.category_id, b.genre_id, b.book_cover_image
+	    <choose>
+	        <when test="filter == 'views'">
+	            ORDER BY b.views
+	        </when>
+	        <when test="filter == 'likes'">
+	            ORDER BY b.likes
+	        </when>
+	        <otherwise>
+	            ORDER BY b.book_id  <!-- 기본 정렬 -->
+	        </otherwise>
+	    </choose>
+	    <choose>
+	        <when test="order == 'ASC'">
+	            ASC
+	        </when>
+	        <when test="order == 'DESC'">
+	            DESC
+	        </when>
+	    </choose>
+	</select>
+	
+
 
 	<select id="findAllBookListByUserId"
 		resultType="com.jam.repository.model.Book">

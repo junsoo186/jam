@@ -2,7 +2,9 @@ package com.jam.controller;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -46,16 +48,23 @@ public class WriterController {
 	public String handleWorkList(Model model) {
 		User principal = (User) session.getAttribute("principal");
 		List<Book> bookList = writerService.readAllBookListByprincipalId(principal.getUserId());
+
 		for (Book book : bookList) {
 			String bookImg = book.setUpUserImage();
 			book.setBookCoverImage(bookImg);
 		}
-
+		Map<Integer, List<Story>> storyMap = new HashMap<>();
 		if (bookList.isEmpty()) {
 			model.addAttribute("bookList", null);
 		} else {
 			model.addAttribute("bookList", bookList);
+			for (Book book : bookList) {
+				List<Story> storyList = writerService.findAllStoryByBookId(book.getBookId());
+				storyMap.put(book.getBookId(), storyList);
+				System.out.println(storyMap.get(book.getBookId()));
+			}
 		}
+		model.addAttribute("storyMap", storyMap);
 		return "write/workList";
 	}
 
@@ -218,7 +227,7 @@ public class WriterController {
 		Book bookDetail = writerService.detailBook(bookId);
 		String bookImg = bookDetail.setUpUserImage(); // 책의 이미지 경로를 설정
 		bookDetail.setBookCoverImage(bookImg); // 설정한 이미지 경로를 Book 객체에 저장
-		
+
 		String tagNames = bookDetail.getTagNames();
 		String[] tagsArray = tagNames.split(",");
 		List<String> tagList = new ArrayList<String>();
@@ -248,9 +257,9 @@ public class WriterController {
 				}
 			}
 		}
-			model.addAttribute("selectTags", selectTags);
-			model.addAttribute("bookId", bookId);
-			model.addAttribute("bookDetail", bookDetail);
+		model.addAttribute("selectTags", selectTags);
+		model.addAttribute("bookId", bookId);
+		model.addAttribute("bookDetail", bookDetail);
 		return "write/workUpdate";
 	}
 

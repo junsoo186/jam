@@ -32,7 +32,7 @@ public class NoticeController {
 	@Autowired
 	private NoticeRepository noticeRepository;
 
-	/**
+	/** 
 	 * 게시글 목록 페이지 요청
 	 */
 	@GetMapping({ "/list", "/" })
@@ -44,6 +44,10 @@ public class NoticeController {
 
 		System.out.println("공시사항 목록 : " + noticeList);
 
+		
+		
+		
+		
 		model.addAttribute("noticeList", noticeList);
 		model.addAttribute("currentPage", page);
 		model.addAttribute("totalPages", totalPages);

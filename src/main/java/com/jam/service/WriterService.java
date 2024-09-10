@@ -1,6 +1,9 @@
 package com.jam.service;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -83,6 +86,35 @@ public class WriterService {
 		}
 		return books;
 	}
+	
+	
+	/**
+	 * 
+	 * @param categoryId
+	 * @param filter
+	 * @param order
+	 * @return
+	 */
+	public List<Book> readAllBooksByCategoryIdOrder( int categoryId,String filter,String order){
+		List<Book> bookList= new ArrayList<>();
+		bookList=bookRepository.AllBookListCategoryOrderBy(categoryId, filter, order);
+		return bookList;
+	}
+	
+	
+	
+	/**
+	 *  카테고리 ver2
+	 * @param genreId
+	 * @param filter
+	 * @param order
+	 * @return
+	 */
+	public List<Book> readAllBooksByGenreIdOrder( int genreId,String filter,String order){
+		List<Book> bookList= new ArrayList<>();
+		bookList=bookRepository.AllBookListGenreOrderBy(genreId, filter, order);
+		return bookList;
+	}
 
 	/**
 	 * 작성한 책 리스트
@@ -155,18 +187,44 @@ public class WriterService {
 	@Transactional
 	public Integer createStory(StoryDTO storyDTO, Integer bookId, Integer principalId) {
 		int result = 0;
-		Story story = new Story();
-		try {
-			result = storyRepository.insertStory(storyDTO.toStroy(bookId, principalId));
-			story = storyRepository.findStoryIdByBookIdAndUserId(bookId, principalId);
-		} catch (Exception e) {
-			// TODO - 오류 처리
-		}
-		if (result != 1) {
-			// TODO - 오류 처리
-		}
-		System.out.println("storyId : " + story.toString());
-		return story.getStoryId();
+	    Story story = new Story();
+	    String directoryPath = "src/main/resources/static/contentText/";
+	    String storyPath = directoryPath + storyDTO.getTitle() + ".txt";
+
+	    // 디렉토리 생성 (존재하지 않을 경우)
+	    File directory = new File(directoryPath);
+	    if (!directory.exists()) {
+	        directory.mkdirs(); // 경로에 있는 모든 디렉토리 생성
+	    }
+
+	    // 파일 생성 및 내용 저장
+	    try {
+	        File file = new File(storyPath);
+	        FileWriter writer = new FileWriter(file);
+	        writer.write(storyDTO.getContents());
+	        writer.close();
+	        System.out.println("작성 성공 ++++++++");
+	    } catch (IOException e) {
+	        // TODO: 파일 저장 중 오류 처리
+	        e.printStackTrace();
+	    }
+
+	    // 스토리 데이터베이스에 저장
+	    try {
+	        result = storyRepository.insertStory(storyDTO.toStory(bookId, principalId, storyPath));
+	        story = storyRepository.findStoryIdByBookIdAndUserId(bookId, principalId);
+	    } catch (Exception e) {
+	        // TODO - 오류 처리
+	        e.printStackTrace();
+	    }
+
+	    if (result != 1) {
+	        // TODO - 오류 처리
+	        System.out.println("스토리 저장 실패");
+	    }
+
+	    System.out.println("storyId : " + story.toString());
+	    return story.getStoryId();
 	}
 
 	/**
@@ -192,15 +250,38 @@ public class WriterService {
 	 * @param number
 	 * @return
 	 */
-	public Story outputStoryContentByStoryId(Integer StoryId) {
+	public Story outputStoryContentByStoryId(Integer storyId) {
 		Story story = new Story();
-		try {
-			story = storyRepository.outputStoryContentByStoryId(StoryId);
-		} catch (Exception e) {
-			// TODO - 오류 처리
-		}
-		return story;
+	    try {
+	        // 데이터베이스에서 Story 객체 가져오기
+	        story = storyRepository.outputStoryContentByStoryId(storyId);
+
+	        // Story 객체에 저장된 파일 경로 가져오기
+	        String filePath = story.getContents(); // 'contents' 필드에 파일 경로가 저장되어 있다고 가정
+
+	        // 파일 내용을 읽어서 Story 객체의 contents 필드에 설정
+	        StringBuilder contentBuilder = new StringBuilder();
+	        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+	            String line;
+	            while ((line = reader.readLine()) != null) {
+	                contentBuilder.append(line);
+	                contentBuilder.append(System.lineSeparator());
+	            }
+	        } catch (IOException e) {
+	            // TODO: 파일 읽기 오류 처리
+	            e.printStackTrace();
+	        }
+
+	        // 파일에서 읽은 내용을 Story 객체에 설정
+	        story.setContents(contentBuilder.toString());
+	    } catch (Exception e) {
+	        // TODO - 데이터베이스 조회 오류 처리
+	        e.printStackTrace();
+	    }
+
+	    return story;
 	}
+	
 
 	/**
 	 * 회차 수정

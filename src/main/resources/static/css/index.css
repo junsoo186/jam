@@ -89,6 +89,13 @@ p {
 	justify-content: center; /* 카테고리 버튼 중앙 정렬 */
 }
 
+.genre--filter {
+	display: flex;
+	gap: 15px;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	justify-content: center; /* 카테고리 버튼 중앙 정렬 */
+}
 .category--btn {
 	margin-top: 15px;
 	margin-bottom: 15px;
@@ -112,6 +119,29 @@ p {
 	color: #444;
 }
 
+.genre--btn {
+	margin-top: 15px;
+	margin-bottom: 15px;
+	height: 40px;
+	padding: 10px 15px;
+	background-color: #f9f9f9;
+	border-width: 1px; /* 변경된 부분: 1px로 설정 */
+	border-color: #dedede;
+	border-style: solid; /* 추가된 부분: solid로 명시적 설정 */
+	border-radius: 25px;
+	cursor: pointer;
+}
+
+.genre--btn:hover {
+	border-color: #FF4D6D; /* 변경된 부분 */
+	transition: background-color 0.3s ease;
+}
+
+.genre--btn.active {
+	background-color: #FFF9D8;
+	color: #444;
+}
+
 /* 책 목록 스타일 */
 h3 {
 	display: flex;
@@ -124,7 +154,8 @@ h3 {
 	display: flex;
 	flex-wrap: wrap;
 	gap: 20px;
-	justify-content: center; /* 책 목록 중앙 정렬 */
+	margin-left: 100px;
+	justify-content: flex-start; /* 책 목록 중앙 정렬 */
 }
 
 .book--item {
@@ -204,6 +235,12 @@ h3 {
 	color: #666;
 }
 
+.btn--area--filter{
+	display: flex;
+    width: 80%;
+    justify-content: flex-end;
+    
+}
 /* 슬라이더 전체 컨테이너 스타일 */
 .event--container {
 	padding: 50px;
