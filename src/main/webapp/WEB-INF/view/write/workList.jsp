@@ -43,7 +43,7 @@
 									<b class="text--book--title cut_line_one">${list.title}</b>
 									<p class="text--author">저자 : ${principal.nickName}</p>
 								</div>
-
+								div.
 								<a href="/write/storyInsert?bookId=${list.bookId}"> <img src="//images.novelpia.com/img/new/mybook/btn_episode.png" class="btn--book--action--img" alt="에피소드 추가">
 								</a> 
 								<a href="/write/workUpdate?bookId=${list.bookId}"> <img src="//images.novelpia.com/img/new/mybook/btn_novel_manage.png" class="btn--book--action--img" alt="작품 관리">
