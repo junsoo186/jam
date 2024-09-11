@@ -81,7 +81,7 @@ p {
 /* 추가 CSS 스타일링 */
 
 /* 카테고리 필터 스타일 */
-.category--filter {
+.category--area--filter {
 	display: flex;
 	gap: 15px;
 	margin-top: 20px;
@@ -89,7 +89,7 @@ p {
 	justify-content: center; /* 카테고리 버튼 중앙 정렬 */
 }
 
-.genre--filter {
+.genre--area--filter {
 	display: flex;
 	gap: 15px;
 	margin-top: 20px;
@@ -120,7 +120,7 @@ p {
 }
 
 .genre--btn {
-	margin-top: 15px;
+	margin-top: 35px;
 	margin-bottom: 15px;
 	height: 40px;
 	padding: 10px 15px;
