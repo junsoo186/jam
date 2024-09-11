@@ -162,9 +162,9 @@
 			<div class="slider--wrapper">
 				<div class="slider">
 					<div class="slide">
-						<a href=""><img class="event--banner" src="/images/test1.png" alt="슬라이드 이미지 1"></a> 
-						<a href=""><img class="event--banner" src="/images/test2.png" alt="슬라이드 이미지 2"></a>
-						<a href=""><img class="event--banner" src="/images/test3.png" alt="슬라이드 이미지 3"></a>
+						<a href=""><img class="event--banner" src="" alt="슬라이드 이미지 1"></a> 
+						<a href=""><img class="event--banner" src="" alt="슬라이드 이미지 2"></a>
+						<a href=""><img class="event--banner" src="" alt="슬라이드 이미지 3"></a>
 					</div>
 				</div>
 			</div>
