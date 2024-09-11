@@ -105,20 +105,14 @@ public class MainCotroller {
      */
     @GetMapping("/api/booksByGenreOrder")
     @ResponseBody
-    public List<BookDTO> getBooksByGenreId(@RequestParam("genreId") int genreId, // TODO 쿼리스트링 받아올변수들  
+    public List<Book> getBooksByGenreId(@RequestParam("genreId") int genreId, // TODO 쿼리스트링 받아올변수들  
 									       @RequestParam("filter") String filter,     // 정렬 기준 (조회수 또는 좋아요)
 									       @RequestParam("order") String order){
-        List<Book> toBookList = writerService.readAllBooksByGenreIdOrder(genreId,filter,order);
-        
-        System.out.println("tobook"+toBookList);
-        // 반환할 책 리스트 초기화
-        List<BookDTO> bookList = new ArrayList<>();
+        List<Book> bookList = writerService.readAllBooksByGenreIdOrder(genreId,filter,order);
+        for (Book book : bookList) {
+        	book.setBookCoverImage(book.setUpUserImage());
+		}
         // 모든 책에 대해 카테고리 ID가 일치하는 책을 bookList에 추가
-        for (Book book : toBookList) {
-        	book.setUpUserImage();
-                bookList.add(book.toBookDTO());  // 카테고리 ID가 일치하면 리스트에 추가
-        }
-        System.out.println("북커버"+bookList);
         // 조건에 맞는 책이 하나도 없을 경우 빈 리스트 반환
         return bookList;  // 카테고리 ID가 일치하는 책 목록 반환
     
@@ -132,18 +126,14 @@ public class MainCotroller {
  // 특정 카테고리의 책 목록을 반환하는 API
     @GetMapping("/api/booksByCategoryOrder")
     @ResponseBody
-    public List<BookDTO> getBooksByCategoryId(@RequestParam("categoryId") int categoryId, // TODO 쿼리스트링 받아올변수들  
+    public List<Book> getBooksByCategoryId(@RequestParam("categoryId") int categoryId, // TODO 쿼리스트링 받아올변수들  
 									          @RequestParam("filter") String filter,     // 정렬 기준 (조회수 또는 좋아요)
 									       @RequestParam("order") String order) {    // 정렬 순서 (오름차순 또는 내림차순)) {
         // 책 목록 가져오기
-        List<Book> toBookList = writerService.readAllBooksByCategoryIdOrder(categoryId,filter,order);
-        
-        // 반환할 책 리스트 초기화
-        List<BookDTO> bookList = new ArrayList<>();
-        // 모든 책에 대해 카테고리 ID가 일치하는 책을 bookList에 추가
-        for (Book book : toBookList) {
-                bookList.add(book.toBookDTO());  // 카테고리 ID가 일치하면 리스트에 추가
-        }
+        List<Book> bookList = writerService.readAllBooksByCategoryIdOrder(categoryId,filter,order);
+        for (Book book : bookList) {
+        	book.setBookCoverImage(book.setUpUserImage());
+		}
         
         // 조건에 맞는 책이 하나도 없을 경우 빈 리스트 반환
         return bookList;  // 카테고리 ID가 일치하는 책 목록 반환
