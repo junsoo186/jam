@@ -6,7 +6,8 @@
 
 <main>
     <div class="container--area">
-        <form id="bookForm" action="workInsert" method="post" onsubmit="return prepareFormForSubmit()">
+        <form id="bookForm" action="workInsert" method="post" enctype="multipart/form-data" onsubmit="return prepareFormForSubmit()">
+            
     <h2>도서 정보 입력 폼</h2>
             <!-- 폼 섹션 -->
             <div class="content--area">

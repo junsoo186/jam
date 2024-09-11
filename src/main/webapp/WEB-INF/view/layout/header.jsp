@@ -13,7 +13,7 @@
 </head>
 <body>
 	<header>
-
+		<section class="top-all-inside">
 		<div class="top-area">
 			<section class="center-category">
 				<ul>
@@ -99,7 +99,7 @@
 		        </c:if>
 		    </ul>
 	</div>
-		
+	</section>	
 		
 	
 	<script type="text/javascript" src="/js/header.js"></script>

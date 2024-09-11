@@ -11,7 +11,8 @@ body {
 }
 
 .top-area {
-    padding: 10px 20px;
+    width: 1200px;
+  
     border-bottom-color: #333;
 }
 
@@ -71,7 +72,6 @@ li {
 #cover {
     left: 0;
     right: 0;
-    width: 1400px;
     margin: -83px auto 0 auto;
     background-color: #fff;
     border: 15px solid #ff4d6d;
@@ -101,7 +101,6 @@ search-form {
 
 #s-cover {
     width: 1px;
-    padding-left: 35px;
 }
 
 .search-button {
@@ -228,4 +227,10 @@ header {
     justify-content: center;
     padding: 0 20px;
     border-bottom: solid 1px #e1e3e1;
+}
+
+.top-all-inside{
+
+    width: 1200px;
+
 }

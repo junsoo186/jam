@@ -1,4 +1,3 @@
-
 insert into user_tb (nick_name, phone_number, email, password)
 values( '박정훈1', '010-4548-5678', 'test@test.com', '$2a$10$Y1mXaXaj5Y2m.IJkH58IwOZF8SSctsvP37WTrp82ambaSeSEyxZwe');
 
@@ -655,3 +654,5 @@ VALUES
 -- 펀딩 히스토리 테이블 삽입
 INSERT INTO funding_history_tb (project_id)
 VALUES (1), (2), (3), (4), (5);
+
+
