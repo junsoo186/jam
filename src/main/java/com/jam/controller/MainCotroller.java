@@ -24,20 +24,22 @@ public class MainCotroller {
 	
 	@Autowired
 	UserService userService;
+	
+	@Autowired
 	HttpSession session;
 	
 	@GetMapping("/")
-	public String mainPage(HttpServletRequest request, Model model) {
-		 HttpSession session = request.getSession(false); // 세션이 없을 때 새로 만들지 않음 (null 반환)
-		 User user2 = (User) session.getAttribute("principal"); // user2에 세션 가져오기
+	public String mainPage() {
 		
-		if(user2 == null) { // 만약에 user2에 세션이 없다면
-			return "/index"; // 로그인 없이 홈페이지 이동
-		} else { // 아니라면
-				 User user = userService.sessionCheck(user2.getEmail()); // user에 데이터를 담는다.
-				 session.setAttribute("principal", user); // 세션에 값을 새롭게 갱신한다.
-		return "/index";	
-		}		
+		User user2 = (User) session.getAttribute("principal"); // user2에 세션 가져오기
+		 if(user2 != null) {  // 아니라면
+			 User user = userService.sessionCheck(user2.getEmail()); // user에 데이터를 담는다.
+			 session.setAttribute("principal", user); // 세션에 값을 새롭게 갱신한다.
+			 return "/index";	
+		 } else {
+			 System.out.println("유저세션 없음");
+			 return "/index";
+		 }		
 	}
 	
     /**

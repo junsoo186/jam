@@ -514,10 +514,10 @@ public class UserController {
 	@GetMapping("/myPage")
 	public String getMyPage() {
 		
-		User user2 = (User)session.getAttribute("principal");
-		
-		User user = userService.newSession(user2.getEmail()); // 세션값 변경준비
-		session.setAttribute("principal", user);  // 이메일을 통해 유저의 정보를 model에 담는다.
+//		User user2 = (User)session.getAttribute("principal");
+//		
+//		User user = userService.newSession(user2.getEmail()); // 세션값 변경준비
+//		session.setAttribute("principal", user);  // 이메일을 통해 유저의 정보를 model에 담는다.
 
 		return "user/myPage";
 	}
@@ -528,10 +528,10 @@ public class UserController {
 	@GetMapping("/myProfileModify")
 	public String getDetailMyPage() {
 		
-		User user2 = (User)session.getAttribute("principal"); // 세션값 변경준비
-		
-		User user = userService.newSession(user2.getEmail()); // 이메일을 통해 유저의 정보를 model에 담는다.
-		session.setAttribute("principal", user);
+//		User user2 = (User)session.getAttribute("principal"); // 세션값 변경준비
+//		
+//		User user = userService.newSession(user2.getEmail()); // 이메일을 통해 유저의 정보를 model에 담는다.
+//		session.setAttribute("principal", user);
 
 		return "/user/myProfile";
 	}
