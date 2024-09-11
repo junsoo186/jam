@@ -11,7 +11,7 @@
         <div class="card-body">
         <h3> 공지사항 수정</h3>
             <!-- 폼 액션 URL 수정 -->
-            <form action="/notice/update/${noticeList.noticeId}" method="post">
+            <form action="/staff/update/${noticeList.noticeId}" method="post">
                 <div class="mb-3">
                     <input type="text" class="form-control" value="${noticeList.noticeTitle}" name="noticeTitle"required>
                 </div>
@@ -25,3 +25,5 @@
         </div>
     </div>
 </div>
+<script type="text/javascript" src="/js/navigation.js"></script>
+

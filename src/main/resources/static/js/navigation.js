@@ -45,6 +45,9 @@ document.addEventListener('DOMContentLoaded', function() {
 		});
 	});
 
+	if (sectionUrl) {
+		loadContent(sectionUrl);
+	}
 	// 동적으로 콘텐츠를 로드하는 함수
 	function loadContent(url) {
 		var xhr = new XMLHttpRequest();
@@ -254,7 +257,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			}
 		});
 	}
-	
+
 	function bindReportUserModalEvents() {
 		// 모달 관련 변수들
 		const modal = document.getElementById('reportUserModal');
@@ -297,7 +300,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			}
 		});
 	}
-	
+
 	function bindPayModalEvents() {
 		// 모달 관련 변수들
 		const modal = document.getElementById('payModal');
@@ -340,7 +343,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			}
 		});
 	}
-	
+
 	function bindDonationModalEvents() {
 		// 모달 관련 변수들
 		const modal = document.getElementById('donationModal');
@@ -396,16 +399,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // 채팅 페이지 연결 
 
-   document.addEventListener('DOMContentLoaded', function() {
-        var chatLink = document.getElementById('chat-link');
+document.addEventListener('DOMContentLoaded', function() {
+	var chatLink = document.getElementById('chat-link');
 
-        chatLink.addEventListener('click', function(event) {
-            event.preventDefault(); 
+	chatLink.addEventListener('click', function(event) {
+		event.preventDefault();
 
-            // 창 열기
-            window.open('/chatPage', 'chatWindow', 'width=400,height=600');
-        });
-    });
+		// 창 열기
+		window.open('/chatPage', 'chatWindow', 'width=400,height=600');
+	});
+});
 
 
 
