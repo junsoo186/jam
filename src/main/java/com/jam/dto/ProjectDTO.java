@@ -2,6 +2,9 @@ package com.jam.dto;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
 
 import com.jam.repository.model.Project;
 
@@ -32,8 +35,11 @@ public class ProjectDTO {
     private String onelineComment; // 프로젝트 1줄 소개 (목록에서 출력)
     private String categoryName; // 카테고리 종류
     private long currentAmount; // 현제 모인 금액
+    private MultipartFile mainMFile;
+    private String mainImg;
+    private String originalMainImg;
     
-    public Project toProject(Integer userId, Integer bookId, String author) {
+    public Project toProject(Integer userId, Integer bookId, String author, MultipartFile mainMFile) {
     	return Project.builder()
     			.userId(userId)
     			.bookId(bookId)
@@ -42,9 +48,11 @@ public class ProjectDTO {
     			.contents(this.contents)
     			.goal(this.goal)
     			.dateEnd(this.dateEnd)
-    			.projectImg(this.projectImg)
     			.onelineComment(this.onelineComment)
     			.currentAmount(this.currentAmount)
+                .mainMFile(mainMFile)
     			.build();
     }
+
+    
 }

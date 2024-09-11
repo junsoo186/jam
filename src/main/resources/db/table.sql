@@ -101,6 +101,7 @@ CREATE TABLE `project_tb` (
     `date_end` date NOT NULL COMMENT '프로젝트 마감일',
     `created_at` timestamp NULL DEFAULT current_timestamp COMMENT '프로젝트 시작일',
     `staff_agree` enum('N','Y') NOT NULL DEFAULT 'N' COMMENT 'Y:N',
+    `main_img` text null COMMENT 'project 메인 이미지' ,
     FOREIGN KEY (`user_id`) REFERENCES `user_tb` (`user_id`),
 	FOREIGN KEY (`book_id`) REFERENCES `book_tb` (`book_id`)
 );

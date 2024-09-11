@@ -30,6 +30,7 @@ spring:
 
   servlet:
     multipart:
+      enabled: true
       max-file-size: 20MB # 파일 최대 크기 20MB
       max-request-size: 20MB # 멀티파트 전체 요청 크기 20MB 제한
 

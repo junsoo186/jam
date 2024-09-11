@@ -12,4 +12,6 @@ public interface FundingRepository {
 	public int insertFunding(Funding funding);
 	
 	public List<Funding> selectAllByUserId();
+
+    public void deleteByRewardId(Integer rewardId);
 }

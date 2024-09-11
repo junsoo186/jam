@@ -14,12 +14,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.jam.dto.BookDTO;
 import com.jam.dto.StoryDTO;
+import com.jam.repository.interfaces.ProjectRepository;
 import com.jam.repository.model.Book;
 import com.jam.repository.model.Category;
 import com.jam.repository.model.Genre;
+import com.jam.repository.model.Project;
 import com.jam.repository.model.Story;
 import com.jam.repository.model.Tag;
 import com.jam.repository.model.User;
+import com.jam.service.FundingService;
 import com.jam.service.WriterService;
 
 import jakarta.servlet.http.HttpSession;
@@ -33,6 +36,8 @@ public class WriterController {
 	private final WriterService writerService;
 	@Autowired
 	private final HttpSession session;
+
+	private final FundingService fundingService;
 
 	// TODO - 검색 기능 추가
 
@@ -194,9 +199,13 @@ public class WriterController {
 		String bookImg = bookDetail.setUpUserImage(); // 책의 이미지 경로를 설정
 		bookDetail.setBookCoverImage(bookImg); // 설정한 이미지 경로를 Book 객체에 저장
 
+		Integer projectId = fundingService.findProjectByBookId(bookDetail.getBookId());
+
 		model.addAttribute("bookId", bookId);
 		model.addAttribute("bookDetail", bookDetail);
 		model.addAttribute("principalId", principal.getUserId());
+		model.addAttribute("projectId", projectId);
+
 
 		// 디버깅을 위해 각 Story 객체의 userId를 출력
 

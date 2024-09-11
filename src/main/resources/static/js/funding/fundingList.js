@@ -1,5 +1,7 @@
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
     const projects = document.querySelectorAll('.project-card');
+
+    const currentDate = new Date(); // 현재 날짜를 한 번만 가져옴
 
     projects.forEach((project, index) => {
         const goalAmount = project.getAttribute('data-goal');
@@ -9,24 +11,31 @@ document.addEventListener("DOMContentLoaded", function() {
         const parsedGoal = parseInt(goalAmount, 10);
         const parsedCurrent = parseInt(currentAmount, 10);
 
-        calculateProgress(index, parsedCurrent, parsedGoal, endDate);
+        calculateProgress(index, parsedCurrent, parsedGoal, endDate, currentDate);
+
+        // form 영역 클릭 시 해당 경로로 이동
+        project.addEventListener('click', function () {
+            const form = project.closest('form');
+            if (form) {
+                form.submit();  // form을 submit하여 해당 경로로 이동
+            }
+        });
     });
 });
 
-function calculateProgress(index, currentAmount, goalAmount, endDate) {
-    // 현재 날짜와 목표 날짜 계산
-    const currentDate = new Date();
+function calculateProgress(index, currentAmount, goalAmount, endDate, currentDate) {
+    // 목표 날짜 계산
     const targetDate = new Date(endDate);
     const timeDiff = targetDate - currentDate;
 
-    // 남은 일수 계산
+    // 남은 일수와 시간 계산
     let daysLeft = Math.floor(timeDiff / (1000 * 60 * 60 * 24)); // 남은 일수
-    let hoursLeft = Math.floor(timeDiff / (1000 * 60 * 60)); // 남은 시간
+    let hoursLeft = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)); // 남은 시간
 
     // 진행률 계산 (퍼센트)
     let percentage = Math.floor((currentAmount / goalAmount) * 100);
 
-    // 만약 진행률이 100%를 넘으면 100%로 고정
+    // 진행률이 100%를 넘으면 100%로 고정
     if (percentage > 100) {
         percentage = 100;
     }
@@ -39,17 +48,12 @@ function calculateProgress(index, currentAmount, goalAmount, endDate) {
 
     // 종료된 상태 처리 (마감 또는 남은 시간)
     if (daysLeft < 0) {
-        // 만약 프로젝트가 이미 종료되었으면 '마감'으로 표시
         daysLeft = "마감";
-    } else if (daysLeft === 0) {
-        // 남은 일수가 0일일 때는 남은 시간을 표시
-        if (hoursLeft > 0) {
-            daysLeft = `${hoursLeft}시간 남음`;
-        } else {
-            daysLeft = "마감";
-        }
+    } else if (daysLeft === 0 && hoursLeft > 0) {
+        daysLeft = `${hoursLeft}시간 남음`;
+    } else if (daysLeft === 0 && hoursLeft <= 0) {
+        daysLeft = "마감";
     } else {
-        // 남은 일수가 1일 이상일 경우
         daysLeft = `${daysLeft}일 남음`;
     }
 

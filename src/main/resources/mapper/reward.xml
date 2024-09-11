@@ -5,17 +5,25 @@
 
     <insert id="insertRewardByProjectId">
         INSERT INTO reward_tb (project_id, reward_content, reward_point)
-        VALUES (#{projectId}, #{rewardContent}, #{rewardPoint})
+        VALUES (#{projectId}, #{content}, #{point})
     </insert>
 
-    <select id="finRewardByProjectId" resultType="com.jam.repository.model.Reward">
+    <select id="findRewardByProjectId" resultType="com.jam.repository.model.Reward">
         select * from reward_tb where project_id = #{projectId}
     </select>
 
     <update id="updateRewardByProjectId">
         update reward_tb
         set reward_content = #{rewardContent},
-        reward_point = #{rewardPoint},
+        reward_point = #{rewardPoint}
         where project_id = #{projectId}
     </update>
+
+    <select id="findRewardDTOByProjectId" resultType="com.jam.dto.RewardDTO">
+        select * from reward_tb where project_id = #{projectId}
+    </select>
+
+    <delete id="deleteReward">
+        DELETE FROM reward_tb WHERE reward_id = #{rewardId}
+    </delete>
 </mapper>

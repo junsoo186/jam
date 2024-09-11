@@ -1,18 +1,28 @@
 package com.jam.dto;
 
+import com.google.auto.value.AutoValue.Builder;
 import com.jam.repository.model.Reward;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
+@Builder
 public class RewardDTO {
     private Integer rewardId;
     private Integer projectId; 
-    private String rewardContent;
-    private long rewardPoint;
+    private String content;
+    private long point;
     
-    public Reward toReward(Integer projectId) {
+    public Reward toReward() {
     	return Reward.builder()
-    			.projectId(projectId)
-    			.rewardContent(this.rewardContent)
-    			.rewardPoint(this.rewardPoint)
+    			.rewardContent(this.content)
+    			.rewardPoint(this.point)
     			.build();
     }
+
 }

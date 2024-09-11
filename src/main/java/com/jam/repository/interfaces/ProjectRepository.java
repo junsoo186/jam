@@ -4,22 +4,25 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.jam.dto.ProjectDTO;
 import com.jam.repository.model.Project;
 
 @Mapper
 public interface ProjectRepository {
 
-	public int insertProject(Project project); // 프로젝트 생성
+	void insertProject(Project project); // 프로젝트 생성
 
-	public void insertProjectImg(String projectImg); // 프로젝트 이미지 생성
+	public void insertProjectImg(@Param("projectId") Integer projectId,
+			@Param("projectImg") String projectImg); // 프로젝트 이미지 생성
 
 	public List<Project> findAllProject(); // 프로젝트 리스트 출력
 
-	public Project detailProject(@Param("projectId") Integer projectId); // 프로젝트 자세히
+	public Project findDetailProject(@Param("projectId") Integer projectId); // 프로젝트 자세히
 
 	// 프로잭트 업데이트
-	public void updateProject(Project project);
+	public void updateProject(ProjectDTO projectDTO);
 
 	public void updateProjectImg(String projectImg);
 
@@ -28,6 +31,10 @@ public interface ProjectRepository {
 
 	public void deleteProject(@Param("projectId") Integer projectId);
 
-	public Project findProjectByBookId(int bookId);
+	public Integer findProjectByBookId(Integer bookId);
 
+	public List<String> findAllProjectImgByProjectId(Integer projectId);
+
+    public Project findProjectByProjectId(Integer projectId);
+	
 }
