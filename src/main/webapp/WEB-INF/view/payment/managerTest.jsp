@@ -128,14 +128,13 @@
 <c:if test="${not empty payList}">
 	<table border="1">
 		<tr>
-			<th>번호</th>
+			<th>결제 번호</th>
 			<th>유저 번호</th>
-			<th>결제 상품</th>
+			<th>환불 금액</th>
 			<th>결제 날짜</th>
-			<th>결제 히든키</th>
-			<th>환불</th>
+			<th>사유</th>
 			<th>상태</th>
-			<th>날짜</th>
+			<th>처리 날짜</th>
 			<th></th>
 			<th>유무</th>
 		</tr>
@@ -143,11 +142,10 @@
 		    <tr>
 		        <td>${payment.refundId}</td> <!-- 주문 번호 출력 -->
 		        <td>${payment.userId}</td>  <!-- 결제 금액 출력 -->
-		        <td>${payment.refundAmount}</td> <!-- 결제 날짜 출력 -->
-		        <td>${payment.paymentKey} 코인</td>  <!-- 결제 상품 출력 -->
+		        <td>${payment.refundAmount}원</td> <!-- 결제 날짜 출력 -->
+		    	<td>${payment.createdAt}</td>
 		    	<td>${payment.refundReason}</td> <!-- 결제 히든키 출력 -->
 		    	<td>${payment.status}</td> 
-		    	<td>${payment.createdAt}</td>
 		    	<td>${payment.approvedAt}</td>
 		    	<td>${payment.rejectedAt}</td>
 		        <td>

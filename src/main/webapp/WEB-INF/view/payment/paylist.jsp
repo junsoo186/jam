@@ -108,22 +108,20 @@
 			<tr>
 				<th>주문 번호</th>
 				<th>결제 금액</th>
-				<th>잔액</th>
-				<th>결제 상품</th>
+				<th>충전 포인트</th>
 				<th>결제 날짜</th>
-				<th>결제 히든키</th>
-				<th>환불</th>
+				<th>잔액</th>
+				<th>승인여부</th>
 				<th>버튼</th>
 			</tr>
 			
 			<c:forEach var="payment" items="${payList}">
 			<tr>
 			    <td>${payment.accountHistoryId}</td> <!-- 주문 번호 출력 -->
-			    <td>${payment.deposit}</td>  <!-- 결제 금액 출력 -->
+			    <td>${payment.deposit}원</td>  <!-- 결제 금액 출력 -->
 			    <td>${payment.point} 코인</td>  <!-- 결제 상품 출력 -->
 			    <td>${payment.createdAt}</td> <!-- 결제 날짜 출력 -->
-			    <td>${payment.afterBalance}</td>
-			    <td>${payment.paymentKey}</td> <!-- 결제 히든키 출력 -->
+			    <td>${payment.afterBalance}코인</td>
 			    <td>${payment.status}</td>		    	
 				<td>		            
 					<c:choose>

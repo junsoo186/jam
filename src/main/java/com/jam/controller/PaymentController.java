@@ -193,6 +193,7 @@ public class PaymentController {
     }
     
     /**
+     * 결제 내역 페이지에서 
      * 사용자가 환불 버튼을 클릭한다.
      */
     @PostMapping("/manager")
