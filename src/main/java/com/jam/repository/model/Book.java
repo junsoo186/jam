@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.jam.dto.BookDTO;
 
 import lombok.AllArgsConstructor;
@@ -19,7 +21,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @Builder
 public class Book {
-
+    private String bookCoverImage;
     private Integer bookId;
     private Integer userId;
     private String title;
@@ -30,7 +32,7 @@ public class Book {
     private String categoryName;
     private String genreName;
     private String tagNames;  // String으로 받아오기
-	private String bookCoverImage;
+	private MultipartFile bookCover;
 	private String originalBookCoverImage;
     private List<String> customtags;
     private String introduction;
@@ -50,9 +52,9 @@ public class Book {
     
     public String setUpUserImage() {
 		if (bookCoverImage == null) {
-			return "https://picsum.photos/id/40/400/400";
+			return "/images/cover/winterCover.jpg";
 		} else {
-			return "/images/uploads/" + bookCoverImage;
+			return "/images/" + bookCoverImage;
 		}
 	}
     
@@ -61,7 +63,7 @@ public class Book {
     			 .bookId(bookId).userId(userId) //아이디
     			 .title(title).authorComment(authorComment).author(author) //제목 코멘트 작가
     			 .categoryId(categoryId).genreId(genreId).tagNames(tagNames) //카테고리 장르 태그
-    			 .bookCoverImage(bookCoverImage).originalBookCoverImage(originalBookCoverImage) //북커버
+    			 .bookCover(bookCover).originalBookCoverImage(originalBookCoverImage) //북커버
     			 .customTag(customtags).introduction(introduction) // 커스텀태그 소개글
     			 .createdAt(createdAt).age(age).likes(likes).serialDay(serialDay).views(views) // 생성일자, 나이제한, 좋아요 ,연재일
     			 .build();

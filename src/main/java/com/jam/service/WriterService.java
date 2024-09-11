@@ -479,32 +479,30 @@ public class WriterService {
 	 * @return
 	 */
 	private String[] uploadFile(MultipartFile mFile) {
+		// 파일 크기 제한 확인
 		if (mFile.getSize() > Define.MAX_FILE_SIZE) {
-			// TODO - 오류 처리
-//			throw new DataDeliveryException("파일 크기는 20MB 이상 클 수 없습니다.", HttpStatus.BAD_REQUEST);
+			throw new RuntimeException("파일 크기는 20MB 이상일 수 없습니다.");
 		}
-
-		// 코드 수정
-		// File - getAbsolutePath()
-		// (리눅스 또는 MacOS)에 맞춰서 절대 경로 생성을 시킬 수 있다.
+	
+		// 저장 디렉토리 확인 및 절대 경로로 변환
 		String saveDirectory = new File(uploadDir).getAbsolutePath();
-
-		// 파일 이름 생성(중복 이름 예방)
-		String uploadFileName = UUID.randomUUID() + "_" + mFile.getOriginalFilename();
-		// 파일 전체 경로 + 새로생성한 파일명
+		System.out.println("저장 경로: " + saveDirectory);
+	
+		// 파일 이름 생성 및 특수 문자 처리
+		String sanitizedFileName = mFile.getOriginalFilename().replaceAll("\\s+", "_");
+		String uploadFileName = "cover/" + UUID.randomUUID() + "_" + sanitizedFileName;
 		String uploadPath = saveDirectory + File.separator + uploadFileName;
 		File destination = new File(uploadPath);
-		
-		// 반드시 수행
+	
+		// 파일 저장
 		try {
 			mFile.transferTo(destination);
 		} catch (IllegalStateException | IOException e) {
-			// TODO - 오류 처리
-//			e.printStackTrace();
-//			throw new DataDeliveryException("파일 업로드 중 오류가 발생했습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
+			e.printStackTrace();
+			throw new RuntimeException("파일 업로드 중 오류가 발생했습니다.", e);
 		}
-
-		return new String[] { mFile.getOriginalFilename(), uploadFileName };
+	
+		return new String[]{mFile.getOriginalFilename(), uploadFileName};
 	}
 
 }
