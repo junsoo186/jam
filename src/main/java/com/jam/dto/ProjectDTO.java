@@ -32,6 +32,7 @@ public class ProjectDTO {
     private Timestamp createdAt; 
     private String staffAgree; // Enum ('N', 'Y') || 스태프 승인 여부 (기본은 N)
     private String projectImg; // 프로젝트 이미지
+    private String originalProjectImg;
     private String onelineComment; // 프로젝트 1줄 소개 (목록에서 출력)
     private String categoryName; // 카테고리 종류
     private long currentAmount; // 현제 모인 금액

@@ -30,6 +30,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jam.dto.ProjectDTO;
 import com.jam.dto.RewardDTO;
 import com.jam.repository.model.Book;
+import com.jam.repository.model.Content;
 import com.jam.repository.model.Project;
 import com.jam.repository.model.Reward;
 import com.jam.repository.model.User;
@@ -79,7 +80,7 @@ public class FundingController {
 	 */
 	@PostMapping("/createFunding")
 	public ResponseEntity<Map<String, Object>> createFunding(@ModelAttribute ProjectDTO projectDTO,
-			@RequestParam("mainMFile") MultipartFile mainMFile, @RequestParam("mFile") List<MultipartFile> mFiles,
+			@RequestParam("mFile") List<MultipartFile> mFiles,
 			@RequestParam("bookId") Integer bookId, @RequestParam("rewards") String rewardsJson) {
 		User principal = (User) session.getAttribute("principal");
 
@@ -135,13 +136,19 @@ public class FundingController {
 		// projectId로 프로젝트 상세 정보 조회
 		Project project = fundingService.findDetailProject(projectId);
 		List<Reward> rewards = fundingService.findRewardByProjectId(projectId);
-		List<String> projectImgs = fundingService.findAllProjectImgByProjectId(projectId);
+		List<Content> projectImgs = fundingService.findAllProjectImgByProjectId(projectId);
 
 		String mainImg = project.setUpMainImage();
 		project.setMainImg(mainImg);
 
+		for (Content img : projectImgs) {
+			String projectImg = img.setUpImage();
+			img.setImg(projectImg);
+		}
+
 		model.addAttribute("project", project);
 		model.addAttribute("rewards", rewards);
+		model.addAttribute("projectImgs", projectImgs);
 
 		return "funding/fundingDetail"; // 상세 페이지로 이동
 	}
@@ -155,9 +162,16 @@ public class FundingController {
 	public String getMethodName(@RequestParam("projectId") Integer projectId, Model model) {
 		Project project = fundingService.findProjectByProjectId(projectId);
 		List<Reward> rewards = fundingService.findRewardByProjectId(projectId);
+		List<Content> projectImgs = fundingService.findAllProjectImgByProjectId(projectId);
+
+		for (Content img : projectImgs) {
+			String projectImg = img.setUpImage();
+			img.setImg(projectImg);
+		}
 
 		model.addAttribute("project", project);
 		model.addAttribute("rewards", rewards);
+		model.addAttribute("projectImg", projectImgs);
 		return "funding/fundingUpdate";
 	}
 
@@ -168,9 +182,9 @@ public class FundingController {
 	 */
 	@PostMapping("/updateFunding")
 	public ResponseEntity<Map<String, Object>> updateFundingProc(@RequestParam("projectId") Integer projectId,
-			@ModelAttribute ProjectDTO projectDTO, @RequestParam("rewards") String rewardsJson) {
+			@ModelAttribute ProjectDTO projectDTO, @RequestParam("rewards") String rewardsJson, @RequestParam("mFile") List<MultipartFile> mFiles) {
 		try {
-			fundingService.updateProject(projectDTO, projectId);
+			fundingService.updateProject(projectDTO, projectId, mFiles);
 			
 			ObjectMapper objectMapper = new ObjectMapper();
 			List<RewardDTO> rewards = new ArrayList<>();

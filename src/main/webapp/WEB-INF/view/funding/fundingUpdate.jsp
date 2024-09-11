@@ -12,9 +12,8 @@
                             <div class="img--preview--side">
                                 <h3>메인 이미지 미리보기</h3>
                                 <div id="mainImagePreview" class="img--preview--box">
+                                    <img src="${project.mainImg}" alt="메인 이미지">
                                 </div>
-                                <input type="file" id="mainMFile" name="mainMFile" accept="image/*"
-                                    style="display: none;">
                             </div>
 
                             <!-- 메인 콘텐츠 영역 -->
@@ -64,6 +63,9 @@
                                     <div id="imagePreview" class="form--group--area">
                                         <h3>샘플 이미지 미리보기</h3>
                                         <div id="previewContainer"></div>
+                                        <c:forEach var="img" items="${projectImgs}">
+                                            <img src="${img}" alt="이미지">
+                                        </c:forEach>
                                     </div>
 
                                     <!-- 한 줄 소개 -->

@@ -6,8 +6,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const fundingFormElement = document.getElementById('fundingFormElement');
     const rewardContainer = document.getElementById('reward-container');
     let selectedFiles = [];
-    let rewardIndex = 1;  
-    let editorInstance;  
+    let rewardIndex = 1;
+    let editorInstance;
 
     // CKEditor 5 초기화
     ClassicEditor
@@ -23,23 +23,6 @@ document.addEventListener('DOMContentLoaded', function () {
             console.error(error);
         });
 
-    // 메인 이미지가 선택되면 미리보기 표시
-    mainImageInput.addEventListener('change', function () {
-        const file = mainImageInput.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function (e) {
-                mainImagePreview.innerHTML = ''; 
-                const mainImg = document.createElement('img');
-                mainImg.src = e.target.result;
-                mainImg.style.maxWidth = '100%';
-                mainImg.style.maxHeight = '300px';
-                mainImagePreview.appendChild(mainImg);
-            };
-            reader.readAsDataURL(file);
-        }
-    });
-
     // 커스텀 샘플 이미지 선택 버튼 클릭 시 파일 선택 트리거
     document.getElementById('customUploadBtn').addEventListener('click', function () {
         projectImgsInput.click();
@@ -51,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (files.length > 0) {
             Array.from(files).forEach((file, index) => {
                 if (!selectedFiles.some(f => f.name === file.name && f.size === file.size)) {
-                    selectedFiles.push(file); 
+                    selectedFiles.push(file);
 
                     const reader = new FileReader();
                     reader.onload = function (e) {
@@ -85,8 +68,8 @@ document.addEventListener('DOMContentLoaded', function () {
     previewContainer.addEventListener('click', function (event) {
         if (event.target.classList.contains('btn--remove')) {
             const imgIndex = event.target.dataset.imgIndex;
-            selectedFiles.splice(imgIndex, 1); 
-            event.target.parentElement.remove();  
+            selectedFiles.splice(imgIndex, 1);
+            event.target.parentElement.remove();
         }
     });
 
@@ -118,7 +101,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             if (document.querySelectorAll('.reward--group--area').length > 1) {
                 rewardGroup.remove();
-                
+
                 // 리워드 인덱스 재조정
                 const rewards = document.querySelectorAll('.reward--group--area');
                 rewardIndex = 1;
@@ -151,16 +134,16 @@ document.addEventListener('DOMContentLoaded', function () {
 
         const submitButton = fundingFormElement.querySelector('button[type="submit"]');
         submitButton.disabled = true;
-        submitButton.value = 'Submitting...'; 
+        submitButton.value = 'Submitting...';
 
         const formData = new FormData(fundingFormElement);
 
         // 선택된 샘플 이미지 추가
-        const uniqueFiles = new Set(); 
+        const uniqueFiles = new Set();
         selectedFiles.forEach((file) => {
-            if (!uniqueFiles.has(file.name)) {  
-                uniqueFiles.add(file.name);  
-                formData.append('mFile', file);  
+            if (!uniqueFiles.has(file.name)) {
+                uniqueFiles.add(file.name);
+                formData.append('mFile', file);
             }
         });
 
@@ -190,12 +173,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
-                return response.json(); 
+                return response.json();
             })
             .then(data => {
-                const projectId = data.projectId;  
+                const projectId = data.projectId;
                 if (projectId) {
-                    window.location.href = `/funding/fundingDetail?projectId=${projectId}`;  
+                    window.location.href = `/funding/fundingDetail?projectId=${projectId}`;
                 } else {
                     console.error('Project ID is undefined or null');
                 }

@@ -44,7 +44,7 @@
 		#{projectImg}) </insert>
 
 	<select id="findAllProjectImgByProjectId"
-		resultType="String"> select img from content_tb where project_id = #{projectId} </select>
+		resultType="com.jam.repository.model.Content"> select img from content_tb where project_id = #{projectId} </select>
 
 	<select id="findProjectByBookId"
 		resultType="Integer"> SELECT * FROM PROJECT_TB where book_id = #{bookId}; </select>

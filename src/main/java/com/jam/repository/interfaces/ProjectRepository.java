@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.jam.dto.ProjectDTO;
+import com.jam.repository.model.Content;
 import com.jam.repository.model.Project;
 
 @Mapper
@@ -33,7 +34,7 @@ public interface ProjectRepository {
 
 	public Integer findProjectByBookId(Integer bookId);
 
-	public List<String> findAllProjectImgByProjectId(Integer projectId);
+	public List<Content> findAllProjectImgByProjectId(Integer projectId);
 
     public Project findProjectByProjectId(Integer projectId);
 	

@@ -1,11 +1,10 @@
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener('DOMContentLoaded', function () {
     // 목표 금액과 모인 금액 가져오기
     const goalAmount = document.getElementById('goalAmount').getAttribute('data-goal');
     const totalAmount = document.getElementById('totalAmount').getAttribute('data-total');
-
+    
     const endDateStr = "${project.dateEnd}"; // 서버에서 전달된 종료 날짜
     const endDate = new Date(endDateStr); // 날짜 객체로 변환
-
 
     // 정수로 변환
     const goal = parseInt(goalAmount, 10);
@@ -52,4 +51,51 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // 1초마다 남은 시간을 업데이트
     setInterval(calculateRemainingTime, 1000);
+
+    // 슬라이더 기능
+    let slideIndex = 0;
+    const slides = document.querySelectorAll('.slide');
+    const dots = document.querySelectorAll('.dot');
+    const prevBtn = document.querySelector('.prev');
+    const nextBtn = document.querySelector('.next');
+
+    function showSlide(index) {
+        slides.forEach((slide, idx) => {
+            slide.classList.remove('active');
+            if (idx === index) {
+                slide.classList.add('active');
+            }
+        });
+
+        dots.forEach((dot, idx) => {
+            dot.classList.remove('active');
+            if (idx === index) {
+                dot.classList.add('active');
+            }
+        });
+    }
+
+    function nextSlide() {
+        slideIndex = (slideIndex + 1) % slides.length;
+        showSlide(slideIndex);
+    }
+
+    function prevSlide() {
+        slideIndex = (slideIndex - 1 + slides.length) % slides.length;
+        showSlide(slideIndex);
+    }
+
+    // Dot을 클릭했을 때 해당 슬라이드로 이동
+    dots.forEach((dot, idx) => {
+        dot.addEventListener('click', () => {
+            slideIndex = idx;
+            showSlide(slideIndex);
+        });
+    });
+
+    nextBtn.addEventListener('click', nextSlide);
+    prevBtn.addEventListener('click', prevSlide);
+
+    // 3초마다 자동 슬라이드 전환
+    setInterval(nextSlide, 3000);
 });

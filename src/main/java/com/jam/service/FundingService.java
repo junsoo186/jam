@@ -18,6 +18,7 @@ import com.jam.dto.RewardDTO;
 import com.jam.repository.interfaces.FundingRepository;
 import com.jam.repository.interfaces.ProjectRepository;
 import com.jam.repository.interfaces.RewardRepository;
+import com.jam.repository.model.Content;
 import com.jam.repository.model.Project;
 import com.jam.repository.model.Reward;
 import com.jam.utils.Define;
@@ -138,8 +139,8 @@ public class FundingService {
 		return rewards;
 	}
 
-	public List<String> findAllProjectImgByProjectId(Integer projectId) {
-		List<String> projectImgs = projectRepository.findAllProjectImgByProjectId(projectId);
+	public List<Content> findAllProjectImgByProjectId(Integer projectId) {
+		List<Content> projectImgs = projectRepository.findAllProjectImgByProjectId(projectId);
 
 		return projectImgs;
 	}
@@ -155,13 +156,38 @@ public class FundingService {
 		return project;
 	}
 
-	public void updateProject(ProjectDTO projectDTO, Integer projectId) {
-		String[] mineFileNames = uploadFile(projectDTO.getMainMFile());
-		projectDTO.setOriginalMainImg(mineFileNames[0]);
-		projectDTO.setMainImg(mineFileNames[1]);
+	public void updateProject(ProjectDTO projectDTO, Integer projectId, List<MultipartFile> mFiles) {
+		// mFiles가 비어있지 않으면 첫 번째 이미지를 메인 이미지로 설정
+		if (mFiles != null && !mFiles.isEmpty()) {
+			// 첫 번째 이미지를 메인 이미지로 업로드
+			MultipartFile mainImgFile = mFiles.get(0);
+			if (!mainImgFile.isEmpty()) {
+				String[] mainFileNames = uploadFile(mainImgFile);
+				projectDTO.setOriginalMainImg(mainFileNames[0]); // 원본 이미지 파일명 설정
+				projectDTO.setMainImg(mainFileNames[1]); // 업로드된 이미지 파일명 설정
+			}
+		}
 
+		// 프로젝트 ID 설정
 		projectDTO.setProjectId(projectId);
+
+		// 프로젝트 정보 업데이트
 		projectRepository.updateProject(projectDTO);
+
+		// 나머지 이미지들을 프로젝트 이미지로 삽입
+		if (mFiles != null && mFiles.size() > 1) {
+			for (int i = 1; i < mFiles.size(); i++) {
+				MultipartFile imgFile = mFiles.get(i);
+				if (!imgFile.isEmpty()) {
+					String[] projectImgFileNames = uploadFile(imgFile);
+					projectDTO.setOriginalProjectImg(projectImgFileNames[0]); // 원본 이미지 파일명 설정
+					projectDTO.setProjectImg(projectImgFileNames[1]); // 업로드된 이미지 파일명 설정
+
+					// 프로젝트 이미지 삽입
+					projectRepository.insertProjectImg(projectId, projectDTO.getProjectImg());
+				}
+			}
+		}
 	}
 
 	public void updateReward(List<RewardDTO> rewards, Integer projectId) {
