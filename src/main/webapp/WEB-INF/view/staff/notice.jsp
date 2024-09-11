@@ -35,8 +35,8 @@
 			<!-- noticeList를 반복하여 테이블에 출력 -->
 			<c:forEach items="${noticeList}" var="notice">
 				<tr>
-					<td>${notice.noticeId}</td>
-					<td>${notice.noticeTitle}</td>
+  					<td><a href="/staff/noticeDetail/${notice.noticeId}">${notice.noticeId}</a></td>
+  					<td>${notice.noticeTitle}</td>
 					<td>${notice.noticeContent}</td>
 					<td>${notice.staffId}</td>
 					<td>${notice.createdAt}</td>

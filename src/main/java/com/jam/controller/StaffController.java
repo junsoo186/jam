@@ -136,6 +136,13 @@ public class StaffController {
 	public String insertProc() {
 		return "staff/writeNotice";
 	} 
+	
+	@GetMapping("noticeDetail/{noticeId}")
+	public String detail(@PathVariable("noticeId")int noticeId, Model model) {
+		Notice notice = noticeService.selectByNoticeId(noticeId);
+		model.addAttribute("notice", notice);
+		return "staff/noticeDetail";
+	}
 
 	@GetMapping("/reportContentDetail")
 	public String handleReportContentDetail() {
