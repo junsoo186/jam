@@ -2,6 +2,7 @@ package com.jam.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
+import com.google.gson.Gson;
 import com.jam.dto.BookDTO;
 import com.jam.dto.CategoryDTO;
 import com.jam.dto.GenreDTO;
@@ -57,7 +59,6 @@ public class MainCotroller {
 		model.addAttribute("bookList",bookList);
 		model.addAttribute("categoryList",categoryList);
 		model.addAttribute("genreList",genreList);
-		
 		return "/index";
 	}
 	
@@ -109,13 +110,15 @@ public class MainCotroller {
 									       @RequestParam("order") String order){
         List<Book> toBookList = writerService.readAllBooksByGenreIdOrder(genreId,filter,order);
         
+        System.out.println("tobook"+toBookList);
         // 반환할 책 리스트 초기화
         List<BookDTO> bookList = new ArrayList<>();
         // 모든 책에 대해 카테고리 ID가 일치하는 책을 bookList에 추가
         for (Book book : toBookList) {
+        	book.setUpUserImage();
                 bookList.add(book.toBookDTO());  // 카테고리 ID가 일치하면 리스트에 추가
         }
-        
+        System.out.println("북커버"+bookList);
         // 조건에 맞는 책이 하나도 없을 경우 빈 리스트 반환
         return bookList;  // 카테고리 ID가 일치하는 책 목록 반환
     

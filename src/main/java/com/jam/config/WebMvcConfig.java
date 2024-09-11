@@ -25,7 +25,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 	
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		registry.addResourceHandler("/images/uploads/**").addResourceLocations("file:\\C:\\work_spring\\upload/");
+		registry.addResourceHandler("/images/uploads/**").addResourceLocations("src/main/resources/static/");
 	}
 
 	@Bean // IoC 대상(싱글톤 처리)

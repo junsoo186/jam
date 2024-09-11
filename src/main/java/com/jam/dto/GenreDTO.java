@@ -1,7 +1,5 @@
 package com.jam.dto;
 
-import com.jam.repository.model.Genre;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

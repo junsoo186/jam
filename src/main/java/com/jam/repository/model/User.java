@@ -35,7 +35,7 @@ public class User {
 		if (profileImg == null) {
 			return "https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FbCXLP7%2FbtrQuNirLbt%2FN30EKpk07InXpbReKWzde1%2Fimg.png";
 		} else {
-			return "/images/uploads/" + profileImg;
+			return "/images/" + profileImg;
 		}
 	}
 }

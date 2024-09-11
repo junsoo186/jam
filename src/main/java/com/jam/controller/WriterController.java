@@ -10,9 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.jam.dto.BookDTO;
 import com.jam.dto.StoryDTO;
@@ -95,7 +97,8 @@ public class WriterController {
 	 * @return 작품 리스트 페이지로 리다이렉트
 	 */
 	@PostMapping("/workInsert")
-	public String completedWorkProc(BookDTO bookDTO) {
+	public String completedWorkProc(@RequestParam("bookCover") MultipartFile bookCover,
+	BookDTO bookDTO) {
 		User principal = (User) session.getAttribute("principal");
 
 		// 유효성 검사 (생략)
@@ -104,7 +107,7 @@ public class WriterController {
 		List<Tag> existingTags = writerService.selectAllTags();
 		List<String> tagNames = bookDTO.getCustomTag();
 		List<Integer> tagIdsToInsert = new ArrayList<>();
-
+		bookDTO.setBookCover(bookCover);
 		// 현재 존재하는 태그들과 bookDTO의 태그 이름들을 비교합니다.
 		for (String tagName : tagNames) {
 			boolean tagExists = false;
@@ -147,7 +150,8 @@ public class WriterController {
 	 * @return
 	 */
 	@GetMapping("/storyInsert")
-	public String handleStoryInsert() {
+	public String handleStoryInsert(@RequestParam(name="bookId") int bookId, Model model) {
+		model.addAttribute("bookId", bookId);
 		return "write/storyInsert";
 	}
 
