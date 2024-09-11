@@ -23,6 +23,15 @@
 		= d.user_id
 		where email = #{email};
 	</select>
+	
+	<select id="findUserId"
+		resultType="com.jam.repository.model.User">
+		select *
+		from user_tb as u
+		join user_de_tb as d
+		on u.user_id = d.user_id
+		where u.user_id = #{userId};
+	</select>
 
 	<select id="findByUserEmail" resultType="int">
 		SELECT COUNT(*) FROM

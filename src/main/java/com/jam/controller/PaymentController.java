@@ -335,11 +335,11 @@ public class PaymentController {
     	
     	 User user = (User) session.getAttribute("principal");
     	    RefundRequest refundRequest = RefundRequest.builder()
-    	            .userId(userId)
-    	            .staffId(user.getUserId())
-    	            .paymentKey(paymentKey)
-    	            .refundAmount(refundAmount)
-    	            .refundReason("거절")
+    	            .userId(userId) // 유저 아이디
+    	            .staffId(user.getUserId()) // 관리자 아이디
+    	            .paymentKey(paymentKey) // 결제 코드
+    	            .refundAmount(refundAmount) // 결제 가격
+    	            .refundReason("거절") 
     	    //        .status("거절")
     	            .build();
     	    
@@ -366,7 +366,7 @@ public class PaymentController {
     }
     
     /**
-     * 관리자 페이지 이동
+     * 관리자 페이지 이동 (관리자)
      * @return
      */
     @GetMapping("/managerTest")

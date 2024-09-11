@@ -40,7 +40,7 @@
 								 <img class="nav-profile" src="${principal.profileImg}">
 								</c:when>
 								<c:otherwise>
-									<a class="profile-area" href="#"> <img class="nav-profile" src="/images/profile/profile.png">
+									<a class="profile-area" href="/#"> <img class="nav-profile" src="/images/profile/profile.png">
 								</a>
 								</c:otherwise>
 							</c:choose>

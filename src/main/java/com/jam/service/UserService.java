@@ -438,6 +438,26 @@ public class UserService {
 		return number;
 	}
 	
+	/**
+	 * 사용자가 클릭할 시 유저 세션의 값을 불러온다. (사이드 바에 '내 정보' 클릭 시 )
+	 * 환불승인 후 홈페이지에서 클릭할 시 유저포인트가 변경이 없어 세션값을 새롭게 갱신
+	 * @param email
+	 */
+	public User newSession(String email) {
+		User user = userRepository.findEmail(email);
+		return user;
+		
+	}
+	
+	/**
+	 * 홈페이지 창에서 세션 확인
+	 */
+	public User sessionCheck(String email) {
+		User user = null;
+		user = userRepository.findEmail(email);
+		return user;
+	}
+	
 	
 	
 

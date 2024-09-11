@@ -10,6 +10,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -498,10 +499,26 @@ public class UserController {
 	}
 	
 	/**
+	 * 홈페이지 로그인 후 아이콘 클릭 시 유저 데이터 업데이트 후 작동?
+	 * @return
+	 */
+	@GetMapping("/newSession")
+	public String iconSession() {
+		System.out.println("userController에서 프로필 아이콘 클릭");
+		return "/view/index";
+	}
+	
+	/**
 	 * 마이페이지 이동
 	 */
 	@GetMapping("/myPage")
 	public String getMyPage() {
+		
+		User user2 = (User)session.getAttribute("principal");
+		
+		User user = userService.newSession(user2.getEmail()); // 세션값 변경준비
+		session.setAttribute("principal", user);  // 이메일을 통해 유저의 정보를 model에 담는다.
+
 		return "user/myPage";
 	}
 	
@@ -511,6 +528,11 @@ public class UserController {
 	@GetMapping("/myProfileModify")
 	public String getDetailMyPage() {
 		
+		User user2 = (User)session.getAttribute("principal"); // 세션값 변경준비
+		
+		User user = userService.newSession(user2.getEmail()); // 이메일을 통해 유저의 정보를 model에 담는다.
+		session.setAttribute("principal", user);
+
 		return "/user/myProfile";
 	}
 	

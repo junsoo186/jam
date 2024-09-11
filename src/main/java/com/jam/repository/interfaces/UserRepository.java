@@ -73,4 +73,5 @@ public interface UserRepository {
 	
 	// paymentKey 키로 refund_request_tb에 환불을 여러번 넣을 수 없도록 한다.
 	public int historyPaymentKeyCheck(String paymentKey);
+	
 }
