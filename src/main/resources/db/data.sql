@@ -249,7 +249,7 @@ insert into tag_tb (tag_id, tag_name) values (3, '추리');
 -- 북테이블 생성
 insert into book_tb (user_id, title, author_comment, author, category_id, genre_id, introduction, age,views,likes,serial_day,
 					book_cover_image) 
-values (1, '테스트하기1', '줄거리테스트1', '작가테스트1', '1', '1', '소개글1','19',220,15,'월요일','/cover/1.jpg');
+values (1, '테스트하기1', '줄거리테스트1', '작가테스트1', '1', '1', '소개글1','19',220,15,'월요일','cover/1.jpg');
 
 insert into book_tb (user_id,title,author_comment,author,category_id , genre_id,
             introduction,age,book_cover_image) 
@@ -387,7 +387,7 @@ VALUES (3, 12, 1, '프롤로그', '신비의 연금술사와 황금의 약속 - 
 
 -- Book Information SQL
 INSERT INTO book_tb (user_id, title, author_comment, author, category_id, genre_id, introduction, age,views,likes,serial_day,book_cover_image) 
-VALUES (21, '바람의 여정과 잃어버린 왕국', '바람 마법을 사용하는 소녀의 모험 이야기', '작가 C', 3, 5, '잃어버린 고대 왕국 에일라스를 찾아 떠나는 리아의 대모험 이야기', '15',100,10,'수요일','/cover/4.png');
+VALUES (21, '바람의 여정과 잃어버린 왕국', '바람 마법을 사용하는 소녀의 모험 이야기', '작가 C', 3, 5, '잃어버린 고대 왕국 에일라스를 찾아 떠나는 리아의 대모험 이야기', '15',100,10,'수요일','cover/4.png');
 
 -- Story Information SQL
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, views,contents)
@@ -408,7 +408,7 @@ VALUES (4, 21, 1, '프롤로그', '바람의 속삭임', '2014-07-23',2,
 
 -- Book Information SQL
 INSERT INTO book_tb (user_id, title, author_comment, author, category_id, genre_id, introduction, age,views,likes,serial_day,book_cover_image) 
-VALUES (18, '어둠의 성에서 온 초대장', '저주받은 성과 그곳에 숨겨진 비밀을 밝히려는 모험 이야기', '작가 D', 3, 2, '어둠의 성에서 열리는 신비로운 연회에 초대된 사람들의 이야기', '15',450,50,'토요일','/cover/5.png');
+VALUES (18, '어둠의 성에서 온 초대장', '저주받은 성과 그곳에 숨겨진 비밀을 밝히려는 모험 이야기', '작가 D', 3, 2, '어둠의 성에서 열리는 신비로운 연회에 초대된 사람들의 이야기', '15',450,50,'토요일','cover/5.png');
 
 -- Story Information SQL
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day,views, contents)
@@ -429,7 +429,7 @@ VALUES (5, 18, 1, '프롤로그', '어둠 속의 초대', '2005-11-12',153,
 
 -- Book Information SQL
 INSERT INTO book_tb (user_id, title, author_comment, author, category_id, genre_id, introduction, age,views,likes,serial_day,book_cover_image) 
-VALUES (28, '붉은 달의 비밀', '금지된 숲과 마법, 그리고 치명적인 사랑 이야기', '작가 F', 3, 7, '붉은 달이 뜨는 밤, 금지된 숲에서 벌어지는 마법과 사랑의 위험한 게임', '19',1000,550,'수요일','/cover/6.png');
+VALUES (28, '붉은 달의 비밀', '금지된 숲과 마법, 그리고 치명적인 사랑 이야기', '작가 F', 3, 7, '붉은 달이 뜨는 밤, 금지된 숲에서 벌어지는 마법과 사랑의 위험한 게임', '19',1000,550,'수요일','cover/6.png');
 
 -- Story Information SQL
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, views,contents)
@@ -448,7 +448,7 @@ VALUES (6, 28, 1, '프롤로그', '붉은 달의 저주', '2002-08-14',325,
 
 -- Book Information SQL
 INSERT INTO book_tb (user_id, title, author_comment, author, category_id, genre_id, introduction, age,views,likes,serial_day,book_cover_image) 
-VALUES (15, '밤의 연금술사', '금단의 연금술을 탐구하는 두 사람의 어두운 이야기', '작가 G', 3, 5, '연금술의 금기를 깨고 강력한 힘을 얻기 위한 위험한 실험과 그로 인한 갈등', '19',800,80,'일요일','/cover/7.png');
+VALUES (15, '밤의 연금술사', '금단의 연금술을 탐구하는 두 사람의 어두운 이야기', '작가 G', 3, 5, '연금술의 금기를 깨고 강력한 힘을 얻기 위한 위험한 실험과 그로 인한 갈등', '19',800,80,'일요일','cover/7.png');
 
 -- Story Information SQL
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents)
@@ -467,7 +467,7 @@ VALUES (7, 15, 1, '프롤로그', '밤의 시작', '2023-04-24',
 
 -- Book Information SQL for a book suitable for minors
 INSERT INTO book_tb (user_id, title, author_comment, author, category_id, genre_id, introduction, age,views,likes,serial_day,book_cover_image) 
-VALUES (10, '빛의 수호자와 마법의 샘', '마법의 세계에서 빛을 되찾기 위한 소년의 모험 이야기', '작가 H', 3, 5, '마법의 샘을 지키기 위해 떠나는 소년 알렉스의 이야기', '15',1253,100,'수요일','/cover/8.png');
+VALUES (10, '빛의 수호자와 마법의 샘', '마법의 세계에서 빛을 되찾기 위한 소년의 모험 이야기', '작가 H', 3, 5, '마법의 샘을 지키기 위해 떠나는 소년 알렉스의 이야기', '15',1253,100,'수요일','cover/8.png');
 
 -- Story Information SQL for the book
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents)
@@ -482,7 +482,7 @@ VALUES (8, 10, 1, '프롤로그', '마법의 시작', '2023-05-18',
 
 -- Book Information SQL for a book suitable for adults only
 INSERT INTO book_tb (user_id, title, author_comment, author, category_id, genre_id, introduction, age,views,likes,serial_day,book_cover_image) 
-VALUES (20, '그림자의 연인', '귀족 사회의 어둠과 마법의 사랑 이야기', '작가 I', 3, 7, '아름다움과 금단의 마법에 얽힌 위험한 사랑 이야기', '19',250,23,'토요일','/cover/9.png');
+VALUES (20, '그림자의 연인', '귀족 사회의 어둠과 마법의 사랑 이야기', '작가 I', 3, 7, '아름다움과 금단의 마법에 얽힌 위험한 사랑 이야기', '19',250,23,'토요일','cover/9.png');
 
 -- Story Information SQL for the book
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents)
@@ -497,7 +497,7 @@ VALUES (9, 20, 1, '프롤로그', '어둠 속의 매혹', '2023-11-03',
 
 -- Book Information SQL for a book suitable for minors
 INSERT INTO book_tb (user_id, title, author_comment, author, category_id, genre_id, introduction, age,views,likes,serial_day,book_cover_image) 
-VALUES (14, '시간의 미로 속에서', '시간을 초월한 모험과 비밀을 찾아 나서는 이야기', '작가 J', 3, 5, '시간의 미로에 갇혀 잃어버린 기억과 과거의 죄책감을 마주하는 탐험 이야기', '15',450,15,'금요일','/cover/10.png');
+VALUES (14, '시간의 미로 속에서', '시간을 초월한 모험과 비밀을 찾아 나서는 이야기', '작가 J', 3, 5, '시간의 미로에 갇혀 잃어버린 기억과 과거의 죄책감을 마주하는 탐험 이야기', '15',450,15,'금요일','cover/10.png');
 
 -- Story Information SQL for the book
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents)
@@ -516,7 +516,7 @@ VALUES (10, 14, 1, '프롤로그', '미로의 입구', '2024-01-15',
 
 -- Book Information SQL for a book suitable for minors
 INSERT INTO book_tb (user_id, title, author_comment, author, category_id, genre_id, introduction, age,views,likes,serial_day,book_cover_image) 
-VALUES (18, '얼어붙은 대지의 심장', '끝없는 겨울을 끝내기 위한 기사단의 희생과 모험 이야기', '작가 K', 3, 5, '얼어붙은 대지의 저주를 풀기 위해 설산의 심장부로 향하는 기사단의 여정', '15',120,10,'화요일','/cover/11.png');
+VALUES (18, '얼어붙은 대지의 심장', '끝없는 겨울을 끝내기 위한 기사단의 희생과 모험 이야기', '작가 K', 3, 5, '얼어붙은 대지의 저주를 풀기 위해 설산의 심장부로 향하는 기사단의 여정', '15',120,10,'화요일','cover/11.png');
 
 -- Story Information SQL for the book
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents)
@@ -531,7 +531,7 @@ VALUES (11, 18, 1, '프롤로그', '얼어붙은 심장', '2023-08-30',
 
 -- Book Information SQL for a book suitable for adults only
 INSERT INTO book_tb (user_id, title, author_comment, author, category_id, genre_id, introduction, age,views,likes,serial_day,book_cover_image) 
-VALUES (22, '밤의 정원사', '어둠 속의 정원과 그곳에 숨겨진 치명적인 비밀 이야기', '작가 L', 3, 2, '밤마다 정원을 가꾸는 미스터리한 정원사와 그의 어두운 비밀', '19',222,20,'화요일','/cover/12.png');
+VALUES (22, '밤의 정원사', '어둠 속의 정원과 그곳에 숨겨진 치명적인 비밀 이야기', '작가 L', 3, 2, '밤마다 정원을 가꾸는 미스터리한 정원사와 그의 어두운 비밀', '19',222,20,'화요일','cover/12.png');
 
 -- Story Information SQL for the book
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents)
@@ -548,7 +548,7 @@ VALUES (12, 22, 1, '프롤로그', '정원의 속삭임', '2024-02-09',
 
 -- Book Information SQL for a book suitable for minors
 INSERT INTO book_tb (user_id, title, author_comment, author, category_id, genre_id, introduction, age,views,likes,serial_day,book_cover_image) 
-VALUES (13, '용의 숨결 속으로', '용들과의 싸움과 평화를 찾아 떠나는 소녀의 이야기', '작가 M', 3, 5, '용들의 폭주로 혼란에 빠진 왕국을 구하기 위한 아일라의 모험', '15',1220,150,'목요일','/cover/13.png');
+VALUES (13, '용의 숨결 속으로', '용들과의 싸움과 평화를 찾아 떠나는 소녀의 이야기', '작가 M', 3, 5, '용들의 폭주로 혼란에 빠진 왕국을 구하기 위한 아일라의 모험', '15',1220,150,'목요일','cover/13.png');
 
 -- Story Information SQL for the book
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents)
@@ -561,7 +561,7 @@ VALUES (13, 13, 1, '프롤로그', '용의 울부짖음', '2023-12-11',
 
 -- Book Information SQL for a book suitable for adults only
 INSERT INTO book_tb (user_id, title, author_comment, author, category_id, genre_id, introduction, age,views,likes,serial_day,book_cover_image) 
-VALUES (24, '밤의 연회', '어둠 속의 연회에서 벌어지는 위험한 음모와 유혹 이야기', '작가 N', 3, 2, '비밀스러운 연회에서 도시의 어두운 비밀을 밝히려는 첩보원의 이야기', '19',430,44,'금요일','/cover/14.png');
+VALUES (24, '밤의 연회', '어둠 속의 연회에서 벌어지는 위험한 음모와 유혹 이야기', '작가 N', 3, 2, '비밀스러운 연회에서 도시의 어두운 비밀을 밝히려는 첩보원의 이야기', '19',430,44,'금요일','cover/14.png');
 
 -- Story Information SQL for the book
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents)
@@ -574,7 +574,7 @@ VALUES (14, 24, 1, '프롤로그', '어둠의 서곡', '2024-03-18',
 
 -- Book Information SQL for a book suitable for minors
 INSERT INTO book_tb (user_id, title, author_comment, author, category_id, genre_id, introduction, age,views,likes,serial_day,book_cover_image) 
-VALUES (16, '불멸의 전사', '전설적인 힘을 가진 전사가 세상의 운명을 결정짓는 이야기', '작가 O', 3, 5, '불멸의 전사의 후손이 되어 세상을 지키기 위해 싸우는 칼릭스의 이야기', '15',864,57,'일요일','/cover/15.png');
+VALUES (16, '불멸의 전사', '전설적인 힘을 가진 전사가 세상의 운명을 결정짓는 이야기', '작가 O', 3, 5, '불멸의 전사의 후손이 되어 세상을 지키기 위해 싸우는 칼릭스의 이야기', '15',864,57,'일요일','cover/15.png');
 
 -- Story Information SQL for the book
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents)
@@ -587,7 +587,7 @@ VALUES (15, 16, 1, '프롤로그', '전설의 검', '2024-04-21',
 
 -- Book Information SQL for a book suitable for minors
 INSERT INTO book_tb (user_id, title, author_comment, author, category_id, genre_id, introduction, age,views,likes,serial_day,book_cover_image) 
-VALUES (19, '검은 바다의 지배자', '전설의 바다에서 보물을 찾는 용감한 항해자의 이야기', '작가 P', 3, 11, '검은 바다에서 숨겨진 비밀을 찾기 위해 위험을 무릅쓰고 항해하는 리안의 모험', '15',2200,250,'화요일','/cover/16.png');
+VALUES (19, '검은 바다의 지배자', '전설의 바다에서 보물을 찾는 용감한 항해자의 이야기', '작가 P', 3, 11, '검은 바다에서 숨겨진 비밀을 찾기 위해 위험을 무릅쓰고 항해하는 리안의 모험', '15',2200,250,'화요일','cover/16.png');
 
 -- Story Information SQL for the book
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents)
@@ -600,7 +600,7 @@ VALUES (16, 19, 1, '프롤로그', '바다의 부름', '2024-01-11',
 
 -- Book Information SQL for a book suitable for adults only
 INSERT INTO book_tb (user_id, title, author_comment, author, category_id, genre_id, introduction, age,views,likes,serial_day,book_cover_image) 
-VALUES (17, '황혼의 성벽', '어둠의 세계와 싸우는 수호자의 이야기', '작가 Q', 3, 2, '세상과 어둠의 세계를 가르는 성벽을 지키기 위한 엘리야의 마지막 전투','19',225,22,'목요일','/cover/17.png');
+VALUES (17, '황혼의 성벽', '어둠의 세계와 싸우는 수호자의 이야기', '작가 Q', 3, 2, '세상과 어둠의 세계를 가르는 성벽을 지키기 위한 엘리야의 마지막 전투','19',225,22,'목요일','cover/17.png');
 
 -- Story Information SQL for the book
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents)
@@ -613,7 +613,7 @@ VALUES (17, 17, 1, '프롤로그', '성벽의 균열', '2023-11-07',
 
 -- Book Information SQL for a book suitable for minors
 INSERT INTO book_tb (user_id, title, author_comment, author, category_id, genre_id, introduction, age,views,likes,serial_day,book_cover_image) 
-VALUES (26, '별빛 아래의 서약', '별빛 아래에서 맺은 사랑과 모험 이야기', '작가 R', 3, 7, '별빛 숲에서 사랑을 찾고 마법적 서약을 맺은 연인의 이야기', '15',120,13,'토요일','/cover/18.png');
+VALUES (26, '별빛 아래의 서약', '별빛 아래에서 맺은 사랑과 모험 이야기', '작가 R', 3, 7, '별빛 숲에서 사랑을 찾고 마법적 서약을 맺은 연인의 이야기', '15',120,13,'토요일','cover/18.png');
 
 -- Story Information SQL for the book
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents)
