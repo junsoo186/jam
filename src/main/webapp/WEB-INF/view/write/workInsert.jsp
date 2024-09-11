@@ -24,9 +24,9 @@
                     <div class="left--area--center">
                         <h3>이미지 선택</h3>
                         <div class="img--area--images">
-                            <div class="images"><img src="path/to/image1.jpg" alt="제공 이미지 1" class="selectable-image"></div>
-                            <div class="images"><img src="path/to/image2.jpg" alt="제공 이미지 2" class="selectable-image"></div>
-                            <div class="images"><img src="path/to/image3.jpg" alt="제공 이미지 3" class="selectable-image"></div>
+                            <div class="images"><img src="/images/test1.png" alt="제공 이미지 1" class="selectable-image"></div>
+                            <div class="images"><img src="/images/test2.png" alt="제공 이미지 2" class="selectable-image"></div>
+                            <div class="images"><img src="/images/test3.png" alt="제공 이미지 3" class="selectable-image"></div>
                             <div class="images"><img src="path/to/image4.jpg" alt="제공 이미지 4" class="selectable-image"></div>
                         </div>
                     </div> 

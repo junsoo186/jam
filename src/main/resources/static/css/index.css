@@ -169,6 +169,20 @@ h3 {
 	transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
+/* 너비가 555px 이하일 때 마진 적용 */
+@media (max-width: 555px) {
+  .book--item {
+  }
+}
+
+/* 너비가 556px 이상일 때 마진 적용 */
+@media (min-width: 556px) {
+  .book--item {
+    margin: 100px auto; /* 큰 화면에서의 마진 설정 */
+  }
+}
+
+
 .book--item:hover, .book--item--funding:hover {
 	background-color: #FFF9D8;
 	transition: transform 0.3s ease, box-shadow 0.3s ease;

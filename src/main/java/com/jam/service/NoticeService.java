@@ -57,7 +57,7 @@ public class NoticeService {
 	}
 	
     
-    // 게시글 수정
+    // 게시글 
     @Transactional
     public Notice uploading(int noticeId, NoticeDTO dto) {
     	int resultRow = noticeRepository.update(noticeId, dto.getNoticeTitle(), dto.getNoticeContent());
@@ -82,4 +82,15 @@ public class NoticeService {
 		 notice = noticeRepository.selectByNoticeId(noticeId,userId);
 		return notice;
 	}
+	
+	// 스태프 게시글 조회
+	public List<Notice> staffFindAll(int page, int size){
+		List<Notice> list = new ArrayList<>();
+		int limit = size;
+		int offset = (page - 1) * size;
+		list = noticeRepository.staffFindAll(limit,offset);
+		return list;
+	}
+	
+	
 }
