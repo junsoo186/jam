@@ -24,19 +24,21 @@ public class NoticeService {
     }
 
     // 게시글 등록
-    public int noticeInsert(Notice notice) {
-        return noticeRepository.insert(notice);
+    public NoticeDTO Insertnotice(NoticeDTO notice) {
+        noticeRepository.insert(notice);
+        return notice;
     }
 
     // 게시글 삭제
     @Transactional
-	public void delete(int noticeId) {
+	public int deleteNotice(int noticeId) {
 		int result =0;
 		try {
 			result = noticeRepository.delete(noticeId);
 		}catch (Exception e) {
-			// TODO: handle exception
+			System.out.println("딜리트 실패");
 		}
+		return result;
     }
 
     // 게시글 전체 조회
@@ -59,9 +61,10 @@ public class NoticeService {
     
     // 게시글 
     @Transactional
-    public Notice uploading(int noticeId, NoticeDTO dto) {
+    public Notice updateNotice(int noticeId, NoticeDTO dto) {
     	int resultRow = noticeRepository.update(noticeId, dto.getNoticeTitle(), dto.getNoticeContent());
-    	Notice notice = noticeRepository.selectByNoticeId(noticeId, dto.getUserId());
+    	Notice notice = noticeRepository.selectByNoticeId(noticeId);
+    	System.out.println("수정결과 : " + resultRow);
     	return notice;
 
     }
@@ -77,9 +80,9 @@ public class NoticeService {
 	
 
 
-	public Notice selectByNoticeId(int noticeId ,int userId) {
+	public Notice selectByNoticeId(int noticeId ) {
 		Notice	notice=new Notice();
-		 notice = noticeRepository.selectByNoticeId(noticeId,userId);
+		 notice = noticeRepository.selectByNoticeId(noticeId);
 		return notice;
 	}
 	

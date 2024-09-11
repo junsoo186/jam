@@ -7,9 +7,8 @@
 	<!-- 게시글 등록 -->
 	<insert id="insert"
 		parameterType="com.jam.repository.model.Notice">
-		INSERT INTO notice_tb (staff_id, notice_title, notice_content, comment,
-		created_at)
-		VALUES (#{staffId}, #{noticeTitle}, #{noticeContent}, #{comment}, NOW())
+		INSERT INTO notice_tb (user_id, notice_title, notice_content)
+		VALUES (#{userId}, #{noticeTitle}, #{noticeContent})
 	</insert>
 
 	<delete id="delete" parameterType="int">
@@ -56,8 +55,8 @@
 		resultType="com.jam.repository.model.Notice">
 		SELECT n.*
 		FROM notice_tb as n
-		LEFT JOIN user_tb as u on
-		n.user_id = u.user_id
+		LEFT JOIN user_tb as u 
+		on n.user_id = u.user_id
 		WHERE u.role = 'admin'and notice_id = #{noticeId}
 	</select>
 
