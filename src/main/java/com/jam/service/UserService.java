@@ -458,6 +458,15 @@ public class UserService {
 		return user;
 	}
 	
+	/**
+	 * 환불 버튼 클릭 시 "심사중" 이라고 표시하면서 관리자가 심사할 동안 버튼을 없앤다.
+	 * @param paymentKey
+	 */
+	public void pointAuditWait(String paymentKey) {
+		userRepository.pointAuditWait(paymentKey);
+		
+	}
+	
 	
 	
 

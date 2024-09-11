@@ -221,7 +221,11 @@ public class PaymentController {
     	    
     	    if(number == 0) { // insert
     	    	System.out.println("RefundRequest 확인 :" + refundRequest.toString());
-        	    userService.saveRefundRequest(refundRequest); // 유저가 환불클릭하면 관리자가 요청? 
+    	    	
+        	    userService.saveRefundRequest(refundRequest); // 유저가 환불클릭하면 관리자가 요청?
+        	    
+        	    userService.pointAuditWait(paymentKey); //
+
         	
         	    return "redirect:/"; // 환불 성공 시  refund_request_tb 데이터 
     	    	

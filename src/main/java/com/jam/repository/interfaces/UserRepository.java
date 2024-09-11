@@ -74,4 +74,7 @@ public interface UserRepository {
 	// paymentKey 키로 refund_request_tb에 환불을 여러번 넣을 수 없도록 한다.
 	public int historyPaymentKeyCheck(String paymentKey);
 	
+	// 관리자가 유저의 포인트 환불에 대해 심사중으로 변경 할 수 있다. (0911)
+	public void pointAuditWait(String paymentKey);
+	
 }

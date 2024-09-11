@@ -157,6 +157,13 @@
     where payment_key = #{paymentKey}
 	</update>
 	
+	<update id="pointAuditWait" >
+	 update account_history_tb
+    set status = '심사중'
+    where payment_key = #{paymentKey}
+	</update>
+	
+	
 	<update id="updateStatus1">
 		update account_history_tb
 		set status = '승인'
