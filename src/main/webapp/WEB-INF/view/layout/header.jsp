@@ -111,6 +111,4 @@
 	<script type="text/javascript" src="/js/header.js"></script>
 	
 </header>
-		<script type="text/javascript" src="/js/header.js"></script>
-
-	</header>
+	
