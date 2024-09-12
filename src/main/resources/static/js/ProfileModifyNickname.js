@@ -64,6 +64,26 @@ document.addEventListener('DOMContentLoaded', function() {
 				updateSignUpButton(false); // 버튼 비활성화
 				isNickNameValid = false;
 			});
-	};
+		};
 
-});
+	});
+	
+	
+	// 숫자만 입력받도록 제한하는 함수 (전화번호 숫자만 받기 최대 13자리)
+    function validatePhoneNumber(input) {
+        const value = input.value;
+
+        // 숫자가 아닌 값은 모두 제거
+        input.value = value.replace(/[^0-9]/g, '');
+
+        // 최대 11자리까지만 입력 가능
+        if (input.value.length > 11) {
+            input.value = input.value.substring(0, 11);
+        }
+    }
+	
+	
+	
+	
+	
+	

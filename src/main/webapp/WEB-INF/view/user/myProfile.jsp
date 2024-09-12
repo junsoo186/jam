@@ -94,7 +94,7 @@ input {
 			</div>
 
 			<div class="form-group">
-				<label for="phoneNumber">전화번호</label> <input type="text" name="phoneNumber" id="phoneNumber" value="${principal.phoneNumber}">
+				<label for="phoneNumber">전화번호</label> <input type="text" name="phoneNumber" id="phoneNumber" oninput="validatePhoneNumber(this)" placeholder="01000000000" value="${principal.phoneNumber}">
 			</div>
 
 			<div class="form-group">
