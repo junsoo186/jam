@@ -87,7 +87,7 @@
 				<img class="pencil-icon" src="/images/layout/write.png">
 				</a>
 		        <li><a href="/user/myPage">내 정보</a></li>
-		        <li><a href="#">보유 JAM: 0 </a></li>
+		        <li><a href="#">보유 JAM: <fmt:formatNumber value="${principal.point}" pattern="#,###" /></a></li>
 		        <li><a href="#">JAM 충전하기</a></li>		  
 		        <li><a href="#">설정</a></li>
 		        <li><a href="#" id="chat-link">채팅</a></li>

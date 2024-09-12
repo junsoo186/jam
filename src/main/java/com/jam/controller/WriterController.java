@@ -199,12 +199,12 @@ public class WriterController {
 		String bookImg = bookDetail.setUpUserImage(); // 책의 이미지 경로를 설정
 		bookDetail.setBookCoverImage(bookImg); // 설정한 이미지 경로를 Book 객체에 저장
 
-		Integer projectId = fundingService.findProjectByBookId(bookDetail.getBookId());
+		Project project = fundingService.findProjectByBookId(bookDetail.getBookId());
 
 		model.addAttribute("bookId", bookId);
 		model.addAttribute("bookDetail", bookDetail);
 		model.addAttribute("principalId", principal.getUserId());
-		model.addAttribute("projectId", projectId);
+		model.addAttribute("project", project);
 
 
 		// 디버깅을 위해 각 Story 객체의 userId를 출력

@@ -10,15 +10,20 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import org.threeten.bp.LocalDateTime;
 
 import com.jam.dto.ProjectDTO;
 import com.jam.dto.RewardDTO;
 import com.jam.repository.interfaces.FundingRepository;
 import com.jam.repository.interfaces.ProjectRepository;
 import com.jam.repository.interfaces.RewardRepository;
+import com.jam.repository.interfaces.UserRepository;
 import com.jam.repository.model.Content;
+import com.jam.repository.model.Funding;
 import com.jam.repository.model.Project;
 import com.jam.repository.model.Reward;
 import com.jam.utils.Define;
@@ -32,6 +37,8 @@ public class FundingService {
 	private final FundingRepository fundingRepository;
 	private final ProjectRepository projectRepository;
 	private final RewardRepository rewardRepository;
+	private final UserRepository userRepository;
+
 
 	@Value("${file.upload-dir}")
 	private String uploadDir;
@@ -44,6 +51,7 @@ public class FundingService {
 		return projects;
 	}
 
+	@Transactional
 	public void insertProject(Project project, List<RewardDTO> rewards, List<MultipartFile> projectImgs) {
 		if (projectImgs != null && !projectImgs.isEmpty()) {
 			// 첫 번째 이미지를 메인 이미지로 설정
@@ -96,6 +104,7 @@ public class FundingService {
 	 * @param mFile
 	 * @return
 	 */
+	@Transactional
 	private String[] uploadFile(MultipartFile mFile) {
 		if (mFile.getSize() > Define.MAX_FILE_SIZE) {
 			// TODO - 오류 처리
@@ -145,10 +154,10 @@ public class FundingService {
 		return projectImgs;
 	}
 
-	public Integer findProjectByBookId(Integer bookId) {
-		Integer projcetId = projectRepository.findProjectByBookId(bookId);
+	public Project findProjectByBookId(Integer bookId) {
+		Project project = projectRepository.findProjectByBookId(bookId);
 
-		return projcetId;
+		return project;
 	}
 
 	public Project findProjectByProjectId(Integer projectId) {
@@ -156,6 +165,7 @@ public class FundingService {
 		return project;
 	}
 
+	@Transactional
 	public void updateProject(ProjectDTO projectDTO, Integer projectId, List<MultipartFile> mFiles) {
 		// mFiles가 비어있지 않으면 첫 번째 이미지를 메인 이미지로 설정
 		if (mFiles != null && !mFiles.isEmpty()) {
@@ -190,6 +200,7 @@ public class FundingService {
 		}
 	}
 
+	@Transactional
 	public void updateReward(List<RewardDTO> rewards, Integer projectId) {
 		// DB에서 해당 프로젝트의 모든 리워드 조회
 		List<RewardDTO> existingRewards = rewardRepository.findRewardDTOByProjectId(projectId);
@@ -219,4 +230,28 @@ public class FundingService {
 			}
 		}
 	}
+
+	@Transactional
+	public void deleteProjectImage(Integer contentId) {
+		// 데이터베이스에서 이미지 정보 조회
+		Content projectImage = projectRepository.findImageByContentId(contentId);
+
+		System.out.println("이미지 찾음 : " + projectImage);
+		if (projectImage != null) {
+			// 파일 시스템에서 이미지 삭제
+			File file = new File(uploadDir + projectImage.getImg());
+			if (file.exists()) {
+				file.delete(); // 실제 이미지 파일 삭제
+			}
+
+			// 데이터베이스에서 이미지 정보 삭제
+			projectRepository.deleteProjectImage(contentId);
+		}
+	}
+
+    public boolean insertRewardByUserId(Integer userId, Integer rewardId) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'insertRewardByUserId'");
+    }
+
 }

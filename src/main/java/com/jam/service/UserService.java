@@ -294,6 +294,11 @@ public class UserService {
 		return user;
 		
 	}
+
+    public void updateUserPoints(int userId, long point) {
+        userRepository.updateUserPoints(userId, point);
+
+    }
 	
 	
 

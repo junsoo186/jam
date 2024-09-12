@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,12 +17,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -31,10 +34,12 @@ import com.jam.dto.ProjectDTO;
 import com.jam.dto.RewardDTO;
 import com.jam.repository.model.Book;
 import com.jam.repository.model.Content;
+import com.jam.repository.model.Funding;
 import com.jam.repository.model.Project;
 import com.jam.repository.model.Reward;
 import com.jam.repository.model.User;
 import com.jam.service.FundingService;
+import com.jam.service.UserService;
 import com.jam.service.WriterService;
 
 import jakarta.servlet.http.HttpSession;
@@ -49,6 +54,7 @@ public class FundingController {
 	private final HttpSession session;
 	private final FundingService fundingService;
 	private final WriterService writerService;
+	private final UserService userService;
 
 	@Value("${file.upload-dir}")
 	private String uploadDir;
@@ -182,10 +188,11 @@ public class FundingController {
 	 */
 	@PostMapping("/updateFunding")
 	public ResponseEntity<Map<String, Object>> updateFundingProc(@RequestParam("projectId") Integer projectId,
-			@ModelAttribute ProjectDTO projectDTO, @RequestParam("rewards") String rewardsJson, @RequestParam("mFile") List<MultipartFile> mFiles) {
+			@ModelAttribute ProjectDTO projectDTO, @RequestParam("rewards") String rewardsJson,
+			@RequestParam("mFile") List<MultipartFile> mFiles) {
 		try {
 			fundingService.updateProject(projectDTO, projectId, mFiles);
-			
+
 			ObjectMapper objectMapper = new ObjectMapper();
 			List<RewardDTO> rewards = new ArrayList<>();
 			try {
@@ -243,6 +250,130 @@ public class FundingController {
 			response.put("error", Map.of("message", "파일 업로드 중 오류가 발생했습니다."));
 			return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
+	}
+
+	/**
+	 * 기존 이미지 삭제
+	 * 
+	 * @param imgId
+	 * @return
+	 */
+	@DeleteMapping("/deleteImage")
+	@ResponseBody
+	public ResponseEntity<Map<String, Object>> deleteImage(@RequestParam("imgId") Integer imgId) {
+		Map<String, Object> response = new HashMap<>();
+
+		try {
+			// 이미지 삭제 서비스 호출
+			fundingService.deleteProjectImage(imgId);
+			response.put("success", true);
+		} catch (Exception e) {
+			response.put("success", false);
+			response.put("message", "이미지 삭제에 실패했습니다.");
+		}
+
+		return ResponseEntity.ok(response);
+	}
+
+	@PostMapping("/funding/selectReward")
+	@ResponseBody
+	public Map<String, Object> selectReward(@RequestBody RewardDTO rewardDTO) {
+		Map<String, Object> response = new HashMap<>();
+
+		// rewardSelection DTO에서 userId와 reward 정보를 처리
+		boolean success = fundingService.insertRewardByUserId(rewardDTO.getUserId(), rewardDTO.getRewardId());
+
+		if (success) {
+			response.put("success", true);
+		} else {
+			response.put("success", false);
+		}
+
+		return response;
+	}
+
+	@PostMapping("/funding/checkout")
+	@ResponseBody
+	public Map<String, Object> processCheckout(@RequestBody Map<String, Object> checkoutData) {
+		// 결제 처리 로직 추가
+		Map<String, Object> response = new HashMap<>();
+		response.put("success", true);
+		response.put("message", "결제가 성공적으로 처리되었습니다.");
+		return response;
+	}
+
+	@GetMapping("/checkoutPage")
+	public String checkoutPage(@RequestParam("totalAmount") int totalAmount,
+			@RequestParam("cartItems") String cartItemsJson,
+			Model model) throws Exception {
+		// JSON 문자열을 객체로 변환하여 모델에 추가
+		ObjectMapper objectMapper = new ObjectMapper();
+		List<Map<String, Object>> cartItems = objectMapper.readValue(cartItemsJson, List.class);
+
+		System.out.println(cartItems);
+
+		// 결제 확인 페이지로 데이터 전달
+		model.addAttribute("totalAmount", totalAmount);
+		model.addAttribute("cartItems", cartItems);
+
+		return "/funding/checkoutPage"; // 결제 확인 페이지
+	}
+
+	@PostMapping("/checkout")
+	@ResponseBody
+	public Map<String, Object> checkoutAjax(@RequestBody Map<String, Object> requestData) {
+		int totalAmount = (Integer) requestData.get("totalAmount");
+		String postcode = (String) requestData.get("postcode");
+		String basicAddress = (String) requestData.get("basicAddress");
+		String detailedAddress = (String) requestData.get("detailedAddress");
+		String extraAddress = (String) requestData.get("extraAddress");
+		List<Map<String, Object>> cartItems = (List<Map<String, Object>>) requestData.get("cartItems");
+
+		Map<String, Object> response = new HashMap<>();
+
+		try {
+			// 1. 유저 정보 가져오기
+			User principal = (User) session.getAttribute("principal");
+			int userId = principal.getUserId(); // 세션에서 유저 정보를 가져오는 로직 (예시)
+
+			// 3. 장바구니 데이터 검증 및 결제 데이터 저장
+			for (Map<String, Object> item : cartItems) {
+				int rewardId = Integer.parseInt(item.get("rewardId").toString());
+				int quantity = Integer.parseInt(item.get("quantity").toString());
+				String shippingAddress = basicAddress + " " + detailedAddress + " " + extraAddress;
+
+				// 결제 정보 저장 (funding_tb 테이블에 삽입)
+				Funding funding = Funding.builder()
+						.userId(userId)
+						.rewardId(rewardId)
+						.rewardQuantity(quantity)
+						.zipcode(postcode)
+						.basicAddress(basicAddress)
+						.detailedAddress(detailedAddress)
+						.extraAddress(extraAddress)
+						.createdAt(new Timestamp(System.currentTimeMillis()))
+						.canceledAt(null)
+						.confirmSuccess("N") // 초기에는 'N' 상태
+						.build();
+
+				// 실제 데이터베이스에 저장
+				fundingService.insertFunding(funding);
+			}
+
+			// 4. 유저 포인트 차감
+			userService.updateUserPoints(userId, principal.getPoint() - totalAmount);
+
+			// 5. 성공 응답 반환
+			response.put("success", true);
+			response.put("message", "결제가 완료되었습니다.");
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			response.put("success", false);
+			response.put("message", "결제 처리 중 오류가 발생했습니다.");
+		}
+
+		return response;
 	}
 
 }

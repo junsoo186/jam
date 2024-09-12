@@ -16,4 +16,7 @@ public class Reward {
     private Integer projectId; 
     private String rewardContent;
     private long rewardPoint;
+    private int rewardQuantity;
+    private int userCount;
+    private String shippingAddress;
 }

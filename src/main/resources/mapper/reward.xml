@@ -1,29 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jam.repository.interfaces.RewardRepository">
 
-    <insert id="insertRewardByProjectId">
-        INSERT INTO reward_tb (project_id, reward_content, reward_point)
-        VALUES (#{projectId}, #{content}, #{point})
-    </insert>
+    <insert id="insertRewardByProjectId"> INSERT INTO reward_tb (project_id, reward_content,
+        reward_point) VALUES (#{projectId}, #{content}, #{point}) </insert>
 
-    <select id="findRewardByProjectId" resultType="com.jam.repository.model.Reward">
-        select * from reward_tb where project_id = #{projectId}
-    </select>
+    <select id="findRewardByProjectId" resultType="com.jam.repository.model.Reward"> SELECT
+        r.reward_id, r.reward_content, r.reward_point, r.reward_quantity, COUNT(f.user_id) AS
+        userCount, (r.reward_quantity - IFNULL(SUM(f.reward_quantity), 0)) AS remainingQuantity FROM
+        reward_tb r LEFT JOIN funding_tb f ON r.reward_id = f.reward_id WHERE r.project_id =
+        #{projectId} GROUP BY r.reward_id, r.reward_content, r.reward_point, r.reward_quantity; </select>
 
-    <update id="updateRewardByProjectId">
-        update reward_tb
-        set reward_content = #{rewardContent},
-        reward_point = #{rewardPoint}
-        where project_id = #{projectId}
-    </update>
+    <update id="updateRewardByProjectId"> update reward_tb set reward_content = #{rewardContent},
+        reward_point = #{rewardPoint} where project_id = #{projectId} </update>
 
-    <select id="findRewardDTOByProjectId" resultType="com.jam.dto.RewardDTO">
-        select * from reward_tb where project_id = #{projectId}
-    </select>
+    <select id="findRewardDTOByProjectId" resultType="com.jam.dto.RewardDTO"> select * from
+        reward_tb where project_id = #{projectId} </select>
 
-    <delete id="deleteReward">
-        DELETE FROM reward_tb WHERE reward_id = #{rewardId}
-    </delete>
+    <delete id="deleteReward"> DELETE FROM reward_tb WHERE reward_id = #{rewardId} </delete>
+
 </mapper>

@@ -9,12 +9,6 @@
                     <main>
                         <div class="container--main--area">
                             <!-- 메인 이미지 미리보기 -->
-                            <div class="img--preview--side">
-                                <h3>메인 이미지 미리보기</h3>
-                                <div id="mainImagePreview" class="img--preview--box">
-                                    <img src="${project.mainImg}" alt="메인 이미지">
-                                </div>
-                            </div>
 
                             <!-- 메인 콘텐츠 영역 -->
                             <div class="main--content--area">
@@ -62,10 +56,28 @@
                                     <!-- 이미지 미리보기 -->
                                     <div id="imagePreview" class="form--group--area">
                                         <h3>샘플 이미지 미리보기</h3>
-                                        <div id="previewContainer"></div>
-                                        <c:forEach var="img" items="${projectImgs}">
-                                            <img src="${img}" alt="이미지">
-                                        </c:forEach>
+                                        <div id="previewContainer">
+                                            <c:forEach var="img" items="${projectImg}" varStatus="status">
+                                                <div class="img-container" style="display: inline-block; margin: 10px;">
+                                                    <img src="${img.img}" alt="이미지"
+                                                        style="max-width: 100px; max-height: 100px;">
+
+                                                    <!-- imgId가 있는 경우 -->
+                                                    <c:if test="${not empty img.contentId}">
+                                                        <input type="hidden" name="imgId" value="${img.contentId}">
+                                                        <button type="button" class="btn--remove"
+                                                            data-img-id="${img.contentId}">X</button>
+                                                    </c:if>
+
+                                                    <!-- imgId가 없는 경우 -->
+                                                    <c:if test="${empty img.contentId}">
+                                                        <button type="button" class="btn--remove"
+                                                            data-img-index="${status.index}">X</button>
+                                                    </c:if>
+                                                </div>
+                                            </c:forEach>
+
+                                        </div>
                                     </div>
 
                                     <!-- 한 줄 소개 -->
@@ -86,7 +98,7 @@
                                     <div class="form--group--area">
                                         <input type="hidden" id="projectId" name="projectId"
                                             value="${project.projectId}">
-                                        <button type="submit" class="btn--submit">프로젝트 생성</button>
+                                        <button type="submit" class="btn--submit">프로젝트 수정</button>
                                     </div>
                                 </form>
                             </div>
@@ -113,6 +125,14 @@
                                                 name="rewards[${status.index}].point" class="form--input--number"
                                                 min="1" step="1000" value="${reward.rewardPoint}" required>
                                         </div>
+                                        <!-- 리워드 수량 필드 추가 -->
+                                        <div class="form--group--area">
+                                            <label for="rewardQuantity-${status.index}" class="form--label--area">리워드
+                                                수량:</label>
+                                            <input type="number" id="rewardQuantity-${status.index}"
+                                                name="rewards[${status.index}].quantity" class="form--input--number"
+                                                min="1" value="${reward.rewardQuantity}" required>
+                                        </div>
                                         <!-- 리워드 삭제 버튼 추가 -->
                                         <button type="button" class="btn--remove-reward"
                                             data-reward-id="${status.index}">X</button>
@@ -125,7 +145,7 @@
                             </div>
                         </div>
                     </main>
-
+                    
                     <!-- CKEditor를 먼저 로드 -->
                     <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
 

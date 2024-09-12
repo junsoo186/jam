@@ -101,7 +101,14 @@
                                             name="rewards[${status.index}].point" class="form--input--number" min="1"
                                             step="1000" value="${reward.rewardPoint}" required>
                                     </div>
-                                    <!-- 리워드 삭제 버튼 추가 -->
+                                    <div class="form--group--area">
+                                        <label for="rewardQuantity-${status.index}" class="form--label--area">리워드
+                                            수량:</label>
+                                        <input type="number" id="rewardQuantity-${status.index}"
+                                            name="rewards[${status.index}].quantity" class="form--input--number" min="1"
+                                            value="${reward.rewardQuantity}" required>
+                                    </div>
+                                    <!-- 리워드 삭제 버튼 -->
                                     <button type="button" class="btn--remove-reward"
                                         data-reward-id="${status.index}">X</button>
                                 </div>

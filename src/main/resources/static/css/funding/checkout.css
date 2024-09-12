@@ -1,0 +1,84 @@
+/* 메인 영역 스타일 */
+.main--container {
+    width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* 결제 확인 영역 스타일 */
+.checkout--content--area {
+    text-align: center;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 제목 스타일 */
+.checkout--title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #e91e63;
+    margin-bottom: 20px;
+}
+
+/* 결제 정보 스타일 */
+.checkout--info--text {
+    font-size: 18px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* 주소 입력 필드 스타일 */
+.input--address--area {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.input--form--field {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    flex: 1;
+    min-width: 220px;
+    box-sizing: border-box;
+}
+
+.input--postcode--group {
+    display: flex;
+    gap: 10px;
+}
+
+.input--postcode--group .input--form--field {
+    flex: 0 1 150px;
+}
+
+.input--postcode--group .btn--postcode--search {
+    padding: 10px 15px;
+    background-color: #e91e63;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+}
+
+/* 결제하기 버튼 스타일 */
+.btn--checkout {
+    width: 100%;
+    padding: 15px;
+    background-color: #4caf50;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.btn--checkout:hover {
+    background-color: #45a049;
+}

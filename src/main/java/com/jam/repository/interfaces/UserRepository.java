@@ -35,4 +35,6 @@ public interface UserRepository {
 
 	public User InformationUpdate(@Param("email") String email); // 유저 프로필 업데이트 후 갱신
 
+    public void updateUserPoints(@Param("userId") int userId, @Param("point") long point);
+
 }

@@ -14,6 +14,7 @@ import lombok.ToString;
 @Builder
 public class Content {
 
+    private Integer contentId;
     private Integer projectId;
     private String img;
 

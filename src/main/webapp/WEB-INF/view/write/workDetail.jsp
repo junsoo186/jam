@@ -66,17 +66,20 @@
 										<button type="submit" class="button">회차 생성</button>
 									</form>
 									<c:choose>
-										<c:when test="${projectId eq null}">
+										<c:when test="${project eq null}">
 											<form action="/funding/createFunding" method="get">
 												<input type="hidden" name="bookId" value="${bookId}" id="bookId">
 												<button type="submit" id="fundingButton">펀딩</button>
 											</form>
 										</c:when>
 										<c:otherwise>
-											<form action="/funding/updateFunding" method="get">
-												<input type="hidden" name="projectId" value="${projectId}" id="projectId">
-												<button type="submit" id="fundingButton">펀딩 수정하기</button>
-											</form>
+											<c:if test="${project.staffAgree eq N}">
+												<form action="/funding/updateFunding" method="get">
+													<input type="hidden" name="projectId" value="${project.projectId}"
+														id="projectId">
+													<button type="submit" id="fundingButton">펀딩 수정하기</button>
+												</form>
+											</c:if>
 										</c:otherwise>
 									</c:choose>
 								</div>

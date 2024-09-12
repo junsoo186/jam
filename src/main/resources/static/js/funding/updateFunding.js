@@ -64,12 +64,36 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    // 샘플 이미지 삭제 기능
+    // 샘플 이미지 삭제 기능 + 서버로 이미지 삭제 요청
     previewContainer.addEventListener('click', function (event) {
         if (event.target.classList.contains('btn--remove')) {
+            event.preventDefault();  // 기본 동작 방지 (페이지 리로드 방지)
+
+            const imgId = event.target.dataset.imgId;
             const imgIndex = event.target.dataset.imgIndex;
-            selectedFiles.splice(imgIndex, 1);
-            event.target.parentElement.remove();
+
+            if (imgId) {
+                // 서버에 이미지 삭제 요청 (기존 이미지 삭제)
+                fetch(`/funding/deleteImage?imgId=${imgId}`, {
+                    method: 'DELETE',
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            // 이미지가 성공적으로 삭제되면 DOM에서 해당 이미지 삭제
+                            event.target.parentElement.remove();
+                        } else {
+                            alert('이미지 삭제에 실패했습니다.');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+            } else if (imgIndex) {
+                // 새로 추가된 이미지 삭제 (미리보기 목록에서만 삭제)
+                selectedFiles.splice(imgIndex, 1); // 선택된 파일 목록에서 제거
+                event.target.parentElement.remove(); // DOM에서 삭제
+            }
         }
     });
 
@@ -86,6 +110,10 @@ document.addEventListener('DOMContentLoaded', function () {
             <div class="form--group--area">
                 <label for="rewardPoint-${rewardIndex}" class="form--label--area">리워드 금액 (원):</label>
                 <input type="number" id="rewardPoint-${rewardIndex}" name="rewards[${rewardIndex}].point" class="form--input--number" min="1" step="1000" placeholder="리워드 금액을 입력하세요" required>
+            </div>
+            <div class="form--group--area">
+                <label for="rewardQuantity-${rewardIndex}" class="form--label--area">리워드 수량:</label>
+                <input type="number" id="rewardQuantity-${rewardIndex}" name="rewards[${rewardIndex}].quantity" class="form--input--number" min="1" step="1" placeholder="리워드 수량을 입력하세요" required>
             </div>
             <button type="button" class="btn--remove-reward" data-reward-id="${rewardIndex}">X</button>
         `;
@@ -116,6 +144,10 @@ document.addEventListener('DOMContentLoaded', function () {
                     const pointInput = reward.querySelector(`input[name^="rewards"][name$=".point"]`);
                     pointInput.id = `rewardPoint-${index + 1}`;
                     pointInput.name = `rewards[${index + 1}].point`;
+
+                    const quantityInput = reward.querySelector(`input[name^="rewards"][name$=".quantity"]`);
+                    quantityInput.id = `rewardQuantity-${index + 1}`;
+                    quantityInput.name = `rewards[${index + 1}].quantity`;
                 });
             } else {
                 alert('리워드는 최소 1개는 유지해야 합니다.');
@@ -153,11 +185,13 @@ document.addEventListener('DOMContentLoaded', function () {
         rewards.forEach((reward) => {
             const rewardContentInput = reward.querySelector(`input[name^="rewards"][name$=".content"]`);
             const rewardPointInput = reward.querySelector(`input[name^="rewards"][name$=".point"]`);
+            const rewardQuantityInput = reward.querySelector(`input[name^="rewards"][name$=".quantity"]`);
 
-            if (rewardContentInput && rewardPointInput) {
+            if (rewardContentInput && rewardPointInput && rewardQuantityInput) {
                 rewardsArray.push({
                     content: rewardContentInput.value,
-                    point: rewardPointInput.value
+                    point: rewardPointInput.value,
+                    quantity: rewardQuantityInput.value
                 });
             }
         });

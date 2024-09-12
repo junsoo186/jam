@@ -77,7 +77,7 @@ VALUES ('사용자29', '010-1000-0029', 'user29@example.com', '$2a$10$Y1mXaXaj5Y
 INSERT INTO user_tb (nick_name, phone_number, email, password)
 VALUES ('사용자30', '010-1000-0030', 'user30@example.com', '$2a$10$Y1mXaXaj5Y2m.IJkH58IwOZF8SSctsvP37WTrp82ambaSeSEyxZwe');
 -- 유저 디테일 
-insert into user_de_tb (user_id,point ) values( 1, 1000);
+insert into user_de_tb (user_id,point ) values( 1, 100000);
 INSERT INTO user_de_tb (user_id, point) VALUES (2, 250);
 INSERT INTO user_de_tb (user_id, point) VALUES (3, 99999999);
 INSERT INTO user_de_tb (user_id, point) VALUES (4, 99999999);
@@ -626,31 +626,33 @@ VALUES (18, 26, 1, '프롤로그', '별빛의 약속', '2023-10-15',
  
 
 -- 프로젝트 테이블 삽입
-INSERT INTO project_tb (user_id, book_id, title, oneline_comment, contents, goal, date_end, staff_agree)
-VALUES (1, 1, '임시프로젝트타이틀1', '한줄 소개 1', '내용입니다', 20000, '2024-09-09', 'Y'),
-       (2, 2, '임시프로젝트타이틀2', '한줄 소개 2', '내용입니다', 25000, '2024-09-20', 'Y'),
-       (3, 3, '임시프로젝트타이틀3', '한줄 소개 3', '내용입니다', 40000, '2024-10-10', 'Y'),
-       (4, 4, '임시프로젝트타이틀4', '한줄 소개 4', '내용입니다', 30000, '2024-09-05', 'Y'),
-       (5, 5, '임시프로젝트타이틀5', '한줄 소개 5', '내용입니다', 10000, '2024-11-09', 'Y');
+INSERT INTO project_tb (user_id, book_id, title, oneline_comment, contents, goal, date_end, staff_agree, project_successful)
+VALUES (1, 1, '임시프로젝트타이틀1', '한줄 소개 1', '내용입니다', 20000, '2024-09-09', 'Y', 'N'),
+       (2, 2, '임시프로젝트타이틀2', '한줄 소개 2', '내용입니다', 25000, '2024-09-20', 'Y', 'N'),
+       (3, 3, '임시프로젝트타이틀3', '한줄 소개 3', '내용입니다', 40000, '2024-10-10', 'Y', 'N'),
+       (4, 4, '임시프로젝트타이틀4', '한줄 소개 4', '내용입니다', 30000, '2024-09-05', 'Y', 'N'),
+       (5, 5, '임시프로젝트타이틀5', '한줄 소개 5', '내용입니다', 10000, '2024-11-09', 'Y', 'N');
 
 
 -- 리워드 테이블 삽입
-INSERT INTO reward_tb (project_id, reward_content, reward_point)
+INSERT INTO reward_tb (project_id, reward_content, reward_point, reward_quantity)
 VALUES 
-(1, '프로젝트 1 리워드 내용', 10000),
-(2, '프로젝트 2 리워드 내용', 15000),
-(3, '프로젝트 3 리워드 내용', 20000),
-(4, '프로젝트 4 리워드 내용', 25000),
-(5, '프로젝트 5 리워드 내용', 30000);
+(1, '프로젝트 1 리워드 내용', 10000, 1),
+(2, '프로젝트 2 리워드 내용', 15000, 1),
+(3, '프로젝트 3 리워드 내용1', 20000, 10),
+(3, '프로젝트 3 리워드 내용2', 40000, 10),
+(4, '프로젝트 4 리워드 내용', 25000, 1),
+(5, '프로젝트 5 리워드 내용', 30000, 1);
 
 -- funding_tb에 데이터 삽입
-INSERT INTO funding_tb (user_id, reward_id, canceled_At, confirm_success)
+INSERT INTO funding_tb (user_id, reward_id, canceled_At, cancel_confirm, reward_quantity, zipcode, basic_address, detailed_address, extra_address)
 VALUES 
-(1, 1, '2024-09-09', 'Y'),
-(2, 2, '2024-09-10', 'Y'),
-(3, 3, '2024-09-11', 'Y'),
-(4, 4, '2024-09-12', 'Y'),
-(5, 5, '2024-09-13', 'Y');
+(1, 1, '2024-09-09', 'N', 1, '12345', '부산시', '해운대구 우동 123번지', 'A동 101호'),
+(2, 2, '2024-09-10', 'N', 1, '67890', '부산시', '수영구 민락동 456번지', 'B동 202호'),
+(3, 3, '2024-09-11', 'N', 2, '23456', '부산시', '동래구 명륜동 789번지', 'C동 303호'),
+(4, 4, '2024-09-12', 'N', 1, '34567', '부산시', '서구 암남동 101번지', 'D동 404호'),
+(5, 5, '2024-09-13', 'N', 1, '45678', '부산시', '동구 초량동 123번지', 'E동 505호');
+
 -- 펀딩 히스토리 테이블 삽입
 INSERT INTO funding_history_tb (project_id)
 VALUES (1), (2), (3), (4), (5);

@@ -12,16 +12,16 @@
 	<select id="findAllProject"
 		resultType="com.jam.repository.model.Project"> SELECT p.*, u.nick_name AS author,
 		cate.category_name, p.main_img, COUNT(DISTINCT f.user_id) AS participantCount,
-		IFNULL(SUM(CASE WHEN f.confirm_success = 'Y' THEN r.reward_point ELSE 0 END), 0) AS
+		IFNULL(SUM(CASE WHEN f.cancel_confirm = 'N' THEN r.reward_point ELSE 0 END), 0) AS
 		totalAmount FROM project_tb p JOIN user_tb u ON p.user_id = u.user_id JOIN book_tb b ON
 		p.book_id = b.book_id JOIN category_tb cate ON b.category_id = cate.category_id JOIN
 		reward_tb r ON p.project_id = r.project_id LEFT JOIN funding_tb f ON r.reward_id =
-		f.reward_id GROUP BY p.project_id, u.nick_name, cate.category_name, p.main_img </select>
+		f.reward_id GROUP BY p.project_id, u.nick_name, cate.category_name, p.main_img; </select>
 
 	<select id="findDetailProject"
 		resultType="com.jam.repository.model.Project"> SELECT p.*, u.nick_name AS author,
 		cate.category_name, p.main_img, COUNT(DISTINCT f.user_id) AS participantCount,
-		IFNULL(SUM(CASE WHEN f.confirm_success = 'Y' THEN r.reward_point ELSE 0 END), 0) AS
+		IFNULL(SUM(CASE WHEN f.cancel_confirm = 'N' THEN r.reward_point ELSE 0 END), 0) AS
 		totalAmount FROM project_tb p JOIN user_tb u ON p.user_id = u.user_id JOIN book_tb b ON
 		p.book_id = b.book_id JOIN category_tb cate ON b.category_id = cate.category_id JOIN
 		reward_tb r ON p.project_id = r.project_id LEFT JOIN funding_tb f ON r.reward_id =
@@ -44,12 +44,23 @@
 		#{projectImg}) </insert>
 
 	<select id="findAllProjectImgByProjectId"
-		resultType="com.jam.repository.model.Content"> select img from content_tb where project_id = #{projectId} </select>
-
-	<select id="findProjectByBookId"
-		resultType="Integer"> SELECT * FROM PROJECT_TB where book_id = #{bookId}; </select>
+		resultType="com.jam.repository.model.Content"> select * from content_tb where project_id =
+		#{projectId} </select>
 
 	<select id="findProjectByProjectId"
 		resultType="com.jam.repository.model.Project"> select * from project_tb where project_id =
 		#{projectId} </select>
+
+	<select id="findProjectByBookId"
+		resultType="com.jam.repository.model.Project"> SELECT * FROM PROJECT_TB where book_id =
+		#{bookId}; </select>
+
+	<!-- 이미지 ID로 이미지 정보를 찾는 쿼리 -->
+	<select id="findImageByContentId" resultType="com.jam.repository.model.Content"> select * from
+		content_tb where content_id = #{contentId} </select>
+
+	<!-- 이미지 ID로 프로젝트 이미지 삭제 쿼리 -->
+	<delete id="deleteProjectImage"> delete from content_tb where content_id = #{contentId} </delete>
+
+
 </mapper>

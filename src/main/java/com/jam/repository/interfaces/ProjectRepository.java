@@ -32,10 +32,14 @@ public interface ProjectRepository {
 
 	public void deleteProject(@Param("projectId") Integer projectId);
 
-	public Integer findProjectByBookId(Integer bookId);
+	public Project findProjectByBookId(Integer bookId);
 
 	public List<Content> findAllProjectImgByProjectId(Integer projectId);
 
     public Project findProjectByProjectId(Integer projectId);
+
+    public Content findImageByContentId(Integer contentId); // 이미지 삭제 대상을 찾기
+
+	public void deleteProjectImage(Integer contentId); // 이미지 삭제
 	
 }
