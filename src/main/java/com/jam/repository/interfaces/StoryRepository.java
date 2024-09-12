@@ -12,7 +12,12 @@ public interface StoryRepository {
 
 	public int insertStory(Story story); // 회차 생성
 
+	public List<Story> findAllStoryByBookIdPage(@Param("bookId") Integer bookId, @Param("limit")int limit, 
+	@Param("offset")int offset); // 회차 목록 출력
 	public List<Story> findAllStoryByBookId(@Param("bookId") Integer bookId); // 회차 목록 출력
+
+
+	public int countAll();
 
 	public Story outputStoryContentByStoryId(@Param("storyId") Integer storyId); // 소설
 																				// 내용

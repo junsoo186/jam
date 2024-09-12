@@ -260,14 +260,35 @@ public class WriterService {
 	 * @param bookId
 	 * @return
 	 */
+	public List<Story> findAllStoryByBookIdPage(Integer bookId,int page, int size) {
+		List<Story> stories = new ArrayList<Story>();
+		int limit = size;
+		int offset = (page - 1) * size;
+		try {
+			stories = storyRepository.findAllStoryByBookIdPage(bookId,limit,offset);
+		} catch (Exception e) {
+			// TODO - 오류 처리
+		}
+		return stories;
+	}
+
+
+
 	public List<Story> findAllStoryByBookId(Integer bookId) {
 		List<Story> stories = new ArrayList<Story>();
+	
 		try {
 			stories = storyRepository.findAllStoryByBookId(bookId);
 		} catch (Exception e) {
 			// TODO - 오류 처리
 		}
 		return stories;
+	}
+
+
+
+	public int allList(){
+		return storyRepository.countAll();
 	}
 
 	/**

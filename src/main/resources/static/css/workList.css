@@ -8,6 +8,14 @@ body {
     padding: 0;
 }
 
+.benner--content img{
+    width: 100%; /* 너비를 부모 요소에 맞춤 */
+    max-width: 1200px; /* 최대 너비 제한 */
+    height: auto; /* 높이를 자동으로 조정하여 비율 유지 */
+    display: block; /* 부모 요소의 너비를 가득 채우도록 설정 */
+    margin: 0 auto;
+}
+
 .href--btn {
     height: 30px;
     width: 98px;
