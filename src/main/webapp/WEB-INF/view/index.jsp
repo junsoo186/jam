@@ -25,13 +25,13 @@
 			<!-- 배너 이미지와 텍스트박스 -->
 			<div class="visual--meta">
 				<div class="visual--image" id="banner--1">
-					<img alt="banner--image" src="/images/bannerimg1.jpg" class="fixed--size">
+					<img alt="banner--image" src="/images/banner/bannerimg1.jpg" class="fixed--size">
 				</div>
 				<div class="visual--image" id="banner--2" style="display: none;">
-					<img alt="banner--image" src="/images/bannerimg2.jpg" class="fixed--size">
+					<img alt="banner--image" src="/images/banner/bannerimg2.jpg" class="fixed--size">
 				</div>
 				<div class="visual--image" id="banner--3" style="display: none;">
-					<img alt="banner--image" src="/images/bannerimg3.jpg" class="fixed--size">
+					<img alt="banner--image" src="/images/banner/bannerimg3.jpg" class="fixed--size">
 				</div>
 				<div class="banner--text--container">
 					<div class="banner--text--box" id="text--1">
@@ -59,25 +59,33 @@
 			</div>
 		</section>
 	</div>
+			<!-- 인기 순위 -->
+		<h3> 가장 인기있는 웹소설</h3>
 <!-- 카테고리별 필터 영역 -->
 <div class="category--area--filter" id="categoryFilter"></div>
 
-<div class="btn--area--filter">
-    <!-- 카테고리별 정렬 버튼 -->
-    <button id="categoryViewsButton" onclick="toggleCategoryViewsOrder()">VIEWS (DESC)</button>
-    <button id="categoryLikesButton" onclick="toggleCategoryLikesOrder()">LIKES (DESC)</button>
+<div class="btn--area">
+	<div class="btn--area--category">
+	    <!-- 카테고리별 정렬 버튼 -->
+	    <button class="btn--category--views" id="categoryViewsButton" onclick="toggleCategoryViewsOrder()">VIEWS</button>
+	    <button class="btn--category--likes" id="categoryLikesButton" onclick="toggleCategoryLikesOrder()">LIKES</button>
+	</div>
 </div>
+
 
 <!-- 선택된 카테고리의 책 목록 -->
 <div class="book--list--1" id="categoryContent"></div>
 
+		<h3>가장 선호하는 웹소설</h3>
 <!-- 장르별 필터 영역 -->
 <div class="genre--area--filter" id="genreFilter"></div>
 <br>
-<div class="btn--area--filter">
-    <!-- 장르별 정렬 버튼 -->
-    <button id="genreViewsButton" onclick="toggleGenreViewsOrder()">VIEWS</button>
-    <button id="genreLikesButton" onclick="toggleGenreLikesOrder()">LIKES</button>
+<div class="btn--area">
+	<div class="btn--area--genre">
+	    <!-- 장르별 정렬 버튼 -->
+	    <button class="btn--genre--views" id="genreViewsButton" onclick="toggleGenreViewsOrder()">VIEWS</button>
+	    <button class="btn--genre--likes"  id="genreLikesButton" onclick="toggleGenreLikesOrder()">LIKES</button>
+	</div>
 </div>
 
 <!-- 선택된 장르의 책 목록 -->
@@ -86,8 +94,7 @@
 
 
 
-		<!-- 인기 순위 -->
-		<h3>지금 가장 인기있는 웹소설</h3>
+
 		<div >
 			<div class="book--item">
 				<img src="/images/bannerimg1.jpg" alt="매직 스플릿">

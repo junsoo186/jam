@@ -18,12 +18,14 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.jam.dto.BookDTO;
 import com.jam.dto.StoryDTO;
+import com.jam.repository.model.Benner;
 import com.jam.repository.model.Book;
 import com.jam.repository.model.Category;
 import com.jam.repository.model.Genre;
 import com.jam.repository.model.Story;
 import com.jam.repository.model.Tag;
 import com.jam.repository.model.User;
+import com.jam.service.BennerService;
 import com.jam.service.WriterService;
 
 import jakarta.servlet.http.HttpSession;
@@ -35,7 +37,7 @@ import lombok.RequiredArgsConstructor;
 public class WriterController {
 
 	private final WriterService writerService;
-	@Autowired
+	// private final BennerService bennerService; 
 	private final HttpSession session;
 
 	// TODO - 검색 기능 추가
@@ -47,10 +49,14 @@ public class WriterController {
 	 * @return
 	 */
 	@GetMapping("/workList")
-	public String handleWorkList(Model model) {
+	public String handleWorkList(@RequestParam(name ="page", defaultValue = "1" )  int page,
+	@RequestParam(name ="size", defaultValue = "4" )  int size,Model model) {
 		User principal = (User) session.getAttribute("principal");
 		List<Book> bookList = writerService.readAllBookListByprincipalId(principal.getUserId());
-
+		int totalRecords = writerService.allList();
+		int totalPages = (int)Math.ceil((double)totalRecords / size);
+		
+		// List<Benner> bennerList = bennerService.findAll();
 		for (Book book : bookList) {
 			String bookImg = book.setUpUserImage();
 			book.setBookCoverImage(bookImg);
@@ -61,11 +67,15 @@ public class WriterController {
 		} else {
 			model.addAttribute("bookList", bookList);
 			for (Book book : bookList) {
-				List<Story> storyList = writerService.findAllStoryByBookId(book.getBookId());
+				List<Story> storyList = writerService.findAllStoryByBookIdPage(book.getBookId(),page, size);
 				storyMap.put(book.getBookId(), storyList);
 				System.out.println(storyMap.get(book.getBookId()));
 			}
 		}
+		// model.addAttribute("bennerList", bennerList)
+		model.addAttribute("currentPage", page);
+		model.addAttribute("totalPages", totalPages);
+		model.addAttribute("size", size);
 		model.addAttribute("storyMap", storyMap);
 		return "write/workList";
 	}

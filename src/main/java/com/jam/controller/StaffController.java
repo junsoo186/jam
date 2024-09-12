@@ -25,9 +25,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class StaffController {
 
+
 	private final NoticeService noticeService;
 	
-	private final HttpSession session;
 
 	@GetMapping("")
 	public String handleStaffMain(@RequestParam(name = "page", required = false) String page, Model model) {
@@ -54,9 +54,10 @@ public class StaffController {
 
 	@GetMapping("/support")
 	public String handleSupport() {
-		return "staff/support";
+		return "staff/support";	
 	}
 
+	
 	@GetMapping("/event")
 	public String handleEvent() {
 		return "staff/event";

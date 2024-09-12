@@ -1,5 +1,46 @@
 @charset "UTF-8";
 
+body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+.benner--content img{
+    width: 100%; /* 너비를 부모 요소에 맞춤 */
+    max-width: 1200px; /* 최대 너비 제한 */
+    height: auto; /* 높이를 자동으로 조정하여 비율 유지 */
+    display: block; /* 부모 요소의 너비를 가득 채우도록 설정 */
+    margin: 0 auto;
+}
+
+.href--btn {
+    height: 30px;
+    width: 98px;
+    background-color: #f06292;
+    border-top-left-radius: 9px;
+    border-top-right-radius: 9px;
+    color: white;
+    text-align: center;
+    cursor: pointer;
+    display: inline-block;
+    font-size: bold;
+    font-size: 10px;
+    line-height: 30px;
+    transition: background-color 0.3s;
+}
+
+.href--btn:hover {
+    background-color: #e91e63;
+}
+
+.book--title {
+    margin-left: 80px;
+    font-weight: bold;
+    color: #333;
+}
 
 /* 전체 컨테이너 */
 .center--content--container {
@@ -10,13 +51,15 @@
     width: 1200px;
     box-sizing: border-box;
     border: solid 1px #d4d4d8;
-    margin: 20px;
+    margin: 20px auto;
+    background-color: white;
 }
 
 /* 네비게이션 바 스타일 */
 .navbar {
     display: flex;
     font-weight: bold;
+    background-color: #fff;
 }
 
 .navbar a {
@@ -36,21 +79,16 @@
 
 /* 책 영역 */
 .book--area {
-    display: flex; /* 책 커버와 회차를 나란히 배치 */
-    justify-content: flex-start;
-    align-items: flex-start;
-    box-sizing: border-box;
-    gap: 20px; /* 책 커버와 회차 사이의 간격 */
-    padding: 10px;
- 
-}
-
-/* 회차 목록 영역 스타일 */
-.story-list {
     display: flex;
-    flex-direction: column; /* 회차를 세로로 정렬 */
-    gap: 10px; /* 각 회차 간의 간격 */
-	flex-direction: row;
+    flex-wrap: wrap;
+    position: relative;
+    width: 1115px;
+    justify-content: flex-start;
+    box-sizing: border-box;
+    gap: 20px;
+    align-items: center;
+    margin-left: auto;
+    
 }
 
 /* 책 커버와 오버레이 */
@@ -60,7 +98,7 @@
     flex-direction: column;
     align-items: flex-start;
     margin-right: 50px;
-    width: 100%;
+    width: 200px;
     cursor: pointer;
 }
 
@@ -75,15 +113,15 @@
     position: absolute;
     top: 0;
     left: 0;
-    width: 100%;
+    width: 200px;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* 반투명 회색 배경 */
+    background-color: rgba(0, 0, 0, 0.5);
     opacity: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: opacity 0.3s ease; /* 부드러운 페이드 효과 */
-    z-index: 10; /* 오버레이가 위에 표시되도록 설정 */
+    transition: opacity 0.3s ease;
+    z-index: 10;
 }
 
 .overlay-content {
@@ -92,36 +130,87 @@
     font-size: 16px;
 }
 
-/* 마우스를 올렸을 때 오버레이 표시 */
 .left-section:hover .overlay {
-    opacity: 1; /* 마우스를 올리면 오버레이가 나타남 */
+    opacity: 1;
 }
 
-/* 회차 부분 스타일 */
-.story--part {
+/* 페이지네이션 스타일 */
+.pagination {
+    display: flex;
+    justify-content: space-between;
+    padding: 0;
+    list-style: none;
+    margin-top: 20px;
+}
+
+.page-item {
+    display: inline-block;
+}
+
+.pink-link {
+    color: #ff4d6d;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 5px 10px;
+    transition: color 0.3s;
+}
+
+.pink-link:hover {
+    color: #e63946;
+}
+
+/* 회차 목록 스타일 */
+.story-list {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    flex-grow: 1;
+}
+
+.right-align {
+    margin-left: auto;
+    list-style-type: none;
+    padding: 0;
+}
+
+.story--content {
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
     position: relative;
     display: flex;
+    flex-direction: column;
     align-items: center;
+    justify-content: center;
+    height: 170px;
+    width: 170px;
+    border-radius: 9px;
+    background-color: #fff;
+    padding: 10px;
+    transition: background-color 0.3s;
 }
 
-.img--story {
-	height: 300px;
-	width: 75px;
-    display: block;
-    margin-right: 10px; /* 이미지와 텍스트 간격 */
+.story--content:hover {
+    background-color: #efc4c4;
 }
 
-.text-overlay {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: black;
-    font-size: 14px;
-    font-weight: bold;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-    writing-mode: vertical-rl; /* 텍스트를 세로로 표시 */
-    text-orientation: upright; /* 글자를 직립 형태로 표시 */
+.story--part {
+    color: #333;
+}
+
+.story--title {
+    font-size: 10px;
+    color: #6f5757;
+}
+
+.story--other {
+    font-size: 10px;
+    color: #b5b5b5;
+}
+
+.nav--story {
+    display: flex;
+    align-items: center;
+    
 }
 
 /* 버튼 영역 설정 */
@@ -141,7 +230,6 @@
     font-size: 16px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    width: 100%;
     max-width: 200px;
 }
 

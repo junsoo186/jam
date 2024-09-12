@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jam.repository.interfaces.BannerRepository">
+
+
+<select id="readAllBanner"
+		resultType="com.jam.repository.model.Banner">
+	select * from banner_tb
+	
+</select>
+
+
+<select id="readAllBannerEvent"
+		resultType="com.jam.repository.model.Banner">
+	select * from banner_tb
+	join event_tb e on b.event_id=e.event_id
+</select>
+
+<select id="readBannerByEventId"
+		resultType="com.jam.repository.model.Banner">
+	select * from banner_tb b
+	join event_tb e on b.event_id=e.event_id
+	where b.event_id= #{eventId}
+</select>
+
+
+
+</mapper>

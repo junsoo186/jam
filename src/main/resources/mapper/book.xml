@@ -21,6 +21,17 @@
 	
 	</insert>
 	
+	<select id="findSerialDay" resultType="com.jam.repository.model.Book">
+	SELECT DISTINCT serial_day
+	FROM book_tb
+
+	
+	</select>
+	
+	
+	<select id="AllBookSerial" resultType="com.jam.repository.model.Book">
+	select * from book_tb
+	</select>
 
 	<select id="AllBookList"
 		resultType="com.jam.repository.model.Book">

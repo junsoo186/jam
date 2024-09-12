@@ -96,6 +96,7 @@ function setActiveButton(container, activeId) {
         const buttonId = button.getAttribute('data-id');  // 버튼에 저장된 ID
         if (buttonId == activeId) {  // ID가 맞으면 active 클래스를 추가
             button.classList.add('active');
+                        console.log('Active button:', button);  // 콘솔에 활성화된 버튼 로그
         } else {
             button.classList.remove('active');  // 다른 버튼들은 active 제거
         }
@@ -248,11 +249,13 @@ function fetchBooksByCategoryOrder(filter, order) {
                                     img.onload = function() {
                                         bookItem.innerHTML = `
                                             <div class="book--info">
+                                               <a href="write/workList?bookId=${book.bookId}">
                                                 <img src="${validImagePath}" alt="${book.title}" id="category-book-cover-${book.bookId}">
                                                 <h4>${book.title}</h4>
                                                 <p>저자: ${book.author}</p>
                                                 <p>조회수: ${book.views}</p>
                                                 <p>좋아요: ${book.likes}</p>
+                                               </a>
                                             </div>
                                         `;
                                         bookListDiv.appendChild(bookItem);
@@ -296,11 +299,13 @@ function fetchBooksByGenreOrder(filter, order) {
                                         img.onload = function() {
                                             bookItem.innerHTML = `
                                                 <div class="book--info">
+                                                	<a href="write/workList?bookId=${book.bookId}">
                                                     <img src="${validImagePath}" alt="${book.title}" id="genre-book-cover-${book.bookId}">
                                                     <h4>${book.title}</h4>
                                                     <p>저자: ${book.author}</p>
                                                     <p>조회수: ${book.views}</p>
                                                     <p>좋아요: ${book.likes}</p>
+                                                    </a>
                                                 </div>
                                             `;
                                             bookListDiv.appendChild(bookItem);
@@ -325,19 +330,87 @@ function fetchBooksByGenreOrder(filter, order) {
 function toggleCategoryViewsOrder() {
     currentCategoryViewsOrder = currentCategoryViewsOrder === 'ASC' ? 'DESC' : 'ASC';
     fetchBooksByCategoryOrder('views', currentCategoryViewsOrder);
+        // Views 버튼에 active 클래스 추가, Likes 버튼에서 active 클래스 제거
+    document.getElementById('categoryViewsButton').classList.add('active');
+    document.getElementById('categoryLikesButton').classList.remove('active');
+    
+        // 애니메이션 효과를 위해 필터 전체에 active-before 클래스 추가
+            document.querySelector('.btn--area--category').classList.remove('active-before');
+
 }
 
 function toggleCategoryLikesOrder() {
     currentCategoryLikesOrder = currentCategoryLikesOrder === 'ASC' ? 'DESC' : 'ASC';
     fetchBooksByCategoryOrder('likes', currentCategoryLikesOrder);
+        
+            // 애니메이션 효과를 위해 필터 전체에 active-before 클래스 추가
+
+
+    // Likes 버튼에 active 클래스 추가, Views 버튼에서 active 클래스 제거
+    document.getElementById('categoryLikesButton').classList.add('active');
+    document.getElementById('categoryViewsButton').classList.remove('active');
+    
+        document.querySelector('.btn--area--category').classList.add('active-before');
 }
 
 function toggleGenreViewsOrder() {
     currentGenreViewsOrder = currentGenreViewsOrder === 'ASC' ? 'DESC' : 'ASC';
     fetchBooksByGenreOrder('views', currentGenreViewsOrder);
+    
+    document.getElementById('genreViewsButton').classList.add('active');
+    document.getElementById('genreLikesButton').classList.remove('active');
+    
+        // 애니메이션 효과를 위해 필터 전체에 active-before 클래스 추가
+            document.querySelector('.btn--area--genre').classList.remove('active-before');
 }
 
 function toggleGenreLikesOrder() {
     currentGenreLikesOrder = currentGenreLikesOrder === 'ASC' ? 'DESC' : 'ASC';
     fetchBooksByGenreOrder('likes', currentGenreLikesOrder);
+    
+        // Likes 버튼에 active 클래스 추가, Views 버튼에서 active 클래스 제거
+    document.getElementById('categoryLikesButton').classList.add('active');
+    document.getElementById('categoryViewsButton').classList.remove('active');
+    
+        document.querySelector('.btn--area--genre').classList.add('active-before');
 }
+
+// 요일별 데이터 가져오기
+function fetchWeekData() {
+    fetch('/api/serial')
+        .then(response => response.json())
+        .then(weekList => {
+            renderWeekData(weekList, 'weekContainer'); // 기본 요일 데이터 렌더링
+        })
+        .catch(error => console.error('Error fetching week data:', error));
+}
+
+// 요일별 데이터를 렌더링하는 함수
+function renderWeekData(weekList, containerId) {
+    const weekContainer = document.getElementById(containerId);
+    weekContainer.innerHTML = '';  // 기존 내용을 초기화
+
+    // 요일별로 데이터를 렌더링
+    weekList.forEach(day => {
+        const dayElement = document.createElement('div');
+        dayElement.classList.add('week--item');
+        dayElement.textContent = day;  // 각 요일 데이터를 표시
+        weekContainer.appendChild(dayElement);
+    });
+}
+
+// 요일별로 정렬된 데이터를 가져와 렌더링
+function fetchWeekOrder() {
+    fetch('/api/booksSerial')
+        .then(response => response.json())
+        .then(weekList => {
+            renderWeekData(weekList, 'sortedWeekContainer'); // 정렬된 요일 데이터 렌더링
+        })
+        .catch(error => console.error('Error fetching week order data:', error));
+}
+
+// DOM이 로드되면 요일별 데이터를 가져옴
+document.addEventListener('DOMContentLoaded', function() {
+    fetchWeekData();      // 기본 요일 데이터 가져오기
+    fetchWeekOrder();     // 정렬된 요일 데이터 가져오기
+});

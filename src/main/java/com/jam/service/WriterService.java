@@ -87,6 +87,33 @@ public class WriterService {
 		return books;
 	}
 	
+	/**
+	 *  전체 조회 (요일 포함)
+	 * @return
+	 */
+	public List<Book> readBookSerial() {
+		List<Book> books = new ArrayList<Book>();
+		// TODO - 페이징 추가
+		// TODO - 오류 처리
+		try {
+			books = bookRepository.findSerialDay();
+		} catch (Exception e) {
+
+		}
+		return books;
+	}
+	
+	public List<Book> readAllbookSerial(){
+		List<Book> books = new ArrayList<Book>();
+		// TODO - 페이징 추가
+		// TODO - 오류 처리
+		try {
+			books = bookRepository.AllBookSerial();
+		} catch (Exception e) {
+
+		}
+		return books;
+	}
 	
 	/**
 	 * 
@@ -233,14 +260,35 @@ public class WriterService {
 	 * @param bookId
 	 * @return
 	 */
+	public List<Story> findAllStoryByBookIdPage(Integer bookId,int page, int size) {
+		List<Story> stories = new ArrayList<Story>();
+		int limit = size;
+		int offset = (page - 1) * size;
+		try {
+			stories = storyRepository.findAllStoryByBookIdPage(bookId,limit,offset);
+		} catch (Exception e) {
+			// TODO - 오류 처리
+		}
+		return stories;
+	}
+
+
+
 	public List<Story> findAllStoryByBookId(Integer bookId) {
 		List<Story> stories = new ArrayList<Story>();
+	
 		try {
 			stories = storyRepository.findAllStoryByBookId(bookId);
 		} catch (Exception e) {
 			// TODO - 오류 처리
 		}
 		return stories;
+	}
+
+
+
+	public int allList(){
+		return storyRepository.countAll();
 	}
 
 	/**
