@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chart.js Pie Chart Example</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+	<canvas id="myChart" width="400" height="200"></canvas>
+	<script>
+        // 서버에서 데이터를 가져옵니다.
+        fetch('/api/chart-data')  // Spring Boot에서 데이터를 제공하는 엔드포인트
+            .then(response => response.json())  // JSON 형식으로 변환
+            .then(data => {
+                // 데이터를 사용하여 차트를 그립니다.
+                const ctx = document.getElementById('myChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'pie', // 차트의 타입을 'pie'로 변경
+                    data: {
+                        labels: data.labels,  // 서버에서 가져온 labels
+                        datasets: data.datasets // 서버에서 가져온 datasets
+                    },
+                    options: {
+                        responsive: true
+                    }
+                });
+            })
+            .catch(error => console.error('Error fetching data:', error));  // 에러 처리
+    </script>
+</body>
+</html>

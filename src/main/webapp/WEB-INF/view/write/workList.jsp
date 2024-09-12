@@ -24,7 +24,7 @@
 
 	<section class="top--benner--area">
 			<div class="benner--content">
-
+                <img src="../images/benner/benner.jpg">
 			</div>
 	</section>
 

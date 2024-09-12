@@ -49,9 +49,13 @@ public class WriterController {
 	 * @return
 	 */
 	@GetMapping("/workList")
-	public String handleWorkList(Model model) {
+	public String handleWorkList(@RequestParam(name ="page", defaultValue = "1" )  int page,
+	@RequestParam(name ="size", defaultValue = "4" )  int size,Model model) {
 		User principal = (User) session.getAttribute("principal");
 		List<Book> bookList = writerService.readAllBookListByprincipalId(principal.getUserId());
+		int totalRecords = writerService.allList();
+		int totalPages = (int)Math.ceil((double)totalRecords / size);
+		
 		// List<Benner> bennerList = bennerService.findAll();
 		for (Book book : bookList) {
 			String bookImg = book.setUpUserImage();
@@ -63,12 +67,15 @@ public class WriterController {
 		} else {
 			model.addAttribute("bookList", bookList);
 			for (Book book : bookList) {
-				List<Story> storyList = writerService.findAllStoryByBookId(book.getBookId());
+				List<Story> storyList = writerService.findAllStoryByBookIdPage(book.getBookId(),page, size);
 				storyMap.put(book.getBookId(), storyList);
 				System.out.println(storyMap.get(book.getBookId()));
 			}
 		}
 		// model.addAttribute("bennerList", bennerList)
+		model.addAttribute("currentPage", page);
+		model.addAttribute("totalPages", totalPages);
+		model.addAttribute("size", size);
 		model.addAttribute("storyMap", storyMap);
 		return "write/workList";
 	}
