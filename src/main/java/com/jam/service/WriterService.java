@@ -87,6 +87,33 @@ public class WriterService {
 		return books;
 	}
 	
+	/**
+	 *  전체 조회 (요일 포함)
+	 * @return
+	 */
+	public List<Book> readBookSerial() {
+		List<Book> books = new ArrayList<Book>();
+		// TODO - 페이징 추가
+		// TODO - 오류 처리
+		try {
+			books = bookRepository.findSerialDay();
+		} catch (Exception e) {
+
+		}
+		return books;
+	}
+	
+	public List<Book> readAllbookSerial(){
+		List<Book> books = new ArrayList<Book>();
+		// TODO - 페이징 추가
+		// TODO - 오류 처리
+		try {
+			books = bookRepository.AllBookSerial();
+		} catch (Exception e) {
+
+		}
+		return books;
+	}
 	
 	/**
 	 * 
