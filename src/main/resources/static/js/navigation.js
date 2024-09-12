@@ -49,13 +49,11 @@ document.addEventListener('DOMContentLoaded', function() {
 	function loadContent(url) {
 		var xhr = new XMLHttpRequest();
 		xhr.open('GET', url, true);
-
 		xhr.onload = function() {
 			if (xhr.status === 200) {
 				document.getElementById('content').innerHTML = xhr.responseText;
-
 				// 동적으로 로드된 콘텐츠에 이벤트 리스너 다시 바인딩
-				if (url === '/staff/event') {
+				if (url === '/staffEvent/list') {
 					bindEventModalEvents(); // 이벤트 모달 이벤트 재설정
 				} else if (url === '/staff/notice') {
 					bindNoticeModalEvents(); // 공지 모달 이벤트 재설정
@@ -79,8 +77,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
 	// 이벤트 등록 모달 이벤트 바인딩 함수
 	function bindEventModalEvents() {
+
 		var eventModal = document.getElementById('eventModal');
 		var openEventModalBtn = document.getElementById('openEventModal');
+
 		var closeEventModalBtn = document.querySelector('#eventModal .close');
 
 		if (openEventModalBtn) {
@@ -254,7 +254,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			}
 		});
 	}
-	
+
 	function bindReportUserModalEvents() {
 		// 모달 관련 변수들
 		const modal = document.getElementById('reportUserModal');
@@ -297,7 +297,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			}
 		});
 	}
-	
+
 	function bindPayModalEvents() {
 		// 모달 관련 변수들
 		const modal = document.getElementById('payModal');
@@ -340,7 +340,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			}
 		});
 	}
-	
+
 	function bindDonationModalEvents() {
 		// 모달 관련 변수들
 		const modal = document.getElementById('donationModal');
@@ -396,16 +396,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // 채팅 페이지 연결 
 
-   document.addEventListener('DOMContentLoaded', function() {
-        var chatLink = document.getElementById('chat-link');
+document.addEventListener('DOMContentLoaded', function() {
+	var chatLink = document.getElementById('chat-link');
 
-        chatLink.addEventListener('click', function(event) {
-            event.preventDefault(); 
+	chatLink.addEventListener('click', function(event) {
+		event.preventDefault();
 
-            // 창 열기
-            window.open('/chatPage', 'chatWindow', 'width=400,height=600');
-        });
-    });
+		// 창 열기
+		window.open('/chatPage', 'chatWindow', 'width=400,height=600');
+	});
+});
 
 
 

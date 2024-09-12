@@ -51,7 +51,7 @@ public class QnaService {
 	 */
 	public Qna selectByQnaId(int qnaId) {
 		Qna qna = qnaRepository.selectQnaByQnaId(qnaId);
-		return qna ;
+		return qna ;	
 	}
 	
 	/**
@@ -61,7 +61,7 @@ public class QnaService {
 	@Transactional
 	public void delete(int qnaId) {
 		int result =0;
-		result = qnaRepository.deletByQnaId(qnaId);
+		result = qnaRepository.deleteByQnaId(qnaId);
 	}
 	
 	
