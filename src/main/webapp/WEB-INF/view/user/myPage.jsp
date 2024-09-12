@@ -96,7 +96,7 @@
     <!-- 네비게이션 메뉴 -->
     <ul class="nav-menu">
         <li><a href="#">회원 관리</a></li>
-        <li><a href="#">결제 내역</a></li>
+        <li><a href="/pay/paylist">결제 내역</a></li>
         <li><a href="#">차단 관리</a></li>
         <li><a href="#">이벤트 내역</a></li>
     </ul>
@@ -111,7 +111,18 @@
             <div>
                 <div class="info-item">닉네임: ${principal.nickName}</div>
                 <div class="info-item">이메일: ${principal.email}</div>
-                <div class="info-item">전화번호: ${principal.phoneNumber}</div>
+                <div class="info-item">
+                전화번호:
+                <c:if test="${principal.phoneNumber eq null}">
+                	정보없음
+                </c:if>
+                
+                <c:if test="${principal.phoneNumber ne null}">
+                	${principal.phoneNumber}
+                </c:if>
+                
+                
+                </div>
                 <div class="info-item">
                     주소: 
                     <c:if test="${principal.address eq null}">

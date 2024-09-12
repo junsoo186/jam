@@ -40,7 +40,7 @@
 								 <img class="nav-profile" src="${principal.profileImg}">
 								</c:when>
 								<c:otherwise>
-									<a class="profile-area" href="#"> <img class="nav-profile" src="/images/profile/profile.png">
+									<a class="profile-area" href="/#"> <img class="nav-profile" src="/images/profile/profile.png">
 								</a>
 								</c:otherwise>
 							</c:choose>
@@ -88,7 +88,7 @@
 				</a>
 		        <li><a href="/user/myPage">내 정보</a></li>
 		        <li><a href="#">보유 JAM: <fmt:formatNumber value="${principal.point}" pattern="#,###" /></a></li>
-		        <li><a href="#">JAM 충전하기</a></li>		  
+		        <li><a href="/pay/toss">JAM 충전하기</a></li>		  
 		        <li><a href="#">설정</a></li>
 		        <li><a href="#" id="chat-link">채팅</a></li>
 		        <li><a href="/qna/list"> Q&A</a></li>

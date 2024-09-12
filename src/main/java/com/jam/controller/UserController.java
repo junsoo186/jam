@@ -10,6 +10,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -68,8 +69,8 @@ public class UserController {
 	@PostMapping("/sign-up")
 	public String signUpProc(signUpDTO dto) {
 		System.out.println("dto : " + dto.toString());
-		userService.createUser(dto);
-		userService.createDetail(dto);
+		userService.createUser(dto); // 유저 테이블 (user_tb)
+		userService.createDetail(dto); // 유저 상세 정보 테이블 연결 (유저ID 외래키) (user_de_tb)
 
 		return "redirect:/user/sign-in";
 	}
@@ -196,8 +197,8 @@ public class UserController {
 			signInDTO dtoIn = signInDTO.builder().email(kakaoProfile.getKakaoAccount().getEmail() + "_kakao")
 					.password(dtoUp.getPassword()).build();
 			// 회원가입 진행
-			userService.createUser(dtoUp);
-			userService.createDetail(dtoUp);  // 방금 디테일 추가해봄
+			userService.createUser(dtoUp); // 유저 테이블 (user_tb)
+			userService.createDetail(dtoUp);  // 유저 상세 정보 테이블 연결 (유저ID 외래키) (user_de_tb)
 			// 로그인 진행
 			User principal = userService.login(dtoIn); // 로그인 시도 및 User 객체 반환
 			session.setAttribute("principal", principal);
@@ -286,8 +287,8 @@ public class UserController {
 					.password(dtoUp.getPassword()).build();
 
 			// 회원가입 진행
-			userService.createUser(dtoUp);
-			userService.createDetail(dtoUp);
+			userService.createUser(dtoUp); // 유저 테이블 (user_tb)
+			userService.createDetail(dtoUp); // // 유저 상세 정보 테이블 연결 (유저ID 외래키) (user_de_tb)
 
 			// 로그인 진행
 			User principal = userService.login(dtoIn); // 로그인 시도 및 User 객체 반환
@@ -376,8 +377,8 @@ public class UserController {
 					.password(dtoUp.getPassword()).build();
 
 			// 회원가입 진행
-			userService.createUser(dtoUp);
-			userService.createDetail(dtoUp);
+			userService.createUser(dtoUp); // 유저 테이블 (user_tb)
+			userService.createDetail(dtoUp); // // 유저 상세 정보 테이블 연결 (유저ID 외래키) (user_de_tb)
 
 			// 로그인 진행
 			User principal = userService.login(dtoIn);
@@ -491,11 +492,33 @@ public class UserController {
 		return "user/findEmail";
 	}
 	
+	@GetMapping("/charge")
+	public String chargeCoin() {
+		System.out.println("코인충전페이지");
+		return "payment/charge";
+	}
+	
+	/**
+	 * 홈페이지 로그인 후 아이콘 클릭 시 유저 데이터 업데이트 후 작동?
+	 * @return
+	 */
+	@GetMapping("/newSession")
+	public String iconSession() {
+		System.out.println("userController에서 프로필 아이콘 클릭");
+		return "/view/index";
+	}
+	
 	/**
 	 * 마이페이지 이동
 	 */
 	@GetMapping("/myPage")
 	public String getMyPage() {
+		
+//		User user2 = (User)session.getAttribute("principal");
+//		
+//		User user = userService.newSession(user2.getEmail()); // 세션값 변경준비
+//		session.setAttribute("principal", user);  // 이메일을 통해 유저의 정보를 model에 담는다.
+
 		return "user/myPage";
 	}
 	
@@ -505,6 +528,11 @@ public class UserController {
 	@GetMapping("/myProfileModify")
 	public String getDetailMyPage() {
 		
+//		User user2 = (User)session.getAttribute("principal"); // 세션값 변경준비
+//		
+//		User user = userService.newSession(user2.getEmail()); // 이메일을 통해 유저의 정보를 model에 담는다.
+//		session.setAttribute("principal", user);
+
 		return "/user/myProfile";
 	}
 	
@@ -514,13 +542,16 @@ public class UserController {
 	@PostMapping("/userModify1212")
 	public String modifyPage(User user, @RequestParam("mFile") MultipartFile mFile) throws IllegalStateException, IOException {
 		
+		// 유저의 전화번호에 하이폰 -  있으면 toss 결제 인식안됨
+		String removeHyphens = userService.removeHyphens(user.getPhoneNumber());
+		
 		user = User.builder()
 				.userId(user.getUserId())
 				.name(user.getName())
 				.birthDate(user.getBirthDate())
 				.address(user.getAddress())
 				.nickName(user.getNickName())
-				.phoneNumber(user.getPhoneNumber())
+				.phoneNumber(removeHyphens)
 				.email(user.getEmail())
 			//	.password(user.getPassword())
 				.point(user.getPoint())
@@ -529,6 +560,8 @@ public class UserController {
 				.profileImg(user.getProfileImg())
 			//	.oriProfileImg(user.getOriProfileImg())
 				.build();
+		
+		System.out.println("/userModify1212 : " + user.getPhoneNumber());
 		
 		 // 만약 mFile이 비어 있으면 기존 이미지 사용
 	    if (mFile != null && !mFile.isEmpty()) {
@@ -557,6 +590,20 @@ public class UserController {
 	    session.setAttribute("principal", principal);
 		
 		return "redirect:/";
+	}
+	
+	/**
+     * 상세 프로필 닉네임 변경
+     * @param encodedValue
+     * @return
+     */
+	@GetMapping("/check2-nickname")
+	public ResponseEntity<Void> checkNickNameDuplicate2(@RequestParam("nickName") String nickName) {
+		System.out.println("NickName : " + nickName);
+		if (userService.isNickNameDuplicate(nickName)) {
+			return ResponseEntity.status(HttpStatus.CONFLICT).build(); // 409 Conflict
+		}
+		return ResponseEntity.ok().build(); // 200 OK
 	}
 	
 }

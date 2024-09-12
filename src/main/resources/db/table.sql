@@ -168,7 +168,25 @@ CREATE TABLE `account_history_tb` (
     `point` bigint NOT NULL COMMENT '충전 포인트',
     `after_balance` bigint NOT NULL COMMENT '충전 후 포인트' ,
     `created_at` timestamp NOT NULL DEFAULT current_timestamp,
-    FOREIGN KEY (`user_id`) REFERENCES `user_tb`(`user_id`)
+    FOREIGN KEY (`user_id`) REFERENCES `user_tb`(`user_id`),
+    `payment_key` varchar(50) null comment '토스 환불에서 paymentkey, 결제가격, 환불이유가 필요',
+	`status` VARCHAR(20) NOT NULL DEFAULT 'PENDING' COMMENT '요청 상태 (PENDING, APPROVED, REJECTED)'
+);
+
+-- 환불 요청 테이블 (사용자가 환불요청 하면 관리자가 승인, 거절 할 수 있다.)
+CREATE TABLE refund_request_tb (
+    refund_id INT PRIMARY KEY AUTO_INCREMENT NOT NULL COMMENT '환불 요청 ID',
+    user_id INT NOT NULL COMMENT 'user_tb의 외래 키',
+    staff_id INT  NULL COMMENT 'user_tb의 왜래 키',
+    payment_key VARCHAR(50) NOT NULL COMMENT '결제 고유 키',
+    refund_amount BIGINT NOT NULL COMMENT '환불 금액',
+    refund_reason VARCHAR(255) COMMENT '환불 사유',
+    status VARCHAR(20) NOT NULL DEFAULT 'PENDING' COMMENT '요청 상태 (PENDING, 심사중, 승인, 거절)',
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '요청 생성 시간',
+    approved_at TIMESTAMP NULL COMMENT '관리자 승인 시간',
+    rejected_at TIMESTAMP NULL COMMENT '관리자 거부 시간',
+    FOREIGN KEY (user_id) REFERENCES user_tb(user_id),
+    FOREIGN KEY (staff_id ) REFERENCES user_tb(user_id)
 );
 
 CREATE TABLE `reward_tb` (

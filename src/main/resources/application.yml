@@ -35,11 +35,16 @@ spring:
       max-request-size: 20MB # 멀티파트 전체 요청 크기 20MB 제한
 
   datasource:
-    url: jdbc:h2:mem:adpokerdb;MODE=MySQL  # 데이터베이스 연결을 위한 URL을 설정 합니다.
-    driver-class-name: org.h2.Driver # 드라이버 클래스를 설정 합니다.
-    username: sa # 사용자 ID를 지정
-    password: '' # DB 비밀번호, 여기서는 빈 문자열로 설정
-
+    
+#    url: jdbc:mysql://localhost:3306/jam?serverTimezone=Asia/Seoul  #데이터 베이스 연결을 위한 URL을 설정 합니다.
+#    driver-class-name: com.mysql.cj.jdbc.Driver #드라이버 클래스를 설정 합니다.
+#    username: root #사용자 ID를 지정
+#    password: asd123 #DB 비밀번호 여기서는 빈 문자열로 설정
+  
+   url: jdbc:h2:mem:adpokerdb;MODE=MySQL  #데이터 베이스 연결을 위한 URL을 설정 합니다.
+   driver-class-name: org.h2.Driver #드라이버 클래스를 설정 합니다.
+   username: sa #사용자 ID를 지정
+   password: '' #DB 비밀번호 여기서는 빈 문자열로 설정
   sql:
     init:
       schema-locations:
@@ -53,6 +58,9 @@ spring:
 
   output:
     ansi:
+      enabled: always #콘솔 출력에 ANSI 색상 코드를 사용할 수 있도록 설정 
+
+#mybatis 설정
       enabled: always  # 콘솔 출력에 ANSI 색상 코드를 사용할 수 있도록 설정
 
   cloud:
@@ -81,4 +89,11 @@ file:
   upload-dir: C:\work_spring\upload/  # 파일 업로드 디렉토리 설정
 
 tenco:
-  key: 54d5cb2d332dbdb4850293caae4559ce88b65163f1ea5d4e4b3ac49d772ded14  # API 키 설정
+  key: 54d5cb2d332dbdb4850293caae4559ce88b65163f1ea5d4e4b3ac49d772ded14 
+  
+payment:
+  toss:
+    test_client_api_key : test_ck_ma60RZblrqzdY5bJvqgW8wzYWBn1
+    test_secrete_api_key : test_sk_DLJOpm5Qrl6KR7dZbeX03PNdxbWn
+    success_url : "http://localhost:8080/api/v1/payments/toss/success"
+    fail_url : "http://localhost:8080/api/v1/payments/toss/fail"

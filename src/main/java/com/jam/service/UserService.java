@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
@@ -20,9 +21,13 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.jam.dto.EmailVerificationResult;
+import com.jam.dto.RefundRequest;
+import com.jam.dto.refundRequestTbDTO;
 import com.jam.dto.signInDTO;
 import com.jam.dto.signUpDTO;
 import com.jam.repository.interfaces.UserRepository;
+import com.jam.repository.model.AccountHistoryDTO;
+import com.jam.repository.model.Payment;
 import com.jam.repository.model.User;
 import com.jam.utils.Define;
 
@@ -281,6 +286,15 @@ public class UserService {
 	}
 	
 	/**
+	 * 유저 회원정보 수정 후 다시 정보 뿌리기 (유저 ID)
+	 */
+	public User InformationId(Integer userId) {
+		User user;
+		user = userRepository.selectUserInfo(userId);
+		return user;
+	} 
+	
+	/**
 	 * 유저 상세정보
 	 * @param email
 	 */
@@ -299,6 +313,183 @@ public class UserService {
         userRepository.updateUserPoints(userId, point);
 
     }
+	
+	/**
+	 * 유저 포인트 충전 내역이 들어간다.  (결제 히스토리)
+	 * @param userId
+	 * @param deposit
+	 * @param point
+	 * @param afterBalance
+	 */
+	public void insertPoint(int userId, long deposit, long point, long afterBalance, String payKey) {
+		userRepository.insertPoint(userId, deposit, point, afterBalance, payKey);
+	}
+	
+	
+	/**
+	 * 유저 아이디로 유저의 포인트를 조회한다.
+	 * @param userId
+	 */
+	public int searchPoint(int userId) {
+		
+		int a = userRepository.selectUserPoint(userId);
+		System.out.println("유저 포인트 조회 : " +a);
+		return a;
+	}
+	
+	/**
+	 * (결제)유저 포인트를 저장한다. 유저 상세 페이지를 연결
+	 *  user_de_tb
+	 * @param amount
+	 * @param userId
+	 */
+	public void insert(Integer amount, long balance, int userId) {
+		
+		userRepository.insertUserTbPoint(amount, balance, userId);
+		
+	}
+	
+	/**
+	 * 유저가 결제한 정보를 리스트로 뽑아낸다.
+	 * @param userId
+	 * @return
+	 */
+	public List<AccountHistoryDTO> findPayList(int userId) {
+		// TODO Auto-generated method stub
+		List<AccountHistoryDTO> dto = userRepository.findPayList(userId);
+		return dto;
+	}
+	
+	/**
+	 * (환불) 유저 포인트를 저장한다. 유저 상세 페이지를 연결
+	 * @param refundAmount
+	 * @param balance
+	 * @param userId
+	 */
+	public void delete(long refundAmount, long balance, int userId) {
+		userRepository.deleteUserTbPoint(refundAmount, balance, userId);
+		
+	}
+	
+	/**
+	 * 유저의 환불 요청을 db에 저장하여 관리자가 볼수 있도록 한다.
+	 * @param refundRequest
+	 */
+	public List<RefundRequest> saveRefundRequest(RefundRequest refundRequest) {
+		List<RefundRequest> dto = userRepository.findRefundList(refundRequest);
+		return dto;
+	}
+	
+	/**
+	 * 관리자가 RefundRequest 리스트로 확인하는 메서드 (테스트용)
+	 * (테스트용)
+	 * @return
+	 */
+	public List<RefundRequest> selectRefundRequest() {
+		List<RefundRequest> dto = userRepository.selectRefundList();
+		return dto;
+	}
+	
+	
+	/**
+	 * 환불에 대한 승인, update 사용 padding 에서 승인
+	 * @param refundRequest
+	 */
+	public void refundRequest(RefundRequest refundRequest) {
+		
+		userRepository.pointAudit(refundRequest);
+		
+	}
+	/**
+	 * 환불에 대한 거부, updqte 사용 padding에서 거부 
+	 * @param refundRequest
+	 */
+	public void refundreject(RefundRequest refundRequest) {
+		// TODO Auto-generated method stub
+		userRepository.pointreject(refundRequest);
+		
+	}
+	
+	/**
+	 * 사용자가 환불 신청 버튼 클릭 후 승인 되었을 때 status가 'PENDING' --> '승인'으로 변경
+	 * 
+	 * @param userId
+	 */
+	public void updateStatus1(String paymentKey) {
+		userRepository.updateStatus1(paymentKey);
+	}
+	
+	/**
+	 * 사용자가 환불 신청 버튼 클릭 후 승인 되었을 때 status가 'PENDING' --> '거절'으로 변경
+	 * @param paymentKey
+	 */
+	public void updateStatus2(String paymentKey) {
+		// TODO Auto-generated method stub
+		userRepository.updateStatus2(paymentKey);
+		
+	}
+	
+	/**
+	 * 사용자가 환불 버튼 클릭 시 paymentKey가 여러번 눌리도록 하지 않게 한다.
+	 * @param paymentKey 
+	 * @return refund_request_tb
+	 */ 
+	public int paymentCheck(String paymentKey) {
+		// TODO Auto-generated method stub
+		int number = 0;
+		number = userRepository.historyPaymentKeyCheck(paymentKey);
+		if(number == 0) {
+			System.out.println("환불 신청이 가능합니다.");
+		} else {
+			System.out.println("이미 환불 신청한 내용입니다.");
+		}
+		return number;
+	}
+	
+	/**
+	 * 사용자가 클릭할 시 유저 세션의 값을 불러온다. (사이드 바에 '내 정보' 클릭 시 )
+	 * 환불승인 후 홈페이지에서 클릭할 시 유저포인트가 변경이 없어 세션값을 새롭게 갱신
+	 * @param email
+	 */
+	public User newSession(String email) {
+		User user = userRepository.findEmail(email);
+		return user;
+		
+	}
+	
+	/**
+	 * 홈페이지 창에서 세션 확인
+	 */
+	public User sessionCheck(String email) {
+		User user = null;
+		user = userRepository.findEmail(email);
+		return user;
+	}
+	
+	/**
+	 * 환불 버튼 클릭 시 "심사중" 이라고 표시하면서 관리자가 심사할 동안 버튼을 없앤다.
+	 * @param paymentKey
+	 */
+	public void pointAuditWait(String paymentKey) {
+		userRepository.pointAuditWait(paymentKey);
+		
+	}
+	
+	/**
+	 * 관리자가 환불 승인하면 기존에 있던 돈에서 업데이트 한다.
+	 * @param userId
+	 * @param deposit
+	 * @param point
+	 * @param afterBalance
+	 * @param paymentKey
+	 */
+	public void updatePoint(int userId, long deposit, long point, long afterBalance, String paymentKey) {
+		// TODO Auto-generated method stub
+		System.out.println("updatepoint 사용거쳐감");
+		userRepository.updatePoint(userId, deposit, point, afterBalance, paymentKey);
+		
+	}
+	
 	
 	
 

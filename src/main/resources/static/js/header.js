@@ -8,7 +8,6 @@ document.addEventListener("DOMContentLoaded", function() {
     const profile = document.querySelector('.nav-profile');
     const sidebar = document.querySelector('.sidebar');
 
-
     profile.addEventListener('click', function(event) {
         event.stopPropagation(); 
         sidebar.classList.toggle('open'); 

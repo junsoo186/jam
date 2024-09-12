@@ -3,13 +3,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jam.repository.interfaces.UserRepository">
-
+	<!--  유저가 회원가입 시 필요한 닉네임, 이메일, 패스워드, 이미지의 값을 넣는다. -->
 	<insert id="insert">
 		insert into user_tb (nick_name, email, password,
 		profile_img)
 		values(#{nickName}, #{email}, #{password}, #{profileImg});
 	</insert>
 
+	<!-- 유저의 상세 데이터(user_de_tb)를 추가하여 user_id를 기반으로 유저의 포인트, 이름, 생일, 주소 테이블 연결 -->
 	<insert id="insertbyUserTb">
 		insert into user_de_tb (user_id)
 		values(#{userId})
@@ -22,6 +23,15 @@
 		join user_de_tb as d on u.user_id
 		= d.user_id
 		where email = #{email};
+	</select>
+	
+	<select id="findUserId"
+		resultType="com.jam.repository.model.User">
+		select *
+		from user_tb as u
+		join user_de_tb as d
+		on u.user_id = d.user_id
+		where u.user_id = #{userId};
 	</select>
 
 	<select id="findByUserEmail" resultType="int">
@@ -59,7 +69,8 @@
 
 		UPDATE user_tb
 		SET nick_name = #{nickName},
-		profile_img = #{profileImg}
+		profile_img = #{profileImg},
+		phone_number = #{phoneNumber} <!-- 폰 번호 없어서  추가해봄 -->
 		WHERE email = #{email}
 
 	</update>
@@ -69,6 +80,7 @@
 		SET name = #{name},
 		address = #{address},
 		birth_date = #{birthDate}
+		
 
 	</update>
 
@@ -88,8 +100,101 @@
 		from user_tb
 		where email = #{email};
 	</select>
-
 	
+	
+	<select id="selectUserPoint">
+		SELECT point FROM user_de_tb WHERE user_id = #{userId}
+	</select>
+	
+	<select id="selectUserInfo">
+		select *
+		from user_tb
+		where user_id = #{userId}
+	</select>
+		
+	<insert id="insertPoint">
+   	 INSERT INTO account_history_tb (user_id, deposit, point, after_balance, payment_key )
+    VALUES (#{userId}, #{deposit}, #{point}, #{afterBalance}, #{paymentKey});
+	</insert>
+	
+	<update id="updatePoint">
+	UPDATE account_history_tb
+	SET deposit = #{deposit}, 
+    point = #{point}, 
+    after_balance = #{afterBalance}, 
+    user_id = #{userId}
+	WHERE payment_key = #{paymentKey}
+	</update>
+
+	<insert id ="insertUserTbPoint">
+		UPDATE user_de_tb 
+		SET point = #{balance} + #{amount}
+		WHERE user_id = #{userId}    
+		
+	</insert>
+	
+	<insert id="deleteUserTbPoint">
+		UPDATE user_de_tb 
+		SET point = #{balance} - #{refundAmount}
+		WHERE user_id = #{userId}    
+	</insert>
+	
+	<select id="findPayList" resultType="com.jam.repository.model.AccountHistoryDTO">
+		 SELECT * 
+    FROM account_history_tb
+    WHERE user_id = #{userId}
+    <!-- order by created_at desc;  -->
+	</select>
+	
+	<select id="findRefundList" resultType="com.jam.dto.RefundRequest">
+		insert into refund_request_tb (user_id, payment_key, refund_amount, refund_reason)
+		values(#{userId}, #{paymentKey}, #{refundAmount}, #{refundReason});
+		
+	</select>
+	
+	<select id="selectRefundList">
+		select *
+		from refund_request_tb
+		
+	</select>
+	
+	<update id="pointAudit">
+	 update refund_request_tb
+    set staff_id = #{userId}, status = '승인', approved_at = CURRENT_TIMESTAMP
+    where payment_key = #{paymentKey}
+	</update>
+	
+	<update id="pointreject">
+	  update refund_request_tb
+    set staff_id = #{userId}, status = '거절', approved_at = CURRENT_TIMESTAMP
+    where payment_key = #{paymentKey}
+	</update>
+	
+	<update id="pointAuditWait" >
+	 update account_history_tb
+    set status = '심사중'
+    where payment_key = #{paymentKey}
+	</update>
+	
+	
+	<update id="updateStatus1">
+		update account_history_tb
+		set status = '승인'
+		where payment_key = #{paymentKey}
+	</update>
+	
+	<update id="updateStatus2">
+		update account_history_tb
+		set status = '거절'
+		where payment_key = #{paymentKey}
+	</update>
+	
+	<select id="historyPaymentKeyCheck" resultType="int">
+		select count(*)
+		from refund_request_tb
+		where payment_key = #{paymentKey}
+		
+	</select>
 
 
 </mapper>

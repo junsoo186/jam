@@ -6,8 +6,6 @@ import lombok.Builder;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-
-
 public class Event {
 
 }
