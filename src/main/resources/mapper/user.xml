@@ -3,13 +3,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jam.repository.interfaces.UserRepository">
-
+	<!--  유저가 회원가입 시 필요한 닉네임, 이메일, 패스워드, 이미지의 값을 넣는다. -->
 	<insert id="insert">
 		insert into user_tb (nick_name, email, password,
 		profile_img)
 		values(#{nickName}, #{email}, #{password}, #{profileImg});
 	</insert>
 
+	<!-- 유저의 상세 데이터(user_de_tb)를 추가하여 user_id를 기반으로 유저의 포인트, 이름, 생일, 주소 테이블 연결 -->
 	<insert id="insertbyUserTb">
 		insert into user_de_tb (user_id)
 		values(#{userId})
@@ -68,7 +69,8 @@
 
 		UPDATE user_tb
 		SET nick_name = #{nickName},
-		profile_img = #{profileImg}
+		profile_img = #{profileImg},
+		phone_number = #{phoneNumber} <!-- 폰 번호 없어서  추가해봄 -->
 		WHERE email = #{email}
 
 	</update>
@@ -78,6 +80,7 @@
 		SET name = #{name},
 		address = #{address},
 		birth_date = #{birthDate}
+		
 
 	</update>
 

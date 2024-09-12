@@ -11,7 +11,9 @@
 			<!-- 회원가입 폼 -->
 			<form action="/user/sign-up" method="post" enctype="multipart/form-data">
 				<div>
-					<label for="nickName">닉네임</label> <input type="text" id="nickName" name="nickName" class="input--area" required> <span id="nickNameCheckMessage"></span>
+					<label for="nickName">닉네임</label>
+					<input type="text" id="nickName" name="nickName" class="input--area" required>
+					<span id="nickNameCheckMessage"></span>
 					<button type="button" onclick="checkNickName()" class="side--btn--check">중복확인</button>
 				</div><br>
 

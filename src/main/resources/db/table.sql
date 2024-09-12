@@ -173,7 +173,7 @@ CREATE TABLE refund_request_tb (
     payment_key VARCHAR(50) NOT NULL COMMENT '결제 고유 키',
     refund_amount BIGINT NOT NULL COMMENT '환불 금액',
     refund_reason VARCHAR(255) COMMENT '환불 사유',
-    status VARCHAR(20) NOT NULL DEFAULT 'PENDING' COMMENT '요청 상태 (PENDING, APPROVED, REJECTED)',
+    status VARCHAR(20) NOT NULL DEFAULT 'PENDING' COMMENT '요청 상태 (PENDING, 심사중, 승인, 거절)',
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '요청 생성 시간',
     approved_at TIMESTAMP NULL COMMENT '관리자 승인 시간',
     rejected_at TIMESTAMP NULL COMMENT '관리자 거부 시간',

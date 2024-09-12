@@ -123,7 +123,8 @@
 </head>
 <body>
 
-<p>여기에 결제 리스트 내역 </p>
+<p> 환불 요청 리스트 </p>
+<a href="/">홈페이지로 돌아가기</a>
 	
 <c:if test="${not empty payList}">
 	<table border="1">

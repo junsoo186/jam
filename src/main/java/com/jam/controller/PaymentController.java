@@ -292,36 +292,55 @@ public class PaymentController {
         	long point  = refundAmount; // 충전할 포인트
         	long afterBalance = balance  - refundAmount; // 소지하고 있는 포인트 - 충전할 포인트 = afterBalance
         	
-        	userService.insertPoint(userId, deposit, point, afterBalance, paymentKey); // 포인트 충전내역 
-        	
-        	// 유저 상세 정보에 기존 포인트에  포인트 제거
-        	userService.delete(refundAmount, balance, userId);
-        	
-        	// 유저의 업데이트된 정보를 가져온다.
-        	User updateUser = userService.InformationId(userId);
-       	
-           System.out.println("유저정보 확인 : " + updateUser);
-           
-           User user = (User) session.getAttribute("principal");
-   	    RefundRequest refundRequest = RefundRequest.builder()
-   	            .userId(user.getUserId())
-   	            .paymentKey(paymentKey)
-   	            .refundAmount(refundAmount)
-   	         //   .refundReason("승인")
-   	          //  .status()
-   	            .build();
-   	    
-   	 userService.updateStatus1(paymentKey); // pedding --> 승인으로 변경 
-   	    
-   	    System.out.println("리펀 dto 확인 :" + refundRequest.toString());
-   	    
-   	    userService.refundRequest(refundRequest);
-       
+        	// 환불 승인 버튼을 눌렀지만 소지포인트 - 환불 포인트가 < 0 일 때 환불 거절로 변경된다. 
+        	if(afterBalance > 0) { // 포인트가 0 보다 크면 환불을 진행한다.
+        		
+            	userService.insertPoint(userId, deposit, point, afterBalance, paymentKey); // 포인트 충전내역 
+            	
+            	// 유저 상세 정보에 기존 포인트에  포인트 제거
+            	userService.delete(refundAmount, balance, userId);
+            	
+            	// 유저의 업데이트된 정보를 가져온다.
+            	User updateUser = userService.InformationId(userId);
+           	
+               System.out.println("유저정보 확인 : " + updateUser);
+               
+               User user = (User) session.getAttribute("principal");
+               RefundRequest refundRequest = RefundRequest.builder()
+       	            .userId(user.getUserId())
+       	            .paymentKey(paymentKey)
+       	            .refundAmount(refundAmount)
+       	         //   .refundReason("승인")
+       	          //  .status()
+       	            .build();
+       	    
+               userService.updateStatus1(paymentKey); // pedding --> 승인으로 변경 
+       	    
+       	    	System.out.println("리펀 dto 확인 :" + refundRequest.toString());
+       	    
+       	    	userService.refundRequest(refundRequest);
+        	} else {
+        		// 소지 포인트가 환불 포인트 보다 작을 때 (소지포인트 < 환불포인트)
+        		 User user = (User) session.getAttribute("principal");
+        		 RefundRequest refundRequest = RefundRequest.builder()
+         	            .userId(userId) // 유저 아이디
+         	            .staffId(user.getUserId()) // 관리자 아이디
+         	            .paymentKey(paymentKey) // 결제 코드
+         	            .refundAmount(refundAmount) // 결제 가격
+         	            .refundReason("거절") 
+         	            .build();
+        		 
+        		 userService.updateStatus2(paymentKey); // 거절로 변경
+        		 userService.refundreject(refundRequest);
+        		 System.out.println("환불 승인을 시도했으나 포인트 부족으로 환불 불가");
+        		 return "redirect:/";
+        	}
+        
         } catch (Exception e) {
             e.printStackTrace();
           //  return "redirect:/refund/error";  // 에러 발생 시
-            System.out.println("환불실패");
-            return "redirect:/pay/fail"; // 환불 실패
+           // System.out.println("환불실패");
+            // return "redirect:/pay/fail"; // 환불 실패
         }
          return "redirect:/"; // 환불 성공 시
      }
@@ -354,7 +373,7 @@ public class PaymentController {
     	    System.out.println("@@#@ : " +dto.toString());
     	    
     	 System.out.println("@#@#@ : "+refundRequest.toString());
-    	 userService.refundreject(refundRequest);
+    	 userService.refundreject(refundRequest); // 거절로 업데이트
     	 
     	 userService.updateStatus2(paymentKey); // pedding --> 승인으로 변경 
     	

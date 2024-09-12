@@ -69,8 +69,8 @@ public class UserController {
 	@PostMapping("/sign-up")
 	public String signUpProc(signUpDTO dto) {
 		System.out.println("dto : " + dto.toString());
-		userService.createUser(dto);
-		userService.createDetail(dto);
+		userService.createUser(dto); // 유저 테이블 (user_tb)
+		userService.createDetail(dto); // 유저 상세 정보 테이블 연결 (유저ID 외래키) (user_de_tb)
 
 		return "redirect:/user/sign-in";
 	}
@@ -197,8 +197,8 @@ public class UserController {
 			signInDTO dtoIn = signInDTO.builder().email(kakaoProfile.getKakaoAccount().getEmail() + "_kakao")
 					.password(dtoUp.getPassword()).build();
 			// 회원가입 진행
-			userService.createUser(dtoUp);
-			userService.createDetail(dtoUp);  // 방금 디테일 추가해봄
+			userService.createUser(dtoUp); // 유저 테이블 (user_tb)
+			userService.createDetail(dtoUp);  // 유저 상세 정보 테이블 연결 (유저ID 외래키) (user_de_tb)
 			// 로그인 진행
 			User principal = userService.login(dtoIn); // 로그인 시도 및 User 객체 반환
 			session.setAttribute("principal", principal);
@@ -287,8 +287,8 @@ public class UserController {
 					.password(dtoUp.getPassword()).build();
 
 			// 회원가입 진행
-			userService.createUser(dtoUp);
-			userService.createDetail(dtoUp);
+			userService.createUser(dtoUp); // 유저 테이블 (user_tb)
+			userService.createDetail(dtoUp); // // 유저 상세 정보 테이블 연결 (유저ID 외래키) (user_de_tb)
 
 			// 로그인 진행
 			User principal = userService.login(dtoIn); // 로그인 시도 및 User 객체 반환
@@ -377,8 +377,8 @@ public class UserController {
 					.password(dtoUp.getPassword()).build();
 
 			// 회원가입 진행
-			userService.createUser(dtoUp);
-			userService.createDetail(dtoUp);
+			userService.createUser(dtoUp); // 유저 테이블 (user_tb)
+			userService.createDetail(dtoUp); // // 유저 상세 정보 테이블 연결 (유저ID 외래키) (user_de_tb)
 
 			// 로그인 진행
 			User principal = userService.login(dtoIn);
@@ -557,6 +557,8 @@ public class UserController {
 				.profileImg(user.getProfileImg())
 			//	.oriProfileImg(user.getOriProfileImg())
 				.build();
+		
+		System.out.println("/userModify1212 : " + user.getPhoneNumber());
 		
 		 // 만약 mFile이 비어 있으면 기존 이미지 사용
 	    if (mFile != null && !mFile.isEmpty()) {

@@ -15,7 +15,7 @@
 		User user = (User)session.getAttribute("principal");
 		String userEmail = user.getEmail(); // 이메일 값 가져오기
 		String userName = user.getNickName(); // 닉네임 가져오기
-		String userNumber = user.getPhoneNumber().replaceAll("-", ""); // 유저 전화번호에서 '-' 제거 ex) 010-1234-5678 => 01012345678
+		String userNumber = (user.getPhoneNumber() != null) ? user.getPhoneNumber().replaceAll("-", "") : "정보없음"; // 유저 전화번호에서 '-' 제거 ex) 010-1234-5678 => 01012345678
 	%>
 	
 	<!-- 결제하기 버튼 -->
@@ -38,6 +38,8 @@
 		<p>4000원 4000코인</p>
 		<button class="button" style="margin-top: 30px" onclick="requestPayment(4000, '4000코인')">결제하기</button>
 	</div>
+	
+	<a href="/">홈페이지로 돌아가기</a>
 	
 	
 	

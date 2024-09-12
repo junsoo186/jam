@@ -111,7 +111,18 @@
             <div>
                 <div class="info-item">닉네임: ${principal.nickName}</div>
                 <div class="info-item">이메일: ${principal.email}</div>
-                <div class="info-item">전화번호: ${principal.phoneNumber}</div>
+                <div class="info-item">
+                전화번호:
+                <c:if test="${principal.phoneNumber eq null}">
+                	정보없음
+                </c:if>
+                
+                <c:if test="${principal.phoneNumber ne null}">
+                	${principal.phoneNumber}
+                </c:if>
+                
+                
+                </div>
                 <div class="info-item">
                     주소: 
                     <c:if test="${principal.address eq null}">
