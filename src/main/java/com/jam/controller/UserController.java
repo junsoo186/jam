@@ -542,13 +542,16 @@ public class UserController {
 	@PostMapping("/userModify1212")
 	public String modifyPage(User user, @RequestParam("mFile") MultipartFile mFile) throws IllegalStateException, IOException {
 		
+		// 유저의 전화번호에 하이폰 -  있으면 toss 결제 인식안됨
+		String removeHyphens = userService.removeHyphens(user.getPhoneNumber());
+		
 		user = User.builder()
 				.userId(user.getUserId())
 				.name(user.getName())
 				.birthDate(user.getBirthDate())
 				.address(user.getAddress())
 				.nickName(user.getNickName())
-				.phoneNumber(user.getPhoneNumber())
+				.phoneNumber(removeHyphens)
 				.email(user.getEmail())
 			//	.password(user.getPassword())
 				.point(user.getPoint())

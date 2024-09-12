@@ -43,6 +43,9 @@ public interface UserRepository {
 	// 유저가 포인트를 적립하려면 유저ID, 입금금액, 충전포인트, 기존포인트 +(-) 충전포인트 
 	public int insertPoint(@Param("userId") Integer userId , @Param("deposit") long deposit, @Param("point") long point, @Param("afterBalance") long afterBalance, @Param("paymentKey") String paymentKey);
 	
+	// 관리자가 유저의 환불을 승인하면 기존의 포인트에서 업데이트 한다.
+	public int updatePoint(@Param("userId") Integer userId , @Param("deposit") long deposit, @Param("point") long point, @Param("afterBalance") long afterBalance, @Param("paymentKey") String paymentKey);
+	
 	public int selectUserPoint(@Param("userId") Integer userId);
 	
 	// 유저 상세 정보 db에 결제한 포인트 값을 넣는다.

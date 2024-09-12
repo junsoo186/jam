@@ -15,7 +15,8 @@
 		User user = (User)session.getAttribute("principal");
 		String userEmail = user.getEmail(); // 이메일 값 가져오기
 		String userName = user.getNickName(); // 닉네임 가져오기
-		String userNumber = (user.getPhoneNumber() != null) ? user.getPhoneNumber().replaceAll("-", "") : "정보없음"; // 유저 전화번호에서 '-' 제거 ex) 010-1234-5678 => 01012345678
+		String userNumber = user.getPhoneNumber();
+		
 	%>
 	
 	<!-- 결제하기 버튼 -->
@@ -57,8 +58,8 @@
       // JSP에서 전달된 값 가져오기
       const customerEmail = "<%= userEmail %>"; <%-- 유저 이메일 --%>
       const customerName = "<%= userName %>"; <%-- 유저 이름 --%>
-      const customerNumber = "<%= userNumber %>"; <%-- 유저 전화번호 --%>
-      
+      const customerNumber = "<%= (userNumber != null) ? userNumber : "01012345678" %>";
+
       
    // UUID 생성 함수
       function generateUUID() {

@@ -313,6 +313,7 @@ public class UserService {
 		userRepository.insertPoint(userId, deposit, point, afterBalance, payKey);
 	}
 	
+	
 	/**
 	 * 유저 아이디로 유저의 포인트를 조회한다.
 	 * @param userId
@@ -320,12 +321,7 @@ public class UserService {
 	public int searchPoint(int userId) {
 		
 		int a = userRepository.selectUserPoint(userId);
-		
-		if(a == 1) {
-			System.out.println("유저 포인트 조회 완료");
-		} else {
-			System.out.println("포인트 조회 실패 유저 없음!");
-		}
+		System.out.println("유저 포인트 조회 : " +a);
 		return a;
 	}
 	
@@ -464,6 +460,21 @@ public class UserService {
 	 */
 	public void pointAuditWait(String paymentKey) {
 		userRepository.pointAuditWait(paymentKey);
+		
+	}
+	
+	/**
+	 * 관리자가 환불 승인하면 기존에 있던 돈에서 업데이트 한다.
+	 * @param userId
+	 * @param deposit
+	 * @param point
+	 * @param afterBalance
+	 * @param paymentKey
+	 */
+	public void updatePoint(int userId, long deposit, long point, long afterBalance, String paymentKey) {
+		// TODO Auto-generated method stub
+		System.out.println("updatepoint 사용거쳐감");
+		userRepository.updatePoint(userId, deposit, point, afterBalance, paymentKey);
 		
 	}
 	

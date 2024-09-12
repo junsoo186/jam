@@ -293,9 +293,10 @@ public class PaymentController {
         	long afterBalance = balance  - refundAmount; // 소지하고 있는 포인트 - 충전할 포인트 = afterBalance
         	
         	// 환불 승인 버튼을 눌렀지만 소지포인트 - 환불 포인트가 < 0 일 때 환불 거절로 변경된다. 
-        	if(afterBalance > 0) { // 포인트가 0 보다 크면 환불을 진행한다.
+        	if(afterBalance >= 0) { // 포인트가 0 보다 크면 환불을 진행한다.
         		
-            	userService.insertPoint(userId, deposit, point, afterBalance, paymentKey); // 포인트 충전내역 
+        		userService.updatePoint(userId, deposit, point, afterBalance, paymentKey); // 포인트 충전내역 업데이트
+            //	userService.insertPoint(userId, deposit, point, afterBalance, paymentKey); // 포인트 충전내역 
             	
             	// 유저 상세 정보에 기존 포인트에  포인트 제거
             	userService.delete(refundAmount, balance, userId);

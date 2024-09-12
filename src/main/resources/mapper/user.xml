@@ -113,9 +113,18 @@
 	</select>
 		
 	<insert id="insertPoint">
-    INSERT INTO account_history_tb (user_id, deposit, point, after_balance, payment_key )
+   	 INSERT INTO account_history_tb (user_id, deposit, point, after_balance, payment_key )
     VALUES (#{userId}, #{deposit}, #{point}, #{afterBalance}, #{paymentKey});
 	</insert>
+	
+	<update id="updatePoint">
+	UPDATE account_history_tb
+	SET deposit = #{deposit}, 
+    point = #{point}, 
+    after_balance = #{afterBalance}, 
+    payment_key = #{paymentKey}
+	WHERE user_id = #{userId}
+	</update>
 
 	<insert id ="insertUserTbPoint">
 		UPDATE user_de_tb 
