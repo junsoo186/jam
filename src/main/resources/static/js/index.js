@@ -101,14 +101,15 @@ function setActiveButton(container, activeId) {
         }
     });
 }
-
 document.addEventListener('DOMContentLoaded', function() {
-    fetchCategories();
-    fetchGenres();
-
-    // 초기 카테고리와 장르 선택 후 책 목록 자동 로드
-    fetchBooksByCategoryOrder('views', currentCategoryViewsOrder);  // 초기 카테고리 책 목록 로드
-    fetchBooksByGenreOrder('views', currentGenreViewsOrder);        // 초기 장르 책 목록 로드
+    // 카테고리와 장르를 모두 로드한 후에만 책 목록을 불러오도록 설정
+    fetchCategories(() => {
+        fetchGenres(() => {
+            // 초기 카테고리와 장르 선택 후 책 목록 자동 로드
+            fetchBooksByCategoryOrder('views', currentCategoryViewsOrder);  // 초기 카테고리 책 목록 로드
+            fetchBooksByGenreOrder('views', currentGenreViewsOrder);        // 초기 장르 책 목록 로드
+        });
+    });
 });
 
 // 카테고리 정렬을 위한 초기 설정
@@ -121,30 +122,50 @@ let currentGenreViewsOrder = 'DESC';
 let currentGenreLikesOrder = 'DESC';
 let selectedGenreId = 2;  // 초기 장르 ID (기본 선택할 장르 ID)
 
-// 이미지 유효성 확인 함수 (단순화된 버전)
 function getValidImagePath(imagePath, callback) {
-    if (!imagePath || imagePath.trim() === '') {
+    if (!imagePath || imagePath.trim() === '' || imagePath === '/images/') {
+        console.log('Empty or invalid image path, using default image.');
         callback('/images/bannerimg1.jpg');  // 기본 이미지로 대체
         return;
     }
 
-    // fetch로 이미지 존재 여부 확인
+    // 정상적인 이미지 경로일 경우에만 요청
+    console.log('Fetching image path:', imagePath);
+
     fetch(imagePath, { method: 'HEAD' })
         .then(response => {
             if (response.ok) {
+                console.log('Image found:', imagePath);
                 callback(imagePath);  // 유효한 이미지 경로 반환
             } else {
+                console.log('Image not found, using default image.');
                 callback('/images/bannerimg1.jpg');  // 이미지가 없을 경우 기본 이미지로 대체
             }
         })
         .catch(() => {
+            console.log('Error fetching image, using default image.');
             callback('/images/bannerimg1.jpg');  // 오류가 발생해도 기본 이미지로 대체
         });
 }
 
+function sortBooks(books, sortBy, order) {
+    console.log(`Sorting by ${sortBy} in ${order} order`); // 정렬 정보 출력
+    console.log('Before sorting:', books); // 정렬 전
+
+    const sortedBooks = books.sort((a, b) => {
+        let valueA = sortBy === 'views' ? a.views : a.likes;
+        let valueB = sortBy === 'views' ? b.views : b.likes;
+
+        // 정렬 순서 ASC 또는 DESC에 따라 반환
+        return order === 'ASC' ? valueA - valueB : valueB - valueA;
+    });
+
+    console.log('After sorting:', sortedBooks); // 정렬 후
+    return sortedBooks;
+}
 
 // 카테고리 목록을 가져와서 버튼 생성
-function fetchCategories() {
+function fetchCategories(callback) {
     fetch('/api/categories')
         .then(response => response.json())
         .then(categories => {
@@ -166,11 +187,14 @@ function fetchCategories() {
 
             // 초기 카테고리 ID에 맞는 버튼에 활성화 상태 추가
             setActiveButton(categoryFilter, activeCategoryId);  // 초기 설정된 카테고리 활성화
+
+            // 카테고리 로드 후 콜백 호출
+            if (callback) callback();
         });
 }
 
 // 장르 목록을 가져와서 버튼 생성
-function fetchGenres() {
+function fetchGenres(callback) {
     fetch('/api/genres')
         .then(response => response.json())
         .then(genres => {
@@ -192,10 +216,12 @@ function fetchGenres() {
 
             // 초기 장르 ID에 맞는 버튼에 활성화 상태 추가
             setActiveButton(genreFilter, selectedGenreId);  // 초기 설정된 장르 활성화
+
+            // 장르 로드 후 콜백 호출
+            if (callback) callback();
         });
 }
 
-// 책 목록을 카테고리별로 가져와서 렌더링
 function fetchBooksByCategoryOrder(filter, order) {
     if (!activeCategoryId) return;
 
@@ -203,38 +229,48 @@ function fetchBooksByCategoryOrder(filter, order) {
         .then(response => response.json())
         .then(books => {
             const bookListDiv = document.getElementById('categoryContent');
-            bookListDiv.innerHTML = '';
+            bookListDiv.innerHTML = '';  // 목록 초기화
 
-            if (books.length === 0) {
-                bookListDiv.innerHTML = '<p>해당 카테고리에 속한 책이 없습니다.</p>';
-            } else {
-                books.forEach(book => {
-                                      if (book.bookCoverImage) {
-                        getValidImagePath(book.bookCoverImage, (validImagePath) => {
-                            if (validImagePath !== '/images/bannerimg1.jpg') {
-                                const bookItem = document.createElement('div');
-                                bookItem.classList.add('book--item');
+            const sortedBooks = sortBooks(books, filter, order);  // 정렬된 책 목록
 
-                                bookItem.innerHTML = `
-                                    <div class="book--info">
-                                        <img src="${validImagePath}" alt="${book.title}" id="category-book-cover-${book.bookId}">
-                                        <h4>${book.title}</h4>
-                                        <p>저자: ${book.author}</p>
-                                        <p>조회수: ${book.views}</p>
-                                        <p>좋아요: ${book.likes}</p>
-                                    </div>
-                                `;
-                                bookListDiv.appendChild(bookItem);
-                            }
-                        });
-                    }
+            // 각 책 데이터를 비동기적으로 처리하면서 순서를 보장
+            sortedBooks.reduce((promiseChain, book) => {
+                return promiseChain.then(() => {
+                    return new Promise((resolve) => {
+                        if (book.bookCoverImage) {
+                            getValidImagePath(book.bookCoverImage, (validImagePath) => {
+                                if (validImagePath !== '/images/bannerimg1.jpg') {
+                                    const bookItem = document.createElement('div');
+                                    bookItem.classList.add('book--item');
+
+                                    const img = new Image();
+                                    img.src = validImagePath;
+                                    img.onload = function() {
+                                        bookItem.innerHTML = `
+                                            <div class="book--info">
+                                                <img src="${validImagePath}" alt="${book.title}" id="category-book-cover-${book.bookId}">
+                                                <h4>${book.title}</h4>
+                                                <p>저자: ${book.author}</p>
+                                                <p>조회수: ${book.views}</p>
+                                                <p>좋아요: ${book.likes}</p>
+                                            </div>
+                                        `;
+                                        bookListDiv.appendChild(bookItem);
+                                        resolve();  // 다음 책을 처리하도록 resolve 호출
+                                    };
+                                } else {
+                                    resolve();  // 이미지가 없을 경우에도 다음 처리로 넘어감
+                                }
+                            });
+                        } else {
+                            resolve();  // 이미지가 없을 경우 다음 책 처리
+                        }
+                    });
                 });
-            }
+            }, Promise.resolve());  // 초기 Promise는 resolve 상태에서 시작
         })
         .catch(error => console.error('Error fetching books:', error));
 }
-
-// 장르별 책 목록을 가져와서 렌더링
 function fetchBooksByGenreOrder(filter, order) {
     fetch(`/api/booksByGenreOrder?genreId=${selectedGenreId}&filter=${filter}&order=${order}`)
         .then(response => response.json())
@@ -245,29 +281,44 @@ function fetchBooksByGenreOrder(filter, order) {
             if (books.length === 0) {
                 bookListDiv.innerHTML = '<p>해당 장르에 속한 책이 없습니다.</p>';
             } else {
-                books.forEach(book => {
-                                                        if (book.bookCoverImage) {
-                        getValidImagePath(book.bookCoverImage, (validImagePath) => {
-                            if (validImagePath !== '/images/bannerimg1.jpg') {
-                                const bookItem = document.createElement('div');
-                                bookItem.classList.add('book--item');
+                // 각 책 데이터를 순차적으로 처리하면서 순서를 보장
+                books.reduce((promiseChain, book) => {
+                    return promiseChain.then(() => {
+                        return new Promise((resolve) => {
+                            if (book.bookCoverImage) {
+                                getValidImagePath(book.bookCoverImage, (validImagePath) => {
+                                    if (validImagePath !== '/images/bannerimg1.jpg') {
+                                        const bookItem = document.createElement('div');
+                                        bookItem.classList.add('book--item');
 
-                                bookItem.innerHTML = `
-                                    <div class="book--info">
-                                        <img src="${validImagePath}" alt="${book.title}" id="category-book-cover-${book.bookId}">
-                                        <h4>${book.title}</h4>
-                                        <p>저자: ${book.author}</p>
-                                        <p>조회수: ${book.views}</p>
-                                        <p>좋아요: ${book.likes}</p>
-                                    </div>
-                                `;
-                                bookListDiv.appendChild(bookItem);
+                                        const img = new Image();
+                                        img.src = validImagePath;
+                                        img.onload = function() {
+                                            bookItem.innerHTML = `
+                                                <div class="book--info">
+                                                    <img src="${validImagePath}" alt="${book.title}" id="genre-book-cover-${book.bookId}">
+                                                    <h4>${book.title}</h4>
+                                                    <p>저자: ${book.author}</p>
+                                                    <p>조회수: ${book.views}</p>
+                                                    <p>좋아요: ${book.likes}</p>
+                                                </div>
+                                            `;
+                                            bookListDiv.appendChild(bookItem);
+                                            resolve();  // 다음 책을 처리하도록 resolve 호출
+                                        };
+                                    } else {
+                                        resolve();  // 이미지가 없을 경우에도 다음 처리로 넘어감
+                                    }
+                                });
+                            } else {
+                                resolve();  // 이미지가 없을 경우 다음 책 처리
                             }
                         });
-                    }
-                });
+                    });
+                }, Promise.resolve());  // 초기 Promise는 resolve 상태에서 시작
             }
-        });
+        })
+        .catch(error => console.error('Error fetching books:', error));
 }
 
 // 조회수와 좋아요 정렬 버튼
@@ -290,4 +341,3 @@ function toggleGenreLikesOrder() {
     currentGenreLikesOrder = currentGenreLikesOrder === 'ASC' ? 'DESC' : 'ASC';
     fetchBooksByGenreOrder('likes', currentGenreLikesOrder);
 }
-
