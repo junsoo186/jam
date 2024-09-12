@@ -260,9 +260,9 @@ insert into tag_tb (tag_id, tag_name) values (3, '추리');
 
 
 -- 1 북테이블 생성 
-insert into book_tb (user_id, title, author_comment, author, category_id, genre_id, introduction, age,views,likes,serial_day) 
+insert into book_tb (user_id, title, author_comment, author, category_id, genre_id, introduction, age,views,likes,serial_day,book_cover_image) 
 values (1, '미라클 마트: 밤의 마법사"', '평범한 대학생 김도현이 우연히 마법과 현실이 공존하는 편의점에서 야간 아르바이트를 시작하면서 벌어지는 이야기를 그린 판타지 소설입니다. 도현은 편의점 매니저 루나와 함께 마법 세계의 손님들을 위해 물건을 찾고, 새로운 마법을 배우며 성장해 나갑니다. 각 에피소드마다 도현이 새로운 마법을 배우고, 이를 통해 다양한 모험과 도전을 헤쳐나가는 과정이 펼쳐집니다.', 
-			'마법사후보생', '3', '5', '소개글1','19',26587,15,'월요일');
+			'마법사후보생', '3', '5', '소개글1','19',26587,15,'월요일','cover/1.jpg');
 
 -- 1 스토리 테이블 생성 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost , views ) 
@@ -922,6 +922,11 @@ VALUES (18, 26, 8, '유료', '8화: 위험한 선택', '2023-12-10', '', 200, 83
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
 VALUES (18, 26, 9, '유료', '9화: 최후의 사랑', '2023-12-17', '', 200, 800);
+
+-- 북태그
+insert into book_tag_tb (book_id, tag_id) values (1,1);
+insert into book_tag_tb (book_id, tag_id) values (1,2);
+insert into book_tag_tb (book_id, tag_id) values (1,3);
 
 
 -- 리워드 테이블 삽입
