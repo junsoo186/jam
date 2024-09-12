@@ -592,4 +592,18 @@ public class UserController {
 		return "redirect:/";
 	}
 	
+	/**
+     * 상세 프로필 닉네임 변경
+     * @param encodedValue
+     * @return
+     */
+	@GetMapping("/check2-nickname")
+	public ResponseEntity<Void> checkNickNameDuplicate2(@RequestParam("nickName") String nickName) {
+		System.out.println("NickName : " + nickName);
+		if (userService.isNickNameDuplicate(nickName)) {
+			return ResponseEntity.status(HttpStatus.CONFLICT).build(); // 409 Conflict
+		}
+		return ResponseEntity.ok().build(); // 200 OK
+	}
+	
 }

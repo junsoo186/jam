@@ -122,8 +122,8 @@
 	SET deposit = #{deposit}, 
     point = #{point}, 
     after_balance = #{afterBalance}, 
-    payment_key = #{paymentKey}
-	WHERE user_id = #{userId}
+    user_id = #{userId}
+	WHERE payment_key = #{paymentKey}
 	</update>
 
 	<insert id ="insertUserTbPoint">
@@ -143,6 +143,7 @@
 		 SELECT * 
     FROM account_history_tb
     WHERE user_id = #{userId}
+    <!-- order by created_at desc;  -->
 	</select>
 	
 	<select id="findRefundList" resultType="com.jam.dto.RefundRequest">
