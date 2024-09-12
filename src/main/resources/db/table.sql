@@ -341,9 +341,9 @@ CREATE TABLE `book_comment_tb` (
 CREATE TABLE `banner_tb`(
 `banner_id`int PRIMARY KEY AUTO_INCREMENT NOT NULL,
 `title` varchar(1000) COMMENT '베너 제목',
-`content_one` varchar(1000) COMMENT '베너 내용1',
-`content_two` varchar(1000) COMMENT '베너 내용2',
-`img` varchar(2000) COMMENT '이미지 경로',
+`content` varchar(1000) COMMENT '베너 내용1',
+`sub_content` varchar(1000) COMMENT '베너 내용2',
+`image_path` varchar(2000) COMMENT '이미지 경로',
 `event_id` int,
 FOREIGN KEY (`event_id`) REFERENCES `event_tb`(`event_id`)
 );

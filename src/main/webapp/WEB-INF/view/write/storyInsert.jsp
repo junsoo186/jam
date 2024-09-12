@@ -43,12 +43,21 @@
             </div>
 
             <!-- 중간에 '내용' 입력 필드 -->
+
+
+
             <div class="middle-section">
                 <div class="story">
                     <label for="contents">내용:</label>
-                    <textarea id="contents" name="contents" placeholder="소설 작성전 안내사항"></textarea>
+                    <textarea name="contents" id="editor"></textarea>
                 </div>
             </div>
+
+
+
+
+
+
 
             <!-- 하단 버튼 영역 -->
             <div class="btn--area">
@@ -59,3 +68,14 @@
     </div>
    </div>
 </main>
+<script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
+
+<script>
+    ClassicEditor
+        .create(document.querySelector('#editor'), {
+            toolbar: ['bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote']
+        })
+        .catch(error => {
+            console.error(error);
+        });
+</script>

@@ -25,9 +25,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class StaffController {
 
+
 	private final NoticeService noticeService;
 	
-	private final HttpSession session;
 
 	@GetMapping("")
 	public String handleStaffMain(@RequestParam(name = "page", required = false) String page, Model model) {
@@ -54,9 +54,10 @@ public class StaffController {
 
 	@GetMapping("/support")
 	public String handleSupport() {
-		return "staff/support";
+		return "staff/support";	
 	}
 
+	
 	@GetMapping("/event")
 	public String handleEvent() {
 		return "staff/event";
@@ -136,6 +137,13 @@ public class StaffController {
 	public String insertProc() {
 		return "staff/writeNotice";
 	} 
+	
+	@GetMapping("noticeDetail/{noticeId}")
+	public String detail(@PathVariable("noticeId")int noticeId, Model model) {
+		Notice notice = noticeService.selectByNoticeId(noticeId);
+		model.addAttribute("notice", notice);
+		return "staff/noticeDetail";
+	}
 
 	@GetMapping("/reportContentDetail")
 	public String handleReportContentDetail() {

@@ -1,5 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/view/layout/header.jsp"%>
+
+
+
+
+
 <link rel="stylesheet" href="/css/workList.css">
 <main>
 
@@ -38,15 +43,20 @@
                 <c:when test="${bookList != null}">
                     <div class="main--content">
                         <c:forEach var="list" items="${bookList}">
-                            <div class="nav--story--op">
+                            <div class="nav--story">
                                 <a href="/write/storyInsert?bookId=${list.bookId}">
-                                    <img src="//images.novelpia.com/img/new/mybook/btn_episode.png" class="btn--book--action--img">
+                                    <div class="href--btn">
+                                        <label class="story--write">회차쓰기</label>
+                                    </div>
                                 </a>
                                 <a href="/write/workUpdate?bookId=${list.bookId}">
-                                    <img src="//images.novelpia.com/img/new/mybook/btn_novel_manage.png" class="btn--book--action--img">
+                                    <div class="href--btn" style="margin-left: 6px;">
+                                        <label class="book--write">소설관리</label>
+                                    </div>
                                 </a>
+                                <div class="book--title">${list.title}</div>
                             </div>
-
+                        
                             <!-- 책 영역 시작 -->
                             <div class="book--area novel-${list.bookId} s-inv" onmouseenter="showDetails(this)" onmouseleave="hideDetails(this)">
                                 <div class="left-section" onclick="navigateToDetail(${list.bookId}, ${principal.userId})">
@@ -56,25 +66,37 @@
                                         <div class="overlay-content">
                                             <p>저자: ${list.author}</p>
                                             <p>제목: ${list.title}</p>
-                                           
                                         </div>
-                                    </div>  
+                                    </div>
                                 </div>
-
+                        
                                 <!-- 회차 목록 영역 -->
                                 <div class="story-list">
                                     <c:forEach var="story" items="${storyMap[list.bookId]}">
-                                        <div class="story--part">
-                                            <a href="/write/storyContents/${story.storyId}">
-                                                <img class="img--story" src="/images/book/book.png">
-                                                <div class="text-overlay">${story.title}</div>
+                                        <div class="story--content">
+                                            <a href="/write/storyContents?storyId=${story.storyId}">
+                                            <c:choose>
+                                                <c:when test="${story.number==0}">
+                                                    <p class="story--part"> 프롤로그</p>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <p class="story--part">${story.number}화</p>
+                                                </c:otherwise>
+                                            </c:choose>
+                                           
+                                                
+                                                <p class="story--title">${story.title}</p>
+                                                <p class="story--other">${story.createdAt}</p>
+                                                <p class="story--other">${story.views}</p>
                                             </a>
                                         </div>
                                     </c:forEach>
                                 </div>
+                        
+                                <!-- 페이지네이션 영역 -->
+                               
                             </div>
                             <!-- 책 영역 끝 -->
-
                         </c:forEach>
                     </div>
                 </c:when>

@@ -161,16 +161,16 @@ INSERT INTO `event_tb` (
 );
 
 INSERT INTO `banner_tb`(
-    `title`, `content_one`, `content_two`, `img`, `event_id`
+    `title`, `content`, `sub_content`, `image_path`, `event_id`
 ) VALUES ('가입 이벤트 배너','가입이요','가입2요','',1);
 INSERT INTO `banner_tb`(
-    `title`, `content_one`, `content_two`, `img`, `event_id`
+    `title`, `content`, `sub_content`, `image_path`, `event_id`
 ) VALUES ('가입 이벤트 배너','가입이요','가입2요','',2);
 INSERT INTO `banner_tb`(
-    `title`, `content_one`, `content_two`, `img`, `event_id`
+    `title`, `content`, `sub_content`, `image_path`, `event_id`
 ) VALUES ('가입 이벤트 배너','가입이요','가입2요','',3);
 INSERT INTO `banner_tb`(
-    `title`, `content_one`, `content_two`, `img`, `event_id`
+    `title`, `content`, `sub_content`, `image_path`, `event_id`
 ) VALUES ('가입 이벤트 배너','가입이요','가입2요','',4);
 
 
@@ -375,7 +375,6 @@ INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, content
 VALUES (3, 12, 10, '유료', '10화: 신비로운 마법의 숲', '2010-12-24', '', 200, 1080);
 
 
--- -----4
 -- Book Information SQL
 INSERT INTO book_tb (user_id, title, author_comment, author, category_id, genre_id, introduction, age,views,likes,serial_day) 
 VALUES (21, '바람의 여정과 잃어버린 왕국', '바람 마법을 사용하는 소녀의 모험 이야기', '작가 C', 3, 5, '잃어버린 고대 왕국 에일라스를 찾아 떠나는 리아의 대모험 이야기',
@@ -923,7 +922,6 @@ VALUES (18, 26, 8, '유료', '8화: 위험한 선택', '2023-12-10', '', 200, 83
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
 VALUES (18, 26, 9, '유료', '9화: 최후의 사랑', '2023-12-17', '', 200, 800);
-
 
 
 -- 리워드 테이블 삽입
