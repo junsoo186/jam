@@ -374,43 +374,119 @@ function toggleGenreLikesOrder() {
     
         document.querySelector('.btn--area--genre').classList.add('active-before');
 }
+let currentSortBy = 'views'; // 기본적으로 'views'로 정렬
 
-// 요일별 데이터 가져오기
-function fetchWeekData() {
-    fetch('/api/serial')
-        .then(response => response.json())
-        .then(weekList => {
-            renderWeekData(weekList, 'weekContainer'); // 기본 요일 데이터 렌더링
-        })
-        .catch(error => console.error('Error fetching week data:', error));
+// 요일별로 책을 필터링하는 함수
+function filterBooksByDay(serialDay, books) {
+    return books.filter(book => book.serialDay === serialDay);
 }
 
-// 요일별 데이터를 렌더링하는 함수
-function renderWeekData(weekList, containerId) {
-    const weekContainer = document.getElementById(containerId);
-    weekContainer.innerHTML = '';  // 기존 내용을 초기화
-
-    // 요일별로 데이터를 렌더링
-    weekList.forEach(day => {
-        const dayElement = document.createElement('div');
-        dayElement.classList.add('week--item');
-        dayElement.textContent = day;  // 각 요일 데이터를 표시
-        weekContainer.appendChild(dayElement);
+// 책 목록을 정렬하는 함수 (views 또는 likes 기준으로)
+function sortBooks(books, sortBy) {
+    return books.sort((a, b) => {
+        return sortBy === 'views' ? b.views - a.views : b.likes - a.likes;
     });
 }
 
-// 요일별로 정렬된 데이터를 가져와 렌더링
-function fetchWeekOrder() {
-    fetch('/api/booksSerial')
-        .then(response => response.json())
-        .then(weekList => {
-            renderWeekData(weekList, 'sortedWeekContainer'); // 정렬된 요일 데이터 렌더링
+// 이미지를 비동기적으로 확인하는 함수 (getValidImagePath)
+function getValidImagePath(imagePath, callback) {
+    if (!imagePath || imagePath.trim() === '' || imagePath === '/images/') {
+        console.log('Empty or invalid image path, using default image.');
+        callback('/images/bannerimg1.jpg');  // 기본 이미지로 대체
+        return;
+    }
+
+    // 정상적인 이미지 경로일 경우에만 요청
+    console.log('Fetching image path:', imagePath);
+
+    fetch(imagePath, { method: 'HEAD' })
+        .then(response => {
+            if (response.ok) {
+                console.log('Image found:', imagePath);
+                callback(imagePath);  // 유효한 이미지 경로 반환
+            } else {
+                console.log('Image not found, using default image.');
+                callback('/images/bannerimg1.jpg');  // 이미지가 없을 경우 기본 이미지로 대체
+            }
         })
-        .catch(error => console.error('Error fetching week order data:', error));
+        .catch(() => {
+            console.log('Error fetching image, using default image.');
+            callback('/images/bannerimg1.jpg');  // 오류가 발생해도 기본 이미지로 대체
+        });
 }
 
-// DOM이 로드되면 요일별 데이터를 가져옴
+// 요일별로 책을 렌더링하는 함수
+function renderBooksByDay(serialDay, books) {
+    const filteredBooks = filterBooksByDay(serialDay, books);
+    const sortedBooks = sortBooks(filteredBooks, currentSortBy);
+    const bookListDiv = document.getElementById('bookList');
+    bookListDiv.innerHTML = ''; // 기존 내용 초기화
+
+    if (sortedBooks.length === 0) {
+        bookListDiv.innerHTML = `<p>${serialDay}에 해당하는 작품이 없습니다.</p>`;
+    } else {
+        sortedBooks.forEach(book => {
+            const bookItem = document.createElement('div');
+            bookItem.classList.add('book--item');
+
+            // 이미지를 비동기적으로 확인하여 렌더링
+            getValidImagePath(book.bookCoverImage, function(validImagePath) {
+                bookItem.innerHTML = `
+                    <div class="book--info">
+                        <img src="${validImagePath}" alt="${book.title}">
+                        <h4>${book.title}</h4>
+                        <p>저자: ${book.author}</p>
+                        <p>조회수: ${book.views}</p>
+                        <p>좋아요: ${book.likes}</p>
+                    </div>
+                `;
+                bookListDiv.appendChild(bookItem);
+            });
+        });
+    }
+}
+
+// 요일 버튼을 생성하는 함수
+function createDayButtons(serialDays, books) {
+    const dayButtonContainer = document.getElementById('dayButtons');
+    dayButtonContainer.innerHTML = ''; // 기존 버튼 초기화
+
+    serialDays.forEach(serialDay => {
+        const button = document.createElement('button');
+        button.textContent = serialDay;
+        button.onclick = () => renderBooksByDay(serialDay, books); // 요일 클릭 시 해당 요일의 책을 렌더링
+        dayButtonContainer.appendChild(button);
+    });
+}
+
+// 조회수 또는 좋아요 수로 정렬하는 함수
+function sortBy(sortType) {
+    currentSortBy = sortType;
+    const selectedDayButton = document.querySelector('#dayButtons button.active');
+    if (selectedDayButton) {
+        const selectedDay = selectedDayButton.textContent;
+        fetch('/api/booksSerial')
+            .then(response => response.json())
+            .then(books => {
+                renderBooksByDay(selectedDay, books);
+            });
+    }
+}
+
+// DOM이 로드되면 요일별 데이터를 가져오고 요일 버튼을 생성
 document.addEventListener('DOMContentLoaded', function() {
-    fetchWeekData();      // 기본 요일 데이터 가져오기
-    fetchWeekOrder();     // 정렬된 요일 데이터 가져오기
+    fetch('/api/serial')
+        .then(response => response.json())
+        .then(serialDays => {
+            // 책 데이터를 가져와 요일별 버튼을 생성
+            fetch('/api/booksSerial')
+                .then(response => response.json())
+                .then(books => {
+                    createDayButtons(serialDays, books); // 요일별로 버튼 생성
+                    // 기본적으로 첫 번째 요일의 책을 정렬해서 보여줌
+                    renderBooksByDay(serialDays[0], books); // 초기값을 views로 정렬하여 렌더링
+                })
+                .catch(error => console.error('Error fetching books:', error));
+        })
+        .catch(error => console.error('Error fetching serial days:', error));
 });
