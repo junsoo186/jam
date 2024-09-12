@@ -60,7 +60,7 @@
 		</section>
 	</div>
 <!-- 카테고리별 필터 영역 -->
-<div class="category--filter" id="categoryFilter"></div>
+<div class="category--area--filter" id="categoryFilter"></div>
 
 <div class="btn--area--filter">
     <!-- 카테고리별 정렬 버튼 -->
@@ -72,12 +72,12 @@
 <div class="book--list--1" id="categoryContent"></div>
 
 <!-- 장르별 필터 영역 -->
-<div class="genre--filter" id="genreFilter"></div>
-
+<div class="genre--area--filter" id="genreFilter"></div>
+<br>
 <div class="btn--area--filter">
     <!-- 장르별 정렬 버튼 -->
-    <button id="genreViewsButton" onclick="toggleGenreViewsOrder()">VIEWS (DESC)</button>
-    <button id="genreLikesButton" onclick="toggleGenreLikesOrder()">LIKES (DESC)</button>
+    <button id="genreViewsButton" onclick="toggleGenreViewsOrder()">VIEWS</button>
+    <button id="genreLikesButton" onclick="toggleGenreLikesOrder()">LIKES</button>
 </div>
 
 <!-- 선택된 장르의 책 목록 -->
@@ -115,19 +115,10 @@
 				</div>
 			</div>
 			<div class="book--item">
-				<img src="/images/bannerimg1.jpg" alt="역대급 포식능력자의...">
-				<div class="book--info">
-					<h4>역대급 포식능력자의...</h4>
-					<p>박성현</p>
-					<p>이세계사장</p>
-				</div>
+
 			</div>
 			<div class="book--item">
-				<img src="/images/bannerimg1.jpg" alt="역대급 포식능력자의...">
-				<div class="book--info">
-					<h4>역대급 포식능력자의...</h4>
-					<p>박성현</p>
-					<p>이세계사장</p>
+
 				</div>
 			</div>
 		</div>
@@ -156,28 +147,14 @@
 				</div>
 			</div>
 			<div class="book--item">
-				<img src="/images/bannerimg1.jpg" alt="역대급 포식능력자의...">
-				<div class="book--info">
-					<h4>역대급 포식능력자의...</h4>
-					<p>박성현</p>
-					<p>이세계사장</p>
+
+			</div>
+			<div class="book--item">
+
 				</div>
 			</div>
 			<div class="book--item">
-				<img src="/images/bannerimg1.jpg" alt="역대급 포식능력자의...">
-				<div class="book--info">
-					<h4>역대급 포식능력자의...</h4>
-					<p>박성현</p>
-					<p>이세계사장</p>
-				</div>
-			</div>
-			<div class="book--item">
-				<img src="/images/bannerimg1.jpg" alt="역대급 포식능력자의...">
-				<div class="book--info">
-					<h4>역대급 포식능력자의...</h4>
-					<p>박성현</p>
-					<p>이세계사장</p>
-				</div>
+
 			</div>
 		</div>
 
@@ -185,9 +162,9 @@
 			<div class="slider--wrapper">
 				<div class="slider">
 					<div class="slide">
-						<a href=""><img class="event--banner" src="/images/test1.png" alt="슬라이드 이미지 1"></a> 
-						<a href=""><img class="event--banner" src="/images/test2.png" alt="슬라이드 이미지 2"></a>
-						<a href=""><img class="event--banner" src="/images/test3.png" alt="슬라이드 이미지 3"></a>
+						<a href=""><img class="event--banner" src="" alt="슬라이드 이미지 1"></a> 
+						<a href=""><img class="event--banner" src="" alt="슬라이드 이미지 2"></a>
+						<a href=""><img class="event--banner" src="" alt="슬라이드 이미지 3"></a>
 					</div>
 				</div>
 			</div>
@@ -206,19 +183,11 @@
 				</div>
 			</div>
 			<div class="book--item--funding">
-				<img src="/images/bannerimg1.jpg" alt="역대급 포식능력자의...">
-				<div class="book--info--funding">
-					<h4>역대급 포식능력자의...</h4>
-					<p>박성현</p>
-					<p>이세계사장</p>
+
 				</div>
 			</div>
 			<div class="book--item--funding">
-				<img src="/images/bannerimg1.jpg" alt="역대급 포식능력자의...">
-				<div class="book--info--funding">
-					<h4>역대급 포식능력자의...</h4>
-					<p>박성현</p>
-					<p>이세계사장</p>
+
 				</div>
 			</div>
 		</div>

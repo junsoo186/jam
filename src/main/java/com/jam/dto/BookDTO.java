@@ -19,7 +19,7 @@ import lombok.ToString;
 @Builder
 @ToString
 public class BookDTO {
-
+	
 	private Integer userId;
 	private Integer bookId;
 	private String title;

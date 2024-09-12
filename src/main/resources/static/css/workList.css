@@ -1,166 +1,150 @@
 @charset "UTF-8";
 
+
 /* 전체 컨테이너 */
 .center--content--container {
-	display: flex;
-	flex-direction: column;
-	gap: 20px;
-	padding: 20px;
-	width: 100vw;
-	box-sizing: border-box;
-	border: solid 1px #333;
-	margin: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+    width: 1200px;
+    box-sizing: border-box;
+    border: solid 1px #d4d4d8;
+    margin: 20px;
+}
+
+/* 네비게이션 바 스타일 */
+.navbar {
+    display: flex;
+    font-weight: bold;
+}
+
+.navbar a {
+    border: solid 1px #d4d4d8;
+    width: 300px;
+    height: 65px;
+    text-align: center;
+    display: block;
+    text-decoration: none;
+    color: #333;
+    box-sizing: border-box;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    padding-right: 20px;
 }
 
 /* 책 영역 */
 .book--area {
-	display: flex;
-	justify-content: flex-start; /* 기본적으로 left-section만 보이도록 설정 */
-	align-items: flex-start;
-	gap: 10px; /* left-section과 extra-content 사이의 기본 간격 설정 */
-	padding: 15px; /* 전체 컨테이너 padding */
-	margin-bottom: 20px; /* 각 아이템 간의 하단 여백 */
-	box-sizing: border-box;
-	width: fit-content; /* left-section의 크기에 맞게 컨테이너 크기 조정 */
-}	
+    display: flex; /* 책 커버와 회차를 나란히 배치 */
+    justify-content: flex-start;
+    align-items: flex-start;
+    box-sizing: border-box;
+    gap: 20px; /* 책 커버와 회차 사이의 간격 */
+    padding: 10px;
+ 
+}
 
-/* left-section과 extra-content 사이 여백 조정 */
+/* 회차 목록 영역 스타일 */
+.story-list {
+    display: flex;
+    flex-direction: column; /* 회차를 세로로 정렬 */
+    gap: 10px; /* 각 회차 간의 간격 */
+	flex-direction: row;
+}
+
+/* 책 커버와 오버레이 */
 .left-section {
-	display: flex;
-	flex-direction: column;
-	align-items: flex-start;
-	margin-right: 50px; /* 이미지와 줄거리 영역 사이에 10px 간격 추가 */
-	width: 100%;
-	cursor: pointer;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-right: 50px;
+    width: 100%;
+    cursor: pointer;
 }
 
-/* 커버 이미지 스타일 */
-.img--cover--style {
-	width: 223px;
-	height: 333;
-	border: solid 1px #333;
+.img--cover {
+    width: 200px;
+    height: 300px;
+    border: solid 1px #333;
 }
 
-/* book-info: 이미지와 텍스트 간격 설정 */
-.book-info {
-	margin-left: 15px; /* 이미지와 텍스트 사이의 간격 추가 */
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	margin-top: 10px;
+/* 오버레이 스타일 */
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* 반투명 회색 배경 */
+    opacity: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.3s ease; /* 부드러운 페이드 효과 */
+    z-index: 10; /* 오버레이가 위에 표시되도록 설정 */
 }
 
-/* extra-content를 기본적으로 숨기기 */
-.extra-content {
-	display: none; /* 숨김 처리: 공간 차지하지 않음 */
-	opacity: 0;
-	transition: opacity 0.3s ease; /* 부드러운 페이드 효과 */
-	width: 100%;
-	justify-content: space-between;
-	/* center-section과 right-section을 좌우로 배치 */
+.overlay-content {
+    color: white;
+    text-align: center;
+    font-size: 16px;
 }
 
-/* 마우스를 올렸을 때 extra-content 보이기 */
-.area--item--container:hover .extra-content {
-	display: flex; /* 마우스를 올리면 나타남 */
-	opacity: 1;
+/* 마우스를 올렸을 때 오버레이 표시 */
+.left-section:hover .overlay {
+    opacity: 1; /* 마우스를 올리면 오버레이가 나타남 */
 }
 
-/* center-section을 왼쪽에 정렬 */
-.center-section {
-	display: flex;
-	flex-direction: column;
-	align-items: flex-start;
-	text-align: left;
-	flex-grow: 1;
-	width: 50vh;
+/* 회차 부분 스타일 */
+.story--part {
+    position: relative;
+    display: flex;
+    align-items: center;
 }
 
-/* right-section을 맨 오른쪽 끝으로 붙이기 */
-.right-section {
-	display: flex;
-	flex-direction: column;
-	align-items: flex-end;
-	justify-content: flex-start;
+.img--story {
+	height: 300px;
+	width: 75px;
+    display: block;
+    margin-right: 10px; /* 이미지와 텍스트 간격 */
 }
 
-/* 좋아요 수 스타일 */
-.text--likes--count {
-	font-size: 12px;
-	font-weight: 600;
-	color: #333;
-	margin-bottom: 10px;
-}
-
-/* 해시태그 스타일 */
-.tag--hash--off {
-	display: inline-block;
-	background-color: #f0f0f0;
-	padding: 2px 6px;
-	margin-right: 5px;
-	border-radius: 3px;
-	font-size: 12px;
-	color: #333;
-}
-
-
-
-/* 태그를 포함하는 영역에 Flexbox 적용 */
-.text--book--tags {
-	display: flex; /* 태그들을 가로로 정렬 */
-	flex-wrap: wrap; /* 태그가 화면 크기에 맞춰 줄바꿈되도록 설정 */
-	gap: 5px; /* 태그 사이에 5px의 간격을 추가 */
-}
-
-
-
-.top--nav--area{
-	display: flex;
-	justify-content: center;
-	width: 100vw;
-	
-
-}
-
-.navbar{
-
-font-weight: bold;
-}
-
-.navbar a{
-	text-decoration: none;
-	color: #f06292;
-	padding-right: 20px;
+.text-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: black;
+    font-size: 14px;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    writing-mode: vertical-rl; /* 텍스트를 세로로 표시 */
+    text-orientation: upright; /* 글자를 직립 형태로 표시 */
 }
 
 /* 버튼 영역 설정 */
-.top--btn--area{
-	display: flex;
-	width: 100vw;
-	justify-content: flex-end;
-	margin-right: 100px;
+.top--btn--area {
+    margin-top: 20px;
+    display: flex;
+    width: 1200px;
+    justify-content: flex-end;
 }
 
-.btn--area{
-	display: flex;
-	justify-content:flex-end ;
-}
-
-
-/* 버튼 스타일 */
 .btn--insert {
-	background-color: #f06292;
-	color: white;
-	padding: 10px 20px;
-	border: none;
-	border-radius: 5px;
-	font-size: 16px;
-	cursor: pointer;
-	transition: background-color 0.3s ease;
-	width: 100%;
-	max-width: 200px;
+    background-color: #f06292;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%;
+    max-width: 200px;
 }
 
 .btn--insert:hover {
-	background-color: #e91e63;
+    background-color: #e91e63;
 }

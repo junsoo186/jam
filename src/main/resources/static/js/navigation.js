@@ -45,6 +45,9 @@ document.addEventListener('DOMContentLoaded', function() {
 		});
 	});
 
+	if (sectionUrl) {
+		loadContent(sectionUrl);
+	}
 	// 동적으로 콘텐츠를 로드하는 함수
 	function loadContent(url) {
 		var xhr = new XMLHttpRequest();

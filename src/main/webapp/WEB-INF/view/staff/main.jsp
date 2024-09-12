@@ -38,7 +38,9 @@
 
 	<!-- 동적으로 콘텐츠가 표시될 영역 -->
 	<div id="content"></div>
-
+	<script type="text/javascript">
+		const sectionUrl = `${sectionUrl}`;
+	</script>
 	<script type="text/javascript" src="/js/navigation.js"></script>
 </body>
 </html>
