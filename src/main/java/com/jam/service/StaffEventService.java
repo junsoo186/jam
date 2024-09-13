@@ -82,7 +82,7 @@ public class StaffEventService {
 
 	@Transactional
 	public void eventWrite(EventDTO dto, int userId) {
-		staffEventRepository.insertE(dto.toEvent(userId));
+		staffEventRepository.insertE(dto.toEventInsertUserId(userId));
 	}
 
 	public Event selectByEventId(int eventId) {

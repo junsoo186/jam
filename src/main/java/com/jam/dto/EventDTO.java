@@ -1,7 +1,6 @@
 package com.jam.dto;
 
-import java.sql.Date;
-import java.sql.Timestamp;
+import java.time.LocalDate;
 
 import com.jam.repository.model.Event;
 
@@ -16,11 +15,12 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class EventDTO {
+	
 	private int eventId;
 	private String eventTitle;
 	private String eventContent;
-	private Date startDay;
-	private Date endDay;
+	private LocalDate startDay;
+	private LocalDate endDay;
 	private int limit;
 	private int offset;
 	
@@ -33,5 +33,16 @@ public class EventDTO {
 	        .endDay(this.endDay)  // 이벤트 종료일 변환
 	        .build();
 	}
+	
+	public Event toEventInsertUserId(int userId) {
+	    return Event.builder()
+	        .userId(userId)
+	        .eventTitle(this.eventTitle)  // 이벤트 제목 변환
+	        .eventContent(this.eventContent)  // 이벤트 내용 변환
+	        .startDay(this.startDay)  // 이벤트 시작일 변환
+	        .endDay(this.endDay)  // 이벤트 종료일 변환
+	        .build();
+	}
+
 
 }

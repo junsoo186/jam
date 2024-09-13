@@ -45,7 +45,7 @@ public class WriterController {
 	 * @param model
 	 * @return
 	 */
-@GetMapping("/workList")
+	@GetMapping("/workList")
 public String handleWorkList(
     @RequestParam(name = "bookId", required = false) Integer bookId, 
     @RequestParam(name = "page", defaultValue = "1") int page,
@@ -53,9 +53,9 @@ public String handleWorkList(
     Model model,
     HttpServletRequest request) {
 
-    User principal = (User) session.getAttribute("principal");
+    User principal = (User) request.getSession().getAttribute("principal");
     List<Book> bookList = writerService.readAllBookListByprincipalId(principal.getUserId());
-    
+
     for (Book book : bookList) {
         String bookImg = book.setUpUserImage();
         book.setBookCoverImage(bookImg);
@@ -65,7 +65,7 @@ public String handleWorkList(
     if (bookId == null && !bookList.isEmpty()) {
         bookId = bookList.get(0).getBookId();
     }
-    
+
     int totalRecords = 0;
     int totalPages = 0;
     Map<Integer, List<Story>> storyMap = new HashMap<>();
@@ -75,7 +75,7 @@ public String handleWorkList(
         totalPages = (int) Math.ceil((double) totalRecords / size);
 
         List<Story> storyList = writerService.findAllStoryByBookIdPage(bookId, page, size);
-        storyMap.put(bookId, storyList);
+        storyMap.put(bookId, storyList != null ? storyList : new ArrayList<>()); // 이야기 목록 초기화
     }
 
     model.addAttribute("bookList", bookList);
