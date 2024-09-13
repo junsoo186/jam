@@ -191,6 +191,9 @@ public class PaymentController {
         // 유저의 결제 리스트 가져오기
         List<AccountHistoryDTO> payList = userService.findPayList(userId);
         List<Funding> fundingList = fundingService.findFundingByUserId(userId);
+        
+        System.out.println("/paylist : " + payList);
+        System.out.println("/paylist : " + fundingList);
 
         // 모델에 결제 리스트를 추가
         model.addAttribute("payList", payList);
@@ -216,6 +219,7 @@ public class PaymentController {
         System.out.println("refundReason : " + refundReason); // 환불 사유
 
         User user = (User) session.getAttribute("principal");
+        
         RefundRequest refundRequest = RefundRequest.builder()
                 .userId(user.getUserId())
                 .paymentKey(paymentKey)
@@ -232,7 +236,7 @@ public class PaymentController {
 
             userService.saveRefundRequest(refundRequest); // 유저가 환불클릭하면 관리자가 요청?
 
-            userService.pointAuditWait(paymentKey); //
+            userService.pointAuditWait(paymentKey); // 심사중으로 변경
 
             return "redirect:/"; // 환불 성공 시 refund_request_tb 데이터
 
