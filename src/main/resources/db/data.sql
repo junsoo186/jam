@@ -645,13 +645,13 @@ VALUES
 (5, '프로젝트 5 리워드 내용', 30000, 1);
 
 -- funding_tb에 데이터 삽입
-INSERT INTO funding_tb (user_id, reward_id, canceled_At, cancel_confirm, reward_quantity, zipcode, basic_address, detailed_address, extra_address)
+INSERT INTO funding_tb (user_id, reward_id, cancel_confirm, reward_quantity, zipcode, basic_address, detailed_address, extra_address)
 VALUES 
-(1, 1, '2024-09-09', 'N', 1, '12345', '부산시', '해운대구 우동 123번지', 'A동 101호'),
-(2, 2, '2024-09-10', 'N', 1, '67890', '부산시', '수영구 민락동 456번지', 'B동 202호'),
-(3, 3, '2024-09-11', 'N', 2, '23456', '부산시', '동래구 명륜동 789번지', 'C동 303호'),
-(4, 4, '2024-09-12', 'N', 1, '34567', '부산시', '서구 암남동 101번지', 'D동 404호'),
-(5, 5, '2024-09-13', 'N', 1, '45678', '부산시', '동구 초량동 123번지', 'E동 505호');
+(1, 1, 'N', 1, '12345', '부산시', '해운대구 우동 123번지', 'A동 101호'),
+(2, 2, 'N', 1, '67890', '부산시', '수영구 민락동 456번지', 'B동 202호'),
+(3, 3, 'N', 2, '23456', '부산시', '동래구 명륜동 789번지', 'C동 303호'),
+(4, 4, 'N', 1, '34567', '부산시', '서구 암남동 101번지', 'D동 404호'),
+(5, 5, 'N', 1, '45678', '부산시', '동구 초량동 123번지', 'E동 505호');
 
 -- 펀딩 히스토리 테이블 삽입
 INSERT INTO funding_history_tb (project_id)

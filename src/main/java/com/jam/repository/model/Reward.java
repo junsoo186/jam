@@ -19,4 +19,5 @@ public class Reward {
     private int rewardQuantity;
     private int userCount;
     private String shippingAddress;
+    private int remainingQuantity;
 }

@@ -14,4 +14,6 @@ public interface FundingRepository {
 	public List<Funding> selectAllByUserId();
 
     public void deleteByRewardId(Integer rewardId);
+
+    public List<Funding> findFundingByUserId(int userId);
 }

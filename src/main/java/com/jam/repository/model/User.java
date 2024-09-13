@@ -25,7 +25,7 @@ public class User {
 	private String phoneNumber;
 	private String email;
 	private String password;
-	private long point;
+	private int point;
 	private String role;
 	private Timestamp createdAt;
 	private String profileImg;

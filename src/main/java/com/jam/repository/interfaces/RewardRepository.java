@@ -21,4 +21,6 @@ public interface RewardRepository {
     public void updateRewardByProjectId(@Param("reward") RewardDTO rewardDTO);
 
     public void deleteReward(Integer rewardId);
+
+    public Reward findRewardByRewardId(Integer rewardId);
 }

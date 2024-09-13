@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -26,10 +27,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jam.dto.CartDTO;
 import com.jam.dto.ProjectDTO;
 import com.jam.dto.RewardDTO;
 import com.jam.repository.model.Book;
@@ -292,88 +295,96 @@ public class FundingController {
 		return response;
 	}
 
-	@PostMapping("/funding/checkout")
-	@ResponseBody
-	public Map<String, Object> processCheckout(@RequestBody Map<String, Object> checkoutData) {
-		// 결제 처리 로직 추가
-		Map<String, Object> response = new HashMap<>();
-		response.put("success", true);
-		response.put("message", "결제가 성공적으로 처리되었습니다.");
-		return response;
+	@PostMapping("/checkout")
+	public String processCheckout(
+			@RequestParam("totalAmount") int totalAmount,
+			@RequestParam("rewardIds") List<String> rewardIdsStr,
+			@RequestParam("quantities") List<Integer> quantities,
+			HttpSession session) {
+
+		List<Integer> rewardIds = rewardIdsStr.stream()
+				.map(Integer::parseInt)
+				.collect(Collectors.toList());
+
+		System.out.println("totalAmount" + totalAmount);
+		System.out.println("rewards : " + rewardIds.toString());
+		System.out.println("quantities : " + quantities.toString());
+
+		// 세션에 데이터 저장
+		session.setAttribute("totalAmount", totalAmount);
+		session.setAttribute("rewardIds", rewardIds);
+		session.setAttribute("quantities", quantities);
+
+		return "redirect:/funding/checkoutPage";
 	}
 
 	@GetMapping("/checkoutPage")
-	public String checkoutPage(@RequestParam("totalAmount") int totalAmount,
-			@RequestParam("cartItems") String cartItemsJson,
-			Model model) throws Exception {
-		// JSON 문자열을 객체로 변환하여 모델에 추가
-		ObjectMapper objectMapper = new ObjectMapper();
-		List<Map<String, Object>> cartItems = objectMapper.readValue(cartItemsJson, List.class);
+	public String checkoutPage(HttpSession session, Model model) {
+		Integer totalAmount = (Integer) session.getAttribute("totalAmount");
+		List<Integer> rewardIds = (List<Integer>) session.getAttribute("rewardIds");
+		List<Integer> quantities = (List<Integer>) session.getAttribute("quantities");
 
-		System.out.println(cartItems);
-
-		// 결제 확인 페이지로 데이터 전달
-		model.addAttribute("totalAmount", totalAmount);
-		model.addAttribute("cartItems", cartItems);
-
-		return "/funding/checkoutPage"; // 결제 확인 페이지
-	}
-
-	@PostMapping("/checkout")
-	@ResponseBody
-	public Map<String, Object> checkoutAjax(@RequestBody Map<String, Object> requestData) {
-		int totalAmount = (Integer) requestData.get("totalAmount");
-		String postcode = (String) requestData.get("postcode");
-		String basicAddress = (String) requestData.get("basicAddress");
-		String detailedAddress = (String) requestData.get("detailedAddress");
-		String extraAddress = (String) requestData.get("extraAddress");
-		List<Map<String, Object>> cartItems = (List<Map<String, Object>>) requestData.get("cartItems");
-
-		Map<String, Object> response = new HashMap<>();
-
-		try {
-			// 1. 유저 정보 가져오기
-			User principal = (User) session.getAttribute("principal");
-			int userId = principal.getUserId(); // 세션에서 유저 정보를 가져오는 로직 (예시)
-
-			// 3. 장바구니 데이터 검증 및 결제 데이터 저장
-			for (Map<String, Object> item : cartItems) {
-				int rewardId = Integer.parseInt(item.get("rewardId").toString());
-				int quantity = Integer.parseInt(item.get("quantity").toString());
-				String shippingAddress = basicAddress + " " + detailedAddress + " " + extraAddress;
-
-				// 결제 정보 저장 (funding_tb 테이블에 삽입)
-				Funding funding = Funding.builder()
-						.userId(userId)
-						.rewardId(rewardId)
-						.rewardQuantity(quantity)
-						.zipcode(postcode)
-						.basicAddress(basicAddress)
-						.detailedAddress(detailedAddress)
-						.extraAddress(extraAddress)
-						.createdAt(new Timestamp(System.currentTimeMillis()))
-						.canceledAt(null)
-						.confirmSuccess("N") // 초기에는 'N' 상태
-						.build();
-
-				// 실제 데이터베이스에 저장
-				fundingService.insertFunding(funding);
-			}
-
-			// 4. 유저 포인트 차감
-			userService.updateUserPoints(userId, principal.getPoint() - totalAmount);
-
-			// 5. 성공 응답 반환
-			response.put("success", true);
-			response.put("message", "결제가 완료되었습니다.");
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			response.put("success", false);
-			response.put("message", "결제 처리 중 오류가 발생했습니다.");
+		if (totalAmount == null || rewardIds == null || quantities == null) {
+			return "redirect:/errorPage";
 		}
 
-		return response;
+		List<Reward> rewards = new ArrayList<>();
+		for (Integer rewardId : rewardIds) {
+			Reward reward = fundingService.findRewardByRewardId(rewardId);
+			if (reward != null) {
+				rewards.add(reward);
+			} else {
+				System.out.println("reward");
+				return "redirect:/errorPage";
+			}
+		}
+
+		model.addAttribute("totalAmount", totalAmount);
+		model.addAttribute("rewards", rewards);
+		model.addAttribute("quantities", quantities);
+
+		return "funding/checkoutPage";
+	}
+
+	@PostMapping("/checkoutPage")
+	public String processCheckout(
+			@RequestParam("totalAmount") int totalAmount,
+			@RequestParam("rewardIds") List<Integer> rewardIds,
+			@RequestParam("quantities") List<Integer> quantities,
+			@RequestParam("postcode") String postcode,
+			@RequestParam("basicAddress") String basicAddress,
+			@RequestParam("detailedAddress") String detailedAddress,
+			@RequestParam("extraAddress") String extraAddress,
+			Model model) {
+
+		User principal = (User) session.getAttribute("principal");
+
+		// 각각의 리워드와 수량에 대해 처리
+		for (int i = 0; i < rewardIds.size(); i++) {
+			Integer rewardId = rewardIds.get(i);
+			Integer quantity = quantities.get(i);
+
+			// 각각의 리워드에 대한 펀딩 생성
+			Funding funding = Funding.builder()
+					.userId(principal.getUserId())
+					.rewardId(rewardId) // 리스트에서 각 리워드 ID
+					.rewardQuantity(quantity) // 해당 리워드에 대한 수량
+					.zipcode(postcode)
+					.basicAddress(basicAddress)
+					.detailedAddress(detailedAddress)
+					.extraAddress(extraAddress)
+					.build();
+			fundingService.insertFunding(funding);	
+		}
+
+		return "redirect:/funding/checkoutComplete";
+	}
+
+	// 결제 완료 페이지 (옵션)
+	@GetMapping("/checkoutComplete")
+	public String checkoutComplete() {
+
+		return "funding/checkoutComplete"; // 결제 완료 페이지로 이동
 	}
 
 }

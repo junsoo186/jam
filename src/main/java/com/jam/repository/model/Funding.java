@@ -15,18 +15,21 @@ import lombok.ToString;
 @AllArgsConstructor
 @Builder
 public class Funding {
-    private int fundingId; // Primary Key
-    private int userId; // Foreign key to user_tb
-    private int rewardId; // Foreign key to reward_tb
-    private Timestamp createdAt; // Timestamp for creation time
-    private Date canceledAt; // Date for cancellation
-    private String confirmSuccess; // Enum ('N', 'Y')
-    private int rewardQuantity; // Number of rewards selected
+    private int fundingId; // 기본 키
+    private int userId; // user_tb와의 외래 키
+    private int rewardId; // reward_tb와의 외래 키
+    private Timestamp createdAt; // 생성 시간에 대한 타임스탬프
+    private Date canceledAt; // 취소된 날짜
+    private String cancelConfirm; // 상태 ('N', 'Y')를 나타내는 열거형
+    private int rewardQuantity; // 선택한 리워드의 수량
+    private int rewardPoint;
+    private String rewardContent;
 
     // Address fields
     private String zipcode; // 우편번호
     private String basicAddress; // 기본 주소 (시/구)
     private String detailedAddress; // 상세 주소 (번지, 건물 등)
     private String extraAddress; // 참고 항목 (동, 호수 등)
+    private String shippingAddress; // 전체 주소
 
 }

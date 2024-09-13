@@ -4,16 +4,17 @@
 <html>
 <head>
     <title>거래 상세 페이지</title>
+    <link rel="stylesheet" href="/css/staff/payDetail.css">
 </head>
 <body>
 
-    <div class="container">
-        <h1>거래 상세 페이지</h1>
+    <div class="container--top--area">
+        <h1 class="title--center--area">거래 상세 페이지</h1>
 
         <!-- 결제 내역 -->
-        <div class="box">
-            <h2>결제 내역</h2>
-            <table>
+        <div class="box--content--area">
+            <h2 class="title--center--area">결제 내역</h2>
+            <table class="table--content--area">
                 <tr>
                     <th>항목</th>
                     <th>세부 사항</th>
@@ -35,13 +36,12 @@
                     <td>100코인</td>
                 </tr>
             </table>
-            <button onclick="requestPayment()">결제 요청</button>
         </div>
 
         <!-- 세부 사항 -->
-        <div class="box">
-            <h2>세부 사항</h2>
-            <table>
+        <div class="box--content--area">
+            <h2 class="title--center--area">세부 사항</h2>
+            <table class="table--content--area">
                 <tr>
                     <th>항목</th>
                     <th>세부 사항</th>
@@ -78,9 +78,9 @@
         </div>
 
         <!-- 환불 내역 -->
-        <div class="box">
-            <h2>환불 내역</h2>
-            <table>
+        <div class="box--content--area">
+            <h2 class="title--center--area">환불 내역</h2>
+            <table class="table--content--area">
                 <tr>
                     <th>항목</th>
                     <th>세부 사항</th>
@@ -102,13 +102,13 @@
                     <td>단순 변심</td>
                 </tr>
             </table>
-            <button onclick="completeRefund()">환불 완료</button>
+            <button class="btn--refund--action" onclick="completeRefund()">환불 완료</button>
         </div>
 
         <!-- 결제 방법 및 승인 -->
-        <div class="box">
-            <h2>결제 방법 및 승인</h2>
-            <table>
+        <div class="box--content--area">
+            <h2 class="title--center--area">결제 방법 및 승인</h2>
+            <table class="table--content--area">
                 <tr>
                     <th>결제 방법</th>
                     <th>결제 상세</th>
@@ -125,7 +125,7 @@
                     <td>환불 요청</td>
                 </tr>
             </table>
-            <button onclick="updateStatus()">상태 업데이트</button>
+            <button class="btn--status--update" onclick="updateStatus()">상태 업데이트</button>
         </div>
     </div>
 

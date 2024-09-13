@@ -19,7 +19,7 @@ public class FundingDTO {
     private int rewardId; // Foreign key to reward_tb
     private Timestamp createdAt; // Timestamp for creation time
     private Date canceledAt; // Date for cancellation
-    private String confirmSuccess; // Enum ('N', 'Y')
+    private String cancelConfirm; // Enum ('N', 'Y')
     private int rewardQuantity; // Number of rewards selected
 
     // Address fields
@@ -34,7 +34,7 @@ public class FundingDTO {
                 .rewardId(this.rewardId)
                 .createdAt(new Timestamp(System.currentTimeMillis())) // 생성 시간
                 .canceledAt(this.canceledAt) // 취소된 날짜
-                .confirmSuccess(this.confirmSuccess)
+                .cancelConfirm(this.cancelConfirm)
                 .rewardQuantity(this.rewardQuantity)
                 .zipcode(this.zipcode) // 우편번호
                 .basicAddress(this.basicAddress) // 기본 주소

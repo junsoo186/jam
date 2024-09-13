@@ -1,0 +1,127 @@
+/* 전체 컨테이너 영역 */
+.container--top--area {
+    width: 90%;
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin-top: 1000px; /* 상단 고정 메뉴가 있을 때 여백 확보 */
+}
+
+/* 제목 스타일 */
+.title--center--area h1, .title--center--area h2 {
+    font-size: 24px;
+    color: #333333;
+    text-align: center;
+}
+
+/* 박스 영역 스타일 */
+.box--content--area {
+    padding: 20px;
+    margin-bottom: 30px;
+    background-color: #fafafa;
+    border: 1px solid #dddddd;
+}
+
+/* 테이블 스타일 */
+.table--content--area {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.table--content--area th, .table--content--area td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #dddddd;
+}
+
+/* 버튼 스타일 */
+.btn--action--area {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    text-align: center;
+    border-radius: 5px;
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.btn--action--area:hover {
+    background-color: #45a049;
+}
+
+/* 세부 사항 테이블 스타일 */
+.detail--content--area {
+    margin-top: 20px;
+}
+
+.detail--content--area th {
+    background-color: #f2f2f2;
+    padding: 12px;
+}
+
+.detail--content--area td {
+    padding: 12px;
+}
+
+/* 이미지 영역 */
+.img--top--area {
+    width: 100px;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+/* 결제 요청 버튼 */
+.btn--payment--action {
+    display: inline-block;
+    padding: 10px 15px;
+    background-color: #007BFF;
+    color: white;
+    text-align: center;
+    border-radius: 5px;
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.btn--payment--action:hover {
+    background-color: #0069d9;
+}
+
+/* 환불 요청 버튼 */
+.btn--refund--action {
+    display: inline-block;
+    padding: 10px 15px;
+    background-color: #f44336;
+    color: white;
+    text-align: center;
+    border-radius: 5px;
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.btn--refund--action:hover {
+    background-color: #e53935;
+}
+
+/* 상태 업데이트 버튼 */
+.btn--status--update {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #ffc107;
+    color: white;
+    text-align: center;
+    border-radius: 5px;
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.btn--status--update:hover {
+    background-color: #e0a800;
+}

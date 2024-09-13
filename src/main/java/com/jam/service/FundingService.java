@@ -254,4 +254,18 @@ public class FundingService {
         throw new UnsupportedOperationException("Unimplemented method 'insertRewardByUserId'");
     }
 
+    public void insertFunding(Funding funding) {
+		fundingRepository.insertFunding(funding);
+    }
+
+    public Reward findRewardByRewardId(Integer rewardId) {
+        Reward reward = rewardRepository.findRewardByRewardId(rewardId);
+        return reward;
+    }
+
+	public List<Funding> findFundingByUserId(int userId) {
+		List<Funding> fundings = fundingRepository.findFundingByUserId(userId);
+		return fundings;
+	}
+
 }

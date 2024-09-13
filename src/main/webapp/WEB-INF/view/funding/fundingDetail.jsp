@@ -15,7 +15,7 @@
                 <body>
                     <main class="main-container">
                         <div class="main-area">
-                            <!-- Left side: Main Area/Funding -->
+                            <!-- 왼쪽 영역: 프로젝트 상세 정보 -->
                             <div class="funding-area">
                                 <h2>${project.categoryName}</h2>
                                 <h1>${project.title}</h1>
@@ -28,7 +28,7 @@
                                     </c:if>
                                 </c:if>
 
-                                <!-- Image Slider -->
+                                <!-- 이미지 슬라이더 -->
                                 <div class="image-slider">
                                     <div class="slides">
                                         <c:forEach var="img" items="${projectImgs}" varStatus="status">
@@ -41,7 +41,7 @@
                                     <button class="prev">&#10094;</button>
                                     <button class="next">&#10095;</button>
 
-                                    <!-- Dot Indicators -->
+                                    <!-- 점 표시기 -->
                                     <div class="dot-container">
                                         <c:forEach var="img" items="${projectImgs}" varStatus="status">
                                             <span class="dot ${status.first ? 'active' : ''}"
@@ -50,7 +50,7 @@
                                     </div>
                                 </div>
 
-                                <!-- Funding Info -->
+                                <!-- 펀딩 정보 -->
                                 <div class="funding-info">
                                     <div class="goal-amount">
                                         <span><b>모인금액</b></span>
@@ -69,26 +69,35 @@
                                     <div class="participant-count">후원자 : ${project.participantCount}명</div>
                                 </div>
 
-                                <!-- Description Area -->
+                                <!-- 작품 소개 -->
                                 <div class="description-area">
                                     <h4>작품 소개</h4>
                                     <c:out value="${project.contents}" escapeXml="false" />
                                 </div>
                             </div>
 
-                            <!-- Right side: Funding Selection -->
+                            <!-- 오른쪽 영역: 리워드 선택 및 장바구니 -->
                             <div class="reward-selection">
                                 <div class="reward-title">펀딩 선택</div>
                                 <!-- 장바구니 항목 -->
                                 <div class="cart-detail hidden" id="rewardDetail">
                                     <div id="cartItems">
                                         <!-- 리워드 항목이 여기에 동적으로 추가됩니다. -->
-
                                     </div>
                                     <div class="cart-total">
                                         <p>총 합계: <span id="cartTotal">0</span></p>
                                     </div>
-                                    <button id="checkoutButton">결제하기</button>
+                                    <form id="checkoutForm" action="/funding/checkout" method="post">
+                                        <!-- 총 결제 금액을 서버로 전달 -->
+                                        <input type="hidden" id="totalAmountInput" name="totalAmount" value="0" />
+
+                                        <!-- 리워드 항목을 동적으로 추가할 컨테이너 -->
+                                        <div id="cartItemsInputs">
+                                            <!-- 각 리워드 항목에 대한 입력 필드가 여기에 추가됩니다. -->
+                                        </div>
+
+                                        <button type="button" id="checkoutButton" class="btn--checkout">결제하기</button>
+                                    </form>
                                 </div>
 
                                 <!-- 리워드 선택 영역 -->
@@ -104,15 +113,20 @@
                                         ${reward.rewardContent}<br>
                                         <fmt:formatNumber value="${reward.rewardPoint}" pattern="#,###" /> 원<br>
                                         <c:choose>
-                                            <c:when test="${reward.rewardQuantity == 0}">
-                                                <p class="funding--text--deadline">선착순 마감</p>
+                                            <c:when test="${reward.remainingQuantity == 0}">
+                                                <p class="funding--text--deadline">마감</p>
                                             </c:when>
-                                            <c:when test="${reward.rewardQuantity > 0}">
-                                                <p>${reward.rewardQuantity} 개 남음!</p>
+                                            <c:when test="${reward.remainingQuantity > 0}">
+                                                <p>${reward.remainingQuantity} 개 남음!</p>
                                             </c:when>
                                         </c:choose>
                                     </button>
                                 </c:forEach>
+
+                                <!-- 결제 버튼 -->
+                                <!-- 결제 버튼 -->
+
+
                             </div>
                         </div>
                     </main>

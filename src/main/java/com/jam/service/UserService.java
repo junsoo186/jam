@@ -309,7 +309,7 @@ public class UserService {
 		
 	}
 
-    public void updateUserPoints(int userId, long point) {
+    public void updateUserPoints(int userId, long point, int totalAmount) {
         userRepository.updateUserPoints(userId, point);
 
     }
@@ -489,8 +489,14 @@ public class UserService {
 		userRepository.updatePoint(userId, deposit, point, afterBalance, paymentKey);
 		
 	}
+
+	public void updatePointByCheckout(int userId, long point) {
+		userRepository.updatePointByCheckout(userId, point);	
+	}
 	
-	
+	public void updatePointByRefund(int userId, long point) {
+		userRepository.updatePointByRefund(userId, point);	
+	}
 	
 
 }

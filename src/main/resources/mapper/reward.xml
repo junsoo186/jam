@@ -19,4 +19,7 @@
 
     <delete id="deleteReward"> DELETE FROM reward_tb WHERE reward_id = #{rewardId} </delete>
 
+    <select id="findRewardByRewardId" resultType="com.jam.repository.model.Reward">
+        select * from reward_tb where reward_id = #{rewardId}
+    </select>
 </mapper>
