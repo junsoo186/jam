@@ -1,0 +1,132 @@
+@charset
+"EUC-KR"
+; /* 전체 폼을 감싸는 container 설정 */
+.container {
+	max-width: 900px;
+	margin: 0 auto;
+	padding: 20px;
+	background-color: #f9f9f9;
+	border-radius: 8px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.date--field {
+	display: flex; /* Flexbox 레이아웃을 사용하여 가로로 배치 */
+	justify-content: space-between;
+}
+
+.field--name {
+	padding-bottom: 10px;
+}
+
+/* 카드 스타일 */
+.card {
+	margin: 50px;
+	border: 1px solid #ddd;
+	border-radius: 8px;
+	background-color: white;
+}
+
+/* 카드 헤더 스타일 */
+.card-header {
+	padding: 30px;
+	border-bottom: 1px solid #ddd;
+	border-radius: 8px 8px 0 0;
+	font-weight: bold;
+	font-size: 18px;
+}
+
+/* 카드 바디 스타일 */
+.card-body {
+	padding: 60px;
+	margin: 50px;
+	display: flex;
+}
+
+/* 제목 스타일 */
+h3 {
+	font-size: 24px;
+	margin-bottom: 20px;
+}
+
+/* 라벨과 인풋 박스 사이 간격 */
+.mb-3 {
+	margin-bottom: 40px;
+}
+
+/* 입력 필드 스타일 */
+.form-control {
+	width: 100%;
+	padding: 10px;
+	font-size: 16px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+}
+
+/* 버튼 스타일 */
+.btn {
+	padding: 10px 20px;
+	font-size: 16px;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+/* 기본 버튼 (등록) */
+.btn-primary {
+	background-color: #007bff;
+	color: white;
+	transition: background-color 0.3s ease;
+}
+
+/* 기본 버튼 hover */
+.btn-primary:hover {
+	background-color: #0056b3;
+}
+
+/* 돌아가기 버튼 스타일 */
+.btn-secondary {
+	background-color: #28a745;
+	color: white;
+	margin-left: 10px;
+	transition: background-color 0.3s ease;
+}
+
+/* 돌아가기 버튼 hover */
+.btn-secondary:hover {
+	background-color: #218838;
+}
+
+/* 하단의 링크 스타일 */
+a {
+	text-decoration: none;
+	color: #28a745;
+}
+
+/* CKEditor가 적용된 textarea 스타일 */
+textarea {
+	min-height: 150px;
+	resize: vertical;
+}
+
+/* 페이지 전체 padding */
+.p-5 {
+	padding: 3rem !important;
+}
+
+/* 반응형 디자인: 모바일에서 폼의 크기 조정 */
+@media ( max-width : 768px) {
+	.container {
+		padding: 10px;
+	}
+	.card-body {
+		padding: 10px;
+	}
+	.form-control {
+		font-size: 14px;
+	}
+	.btn {
+		font-size: 14px;
+		padding: 8px 15px;
+	}
+}

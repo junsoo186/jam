@@ -32,7 +32,7 @@
 
 package com.jam.repository.interfaces;
 
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -45,8 +45,8 @@ public interface StaffEventRepository {
 
     public int insertE(Event event); // 글쓰기
     public int updateE(@Param("eventId") int eventId, @Param("eventTitle") String eventTitle, 
-                       @Param("eventContent") String eventContent, @Param("startDay") Date startDay, 
-                       @Param("endDay") Date endDay); // 글수정
+                       @Param("eventContent") String eventContent, @Param("startDay") LocalDate localDate, 
+                       @Param("endDay") LocalDate localDate2); // 글수정
     public int deleteE(int eventId); // 글삭제
     public List<Event> selectAllPage(@Param("limit") int limit, @Param("offset") int offset); // 페이지 조회
     public Event selectByEventId(int eventId); // 상세보기

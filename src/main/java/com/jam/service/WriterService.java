@@ -103,12 +103,16 @@ public class WriterService {
 		return books;
 	}
 	
-	public List<Book> readAllbookSerial(){
+	/**
+	 *  요일 ,좋아요,조회 모든 값
+	 * @return
+	 */
+	public List<Book> readAllbookSerial(String filter,String order){
 		List<Book> books = new ArrayList<Book>();
 		// TODO - 페이징 추가
 		// TODO - 오류 처리
 		try {
-			books = bookRepository.AllBookSerial();
+			books = bookRepository.AllBookSerial(filter, order);
 		} catch (Exception e) {
 
 		}

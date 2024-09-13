@@ -22,8 +22,20 @@
 	</insert>
 	
 	<select id="findSerialDay" resultType="com.jam.repository.model.Book">
-	SELECT DISTINCT serial_day
-	FROM book_tb
+    SELECT DISTINCT serial_day
+    FROM book_tb
+    ORDER BY 
+        CASE serial_day
+            WHEN '월요일' THEN 1
+            WHEN '화요일' THEN 2
+            WHEN '수요일' THEN 3
+            WHEN '목요일' THEN 4
+            WHEN '금요일' THEN 5
+            WHEN '토요일' THEN 6
+            WHEN '일요일' THEN 7
+            ELSE 8 -- 잘못된 요일 또는 기타 값을 처리하는 경우
+        END;
+
 
 	
 	</select>
@@ -31,6 +43,25 @@
 	
 	<select id="AllBookSerial" resultType="com.jam.repository.model.Book">
 	select * from book_tb
+	<choose>
+	        <when test="filter == 'views'">
+	            ORDER BY views
+	        </when>
+	        <when test="filter == 'likes'">
+	            ORDER BY likes
+	        </when>
+	        <otherwise>
+	            ORDER BY b.book_id  <!-- 기본 정렬 -->
+	        </otherwise>
+	    </choose>
+	    <choose>
+	        <when test="order == 'ASC'">
+	            ASC
+	        </when>
+	        <when test="order == 'DESC'">
+	            DESC
+	        </when>
+	    </choose>
 	</select>
 
 	<select id="AllBookList"

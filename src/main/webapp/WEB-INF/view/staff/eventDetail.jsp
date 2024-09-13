@@ -1,6 +1,6 @@
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ include file="/WEB-INF/view/layout/header.jsp"%>
+<%-- <%@ include file="/WEB-INF/view/layout/header.jsp"%> --%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
    
@@ -51,5 +51,8 @@
                     <h3>지난 이벤트 2</h3>
                 </div>
             </div>
+            
+            <script type="text/javascript" src="/js/navigation.js"></script>
+            
         </section>
     </main>

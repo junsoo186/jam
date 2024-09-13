@@ -28,10 +28,11 @@ public interface BookRepository {
 	// 책 리스트
 	public List<Book> AllBookList();
 	
-	// 책 리스트(요일)
-	public List<Book> AllBookSerial();
+	// 책 리스트(요일 있는 모든값)
+	public List<Book> AllBookSerial(@Param("filter") String filter,
+									@Param("order") String order);
 	
-	// 책 요일(복수X)
+	// 책 요일(distict 요일)
 	public List<Book> findSerialDay();
 	
 	// 책 리스트 -변수1(오름차순,내림차순),변수2(좋아요,조회순),변수3(카테고리)

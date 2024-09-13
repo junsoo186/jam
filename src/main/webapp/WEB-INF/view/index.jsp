@@ -59,22 +59,24 @@
 			</div>
 		</section>
 	</div>
-	
-<h3> 요일 별 작품</h3>
-<div id="dayButtons"></div>
 
-<!-- 책 목록을 보여줄 영역 -->
-<div class="book--list--1" id="bookList"></div>
+<h3>요일별 작품</h3>
+<!-- 요일별 작품 영역 -->
+<div class="day--area--filter" id="dayFilter"></div>
 
-<!-- Views, Likes 정렬 버튼 -->
-<div class="btn--area">
-    <button id="viewsButton" onclick="sortBy('views')">VIEWS</button>
-    <button id="likesButton" onclick="sortBy('likes')">LIKES</button>
+<!-- 버튼 대신 셀렉박스가 나을지도  -->
+<div class="btn--area"> 
+	<div class="btn--area--day">
+    <button class="btn--day--views" id="dayViewsButton" onclick="toggleDayViewsOrder()">VIEWS</button>
+    <button class="btn--day--views" id="dayLikesButton" onclick="toggleDayLikesOrder()">LIKES</button>
+
+    </div>
 </div>
-	
+
+<div class="book--list--1" id="dayContent"></div>
 	
 			<!-- 인기 순위 -->
-		<h3> 가장 인기있는 웹소설</h3>
+		<h3>문학장르 작품 </h3>
 <!-- 카테고리별 필터 영역 -->
 <div class="category--area--filter" id="categoryFilter"></div>
 
@@ -90,7 +92,7 @@
 <!-- 선택된 카테고리의 책 목록 -->
 <div class="book--list--1" id="categoryContent"></div>
 
-		<h3>가장 선호하는 웹소설</h3>
+		<h3>장르별 인기 작품</h3>
 <!-- 장르별 필터 영역 -->
 <div class="genre--area--filter" id="genreFilter"></div>
 <br>
@@ -110,38 +112,8 @@
 
 
 		<div >
-			<div class="book--item">
-				<img src="/images/bannerimg1.jpg" alt="매직 스플릿">
-				<div class="book--info">
-					<h4>매직 스플릿</h4>
-					<p>박성현</p>
-					<p>밀리의 발견</p>
-				</div>
-			</div>
-			<!-- 다른 책 아이템을 추가로 작성 -->
-			<div class="book--item">
-				<img src="/images/bannerimg1.jpg" alt="역대급 포식능력자의...">
-				<div class="book--info">
-					<h4>역대급 포식능력자의...</h4>
-					<p>박성현</p>
-					<p>이세계사장</p>
-				</div>
-			</div>
-			<div class="book--item">
-				<img src="/images/bannerimg1.jpg" alt="역대급 포식능력자의...">
-				<div class="book--info">
-					<h4>역대급 포식능력자의...</h4>
-					<p>박성현</p>
-					<p>이세계사장</p>
-				</div>
-			</div>
-			<div class="book--item">
 
-			</div>
-			<div class="book--item">
-
-				</div>
-			</div>
+	
 		</div>
 
 		<!-- 책 목록 -->
@@ -151,7 +123,6 @@
 
 		<div class="book--list--2">
 			<div class="book--item">
-				<img src="/images/bannerimg1.jpg" alt="매직 스플릿">
 				<div class="book--info">
 					<h4>매직 스플릿</h4>
 					<p>박성현</p>
@@ -160,7 +131,6 @@
 			</div>
 			<!-- 다른 책 아이템을 추가로 작성 -->
 			<div class="book--item">
-				<img src="/images/bannerimg1.jpg" alt="역대급 포식능력자의...">
 				<div class="book--info">
 					<h4>역대급 포식능력자의...</h4>
 					<p>박성현</p>
@@ -196,7 +166,6 @@
 		<h3>이번주 주목할 펀딩</h3>
 		<div class="book--list--3">
 			<div class="book--item--funding">
-				<img src="/images/bannerimg1.jpg" alt="역대급 포식능력자의...">
 				<div class="book--info--funding">
 					<h4>역대급 포식능력자의...</h4>
 					<p>박성현</p>

@@ -2,6 +2,7 @@ package com.jam.repository.model;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,8 +21,8 @@ public class Event {
 	private String eventTitle;
 	private String eventContent;
 	private Timestamp createdAt;
-	private Date startDay;
-	private Date endDay;
+	private LocalDate startDay;
+	private LocalDate endDay;
 	private int userId;
 	private int limit;
 	private int offset;
