@@ -338,19 +338,19 @@ CREATE TABLE `book_comment_tb` (
     FOREIGN KEY (`user_id`) REFERENCES `user_tb`(`user_id`)
 );
 
-CREATE TABLE `banner_tb`(
-`banner_id`int PRIMARY KEY AUTO_INCREMENT NOT NULL,
-`title` varchar(1000) COMMENT '베너 제목',
-`content` varchar(1000) COMMENT '베너 내용1',
-`sub_content` varchar(1000) COMMENT '베너 내용2',
-`image_path` varchar(2000) COMMENT '이미지 경로',
-`event_id` int,
-FOREIGN KEY (`event_id`) REFERENCES `event_tb`(`event_id`)
-);
+
 -- project_tb에 reward_id에 대한 외래 키 추가
 ALTER TABLE `project_tb`
 ADD CONSTRAINT fk_project_reward FOREIGN KEY (`reward_id`) REFERENCES `reward_tb`(`reward_id`);
 
+CREATE TABLE user_activity_tb (
+    user_id int PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    activity_date DATE,
+    activity_type VARCHAR(50),
+    activity_count INT,
+	FOREIGN KEY (`user_id`) REFERENCES `user_tb`(`user_id`)
+
+);
 
 
 -- fk 순환구조라 오류생김

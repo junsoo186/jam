@@ -160,18 +160,6 @@ INSERT INTO `event_tb` (
     3  -- user_tb에서 user_id 101번 사용자가 이벤트를 관리
 );
 
-INSERT INTO `banner_tb`(
-    `title`, `content`, `sub_content`, `image_path`, `event_id`
-) VALUES ('가입 이벤트 배너','가입이요','가입2요','',1);
-INSERT INTO `banner_tb`(
-    `title`, `content`, `sub_content`, `image_path`, `event_id`
-) VALUES ('가입 이벤트 배너','가입이요','가입2요','',2);
-INSERT INTO `banner_tb`(
-    `title`, `content`, `sub_content`, `image_path`, `event_id`
-) VALUES ('가입 이벤트 배너','가입이요','가입2요','',3);
-INSERT INTO `banner_tb`(
-    `title`, `content`, `sub_content`, `image_path`, `event_id`
-) VALUES ('가입 이벤트 배너','가입이요','가입2요','',4);
 
 
 

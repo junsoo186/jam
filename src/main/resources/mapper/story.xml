@@ -26,6 +26,13 @@
 		ORDER BY number
 		LIMIT #{limit} OFFSET #{offset};
 	</select>
+	<select id="countStoriesByBookId"
+		resultType="int">
+		select count(*)
+		FROM story_tb as s
+		LEFT JOIN book_tb as b ON s.book_id = b.book_id
+		where  b.book_id = #{bookId}
+	</select>
 
 	<select id="countAll" resultType="int">
 		SELECT count(*)

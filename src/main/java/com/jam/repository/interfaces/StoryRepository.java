@@ -18,6 +18,9 @@ public interface StoryRepository {
 
 
 	public int countAll();
+	
+	public int countStoriesByBookId( @Param("bookId") Integer bookId);
+
 
 	public Story outputStoryContentByStoryId(@Param("storyId") Integer storyId); // 소설
 																				// 내용

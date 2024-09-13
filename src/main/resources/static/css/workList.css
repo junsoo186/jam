@@ -8,10 +8,10 @@ body {
     padding: 0;
 }
 
-.benner--content img{
-    width: 100%; /* 너비를 부모 요소에 맞춤 */
+.benner--content img {
+    width: 100%; /* 부모 요소에 맞춤 */
     max-width: 1200px; /* 최대 너비 제한 */
-    height: auto; /* 높이를 자동으로 조정하여 비율 유지 */
+    height: auto; /* 비율 유지 */
     display: block; /* 부모 요소의 너비를 가득 채우도록 설정 */
     margin: 0 auto;
 }
@@ -67,14 +67,12 @@ body {
     width: 300px;
     height: 65px;
     text-align: center;
-    display: block;
+    display: flex;
     text-decoration: none;
     color: #333;
-    box-sizing: border-box;
     justify-content: center;
     align-items: center;
-    display: flex;
-    padding-right: 20px;
+    box-sizing: border-box;
 }
 
 /* 책 영역 */
@@ -88,7 +86,6 @@ body {
     gap: 20px;
     align-items: center;
     margin-left: auto;
-    
 }
 
 /* 책 커버와 오버레이 */
@@ -163,15 +160,14 @@ body {
 /* 회차 목록 스타일 */
 .story-list {
     display: flex;
-    flex-direction: row;
-    gap: 10px;
+    flex-wrap: wrap; /* 가로로 정렬하고 줄바꿈 필요시 자동으로 다음 줄로 이동 */
+    gap: 10px; /* 아이템 간의 간격 */
     flex-grow: 1;
-}
-
-.right-align {
-    margin-left: auto;
-    list-style-type: none;
-    padding: 0;
+    justify-content: flex-start; /* 왼쪽 정렬 */
+    align-items: flex-start; /* 위쪽 정렬 */
+    width: 100%;
+    padding: 10px 0;
+    box-sizing: border-box;
 }
 
 .story--content {
@@ -181,12 +177,13 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 170px;
-    width: 170px;
+    height: 150px;
+    width: 150px;
     border-radius: 9px;
     background-color: #fff;
     padding: 10px;
     transition: background-color 0.3s;
+    flex-shrink: 0; /* 아이템이 줄어들지 않도록 설정 */
 }
 
 .story--content:hover {
@@ -195,11 +192,13 @@ body {
 
 .story--part {
     color: #333;
+    margin-bottom: 5px;
 }
 
 .story--title {
     font-size: 10px;
     color: #6f5757;
+    margin-bottom: 3px;
 }
 
 .story--other {
@@ -210,7 +209,6 @@ body {
 .nav--story {
     display: flex;
     align-items: center;
-    
 }
 
 /* 버튼 영역 설정 */
@@ -235,4 +233,38 @@ body {
 
 .btn--insert:hover {
     background-color: #e91e63;
+}
+
+
+.story-list-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* 양쪽에 배치된 버튼과 이야기 목록 정렬 */
+    gap: 10px;
+}
+
+
+
+.page-link {
+    display: inline-block;
+    margin: 0 10px;
+    padding: 8px 8px;
+    background-color: #007bff; /* 기본 배경색 */
+    color: white; /* 글자 색 */
+    text-decoration: none;
+    border-radius: 5px; /* 모서리 둥글게 */
+    transition: background-color 0.3s ease; /* 호버 시 부드러운 색 전환 효과 */
+}
+
+.page-link:hover {
+    background-color: #0056b3; /* 호버 시 배경색 변경 */
+}
+
+.page-link[onclick="return false;"] {
+    background-color: #cccccc; /* 비활성화된 버튼의 배경색 */
+    color: #666666; /* 비활성화된 버튼의 글자 색 */
+    cursor: not-allowed; /* 비활성화된 버튼의 마우스 포인터 */
+}
+.page-link.next {
+    margin-left: auto; /* 항상 오른쪽 끝에 위치 */
 }
