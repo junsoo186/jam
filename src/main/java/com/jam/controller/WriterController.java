@@ -28,6 +28,7 @@ import com.jam.repository.model.User;
 import com.jam.service.BennerService;
 import com.jam.service.WriterService;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 
@@ -48,38 +49,53 @@ public class WriterController {
 	 * @param model
 	 * @return
 	 */
-	@GetMapping("/workList")
-	public String handleWorkList(@RequestParam(name ="page", defaultValue = "1" )  int page,
-	@RequestParam(name ="size", defaultValue = "4" )  int size,Model model) {
-		User principal = (User) session.getAttribute("principal");
-		List<Book> bookList = writerService.readAllBookListByprincipalId(principal.getUserId());
-		int totalRecords = writerService.allList();
-		int totalPages = (int)Math.ceil((double)totalRecords / size);
-		
-		// List<Benner> bennerList = bennerService.findAll();
-		for (Book book : bookList) {
-			String bookImg = book.setUpUserImage();
-			book.setBookCoverImage(bookImg);
-		}
-		Map<Integer, List<Story>> storyMap = new HashMap<>();
-		if (bookList.isEmpty()) {
-			model.addAttribute("bookList", null);
-		} else {
-			model.addAttribute("bookList", bookList);
-			for (Book book : bookList) {
-				List<Story> storyList = writerService.findAllStoryByBookIdPage(book.getBookId(),page, size);
-				storyMap.put(book.getBookId(), storyList);
-				System.out.println(storyMap.get(book.getBookId()));
-			}
-		}
-		// model.addAttribute("bennerList", bennerList)
-		model.addAttribute("currentPage", page);
-		model.addAttribute("totalPages", totalPages);
-		model.addAttribute("size", size);
-		model.addAttribute("storyMap", storyMap);
-		return "write/workList";
-	}
+@GetMapping("/workList")
+public String handleWorkList(
+    @RequestParam(name = "bookId", required = false) Integer bookId, 
+    @RequestParam(name = "page", defaultValue = "1") int page,
+    @RequestParam(name = "size", defaultValue = "4") int size,
+    Model model,
+    HttpServletRequest request) {
 
+    User principal = (User) session.getAttribute("principal");
+    List<Book> bookList = writerService.readAllBookListByprincipalId(principal.getUserId());
+    
+    for (Book book : bookList) {
+        String bookImg = book.setUpUserImage();
+        book.setBookCoverImage(bookImg);
+    }
+
+    // 기본값 설정: bookId가 없으면 첫 번째 책을 선택
+    if (bookId == null && !bookList.isEmpty()) {
+        bookId = bookList.get(0).getBookId();
+    }
+    
+    int totalRecords = 0;
+    int totalPages = 0;
+    Map<Integer, List<Story>> storyMap = new HashMap<>();
+
+    if (bookId != null) {
+        totalRecords = writerService.countStoriesByBookId(bookId);
+        totalPages = (int) Math.ceil((double) totalRecords / size);
+
+        List<Story> storyList = writerService.findAllStoryByBookIdPage(bookId, page, size);
+        storyMap.put(bookId, storyList);
+    }
+
+    model.addAttribute("bookList", bookList);
+    model.addAttribute("storyMap", storyMap);
+    model.addAttribute("currentPage", page);
+    model.addAttribute("totalPages", totalPages);
+    model.addAttribute("size", size);
+    model.addAttribute("bookId", bookId);
+
+    // AJAX 요청에 대한 처리
+    if ("XMLHttpRequest".equals(request.getHeader("X-Requested-With"))) {
+        return "write/workListPartial"; // Partial View 반환
+    }
+
+    return "write/workList";
+}
 	// TODO - 전체 작품 리스트 추가
 
 	/**

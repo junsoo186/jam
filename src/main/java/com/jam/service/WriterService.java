@@ -286,6 +286,12 @@ public class WriterService {
 	}
 
 
+	public int countStoriesByBookId( Integer bookId){
+		Integer count = storyRepository.countStoriesByBookId(bookId);
+		return count != null ? count : 0;
+	}
+
+
 
 	public int allList(){
 		return storyRepository.countAll();
