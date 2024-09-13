@@ -35,6 +35,7 @@ public class AccountHistoryDTO {
 	    
 	    private String status;
 	    
+	    private String refundReason; // 사유
 		
 
 }

@@ -219,6 +219,7 @@ public class PaymentController {
         System.out.println("refundReason : " + refundReason); // 환불 사유
 
         User user = (User) session.getAttribute("principal");
+        
         RefundRequest refundRequest = RefundRequest.builder()
                 .userId(user.getUserId())
                 .paymentKey(paymentKey)
@@ -235,7 +236,7 @@ public class PaymentController {
 
             userService.saveRefundRequest(refundRequest); // 유저가 환불클릭하면 관리자가 요청?
 
-            userService.pointAuditWait(paymentKey); //
+            userService.pointAuditWait(paymentKey); // 심사중으로 변경
 
             return "redirect:/"; // 환불 성공 시 refund_request_tb 데이터
 

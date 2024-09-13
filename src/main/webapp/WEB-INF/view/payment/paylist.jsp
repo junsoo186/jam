@@ -160,17 +160,16 @@ p {
 <script src="/js/payList.js"></script>
 
 <script>
-	function setRefundReasonAndSubmit(paymentKey, deposit) {
-		// 환불사유 입력 필드에서 값을 가져옴
-		var refundReason = document
-				.getElementById('refundReason_' + paymentKey).value;
+function setRefundReasonAndSubmit(paymentKey, deposit) {
+    // 환불사유 입력 필드에서 값을 가져옴
+    var refundReason = document.getElementById('refundReason_' + paymentKey).value;
 
-		// 숨겨진 환불 사유 필드에 값을 설정
-		document.getElementById('refundReasonHidden_' + paymentKey).value = refundReason;
+    // 숨겨진 환불 사유 필드에 값을 설정
+    document.getElementById('refundReasonHidden_' + paymentKey).value = refundReason;
 
-		// 환불 폼을 찾아서 제출
-		document.getElementById('refundForm_' + paymentKey).submit();
-	}
+    // 폼을 제출
+    document.getElementById('refundForm_' + paymentKey).submit();
+}
 </script>
 
 </head>
@@ -208,7 +207,7 @@ p {
 						  <!-- 환불 사유 입력 필드, status가 null이 아닐 때만 보이도록 설정 -->
             <c:choose>
                 <c:when test="${payment.status != null}">
-                    <input type="text" id="refundReason_${payment.paymentKey}" placeholder="환불 사유 입력" value="${payment.paymentKey}" >
+                    <input type="text" id="refundReason_${payment.paymentKey}" placeholder="환불 사유 입력" value="${payment.refundReason}">
                 </c:when>
                 <c:otherwise>
                     <!-- status가 null일 경우 status 값만 출력 -->

@@ -42,5 +42,4 @@ public class Payment {
     private int taxFreeAmount;             // 면세 금액
     private String method;                 // 결제 방식
     private String version;                // API 버전
-
 }
