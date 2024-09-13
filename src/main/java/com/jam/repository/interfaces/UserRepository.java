@@ -44,7 +44,7 @@ public interface UserRepository {
 	public int insertPoint(@Param("userId") Integer userId , @Param("deposit") long deposit, @Param("point") long point, @Param("afterBalance") long afterBalance, @Param("paymentKey") String paymentKey);
 	
 	// 관리자가 유저의 환불을 승인하면 기존의 포인트에서 업데이트 한다.
-	public int updatePoint(@Param("userId") Integer userId , @Param("deposit") long deposit, @Param("point") long point, @Param("afterBalance") long afterBalance, @Param("paymentKey") String paymentKey);
+	public int updatePoint(@Param("userId") Integer userId , @Param("deposit") long deposit, @Param("point") long point, @Param("afterBalance") long afterBalance, @Param("refundReason")String refundReason , @Param("paymentKey") String paymentKey);
 	
 	public int selectUserPoint(@Param("userId") Integer userId);
 	
@@ -83,4 +83,7 @@ public interface UserRepository {
 	public void updatePointByCheckout(@Param("userId") Integer userId, @Param("point") long point);
 
 	public void updatePointByRefund(@Param("userId") Integer userId, @Param("point") long point);
+	
+	// 관리자가 환불을 거절했을 시 상태값 refundReason(사유)를 업데이트 
+	public void updaterefundReason(@Param("refundReason") String refundReason, @Param("paymentKey") String paymentKey);
 }

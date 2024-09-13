@@ -164,7 +164,7 @@
 		                        <input type="hidden" name="userId" value="${payment.userId}">	
 		                        <input type="hidden" name="paymentKey" value="${payment.paymentKey}">
 		                        <input type="hidden" name="refundAmount" value="${payment.refundAmount}">
-		                        <input type="hidden" name="refundReason" value="환불"> <!-- 기본 환불 이유 -->
+		                        <input type="hidden" name="refundReason" value="${payment.refundReason}"> <!-- 기본 환불 이유 -->
 		                        <button type="submit">승인</button>
 		                    </form>
 
@@ -173,7 +173,7 @@
 		                        <input type="hidden" name="userId" value="${payment.userId}">	
 		                        <input type="hidden" name="paymentKey" value="${payment.paymentKey}">
 		                        <input type="hidden" name="refundAmount" value="${payment.refundAmount}">
-		                        <input type="hidden" name="refundReason" value="환불"> <!-- 기본 환불 이유 -->
+		                        <input type="hidden" name="refundReason" value="${payment.refundReason}"> <!-- 기본 환불 이유 -->
 		                        <button type="submit">거절</button>
 		                    </form>
 		                </c:otherwise>

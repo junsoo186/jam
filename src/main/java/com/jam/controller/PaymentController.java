@@ -109,14 +109,22 @@ public class PaymentController {
             		.orderId(dto.getOrderId()) // 주문번호
             		.orderName(dto.getOrderName()) // 주문 이름
             		.totalAmount(dto.getTotalAmount()) // 결제 금액
-            		.method(dto.getMethod())
+            		.method(dto.getMethod()) // 간편결제
             		.paymentKey(dto.getPaymentKey()) // 토스 고유번호 주문
             		.build();
-                 
+            
+            
+            
             model.addAttribute("payment", payment);
             // session.setAttribute("payment", payment);
             System.out.println("#@#@#@# : " + payment.toString());
+            
+           // #@#@#@# : Payment(userId=null, mId=null, lastTransactionKey=null,
+           // paymentKey=tviva20240913192451lfoP9, orderId=858f278f-3f67-43b5-9934-832d374ae166,
+           // orderName=1000코인, taxExemptionAmount=0, status=null, requestedAt=null, approvedAt=null, useEscrow=false, cultureExpense=false, card=null, secret=null, type=null,
+           // isPartialCancelable=false, receipt=null, checkout=null, currency=null, totalAmount=1000, balanceAmount=0, suppliedAmount=0, vat=0, taxFreeAmount=0, method=간편결제, version=null)
 
+            
             // 여기서 유저 서비스를 이용해서 결제 쿼리가 작동하도록 설정해야 한다.
 
             // 1. 유저
@@ -136,7 +144,7 @@ public class PaymentController {
             long point = amount; // 충전할 포인트
             long afterBalance = balance + amount; // 소지하고 있는 포인트 + 충전할 포인트 = afterBalance
 
-            userService.insertPoint(userId, deposit, point, afterBalance, paymentKey); // 포인트 충전
+            userService.insertPoint(userId, deposit, point, afterBalance, paymentKey); // 포인트 충전 INSERT INTO account_history_tb
 
             // 유저 상세 정보에 기존에 포인트에 충전한 포인트 입력
             userService.insert(amount, balance, userId);
@@ -227,6 +235,8 @@ public class PaymentController {
                 .refundReason(refundReason)
                 .status("PENDING")
                 .build();
+        
+        System.out.println("refundRequest : " +refundRequest.toString());
 
         int number = 0; // paymentKey 키로 account_history_tb 신청을 1번만 가능하도록 한다.
         number = userService.paymentCheck(paymentKey);
@@ -307,7 +317,7 @@ public class PaymentController {
             // 환불 승인 버튼을 눌렀지만 소지포인트 - 환불 포인트가 < 0 일 때 환불 거절로 변경된다.
             if (afterBalance >= 0) { // 포인트가 0 보다 크면 환불을 진행한다.
 
-                userService.updatePoint(userId, deposit, point, afterBalance, paymentKey); // 포인트 충전내역 업데이트
+                userService.updatePoint(userId, deposit, point, afterBalance, refundReason, paymentKey); // 포인트 충전내역 업데이트 @#!@#@!#@!#!@#
                 // userService.insertPoint(userId, deposit, point, afterBalance, paymentKey); //
                 // 포인트 충전내역
 
@@ -324,7 +334,7 @@ public class PaymentController {
                         .userId(user.getUserId())
                         .paymentKey(paymentKey)
                         .refundAmount(refundAmount)
-                        // .refundReason("승인")
+                        .refundReason(refundReason)
                         // .status()
                         .build();
 
@@ -341,7 +351,7 @@ public class PaymentController {
                         .staffId(user.getUserId()) // 관리자 아이디
                         .paymentKey(paymentKey) // 결제 코드
                         .refundAmount(refundAmount) // 결제 가격
-                        .refundReason("거절")
+                        .refundReason("포인트 부족으로 환불 불가")
                         .build();
 
                 userService.updateStatus2(paymentKey); // 거절로 변경
@@ -369,7 +379,11 @@ public class PaymentController {
             @RequestParam("refundReason") String refundReason,
             @RequestParam("userId") int userId) {
 
+        System.out.println("paymentKey @#!#@!#@!#@! : " + paymentKey);
+        System.out.println("refundAmount @#!#@!#@!#@! : " + refundAmount);
+        System.out.println("refundReason @#!#@!#@!#@! : " + refundReason);
         System.out.println("userId @#!#@!#@!#@! : " + userId);
+        
 
         User user = (User) session.getAttribute("principal");
         RefundRequest refundRequest = RefundRequest.builder()
@@ -377,9 +391,11 @@ public class PaymentController {
                 .staffId(user.getUserId()) // 관리자 아이디
                 .paymentKey(paymentKey) // 결제 코드
                 .refundAmount(refundAmount) // 결제 가격
-                .refundReason("거절")
+                .refundReason(refundReason)
                 // .status("거절")
                 .build();
+        
+        userService.checkRequesrefusal(refundReason, paymentKey); // ddd
 
         AccountHistoryDTO dto = AccountHistoryDTO.builder()
                 .status("거절")
@@ -389,7 +405,7 @@ public class PaymentController {
         System.out.println("@#@#@ : " + refundRequest.toString());
         userService.refundreject(refundRequest); // 거절로 업데이트
 
-        userService.updateStatus2(paymentKey); // pedding --> 승인으로 변경
+        userService.updateStatus2(paymentKey); // pedding --> 거절로 변경
 
         return "redirect:/";
     }

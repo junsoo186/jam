@@ -122,8 +122,15 @@
 	SET deposit = #{deposit}, 
     point = #{point}, 
     after_balance = #{afterBalance}, 
-    user_id = #{userId}
+    user_id = #{userId},
+    refund_reason = #{refundReason}
 	WHERE payment_key = #{paymentKey}
+	</update>
+	
+	<update id = "updaterefundReason">
+		UPDATE account_history_tb
+		SET refund_reason = #{refundReason}
+		WHERE payment_key = #{paymentKey}
 	</update>
 
 	<insert id ="insertUserTbPoint">

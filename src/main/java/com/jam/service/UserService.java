@@ -475,10 +475,10 @@ public class UserService {
 	 * @param afterBalance
 	 * @param paymentKey
 	 */
-	public void updatePoint(int userId, long deposit, long point, long afterBalance, String paymentKey) {
+	public void updatePoint(int userId, long deposit, long point, long afterBalance, String refundReason, String paymentKey) {
 		// TODO Auto-generated method stub
 		System.out.println("updatepoint 사용거쳐감");
-		userRepository.updatePoint(userId, deposit, point, afterBalance, paymentKey);
+		userRepository.updatePoint(userId, deposit, point, afterBalance, refundReason, paymentKey);
 		
 	}
 
@@ -488,6 +488,16 @@ public class UserService {
 	
 	public void updatePointByRefund(int userId, long point) {
 		userRepository.updatePointByRefund(userId, point);	
+	}
+	
+	/**
+	 * 환불 거절당했을때 사유 refundReason 업데이트
+	 * @param refundReason
+	 * @param refundReason2
+	 */
+	public void checkRequesrefusal(String refundReason, String paymentKey) {
+		userRepository.updaterefundReason(refundReason, paymentKey);
+		
 	}
 	
 
