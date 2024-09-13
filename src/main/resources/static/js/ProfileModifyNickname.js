@@ -21,16 +21,20 @@ document.addEventListener('DOMContentLoaded', function() {
 	
 	// 닉네임 중복 체크
 	const signUpButton = document.getElementById('modify'); // 수정하기 버튼
+		
 	
 	function updateSignUpButton(isEnabled) {
 		signUpButton.disabled = !isEnabled; // 버튼을 비활성화하거나 활성화
 	}
-    
-	updateSignUpButton(false); // 버튼 비활성화
+
+//	updateSignUpButton(false); // 버튼 비활성화
 	
 	window.checkNickName = function() {
 		const nickName = document.getElementById('nickName').value;
 		const nickNameCheckMessage = document.getElementById('nickNameCheckMessage'); // 메시지 표시 영역
+		
+		
+		
 
 		// 닉네임이 입력되지 않았을 경우 중복 검사 실행 안함
 		if (!nickName.trim()) {

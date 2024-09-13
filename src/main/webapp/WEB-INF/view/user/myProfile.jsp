@@ -71,8 +71,7 @@ input {
 	<main>
 		<form action="/user/userModify1212" method="post" enctype="multipart/form-data">
 			<input type="hidden" name="userId" value="${principal.userId}"> <input type="hidden" name="createdAt" value="${principal.createdAt}"> <input type="hidden"
-				name="profileImg" value="${principal.profileImg}"
-			>
+				name="profileImg" value="${principal.profileImg}">
 
 			<div class="form-group">
 				<label for="mFile">프로필 이미지</label> <img id="previewImage" src="${principal.profileImg}" alt="Profile Image"> <input type="file" id="mFile" name="mFile" accept="image/*">
