@@ -29,6 +29,7 @@ public class RefundRequest {
     private Date rejectedAt; // 거절날짜
     private int pageSize;
     private int page;
+    private String paymentMethod;
 
     public AccountHistoryDTO toAccountHistoryDTO() {
     	return AccountHistoryDTO.builder()

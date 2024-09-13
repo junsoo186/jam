@@ -225,6 +225,21 @@ function bindPayModalEvents() {
     const openBtns = document.querySelectorAll('.detail-pay-btn');
     const closeModalBtn = document.querySelector('.close');
 
+    // AJAX로 외부 JSP 파일 불러오기 함수
+    function loadExternalJSP(url) {
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', url, true);
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                modalBody.innerHTML = xhr.responseText; // JSP 내용을 모달 안에 삽입
+                modal.style.display = 'flex'; // 모달 표시
+            }
+        };
+
+        xhr.send();
+    }
+
     // openBtns가 존재하는지 확인하고 이벤트 바인딩
     if (openBtns) {
         openBtns.forEach(function (btn) {
@@ -251,24 +266,29 @@ function bindPayModalEvents() {
     });
 }
 
-
-
 function bindDonationModalEvents() {
     // 모달 관련 변수들
     const modal = document.getElementById('donationModal');
-    const modalBody = document.getElementById('donationModal'); // 모달 콘텐츠를 삽입할 영역
     const openBtns = document.querySelectorAll('.detail-donation-btn');
     const closeModalBtn = document.querySelector('.close');
 
     // AJAX로 외부 JSP 파일 불러오기 함수
-    function loadExternalJSP(url) {
+    function loadExternalJSP(url, callback) {
         const xhr = new XMLHttpRequest();
         xhr.open('GET', url, true);
 
         xhr.onreadystatechange = function () {
             if (xhr.readyState === 4 && xhr.status === 200) {
-                modalBody.innerHTML = xhr.responseText; // JSP 내용을 모달 안에 삽입
-                modal.style.display = 'flex'; // 모달 표시
+                const modalBody = document.getElementById('donationModalBody'); // 모달 콘텐츠를 삽입할 영역
+                if (modalBody) {
+                    modalBody.innerHTML = xhr.responseText; // JSP 내용을 모달 안에 삽입
+                    modal.style.display = 'flex'; // 모달 표시
+
+                    // JSP 로드 후 콜백 호출
+                    if (callback) callback();
+                } else {
+                    console.error('모달 콘텐츠 영역을 찾을 수 없습니다');
+                }
             }
         };
 
@@ -279,7 +299,12 @@ function bindDonationModalEvents() {
     openBtns.forEach(function (btn) {
         btn.addEventListener('click', function () {
             const jspUrl = btn.getAttribute('data-url'); // 버튼의 data-url 속성에서 JSP 파일 경로 가져오기
-            loadExternalJSP(jspUrl); // JSP 파일 로드
+            loadExternalJSP(jspUrl, function() {
+                // 로드된 후 이벤트 바인딩 또는 DOM 조작
+                console.log('모달에 대한 이벤트 바인딩 처리');
+                // 예: 새로 로드된 내용에 대한 이벤트 바인딩 코드
+                // e.g., document.querySelector('.new-element').addEventListener('click', ...)
+            });
         });
     });
 

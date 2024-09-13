@@ -191,7 +191,7 @@ public class PaymentController {
         // 유저의 결제 리스트 가져오기
         List<AccountHistoryDTO> payList = userService.findPayList(userId);
         List<Funding> fundingList = fundingService.findFundingByUserId(userId);
-        
+
         System.out.println("/paylist : " + payList);
         System.out.println("/paylist : " + fundingList);
 
@@ -219,7 +219,7 @@ public class PaymentController {
         System.out.println("refundReason : " + refundReason); // 환불 사유
 
         User user = (User) session.getAttribute("principal");
-        
+
         RefundRequest refundRequest = RefundRequest.builder()
                 .userId(user.getUserId())
                 .paymentKey(paymentKey)
@@ -405,51 +405,23 @@ public class PaymentController {
     }
 
     @GetMapping("/payment-management")
-    public String managerTest(
+    public ResponseEntity<Map<String, Object>> getPaymentManagement(
             @RequestParam(value = "page", defaultValue = "1") int page,
-            @RequestParam(value = "pageSize", defaultValue = "5") int pageSize,
-            Model model) {
+            @RequestParam(value = "pageSize", defaultValue = "5") int pageSize) {
 
-        // 페이징 처리 로직
-
-        // 페이징을 위한 오프셋 계산
-        int offset = (page - 1) * pageSize;
-
-        // 해당 페이지의 환불 요청 목록 가져오기
-        List<RefundRequest> payList = userService.selectRefundRequest(offset, pageSize);
-
-        // 총 환불 요청 수 가져오기
+        // 페이징 처리된 결제 정보와 기타 필요한 데이터 로직
+        List<RefundRequest> payList = userService.selectRefundRequest(page, pageSize);
         int totalPayCount = userService.getTotalRefundRequestCount();
-
-        // 총 페이지 수 계산
         int totalPages = (int) Math.ceil((double) totalPayCount / pageSize);
 
-        // 모델에 필요한 데이터 추가
-        model.addAttribute("payList", payList);
-        model.addAttribute("currentPage", page);
-        model.addAttribute("totalPages", totalPages);
-        model.addAttribute("pageSize", pageSize);
+        // 응답할 데이터를 Map 형태로 담음
+        Map<String, Object> response = new HashMap<>();
+        response.put("payList", payList);
+        response.put("currentPage", page);
+        response.put("totalPages", totalPages);
 
-        // 뷰 반환
-        return "/staff/payment-management";
-    }
-
-    /**
-     * 관리자가 환불요청이 들어온것을확인할 수 있다.
-     * 
-     * @return
-     */
-    @PostMapping("/managerapprove")
-    public String managerTest2(Model model) {
-
-        List<RefundRequest> payList = userService.selectRefundRequest();
-
-        System.out.println("관리자가 환불 요청 온거 확인? : " + payList);
-
-        // 모델에 결제 리스트를 추가
-        model.addAttribute("payList", payList);
-
-        return "redirect:/pay/managerTest";
+        // JSON으로 응답
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/payDetail")
