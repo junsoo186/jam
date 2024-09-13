@@ -18,14 +18,14 @@
 		</form>
 		<div class="bottom--easyLogin">
 			<a href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=da70bb7a1f4babcdcd8957d9785e99c4&redirect_uri=http://localhost:8080/user/kakaoLogin"> <img
-				alt="카카오로그인이미지" src="/images/kakaologin.png" style="width: 50px; height: auto;"></a> <a
+				alt="카카오로그인이미지" src="/images/login/kakaologin.png" style="width: 50px; height: auto;"></a> <a
 				href="https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=VV02L4roYlvMO2qxf3n7&state=STATE_STRING&redirect_uri=http://localhost:8080/user//naverLogin"><img
-				alt="네이버로그인이미지" src="/images/naverlogin.png" style="width: 50px; height: auto;"></a> <a
+				alt="네이버로그인이미지" src="/images/login/naverlogin.png" style="width: 50px; height: auto;"></a> <a
 				href="https://accounts.google.com/o/oauth2/v2/auth
 			?client_id=371075313637-tr9gs2bsjn7u4o5qk79s800e1g9r30u6.apps.googleusercontent.com
 			&redirect_uri=http://localhost:8080/user/googleLogin
 			&response_type=code&scope=email profile"><img
-				alt="구글로그인이미지" src="/images/googlelogin.png" style="width: 50px; height: auto;"></a>
+				alt="구글로그인이미지" src="/images/login/googlelogin.png" style="width: 50px; height: auto;"></a>
 		</div>
 	</section>
 
