@@ -191,6 +191,9 @@ public class PaymentController {
         // 유저의 결제 리스트 가져오기
         List<AccountHistoryDTO> payList = userService.findPayList(userId);
         List<Funding> fundingList = fundingService.findFundingByUserId(userId);
+        
+        System.out.println("/paylist : " + payList);
+        System.out.println("/paylist : " + fundingList);
 
         // 모델에 결제 리스트를 추가
         model.addAttribute("payList", payList);

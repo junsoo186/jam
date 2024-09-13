@@ -21,6 +21,7 @@ function showAlertAndOpenTerms(paymentKey, refundAmount) {
     window.open('/pay/termsAndConditions?paymentKey=' + paymentKey, '_blank', 'width=500,height=500');
 }
 
+/*
 // 환불 버튼을 N초 후에 숨기는 함수 (12초로 설정됨)
 function hideRefundButtonAfterTimeout(paymentKey, createdAt, hideAfterMilliseconds) {
     const createdTime = new Date(createdAt); // 결제 날짜를 자바스크립트 Date 객체로 변환
@@ -45,5 +46,5 @@ function hideRefundButtonAfterTimeout(paymentKey, createdAt, hideAfterMillisecon
         }
     }
 }
-
+*/
 	
