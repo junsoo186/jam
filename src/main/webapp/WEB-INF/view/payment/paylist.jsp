@@ -5,80 +5,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <style>
-table {
-	width: 100%;
-	border-collapse: collapse;
-	margin: 20px 0;
-	font-size: 16px;
-	font-family: 'Arial', sans-serif;
-	text-align: left;
-}
-
-th, td {
-	padding: 12px;
-	border-bottom: 1px solid #ddd;
-}
-
-th {
-	background-color: #f4f4f4;
-	font-weight: bold;
-}
-
-td {
-	background-color: #fff;
-}
-
-tr:nth-child(even) {
-	background-color: #f9f9f9;
-}
-
-button {
-	background-color: #4CAF50;
-	border: none;
-	color: white;
-	padding: 10px 20px;
-	text-align: center;
-	display: inline-block;
-	font-size: 16px;
-	margin: 4px 2px;
-	cursor: pointer;
-	border-radius: 8px;
-}
-
-button:hover {
-	background-color: #45a049;
-}
-
-button[type="submit"]:nth-child(2) {
-	background-color: #f44336;
-}
-
-button[type="submit"]:nth-child(2):hover {
-	background-color: #e53935;
-}
-
-p {
-	font-weight: bold;
-	color: #888;
-}
-
-@media ( max-width : 768px) {
-	table {
-		font-size: 14px;
-	}
-	button {
-		padding: 8px 16px;
-		font-size: 14px;
-	}
-}
-</style>
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-
-<link rel="stylesheet" href="/css/signIn.css">
-
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-
-<style>
 /* 기본 테이블 스타일 */
 table {
 	width: 100%;
@@ -203,13 +129,6 @@ p {
 								</c:when>
 								<c:otherwise>
 
-									<script>
-										var createdAt = '${fn:substringBefore(payment.createdAt, ".")}'; // 밀리초 제거
-										createdAt = createdAt.replace(" ", "T"); // 공백을 "T"로 변경하여 자바스크립트에서 사용 가능한 형식으로 변환
-										hideRefundButtonAfterTimeout(
-												'${payment.paymentKey}',
-												createdAt, 12000); // 12초 설정
-									</script>
 
 									<!-- status가 'PENDING'이 아닐 때 버튼 숨김 -->
 									<form id="refundForm_${payment.paymentKey}" action="/pay/manager" method="POST" style="display: none;">
@@ -275,9 +194,6 @@ p {
 		</c:choose>
 
 	</section>
-
-
-
 </body>
 
 </html>

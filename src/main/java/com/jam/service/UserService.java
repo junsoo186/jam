@@ -20,13 +20,13 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.jam.dto.EmailVerificationResult;
-import com.jam.dto.RefundRequest;
 import com.jam.dto.signInDTO;
 import com.jam.dto.signUpDTO;
 import com.jam.repository.interfaces.UserRepository;
 import com.jam.repository.model.AccountHistoryDTO;
 import com.jam.repository.model.User;
 import com.jam.utils.Define;
+import com.jam.repository.model.RefundRequest;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -367,9 +367,8 @@ public class UserService {
 	 * 유저의 환불 요청을 db에 저장하여 관리자가 볼수 있도록 한다.
 	 * @param refundRequest
 	 */
-	public List<RefundRequest> saveRefundRequest(RefundRequest refundRequest) {
-		List<RefundRequest> dto = userRepository.findRefundList(refundRequest);
-		return dto;
+	public void saveRefundRequest(RefundRequest refundRequest) {
+		userRepository.findRefundList(refundRequest);
 	}
 	
 	/**
@@ -377,8 +376,8 @@ public class UserService {
 	 * (테스트용)
 	 * @return
 	 */
-	public List<RefundRequest> selectRefundRequest() {
-		List<RefundRequest> dto = userRepository.selectRefundList();
+	public List<RefundRequest> selectRefundRequest(int page, int pageSize) {
+		List<RefundRequest> dto = userRepository.selectRefundRequest(page, pageSize);
 		return dto;
 	}
 	
@@ -488,6 +487,15 @@ public class UserService {
 	
 	public void updatePointByRefund(int userId, long point) {
 		userRepository.updatePointByRefund(userId, point);	
+	}
+
+	public RefundRequest findPayDetailByRefundId(Integer refundId) {
+		RefundRequest refundRequest = userRepository.findPayDetailByRefundId(refundId);
+		return refundRequest;
+	}
+
+	public int getTotalRefundRequestCount() {
+		return userRepository.getTotalRefundRequestCount();
 	}
 	
 

@@ -19,11 +19,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jam.dto.RefundRequest;
 import com.jam.dto.TossPaymentResponseDTO;
 import com.jam.repository.model.AccountHistoryDTO;
 import com.jam.repository.model.Funding;
 import com.jam.repository.model.Payment;
+import com.jam.repository.model.RefundRequest;
 import com.jam.repository.model.User;
 import com.jam.service.FundingService;
 import com.jam.service.UserService;
@@ -106,13 +106,13 @@ public class PaymentController {
 
             // model 패키지 안에 있는 Payment 사용
             Payment payment = Payment.builder()
-            		.orderId(dto.getOrderId()) // 주문번호
-            		.orderName(dto.getOrderName()) // 주문 이름
-            		.totalAmount(dto.getTotalAmount()) // 결제 금액
-            		.method(dto.getMethod())
-            		.paymentKey(dto.getPaymentKey()) // 토스 고유번호 주문
-            		.build();
-                 
+                    .orderId(dto.getOrderId()) // 주문번호
+                    .orderName(dto.getOrderName()) // 주문 이름
+                    .totalAmount(dto.getTotalAmount()) // 결제 금액
+                    .method(dto.getMethod())
+                    .paymentKey(dto.getPaymentKey()) // 토스 고유번호 주문
+                    .build();
+
             model.addAttribute("payment", payment);
             // session.setAttribute("payment", payment);
             System.out.println("#@#@#@# : " + payment.toString());
@@ -400,17 +400,34 @@ public class PaymentController {
         return "/payment/termsAndConditions";
     }
 
-    /**
-     * 관리자 페이지 이동 (관리자)
-     * 
-     * @return
-     */
-    @GetMapping("/managerTest")
-    public String managerTest(Model model) {
-        System.out.println("@@@@@@@@@@@@@@@@@@@@");
-        List<RefundRequest> payList = userService.selectRefundRequest();
+    @GetMapping("/payment-management")
+    public String managerTest(
+            @RequestParam(value = "page", defaultValue = "1") int page,
+            @RequestParam(value = "pageSize", defaultValue = "5") int pageSize,
+            Model model) {
+
+        // 페이징 처리 로직
+
+        // 페이징을 위한 오프셋 계산
+        int offset = (page - 1) * pageSize;
+
+        // 해당 페이지의 환불 요청 목록 가져오기
+        List<RefundRequest> payList = userService.selectRefundRequest(offset, pageSize);
+
+        // 총 환불 요청 수 가져오기
+        int totalPayCount = userService.getTotalRefundRequestCount();
+
+        // 총 페이지 수 계산
+        int totalPages = (int) Math.ceil((double) totalPayCount / pageSize);
+
+        // 모델에 필요한 데이터 추가
         model.addAttribute("payList", payList);
-        return "/payment/managerTest";
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("pageSize", pageSize);
+
+        // 뷰 반환
+        return "/staff/payment-management";
     }
 
     /**
@@ -429,6 +446,14 @@ public class PaymentController {
         model.addAttribute("payList", payList);
 
         return "redirect:/pay/managerTest";
+    }
+
+    @GetMapping("/payDetail")
+    public String getMethodName(Model model, @RequestParam("refundId") Integer refundId) {
+
+        RefundRequest refund = userService.findPayDetailByRefundId(refundId);
+        model.addAttribute("refund", refund);
+        return "staff/payDetail";
     }
 
 }

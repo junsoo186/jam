@@ -20,7 +20,7 @@
 			<ul>
 				<li><a href="javascript:void(0);" class="menu-link" data-url="/staff/dashboard">대시보드</a></li>
 				<li><a href="javascript:void(0);" class="menu-link" data-url="/staff/report">신고 및 작품관리</a></li>
-				<li><a href="javascript:void(0);" class="menu-link" data-url="/staff/payment-management">결제 및 금융관리</a></li>
+				<li><a href="javascript:void(0);" class="menu-link" data-url="/pay/payment-management">결제 및 금융관리</a></li>
 				<li><a href="javascript:void(0);" class="menu-link" data-url="/staff/content-management">컨텐츠 관리</a></li>
 			</ul>
 		</div>
@@ -39,6 +39,11 @@
 	<!-- 동적으로 콘텐츠가 표시될 영역 -->
 	<div id="content"></div>
 
-	<script type="text/javascript" src="/js/navigation.js"></script>
+	<script type="text/javascript" src="/js/staff/app.js"></script>
+	<script type="text/javascript" src="/js/staff/menu.js"></script>
+	<script type="text/javascript" src="/js/staff/modal.js"></script>
+	<script type="text/javascript" src="/js/staff/chat.js"></script>
+	<script type="text/javascript" src="/js/staff/data.js"></script>
+	
 </body>
 </html>

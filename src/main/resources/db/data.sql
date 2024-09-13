@@ -656,3 +656,12 @@ VALUES
 -- 펀딩 히스토리 테이블 삽입
 INSERT INTO funding_history_tb (project_id)
 VALUES (1), (2), (3), (4), (5);
+
+INSERT INTO refund_request_tb (user_id, staff_id, payment_key, refund_amount, refund_reason, status, created_at, approved_at, rejected_at) 
+VALUES 
+(1, NULL, 'tviva20240913154802sCY46', 1000, '환불', 'PENDING', '2024-09-13 15:48:44.159782', NULL, NULL),
+(2, NULL, 'tviva20240913154803sCY47', 2000, '제품 불만', 'PENDING', '2024-09-13 15:50:00.000000', NULL, NULL),
+(3, NULL, 'tviva20240913154804sCY48', 1500, '배송 지연', 'PENDING', '2024-09-13 16:00:00.000000', NULL, NULL),
+(4, NULL, 'tviva20240913154805sCY49', 2500, '오배송', 'PENDING', '2024-09-13 16:10:00.000000', NULL, NULL),
+(1, 1, 'tviva20240913154806sCY50', 1000, '취소 요청', 'APPROVED', '2024-09-13 16:20:00.000000', '2024-09-13 17:00:00.000000', NULL),
+(2, 1, 'tviva20240913154807sCY51', 3000, '상품 불만족', 'REJECTED', '2024-09-13 16:30:00.000000', NULL, '2024-09-13 18:00:00.000000');

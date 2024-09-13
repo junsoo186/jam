@@ -1,8 +1,6 @@
-package com.jam.dto;
+package com.jam.repository.model;
 
 import java.sql.Date;
-
-import com.jam.repository.model.AccountHistoryDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,6 +19,7 @@ public class RefundRequest {
 	private long refundId; // 번호
     private int userId; // 유저 번호
     private int staffId; // 관리자 번호
+    private String email;
     private String paymentKey; // 결제 고유번호
     private long refundAmount; // 결제 가격
     private String refundReason; // 환불 이유
@@ -28,6 +27,8 @@ public class RefundRequest {
     private Date createdAt; // 날짜
     private Date approvedAt; // 승인날짜
     private Date rejectedAt; // 거절날짜
+    private int pageSize;
+    private int page;
 
     public AccountHistoryDTO toAccountHistoryDTO() {
     	return AccountHistoryDTO.builder()
