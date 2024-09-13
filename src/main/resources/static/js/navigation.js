@@ -410,5 +410,52 @@ document.addEventListener('DOMContentLoaded', function() {
 	});
 });
 
+// 이벤트 수정 모달 이벤트 바인딩 함수
+function bindEventUpdateModalEvents() {
+    var eventUpdateModal = document.getElementById('eventUpdateModal');
+    var closeEventUpdateModalBtn = document.querySelector('#eventUpdateModal .close');
+
+    // 수정 버튼을 클릭할 때마다 해당 이벤트 ID로 모달을 엽니다.
+    document.querySelectorAll('.edit-event-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            var eventId = this.getAttribute('data-event-id');
+            
+            // 서버에서 해당 이벤트 정보를 가져와 모달에 채우기
+            fetch(`/staffEvent/detail/${eventId}`)
+                .then(response => response.json())
+                .then(data => {
+                    // 모달 내 폼에 데이터 채우기
+                    document.getElementById('update-event-id').value = data.eventId;
+                    document.getElementById('update-event-title').value = data.eventTitle;
+                    document.getElementById('update-event-description').value = data.eventContent;
+                    document.getElementById('update-start-day').value = data.startDay;
+                    document.getElementById('update-end-day').value = data.endDay;
+
+                    // 수정 모달 열기
+                    eventUpdateModal.style.display = 'flex';
+                })
+                .catch(error => console.error('Error fetching event data:', error));
+        });
+    });
+
+    // 수정 모달 닫기 이벤트
+    if (closeEventUpdateModalBtn) {
+        closeEventUpdateModalBtn.addEventListener('click', function() {
+            eventUpdateModal.style.display = 'none';
+        });
+    }
+
+    window.addEventListener('click', function(event) {
+        if (event.target == eventUpdateModal) {
+            eventUpdateModal.style.display = 'none';
+        }
+    });
+}
+
+window.onload = function() {
+    bindEventModalEvents(); // 기존 이벤트 등록 모달 바인딩 함수
+    bindEventUpdateModalEvents(); // 새로운 이벤트 수정 모달 바인딩 함수
+};
+
 
 

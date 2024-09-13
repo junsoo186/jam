@@ -60,6 +60,7 @@ public class StaffController {
 	
 	@GetMapping("/event")
 	public String handleEvent() {
+		System.out.println("eventPage");
 		return "staff/event";
 	}
 
