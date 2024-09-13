@@ -131,6 +131,9 @@ public class MainCotroller {
     @ResponseBody
     public List<Book> getBooksSerial(){
         List<Book> bookList= writerService.readAllbookSerial();
+    	for (Book book : bookList) {
+    		book.setBookCoverImage(book.setUpUserImage());
+    	}
     	return bookList;
     }
     
