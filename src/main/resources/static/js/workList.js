@@ -62,26 +62,19 @@ function allowHidingExtraContent() {
 
 
 document.addEventListener("DOMContentLoaded", function () {
-    // 페이지 로드 시 초기 콘텐츠를 불러옴
-    loadContent(1);
+    loadAllPages(); // 모든 책의 페이지 초기 로드
 
-    function loadContent(page) {
-        const contextPath = window.location.pathname.substring(0, window.location.pathname.indexOf("/", 2)); // 애플리케이션의 컨텍스트 경로
-
-        // AJAX 요청으로 workListPartial.jsp를 불러옴
-        fetch(`${contextPath}/workListPartial?bookId=${page}`, {
-            method: 'GET',
-            headers: { 'X-Requested-With': 'XMLHttpRequest' }
-        })
-        .then(response => response.text())
-        .then(html => {
-            document.querySelector("#content-container").innerHTML = html; // 새 콘텐츠로 교체
-            initializePageLinks(); // 이벤트 리스너 등록
-        })
-        .catch(error => console.error('Error loading page:', error));
+    function loadAllPages() {
+        // 각 책의 이야기 목록 컨테이너에 대해 AJAX 로드
+        document.querySelectorAll(".story-list-container").forEach(function (container) {
+            const bookId = container.getAttribute("data-book-id");
+            const currentPage = container.getAttribute("data-current-page");
+            loadPage(bookId, currentPage); // 각 책의 초기 페이지 로드
+        });
     }
 
     function initializePageLinks() {
+        // 새로 로드된 콘텐츠에 대해 페이지 링크 이벤트 리스너 설정
         document.querySelectorAll(".page-link").forEach(function (link) {
             link.addEventListener("click", function (event) {
                 event.preventDefault();
@@ -92,11 +85,32 @@ document.addEventListener("DOMContentLoaded", function () {
                 const isPrev = this.classList.contains("prev");
 
                 if (isPrev && currentPage > 1) {
-                    loadContent(currentPage - 1);
+                    loadPage(bookId, currentPage - 1);
                 } else if (!isPrev && currentPage < totalPages) {
-                    loadContent(currentPage + 1);
+                    loadPage(bookId, currentPage + 1);
                 }
             });
         });
+    }
+
+    function loadPage(bookId, page) {
+        const contextPath = window.location.pathname.substring(0, window.location.pathname.indexOf("/", 2));
+
+        fetch(`${contextPath}/workList?bookId=${bookId}&page=${page}&size=4`, {
+            method: 'GET',
+            headers: { 'X-Requested-With': 'XMLHttpRequest' }
+        })
+        .then(response => response.text())
+        .then(html => {
+            // 해당 책의 이야기 목록 업데이트
+            const storyListContainer = document.querySelector(`#story-list-${bookId}`);
+            if (storyListContainer) {
+                storyListContainer.innerHTML = html;
+            }
+
+            // 새로 로드된 콘텐츠에 대해 이벤트 리스너 다시 등록
+            initializePageLinks();
+        })
+        .catch(error => console.error('Error loading page:', error));
     }
 });

@@ -86,6 +86,7 @@ body {
     gap: 20px;
     align-items: center;
     margin-left: auto;
+    margin-bottom: 10px;
 }
 
 /* 책 커버와 오버레이 */
@@ -268,3 +269,4 @@ body {
 .page-link.next {
     margin-left: auto; /* 항상 오른쪽 끝에 위치 */
 }
+
