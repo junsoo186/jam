@@ -141,10 +141,11 @@
 		</tr>
 		<c:forEach var="payment" items="${payList}">
 		    <tr>
+		        
+		        <td>${payment.userId}</td>
 		        <td>${payment.refundId}</td> <!-- 주문 번호 출력 -->
-		        <td>${payment.userId}</td>  <!-- 결제 금액 출력 -->
-		        <td>${payment.refundAmount}원</td> <!-- 결제 날짜 출력 -->
-		    	<td>${payment.createdAt}</td>
+		        <td>${payment.refundAmount}원</td> <!-- 결제 금액 출력 -->
+		    	<td>${payment.createdAt}</td><!-- 결제 날짜 출력 -->
 		    	<td>${payment.refundReason}</td> <!-- 결제 히든키 출력 -->
 		    	<td>${payment.status}</td> 
 		    	<td>${payment.approvedAt}</td>

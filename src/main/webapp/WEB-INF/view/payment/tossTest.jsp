@@ -23,7 +23,7 @@ h1 {
     margin-bottom: 20px;
 }
 
-.pay--list {
+.pay-list {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
@@ -43,26 +43,9 @@ h1 {
     border-radius: 5px;
 }
 
-.coin-info {
-    display: flex;
-    align-items: center;
-    font-size: 16px;
-}
-
-.coin-info img {
-    margin-right: 10px;
-    width: 30px; /* Adjust size as needed */
-}
-
-.coin-price {
-    margin-right: auto;
-    margin-left: 20px;
-    font-size: 16px;
-}
-
-.button {
+.pay---button {
     padding: 10px 20px;
-    background-color: #007BFF;
+    background-color: #ff00ff;
     color: white;
     border: none;
     border-radius: 5px;
@@ -70,8 +53,8 @@ h1 {
     transition: background-color 0.3s;
 }
 
-.button:hover {
-    background-color: #0056b3;
+.pay---button:hover {
+    background-color: #ff00ee;
 }
 
 </style>
@@ -102,29 +85,29 @@ h1 {
 	</div>
 
 	<!-- 결제하기 버튼 -->
-	<div class="pay--list">
+	<div class="pay-list">
 		<div class="pay--item">
 				<h3>1000원</h3>
 				<h3>1000코인</h3>
-				<button class="button" style="margin-top: 30px" onclick="requestPayment(1000, '1000코인')">결제하기</button>
+				<button class="pay---button" style="margin-top: 30px" onclick="requestPayment(1000, '1000코인')">결제하기</button>
 		</div>
 
 		<div class="pay--item">
 			<h3>2000원</h3>
 			<h3>2000코인</h3>
-			<button class="button" style="margin-top: 30px" onclick="requestPayment(2000, '2000코인')">결제하기</button>
+			<button class="pay---button" style="margin-top: 30px" onclick="requestPayment(2000, '2000코인')">결제하기</button>
 		</div>
 
 		<div class="pay--item">
 			<h3>3000원</h3>
 			<h3>3000코인</h3>
-			<button class="button" style="margin-top: 30px" onclick="requestPayment(3000, '3000코인')">결제하기</button>
+			<button class="pay---button" style="margin-top: 30px" onclick="requestPayment(3000, '3000코인')">결제하기</button>
 		</div>
 
 		<div class="pay--item">
 			<h3>4000원</h3>
 			<h3>4000코인</h3>
-			<button class="button" style="margin-top: 30px" onclick="requestPayment(4000, '4000코인')">결제하기</button>
+			<button class="pay---button" style="margin-top: 30px" onclick="requestPayment(4000, '4000코인')">결제하기</button>
 		</div>
 	</div>
 	<a href="/">홈페이지로 돌아가기</a>

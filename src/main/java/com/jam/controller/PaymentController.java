@@ -105,6 +105,7 @@ public class PaymentController {
             		.orderId(dto.getOrderId()) // 주문번호
             		.orderName(dto.getOrderName()) // 주문 이름
             		.totalAmount(dto.getTotalAmount()) // 결제 금액
+            		.method(dto.getMethod())
             		.paymentKey(dto.getPaymentKey()) // 토스 고유번호 주문
             		.build();
                  

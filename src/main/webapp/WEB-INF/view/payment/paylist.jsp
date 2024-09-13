@@ -1,13 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
-    <link rel="stylesheet" href="/css/signIn.css">
-    
+
+<link rel="stylesheet" href="/css/signIn.css">
+
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <style>
-	
-	    /* 기본 테이블 스타일 */
     table {
         width: 100%;
         border-collapse: collapse;
@@ -16,87 +14,58 @@
         font-family: 'Arial', sans-serif;
         text-align: left;
     }
-
     th, td {
         padding: 12px;
         border-bottom: 1px solid #ddd;
     }
-
-    /* 테이블 헤더 스타일 */
     th {
         background-color: #f4f4f4;
         font-weight: bold;
     }
-
-    /* 테이블 셀 스타일 */
     td {
         background-color: #fff;
     }
-
     tr:nth-child(even) {
         background-color: #f9f9f9;
     }
-
-    /* 버튼 스타일 */
     button {
-        background-color: #4CAF50; /* Green */
+        background-color: #4CAF50;
         border: none;
         color: white;
         padding: 10px 20px;
         text-align: center;
-        text-decoration: none;
         display: inline-block;
         font-size: 16px;
         margin: 4px 2px;
         cursor: pointer;
         border-radius: 8px;
     }
-
     button:hover {
         background-color: #45a049;
     }
-
-    /* 거절 버튼 스타일 */
     button[type="submit"]:nth-child(2) {
-        background-color: #f44336; /* Red */
+        background-color: #f44336;
     }
-
     button[type="submit"]:nth-child(2):hover {
         background-color: #e53935;
     }
-
-    /* '처리 완료' 텍스트 스타일 */
     p {
         font-weight: bold;
         color: #888;
     }
-
-    /* 반응형 디자인 */
     @media (max-width: 768px) {
         table {
             font-size: 14px;
         }
-
         button {
             padding: 8px 16px;
             font-size: 14px;
         }
     }
-	
 </style>
 
+<script src="/js/payList.js"></script>
 
-<script type="text/javascript">
-    // 부모 창에서 실행되는 함수: 팝업 창에서 호출
-    function submitRefundForm(paymentKey) {
-        document.getElementById('refundForm_' + paymentKey).submit();
-    }
-
-    function showAlertAndOpenTerms(paymentKey, refundAmount) {
-        // 약관 창을 새 탭으로 열기
-        window.open('/pay/termsAndConditions?paymentKey=' + paymentKey, '_blank', 'width=500,height=500');
-    }
-</script>
 </head>
 <body>
 	
@@ -124,34 +93,41 @@
 			    <td>${payment.createdAt}</td> <!-- 결제 날짜 출력 -->
 			    <td>${payment.afterBalance}코인</td>
 			    <td>${payment.status}</td>		    	
-				<td>		            
+				<td>
 					<c:choose>
 					    <c:when test="${payment.status == 'PENDING'}">
 					        <!-- status가 'PENDING'일 때만 환불 버튼을 보여줌 -->
 					        <form id="refundForm_${payment.paymentKey}" action="/pay/manager" method="POST">
-					            <!-- hidden input으로 paymentKey와 refundAmount (deposit) 전달 -->
 					            <input type="hidden" name="paymentKey" value="${payment.paymentKey}">
 					            <input type="hidden" name="refundAmount" value="${payment.deposit}">
 					            <input type="hidden" name="userId" value="${payment.userId}">
 					            <input type="hidden" name="refundReason" value="환불"> <!-- 기본 환불 이유 -->
-					
-					            <!-- 환불 버튼 클릭 시 showAlertAndOpenTerms 함수 호출 -->
-					            <button type="button" id="button" onclick="showAlertAndOpenTerms('${payment.paymentKey}', '${payment.deposit}')">환불</button>
+					  			<button type="button" id="refundButton_${payment.paymentKey}" onclick="showAlertAndOpenTerms('${payment.paymentKey}', '${payment.deposit}')">환불</button>
 					        </form>
 					    </c:when>
 					    <c:otherwise>
-					        <!-- status가 'PENDING'이 아닐 때 버튼을 숨김 -->
+					    
+					    <script>
+						    var createdAt = '${fn:substringBefore(payment.createdAt, ".")}';  // 밀리초 제거
+						    createdAt = createdAt.replace(" ", "T");  // 공백을 "T"로 변경하여 자바스크립트에서 사용 가능한 형식으로 변환
+						    hideRefundButtonAfterTimeout('${payment.paymentKey}', createdAt, 12000);  // 12초 설정
+						</script>
+					    
+					        <!-- status가 'PENDING'이 아닐 때 버튼 숨김 -->
 					        <form id="refundForm_${payment.paymentKey}" action="/pay/manager" method="POST" style="display:none;">
 					            <input type="hidden" name="paymentKey" value="${payment.paymentKey}">
 					            <input type="hidden" name="refundAmount" value="${payment.deposit}">
 					            <input type="hidden" name="userId" value="${payment.userId}">
 					            <input type="hidden" name="refundReason" value="환불">
-					            
-					            <!-- 환불 버튼은 숨겨짐 -->
-					            <button type="button" onclick="showAlertAndOpenTerms('${payment.paymentKey}', '${payment.deposit}')">환불</button>
+					            <button type="button" id="refundButton_${payment.paymentKey}" onclick="showAlertAndOpenTerms('${payment.paymentKey}', '${payment.deposit}')">환불</button>
 					        </form>
 					    </c:otherwise>
 					</c:choose>
+
+					<!-- 페이지가 로드될 때마다 12초 후 버튼을 숨기도록 스크립트 실행 -->
+                	<script>
+                   		hideRefundButtonAfterTimeout('${payment.paymentKey}', '${payment.createdAt}', 12000);  <!-- 12초 설정 -->
+                	</script>
 			    </td>
 			 </tr>
 			</c:forEach>
@@ -163,9 +139,6 @@
 	</c:if>
 	
 </section>
-	
 
-	
 </body>
-
 </html>
