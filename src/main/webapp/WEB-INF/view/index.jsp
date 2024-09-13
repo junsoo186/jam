@@ -59,6 +59,20 @@
 			</div>
 		</section>
 	</div>
+	
+<h3> 요일 별 작품</h3>
+<div id="dayButtons"></div>
+
+<!-- 책 목록을 보여줄 영역 -->
+<div class="book--list--1" id="bookList"></div>
+
+<!-- Views, Likes 정렬 버튼 -->
+<div class="btn--area">
+    <button id="viewsButton" onclick="sortBy('views')">VIEWS</button>
+    <button id="likesButton" onclick="sortBy('likes')">LIKES</button>
+</div>
+	
+	
 			<!-- 인기 순위 -->
 		<h3> 가장 인기있는 웹소설</h3>
 <!-- 카테고리별 필터 영역 -->

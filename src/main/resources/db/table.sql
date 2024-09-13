@@ -351,6 +351,14 @@ FOREIGN KEY (`event_id`) REFERENCES `event_tb`(`event_id`)
 ALTER TABLE `project_tb`
 ADD CONSTRAINT fk_project_reward FOREIGN KEY (`reward_id`) REFERENCES `reward_tb`(`reward_id`);
 
+CREATE TABLE user_activity_tb (
+    user_id int PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    activity_date DATE,
+    activity_type VARCHAR(50),
+    activity_count INT,
+	FOREIGN KEY (`user_id`) REFERENCES `user_tb`(`user_id`)
+
+);
 
 
 -- fk 순환구조라 오류생김
