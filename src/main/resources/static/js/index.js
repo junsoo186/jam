@@ -87,32 +87,6 @@ document.addEventListener('DOMContentLoaded', function() {
 	}
 	startAutoSlide(); // 자동 슬라이드 시작
 });
-
-
-// 버튼 활성화 함수
-function setActiveButton(container, activeId) {
-    const buttons = container.querySelectorAll('button');
-    buttons.forEach(button => {
-        const buttonId = button.getAttribute('data-id');  // 버튼에 저장된 ID
-        if (buttonId == activeId) {  // ID가 맞으면 active 클래스를 추가
-            button.classList.add('active');
-                        console.log('Active button:', button);  // 콘솔에 활성화된 버튼 로그
-        } else {
-            button.classList.remove('active');  // 다른 버튼들은 active 제거
-        }
-    });
-}
-document.addEventListener('DOMContentLoaded', function() {
-    // 카테고리와 장르를 모두 로드한 후에만 책 목록을 불러오도록 설정
-    fetchCategories(() => {
-        fetchGenres(() => {
-            // 초기 카테고리와 장르 선택 후 책 목록 자동 로드
-            fetchBooksByCategoryOrder('views', currentCategoryViewsOrder);  // 초기 카테고리 책 목록 로드
-            fetchBooksByGenreOrder('views', currentGenreViewsOrder);        // 초기 장르 책 목록 로드
-        });
-    });
-});
-
 // 카테고리 정렬을 위한 초기 설정
 let currentCategoryViewsOrder = 'DESC';
 let currentCategoryLikesOrder = 'DESC';
@@ -123,47 +97,69 @@ let currentGenreViewsOrder = 'DESC';
 let currentGenreLikesOrder = 'DESC';
 let selectedGenreId = 2;  // 초기 장르 ID (기본 선택할 장르 ID)
 
-function getValidImagePath(imagePath, callback) {
-    if (!imagePath || imagePath.trim() === '' || imagePath === '/images/') {
-        console.log('Empty or invalid image path, using default image.');
-        callback('/images/bannerimg1.jpg');  // 기본 이미지로 대체
-        return;
-    }
+// 요일별 정렬을 위한 초기 설정
+let currentDayViewsOrder = 'DESC';
+let currentDayLikesOrder = 'DESC';
+let activeSerialDay = '월요일';  // 초기 선택할 요일
 
-    // 정상적인 이미지 경로일 경우에만 요청
-    console.log('Fetching image path:', imagePath);
+// 이미지 경로를 확인하는 함수 (Promise를 반환)
+function getValidImagePath(imagePath) {
+    return new Promise((resolve) => {
+        if (!imagePath || imagePath.trim() === '' || imagePath === '/images/') {
+            resolve('/images/banner/bannerimg1.jpg');
+            return;
+        }
 
-    fetch(imagePath, { method: 'HEAD' })
-        .then(response => {
-            if (response.ok) {
-                console.log('Image found:', imagePath);
-                callback(imagePath);  // 유효한 이미지 경로 반환
-            } else {
-                console.log('Image not found, using default image.');
-                callback('/images/bannerimg1.jpg');  // 이미지가 없을 경우 기본 이미지로 대체
-            }
-        })
-        .catch(() => {
-            console.log('Error fetching image, using default image.');
-            callback('/images/bannerimg1.jpg');  // 오류가 발생해도 기본 이미지로 대체
-        });
+        fetch(imagePath, { method: 'HEAD' })
+            .then(response => {
+                if (response.ok) {
+                    resolve(imagePath);
+                } else {
+                    resolve('/images/banner/bannerimg1.jpg');
+                }
+            })
+            .catch(() => {
+                resolve('/images/banner/bannerimg1.jpg');
+            });
+    });
 }
 
+// 책 목록을 정렬하는 함수 (조회수 또는 좋아요 기준)
 function sortBooks(books, sortBy, order) {
-    console.log(`Sorting by ${sortBy} in ${order} order`); // 정렬 정보 출력
-    console.log('Before sorting:', books); // 정렬 전
-
-    const sortedBooks = books.sort((a, b) => {
+    return books.sort((a, b) => {
         let valueA = sortBy === 'views' ? a.views : a.likes;
         let valueB = sortBy === 'views' ? b.views : b.likes;
-
-        // 정렬 순서 ASC 또는 DESC에 따라 반환
         return order === 'ASC' ? valueA - valueB : valueB - valueA;
     });
-
-    console.log('After sorting:', sortedBooks); // 정렬 후
-    return sortedBooks;
 }
+
+// 버튼 활성화 함수
+function setActiveButton(container, activeId) {
+    const buttons = container.querySelectorAll('button');
+    buttons.forEach(button => {
+        const buttonId = button.getAttribute('data-id') || button.getAttribute('data-day');  // 버튼에 저장된 ID 또는 요일
+        if (buttonId == activeId) {
+            button.classList.add('active');
+            console.log('Active button:', button);
+        } else {
+            button.classList.remove('active');
+        }
+    });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    // 카테고리, 장르, 요일 데이터를 모두 로드한 후에 책 목록을 불러옴
+    fetchCategories(() => {
+        fetchGenres(() => {
+            fetchDays(() => {
+                // 초기 카테고리, 장르, 요일 선택 후 책 목록 자동 로드
+                fetchBooksByCategoryOrder('views', currentCategoryViewsOrder);
+                fetchBooksByGenreOrder('views', currentGenreViewsOrder);
+                fetchBooksByDayOrder('views', currentDayViewsOrder);
+            });
+        });
+    });
+});
 
 // 카테고리 목록을 가져와서 버튼 생성
 function fetchCategories(callback) {
@@ -171,25 +167,22 @@ function fetchCategories(callback) {
         .then(response => response.json())
         .then(categories => {
             const categoryFilter = document.getElementById('categoryFilter');
-            categoryFilter.innerHTML = '';  // 필터 영역 초기화
+            categoryFilter.innerHTML = '';
 
             categories.forEach(category => {
                 const button = document.createElement('button');
                 button.classList.add('category--btn');
                 button.textContent = category.categoryName;
-                button.setAttribute('data-id', category.categoryId);  // 버튼에 카테고리 ID를 저장
+                button.setAttribute('data-id', category.categoryId);
                 button.onclick = () => {
                     activeCategoryId = category.categoryId;
                     fetchBooksByCategoryOrder('views', currentCategoryViewsOrder);
-                    setActiveButton(categoryFilter, activeCategoryId);  // 클릭된 버튼에 활성화 상태 추가
+                    setActiveButton(categoryFilter, activeCategoryId);
                 };
                 categoryFilter.appendChild(button);
             });
 
-            // 초기 카테고리 ID에 맞는 버튼에 활성화 상태 추가
-            setActiveButton(categoryFilter, activeCategoryId);  // 초기 설정된 카테고리 활성화
-
-            // 카테고리 로드 후 콜백 호출
+            setActiveButton(categoryFilter, activeCategoryId);
             if (callback) callback();
         });
 }
@@ -200,293 +193,291 @@ function fetchGenres(callback) {
         .then(response => response.json())
         .then(genres => {
             const genreFilter = document.getElementById('genreFilter');
-            genreFilter.innerHTML = '';  // 필터 영역 초기화
+            genreFilter.innerHTML = '';
 
             genres.forEach(genre => {
                 const button = document.createElement('button');
                 button.classList.add('genre--btn');
                 button.textContent = genre.genreName;
-                button.setAttribute('data-id', genre.genreId);  // 버튼에 장르 ID를 저장
+                button.setAttribute('data-id', genre.genreId);
                 button.onclick = () => {
                     selectedGenreId = genre.genreId;
                     fetchBooksByGenreOrder('views', currentGenreViewsOrder);
-                    setActiveButton(genreFilter, selectedGenreId);  // 클릭된 버튼에 활성화 상태 추가
+                    setActiveButton(genreFilter, selectedGenreId);
                 };
                 genreFilter.appendChild(button);
             });
 
-            // 초기 장르 ID에 맞는 버튼에 활성화 상태 추가
-            setActiveButton(genreFilter, selectedGenreId);  // 초기 설정된 장르 활성화
-
-            // 장르 로드 후 콜백 호출
+            setActiveButton(genreFilter, selectedGenreId);
             if (callback) callback();
         });
 }
 
-function fetchBooksByCategoryOrder(filter, order) {
-    if (!activeCategoryId) return;
+// 요일 목록을 가져와서 버튼 생성
+function fetchDays(callback) {
+    fetch('/api/serial')
+        .then(response => response.json())
+        .then(days => {
+            const dayFilter = document.getElementById('dayFilter');
+            dayFilter.innerHTML = '';
 
+            days.forEach(day => {
+                const button = document.createElement('button');
+                button.classList.add('day--btn');
+                button.textContent = day;
+                button.setAttribute('data-day', day);
+                button.onclick = () => {
+                    activeSerialDay = day;
+                    fetchBooksByDayOrder('views', currentDayViewsOrder);
+                    setActiveButton(dayFilter, activeSerialDay);
+                };
+                dayFilter.appendChild(button);
+            });
+
+            setActiveButton(dayFilter, activeSerialDay);
+            if (callback) callback();
+        });
+}
+
+// 카테고리별 책 목록을 가져오고 정렬 후 출력
+function fetchBooksByCategoryOrder(filter, order) {
     fetch(`/api/booksByCategoryOrder?categoryId=${activeCategoryId}&filter=${filter}&order=${order}`)
         .then(response => response.json())
         .then(books => {
             const bookListDiv = document.getElementById('categoryContent');
-            bookListDiv.innerHTML = '';  // 목록 초기화
+            bookListDiv.innerHTML = ''; // 기존 내용 초기화
 
-            const sortedBooks = sortBooks(books, filter, order);  // 정렬된 책 목록
+            // 책 목록이 비어있으면 "글이 없습니다" 메시지 출력
+            if (books.length === 0) {
+                const noBookMessage = document.createElement('div');
+                noBookMessage.innerHTML = '<p style="color: black" >글이 없습니다.</p>';
+				                // 인라인 스타일 추가
+				noBookMessage.style.textAlign = 'center';
+				noBookMessage.style.color = '#FF4D6D';
+				noBookMessage.style.fontWeight = 'bold';
+				noBookMessage.style.padding = '20px';
 
-            // 각 책 데이터를 비동기적으로 처리하면서 순서를 보장
-            sortedBooks.reduce((promiseChain, book) => {
-                return promiseChain.then(() => {
-                    return new Promise((resolve) => {
-                        if (book.bookCoverImage) {
-                            getValidImagePath(book.bookCoverImage, (validImagePath) => {
-                                if (validImagePath !== '/images/bannerimg1.jpg') {
-                                    const bookItem = document.createElement('div');
-                                    bookItem.classList.add('book--item');
+                bookListDiv.appendChild(noBookMessage);
+                return; // 리스트가 비어있을 경우 함수 종료
+            }
 
-                                    const img = new Image();
-                                    img.src = validImagePath;
-                                    img.onload = function() {
-                                        bookItem.innerHTML = `
-                                            <div class="book--info">
-                                               <a href="write/workList?bookId=${book.bookId}">
-                                                <img src="${validImagePath}" alt="${book.title}" id="category-book-cover-${book.bookId}">
-                                                <h4>${book.title}</h4>
-                                                <p>저자: ${book.author}</p>
-                                                <p>조회수: ${book.views}</p>
-                                                <p>좋아요: ${book.likes}</p>
-                                               </a>
-                                            </div>
-                                        `;
-                                        bookListDiv.appendChild(bookItem);
-                                        resolve();  // 다음 책을 처리하도록 resolve 호출
-                                    };
-                                } else {
-                                    resolve();  // 이미지가 없을 경우에도 다음 처리로 넘어감
-                                }
-                            });
-                        } else {
-                            resolve();  // 이미지가 없을 경우 다음 책 처리
-                        }
-                    });
+            const sortedBooks = sortBooks(books, filter, order);
+
+            // 각 책에 대해 이미지 경로를 비동기적으로 확인
+            const bookPromises = sortedBooks.map(book => {
+                return getValidImagePath(book.bookCoverImage).then(validImagePath => {
+                    return {
+                        ...book,
+                        validImagePath: validImagePath // 이미지 경로 포함
+                    };
                 });
-            }, Promise.resolve());  // 초기 Promise는 resolve 상태에서 시작
+            });
+
+            // 모든 이미지가 로드된 후 DOM 업데이트
+            Promise.all(bookPromises).then(booksWithImages => {
+                booksWithImages.forEach(book => {
+                    const bookItem = document.createElement('div');
+                    bookItem.classList.add('book--item');
+                    bookItem.innerHTML = `
+                        <div class="book--info">
+                            <a href="write/workList?bookId=${book.bookId}">
+                                <img src="${book.validImagePath}" alt="${book.title}">
+                                <h4>${book.title}</h4>
+                                <p>저자: ${book.author}</p>
+                                <p>조회수: ${book.views}</p>
+                                <p>좋아요: ${book.likes}</p>
+                            </a>
+                        </div>
+                    `;
+                    bookListDiv.appendChild(bookItem);
+                });
+            });
         })
         .catch(error => console.error('Error fetching books:', error));
 }
+
+// 장르별 책 목록을 가져오고 정렬 후 출력
 function fetchBooksByGenreOrder(filter, order) {
     fetch(`/api/booksByGenreOrder?genreId=${selectedGenreId}&filter=${filter}&order=${order}`)
         .then(response => response.json())
         .then(books => {
-            const bookListDiv = document.getElementById('genreContent');
-            bookListDiv.innerHTML = '';  // 책 목록 초기화
+            const sortedBooks = sortBooks(books, filter, order);
 
-            if (books.length === 0) {
-                bookListDiv.innerHTML = '<p>해당 장르에 속한 책이 없습니다.</p>';
-            } else {
-                // 각 책 데이터를 순차적으로 처리하면서 순서를 보장
-                books.reduce((promiseChain, book) => {
-                    return promiseChain.then(() => {
-                        return new Promise((resolve) => {
-                            if (book.bookCoverImage) {
-                                getValidImagePath(book.bookCoverImage, (validImagePath) => {
-                                    if (validImagePath !== '/images/bannerimg1.jpg') {
-                                        const bookItem = document.createElement('div');
-                                        bookItem.classList.add('book--item');
+            // 각 책에 대해 이미지 경로를 비동기적으로 확인
+            const bookPromises = sortedBooks.map(book => {
+                return getValidImagePath(book.bookCoverImage).then(validImagePath => {
+                    return {
+                        ...book,
+                        validImagePath: validImagePath // 이미지 경로 포함
+                    };
+                });
+            });
 
-                                        const img = new Image();
-                                        img.src = validImagePath;
-                                        img.onload = function() {
-                                            bookItem.innerHTML = `
-                                                <div class="book--info">
-                                                	<a href="write/workList?bookId=${book.bookId}">
-                                                    <img src="${validImagePath}" alt="${book.title}" id="genre-book-cover-${book.bookId}">
-                                                    <h4>${book.title}</h4>
-                                                    <p>저자: ${book.author}</p>
-                                                    <p>조회수: ${book.views}</p>
-                                                    <p>좋아요: ${book.likes}</p>
-                                                    </a>
-                                                </div>
-                                            `;
-                                            bookListDiv.appendChild(bookItem);
-                                            resolve();  // 다음 책을 처리하도록 resolve 호출
-                                        };
-                                    } else {
-                                        resolve();  // 이미지가 없을 경우에도 다음 처리로 넘어감
-                                    }
-                                });
-                            } else {
-                                resolve();  // 이미지가 없을 경우 다음 책 처리
-                            }
-                        });
-                    });
-                }, Promise.resolve());  // 초기 Promise는 resolve 상태에서 시작
-            }
+            // 모든 이미지가 로드된 후 DOM 업데이트
+            Promise.all(bookPromises).then(booksWithImages => {
+                const bookListDiv = document.getElementById('genreContent');
+                bookListDiv.innerHTML = ''; // 기존 내용 초기화
+
+                booksWithImages.forEach(book => {
+                    const bookItem = document.createElement('div');
+                    bookItem.classList.add('book--item');
+                    bookItem.innerHTML = `
+                        <div class="book--info">
+                            <a href="write/workList?bookId=${book.bookId}">
+                                <img src="${book.validImagePath}" alt="${book.title}">
+                                <h4>${book.title}</h4>
+                                <p>저자: ${book.author}</p>
+                                <p>조회수: ${book.views}</p>
+                                <p>좋아요: ${book.likes}</p>
+                            </a>
+                        </div>
+                    `;
+                    bookListDiv.appendChild(bookItem);
+                });
+            });
         })
         .catch(error => console.error('Error fetching books:', error));
 }
 
-// 조회수와 좋아요 정렬 버튼
+// 요일별 책 목록을 비동기적으로 로드 후 DOM을 업데이트하는 함수
+function fetchBooksByDayOrder(filter, order) {
+    fetch(`/api/booksSerial?filter=${filter}&order=${order}`)
+        .then(response => response.json())
+        .then(books => {
+            const filteredBooks = books.filter(book => book.serialDay === activeSerialDay);
+            const sortedBooks = sortBooks(filteredBooks, filter, order);
+
+            // 각 책에 대해 이미지 경로를 비동기적으로 확인
+            const bookPromises = sortedBooks.map(book => {
+                return getValidImagePath(book.bookCoverImage).then(validImagePath => {
+                    return {
+                        ...book,
+                        validImagePath: validImagePath // 이미지 경로 포함
+                    };
+                });
+            });
+
+            // 모든 이미지가 로드된 후 DOM 업데이트
+            Promise.all(bookPromises).then(booksWithImages => {
+                const bookListDiv = document.getElementById('dayContent');
+                if (bookListDiv) {
+                    bookListDiv.innerHTML = ''; // 기존 내용 초기화
+
+                    booksWithImages.forEach(book => {
+                        const bookItem = document.createElement('div');
+                        bookItem.classList.add('book--item');
+                        bookItem.innerHTML = `
+                            <div class="book--info">
+                                <a href="write/workList?bookId=${book.bookId}">
+                                    <img src="${book.validImagePath}" alt="${book.title}">
+                                    <h4>${book.title}</h4>
+                                    <p>저자: ${book.author}</p>
+                                    <p>조회수: ${book.views}</p>
+                                    <p>좋아요: ${book.likes}</p>
+                                </a>
+                            </div>
+                        `;
+                        bookListDiv.appendChild(bookItem);
+                    });
+                } else {
+                    console.error('dayContent 요소를 찾을 수 없습니다.');
+                }
+            });
+        })
+        .catch(error => console.error('Error fetching books:', error));
+}
+
+// 조회수와 좋아요 정렬 버튼 (카테고리)
 function toggleCategoryViewsOrder() {
     currentCategoryViewsOrder = currentCategoryViewsOrder === 'ASC' ? 'DESC' : 'ASC';
     fetchBooksByCategoryOrder('views', currentCategoryViewsOrder);
-        // Views 버튼에 active 클래스 추가, Likes 버튼에서 active 클래스 제거
-    document.getElementById('categoryViewsButton').classList.add('active');
-    document.getElementById('categoryLikesButton').classList.remove('active');
-    
-        // 애니메이션 효과를 위해 필터 전체에 active-before 클래스 추가
-            document.querySelector('.btn--area--category').classList.remove('active-before');
 
+    // 버튼에 따라 애니메이션 클래스 추가 및 활성화 표시
+    const categoryButtonContainer = document.querySelector('.btn--area--category');
+    const viewsButton = document.getElementById('categoryViewsButton');
+    const likesButton = document.getElementById('categoryLikesButton');
+
+    viewsButton.classList.add('active');
+    likesButton.classList.remove('active');
+
+    categoryButtonContainer.classList.add('active-after');
+    categoryButtonContainer.classList.remove('active-before');
 }
 
 function toggleCategoryLikesOrder() {
     currentCategoryLikesOrder = currentCategoryLikesOrder === 'ASC' ? 'DESC' : 'ASC';
     fetchBooksByCategoryOrder('likes', currentCategoryLikesOrder);
-        
-            // 애니메이션 효과를 위해 필터 전체에 active-before 클래스 추가
 
+    // 버튼에 따라 애니메이션 클래스 추가 및 활성화 표시
+    const categoryButtonContainer = document.querySelector('.btn--area--category');
+    const viewsButton = document.getElementById('categoryViewsButton');
+    const likesButton = document.getElementById('categoryLikesButton');
 
-    // Likes 버튼에 active 클래스 추가, Views 버튼에서 active 클래스 제거
-    document.getElementById('categoryLikesButton').classList.add('active');
-    document.getElementById('categoryViewsButton').classList.remove('active');
-    
-        document.querySelector('.btn--area--category').classList.add('active-before');
+    likesButton.classList.add('active');
+    viewsButton.classList.remove('active');
+
+    categoryButtonContainer.classList.add('active-before');
+    categoryButtonContainer.classList.remove('active-after');
 }
 
+// 조회수와 좋아요 정렬 버튼 (장르)
 function toggleGenreViewsOrder() {
     currentGenreViewsOrder = currentGenreViewsOrder === 'ASC' ? 'DESC' : 'ASC';
     fetchBooksByGenreOrder('views', currentGenreViewsOrder);
-    
-    document.getElementById('genreViewsButton').classList.add('active');
-    document.getElementById('genreLikesButton').classList.remove('active');
-    
-        // 애니메이션 효과를 위해 필터 전체에 active-before 클래스 추가
-            document.querySelector('.btn--area--genre').classList.remove('active-before');
+
+    const genreButtonContainer = document.querySelector('.btn--area--genre');
+    const viewsButton = document.getElementById('genreViewsButton');
+    const likesButton = document.getElementById('genreLikesButton');
+
+    viewsButton.classList.add('active');
+    likesButton.classList.remove('active');
+
+    genreButtonContainer.classList.add('active-after');
+    genreButtonContainer.classList.remove('active-before');
 }
 
 function toggleGenreLikesOrder() {
     currentGenreLikesOrder = currentGenreLikesOrder === 'ASC' ? 'DESC' : 'ASC';
     fetchBooksByGenreOrder('likes', currentGenreLikesOrder);
-    
-        // Likes 버튼에 active 클래스 추가, Views 버튼에서 active 클래스 제거
-    document.getElementById('categoryLikesButton').classList.add('active');
-    document.getElementById('categoryViewsButton').classList.remove('active');
-    
-        document.querySelector('.btn--area--genre').classList.add('active-before');
-}
-let currentSortBy = 'views'; // 기본적으로 'views'로 정렬
 
-// 요일별로 책을 필터링하는 함수
-function filterBooksByDay(serialDay, books) {
-    return books.filter(book => book.serialDay === serialDay);
+    const genreButtonContainer = document.querySelector('.btn--area--genre');
+    const viewsButton = document.getElementById('genreViewsButton');
+    const likesButton = document.getElementById('genreLikesButton');
+
+    likesButton.classList.add('active');
+    viewsButton.classList.remove('active');
+
+    genreButtonContainer.classList.add('active-before');
+    genreButtonContainer.classList.remove('active-after');
 }
 
-// 책 목록을 정렬하는 함수 (views 또는 likes 기준으로)
-function sortBooks(books, sortBy) {
-    return books.sort((a, b) => {
-        return sortBy === 'views' ? b.views - a.views : b.likes - a.likes;
-    });
+// 조회수와 좋아요 정렬 버튼 (요일)
+function toggleDayViewsOrder() {
+    currentDayViewsOrder = currentDayViewsOrder === 'ASC' ? 'DESC' : 'ASC';
+    fetchBooksByDayOrder('views', currentDayViewsOrder);
+
+    const dayButtonContainer = document.querySelector('.btn--area--day');
+    const viewsButton = document.getElementById('dayViewsButton');
+    const likesButton = document.getElementById('dayLikesButton');
+
+    viewsButton.classList.add('active');
+    likesButton.classList.remove('active');
+
+    dayButtonContainer.classList.add('active-after');
+    dayButtonContainer.classList.remove('active-before');
 }
 
-// 이미지를 비동기적으로 확인하는 함수 (getValidImagePath)
-function getValidImagePath(imagePath, callback) {
-    if (!imagePath || imagePath.trim() === '' || imagePath === '/images/') {
-        console.log('Empty or invalid image path, using default image.');
-        callback('/images/bannerimg1.jpg');  // 기본 이미지로 대체
-        return;
-    }
+function toggleDayLikesOrder() {
+    currentDayLikesOrder = currentDayLikesOrder === 'ASC' ? 'DESC' : 'ASC';
+    fetchBooksByDayOrder('likes', currentDayLikesOrder);
 
-    // 정상적인 이미지 경로일 경우에만 요청
-    console.log('Fetching image path:', imagePath);
+    const dayButtonContainer = document.querySelector('.btn--area--day');
+    const viewsButton = document.getElementById('dayViewsButton');
+    const likesButton = document.getElementById('dayLikesButton');
 
-    fetch(imagePath, { method: 'HEAD' })
-        .then(response => {
-            if (response.ok) {
-                console.log('Image found:', imagePath);
-                callback(imagePath);  // 유효한 이미지 경로 반환
-            } else {
-                console.log('Image not found, using default image.');
-                callback('/images/bannerimg1.jpg');  // 이미지가 없을 경우 기본 이미지로 대체
-            }
-        })
-        .catch(() => {
-            console.log('Error fetching image, using default image.');
-            callback('/images/bannerimg1.jpg');  // 오류가 발생해도 기본 이미지로 대체
-        });
+    likesButton.classList.add('active');
+    viewsButton.classList.remove('active');
+
+    dayButtonContainer.classList.add('active-before');
+    dayButtonContainer.classList.remove('active-after');
 }
-
-// 요일별로 책을 렌더링하는 함수
-function renderBooksByDay(serialDay, books) {
-    const filteredBooks = filterBooksByDay(serialDay, books);
-    const sortedBooks = sortBooks(filteredBooks, currentSortBy);
-    const bookListDiv = document.getElementById('bookList');
-    bookListDiv.innerHTML = ''; // 기존 내용 초기화
-
-    if (sortedBooks.length === 0) {
-        bookListDiv.innerHTML = `<p>${serialDay}에 해당하는 작품이 없습니다.</p>`;
-    } else {
-        sortedBooks.forEach(book => {
-            const bookItem = document.createElement('div');
-            bookItem.classList.add('book--item');
-
-            // 이미지를 비동기적으로 확인하여 렌더링
-            getValidImagePath(book.bookCoverImage, function(validImagePath) {
-                bookItem.innerHTML = `
-                    <div class="book--info">
-                        <img src="${validImagePath}" alt="${book.title}">
-                        <h4>${book.title}</h4>
-                        <p>저자: ${book.author}</p>
-                        <p>조회수: ${book.views}</p>
-                        <p>좋아요: ${book.likes}</p>
-                    </div>
-                `;
-                bookListDiv.appendChild(bookItem);
-            });
-        });
-    }
-}
-
-// 요일 버튼을 생성하는 함수
-function createDayButtons(serialDays, books) {
-    const dayButtonContainer = document.getElementById('dayButtons');
-    dayButtonContainer.innerHTML = ''; // 기존 버튼 초기화
-
-    serialDays.forEach(serialDay => {
-        const button = document.createElement('button');
-        button.textContent = serialDay;
-        button.onclick = () => renderBooksByDay(serialDay, books); // 요일 클릭 시 해당 요일의 책을 렌더링
-        dayButtonContainer.appendChild(button);
-    });
-}
-
-// 조회수 또는 좋아요 수로 정렬하는 함수
-function sortBy(sortType) {
-    currentSortBy = sortType;
-    const selectedDayButton = document.querySelector('#dayButtons button.active');
-    if (selectedDayButton) {
-        const selectedDay = selectedDayButton.textContent;
-        fetch('/api/booksSerial')
-            .then(response => response.json())
-            .then(books => {
-                renderBooksByDay(selectedDay, books);
-            });
-    }
-}
-
-// DOM이 로드되면 요일별 데이터를 가져오고 요일 버튼을 생성
-document.addEventListener('DOMContentLoaded', function() {
-    fetch('/api/serial')
-        .then(response => response.json())
-        .then(serialDays => {
-            // 책 데이터를 가져와 요일별 버튼을 생성
-            fetch('/api/booksSerial')
-                .then(response => response.json())
-                .then(books => {
-                    createDayButtons(serialDays, books); // 요일별로 버튼 생성
-                    // 기본적으로 첫 번째 요일의 책을 정렬해서 보여줌
-                    renderBooksByDay(serialDays[0], books); // 초기값을 views로 정렬하여 렌더링
-                })
-                .catch(error => console.error('Error fetching books:', error));
-        })
-        .catch(error => console.error('Error fetching serial days:', error));
-});

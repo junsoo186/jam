@@ -129,8 +129,9 @@ public class MainCotroller {
      */
     @GetMapping("/api/booksSerial")
     @ResponseBody
-    public List<Book> getBooksSerial(){
-        List<Book> bookList= writerService.readAllbookSerial();
+    public List<Book> getBooksSerial(@RequestParam("filter") String filter,     // 정렬 기준 (조회수 또는 좋아요)
+    								@RequestParam("order") String order){
+        List<Book> bookList= writerService.readAllbookSerial(filter,order);
     	for (Book book : bookList) {
     		book.setBookCoverImage(book.setUpUserImage());
     	}

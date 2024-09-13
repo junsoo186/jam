@@ -339,7 +339,7 @@ VALUES (2, 2,0 , '프롤로그', '테스트','2024-09-01','',0,0);
 --  -----3
 INSERT INTO book_tb (user_id, title, author_comment, author, category_id, genre_id, introduction, age,views,likes,serial_day,book_cover_image) 
 VALUES (12, '신비의 연금술사와 황금의 약속', '연금술과 판타지 모험의 세계를 그린 소설',
-			'작가 B', 3, 5, '잃어버린 여동생을 찾기 위해 다른 세계로 모험을 떠나는 청년의 이야기', '19',11358,325,'화요일','');
+			'작가 B', 3, 5, '잃어버린 여동생을 찾기 위해 다른 세계로 모험을 떠나는 청년의 이야기', '19',11358,325,'화요일','cover/3.png');
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost , views)
 VALUES (3, 12, 0, '프롤로그', '신비의 연금술사와 황금의 약속 - 프롤로그', '2010-10-15','',0,1458);
