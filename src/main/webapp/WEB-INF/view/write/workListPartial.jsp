@@ -1,7 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<!-- 이야기 목록과 페이지네이션 버튼을 감싸는 컨테이너 -->
 <div class="story-list-container">
     <!-- 페이징 버튼 (왼쪽) -->
     <a class="page-link prev" data-book-id="${bookId}" data-current-page="${currentPage}" data-total-pages="${totalPages}" 
