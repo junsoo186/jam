@@ -1,0 +1,230 @@
+/* 페이지 전체에 적용할 컨테이너 클래스 */
+.main-page {
+    font-family: 'Noto Sans KR', sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+}
+
+/* 메인 컨테이너 */
+.container--main--area {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    max-width: 1200px;
+    padding: 20px;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+/* 이미지 미리보기 */
+.img--preview--side {
+    flex: 1 1 20%;
+    /* 메인 이미지가 차지하는 비율을 설정 */
+    margin-right: 20px;
+}
+
+.img--preview--box {
+    width: 100%;
+    height: auto;
+    border: 1px solid #ddd;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+.img--preview--box img {
+    max-width: 100%;
+    max-height: 300px;
+    height: auto;
+    object-fit: contain;
+}
+
+/* 메인 콘텐츠 영역 */
+.main--content--area {
+    flex: 1 1 55%;
+    /* 메인 폼이 차지하는 비율을 설정 */
+    padding-right: 20px;
+    margin: 0 10px;
+    width: 1200px;
+}
+
+/* 리워드 콘텐츠 영역 */
+.sidebar--reward--area {
+    flex: 1 1 35%;
+    /* 리워드가 차지하는 비율을 설정 */
+    background-color: #f4f4f4;
+    padding: 20px;
+    margin-right: 20px;
+    box-sizing: border-box;
+}
+
+/* 폼 컨테이너 */
+form--content--area {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+}
+
+/* 리워드 카드 컨테이너 */
+.reward--container--area {
+    width: 25%;
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    margin-left: 30px;
+}
+
+/* 리워드 그룹 */
+.reward--group--area {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* 폼 그룹 스타일 */
+.form--group--area {
+    margin-bottom: 20px;
+}
+
+/* 폼 레이블 스타일 */
+.form--label--area {
+    display: block;
+    font-size: 16px;
+    margin-bottom: 5px;
+    color: #333;
+    font-weight: bold;
+}
+
+/* 인풋 필드 스타일 */
+.form--input--text,
+.form--input--number,
+.form--input--date,
+.form--input--file,
+.form--textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 16px;
+    background-color: #fafafa;
+    transition: border-color 0.2s ease-in-out;
+    resize: none;
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+/* 폼 필드에 포커스가 갔을 때 스타일 */
+.form--input--text:focus,
+.form--input--number:focus,
+.form--input--date:focus,
+.form--input--file:focus,
+.form--textarea:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+/* 버튼 스타일 */
+.btn--submit,
+.btn--upload {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease-in-out;
+}
+
+/* 버튼에 마우스를 올렸을 때 */
+.btn--submit:hover,
+.btn--upload:hover {
+    background-color: #0056b3;
+}
+
+/* 반응형 처리 */
+@media (max-width: 768px) {
+    .container--main--area {
+        flex-direction: column;
+    }
+
+    .main--content--area,
+    .sidebar--reward--area,
+    .img--preview--side {
+        width: 100%;
+        margin: 0;
+    }
+
+    .img--preview--box {
+        height: 200px;
+        /* 작은 화면에서는 이미지 미리보기 박스 높이를 줄임 */
+    }
+}
+
+#imagePreview {
+    margin-top: 20px;
+}
+
+#previewContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+#previewContainer .img-container {
+    display: inline-block;
+    position: relative;
+    width: 150px;
+    /* 원하는 너비 설정 */
+    height: 150px;
+    /* 원하는 높이 설정 */
+    border: 2px solid #ccc;
+    /* 테두리 색상 및 두께 */
+    border-radius: 10px;
+    /* 테두리 둥글게 설정 */
+    overflow: hidden;
+    /* 이미지가 컨테이너를 넘지 않도록 설정 */
+    background-color: #f9f9f9;
+    /* 배경 색상 */
+}
+
+#previewContainer img {
+    width: 100%;
+    /* 이미지가 컨테이너 너비에 맞게 설정 */
+    height: 100%;
+    /* 이미지가 컨테이너 높이에 맞게 설정 */
+    object-fit: cover;
+    /* 이미지 비율을 유지하며 잘 맞춤 */
+    border-radius: 10px;
+    /* 이미지의 모서리도 둥글게 설정 */
+}
+
+#previewContainer .btn--remove {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 5px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+#previewContainer .btn--remove:hover {
+    background-color: #ff0000;
+}

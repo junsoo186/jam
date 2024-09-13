@@ -80,4 +80,7 @@ public interface UserRepository {
 	// 관리자가 유저의 포인트 환불에 대해 심사중으로 변경 할 수 있다. (0911)
 	public void pointAuditWait(String paymentKey);
 	
+	public void updatePointByCheckout(@Param("userId") Integer userId, @Param("point") long point);
+
+	public void updatePointByRefund(@Param("userId") Integer userId, @Param("point") long point);
 }

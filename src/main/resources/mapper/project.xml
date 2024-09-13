@@ -1,62 +1,66 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper
 	namespace="com.jam.repository.interfaces.ProjectRepository">
 
-	<insert id="insertProject">
-		insert into project_tb (user_id, title, contents,
-		category_id, goal, date_end, project_image)
-		values (#{userId},
-		#{title}, #{contents}, #{categoryId}, #{goal},
-		#{dateEnd},
-		#{projectImage})
-	</insert>
+	<insert id="insertProject"
+		parameterType="com.jam.repository.model.Project"
+		useGeneratedKeys="true" keyProperty="projectId"> insert into project_tb (user_id, book_id,
+		oneline_comment, title, contents, goal, main_img, date_end) values (#{userId}, #{bookId},
+		#{onelineComment}, #{title}, #{contents}, #{goal}, #{mainImg}, #{dateEnd}) </insert>
 
 	<select id="findAllProject"
-		resultType="com.jam.repository.model.Project">
-		select project_id, user.name as 'author', title, goal,
-		date_end, project_image, category_id, collected_amount
-		from project_tb
-		as project
-		join user_tb as user on project.user_id = user.user_id
-	</select>
+		resultType="com.jam.repository.model.Project"> SELECT p.*, u.nick_name AS author,
+		cate.category_name, p.main_img, COUNT(DISTINCT f.user_id) AS participantCount,
+		IFNULL(SUM(CASE WHEN f.cancel_confirm = 'N' THEN r.reward_point ELSE 0 END), 0) AS
+		totalAmount FROM project_tb p JOIN user_tb u ON p.user_id = u.user_id JOIN book_tb b ON
+		p.book_id = b.book_id JOIN category_tb cate ON b.category_id = cate.category_id JOIN
+		reward_tb r ON p.project_id = r.project_id LEFT JOIN funding_tb f ON r.reward_id =
+		f.reward_id GROUP BY p.project_id, u.nick_name, cate.category_name, p.main_img; </select>
 
-	<select id="detailProject"
-		resultType="com.jam.repository.model.Project">
-		select project.*, user.name as 'author'
-		from project_tb as
-		project
-		join user_tb as user on project.user_id = user.user_id
-		where
-		project_id = #{projectId}
-	</select>
+	<select id="findDetailProject"
+		resultType="com.jam.repository.model.Project"> SELECT p.*, u.nick_name AS author,
+		cate.category_name, p.main_img, COUNT(DISTINCT f.user_id) AS participantCount,
+		IFNULL(SUM(CASE WHEN f.cancel_confirm = 'N' THEN r.reward_point ELSE 0 END), 0) AS
+		totalAmount FROM project_tb p JOIN user_tb u ON p.user_id = u.user_id JOIN book_tb b ON
+		p.book_id = b.book_id JOIN category_tb cate ON b.category_id = cate.category_id JOIN
+		reward_tb r ON p.project_id = r.project_id LEFT JOIN funding_tb f ON r.reward_id =
+		f.reward_id WHERE p.project_id = #{projectId} GROUP BY p.project_id, u.nick_name,
+		cate.category_name, p.main_img </select>
 
-	<update id="updateProject">
-		update project_tb
-		SET title = #{title}, contents =
-		#{contents}, category_id =
-		#{categoryId}, goal = #{goal},
-		date_end =
-		#{dateEnd}, project_image = #{projectImage}
-		WHERE project_id =
-		#{projectId}
-	</update>
+	<update id="updateProject"> update project_tb SET title = #{title}, main_img = #{mainImg},
+		contents = #{contents}, goal = #{goal}, date_end = #{dateEnd}, oneline_comment =
+		#{onelineComment} WHERE project_id = #{projectId} </update>
 
-	<update id="updateProjectCollectedAmount">
-		update project_tb
-		set collected_amount =
-		collected_amount + #{amount}
-		where project_id = #{projectId}
-	</update>
+	<update id="updateProjectImg"> UPDATE content_tb SET img = #{projcetImg} WEHRE project_id =
+		#{projectId} </update>
 
-	<update id="projectAgree">
-		update project_tb
-		SET staff_agree = #{staffAgree}
-		where project_id = #{projectTb}
-	</update>
+	<update id="projectAgree"> update project_tb SET staff_agree = #{staffAgree} where project_id =
+		#{projectId} </update>
 
-	<delete id="deleteProject">
-		delete project_tb where project_id = #{projectId}
-	</delete>
+	<delete id="deleteProject"> delete project_tb where project_id = #{projectId} </delete>
+
+	<insert id="insertProjectImg"> insert into content_tb (project_id, img) values (#{projectId},
+		#{projectImg}) </insert>
+
+	<select id="findAllProjectImgByProjectId"
+		resultType="com.jam.repository.model.Content"> select * from content_tb where project_id =
+		#{projectId} </select>
+
+	<select id="findProjectByProjectId"
+		resultType="com.jam.repository.model.Project"> select * from project_tb where project_id =
+		#{projectId} </select>
+
+	<select id="findProjectByBookId"
+		resultType="com.jam.repository.model.Project"> SELECT * FROM PROJECT_TB where book_id =
+		#{bookId}; </select>
+
+	<!-- 이미지 ID로 이미지 정보를 찾는 쿼리 -->
+	<select id="findImageByContentId" resultType="com.jam.repository.model.Content"> select * from
+		content_tb where content_id = #{contentId} </select>
+
+	<!-- 이미지 ID로 프로젝트 이미지 삭제 쿼리 -->
+	<delete id="deleteProjectImage"> delete from content_tb where content_id = #{contentId} </delete>
+
+
 </mapper>

@@ -1,0 +1,116 @@
+/* 전체 컨테이너 */
+.project-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 20px;
+    margin: 20px auto;
+    max-width: 1200px;
+}
+
+/* 각 프로젝트 카드 */
+.project-card {
+    width: 23%;
+    min-width: 280px;
+    border: 1px solid #e1e1e1;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.project-card:hover {
+    transform: scale(1.05);
+}
+
+.project-image {
+    width: 100%;
+    height: 180px;
+    overflow: hidden;
+}
+
+.project-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.project-info {
+    padding: 15px;
+    text-align: left;
+    flex-grow: 1;
+}
+
+.project-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.project-author {
+    font-size: 14px;
+    color: #777;
+    margin-bottom: 10px;
+}
+
+.project-comment {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 10px;
+}
+
+.project-goal, .project-end {
+    font-size: 13px;
+    color: #888;
+    margin-bottom: 5px;
+}
+
+/* 게이지바 */
+.progress-bar-container {
+    width: 100%;
+    background-color: #f3f3f3;
+    border-radius: 5px;
+    height: 10px;
+    margin-top: 10px;
+}
+
+.progress-bar {
+    height: 100%;
+    background-color: #d9534f;
+    border-radius: 5px;
+    width: 0; /* 초기 너비를 0으로 설정 */
+    transition: width 0.5s ease-in-out;
+}
+
+/* 퍼센트 및 현재 금액 텍스트 */
+.progress-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.progress-percentage {
+    color: #d9534f;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.progress-funding {
+    color: #333;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.progress-days {
+    color: #777;
+    font-size: 14px;
+    margin-top: 5px;
+}

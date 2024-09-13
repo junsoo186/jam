@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jam.repository.interfaces.FundingRepository">
+
+    <insert id="insertFunding" parameterType="com.jam.dto.FundingDTO"> INSERT INTO funding_tb (
+        user_id, reward_id, created_at, canceled_at, reward_quantity, cancel_confirm, zipcode,
+        basic_address, detailed_address, extra_address ) VALUES ( #{userId}, #{rewardId}, NOW(),
+        #{canceledAt}, #{rewardQuantity}, #{cancelConfirm}, #{zipcode}, #{basicAddress},
+        #{detailedAddress}, #{extraAddress}) </insert>
+
+    <select id="findFundingByUserId" resultType="com.jam.repository.model.Funding"> SELECT
+        f.funding_id, f.created_at, r.reward_point, r.reward_content,
+        f.reward_quantity, CONCAT(f.basic_address, ' ', f.detailed_address, ' ',
+        IFNULL(f.extra_address, '')) AS shippingAddress, f.cancel_confirm, f.canceled_at  FROM funding_tb f JOIN reward_tb r ON f.reward_id = r.reward_id WHERE f.user_id =
+       #{userId} </select>
+
+</mapper>

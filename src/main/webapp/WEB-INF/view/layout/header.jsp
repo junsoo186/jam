@@ -21,7 +21,7 @@
 					<li>
 					<li><a href="">이벤트</a>
 					<li>
-					<li><a href="">펀딩</a>
+					<li><a href="/funding/fundingList">펀딩</a>
 					<li>
 					<li><a href="/">공지</a>
 					<li>
@@ -87,7 +87,7 @@
 				<img class="pencil-icon" src="/images/layout/write.png">
 				</a>
 		        <li><a href="/user/myPage">내 정보</a></li>
-		        <li><a href="#">${principal.point} 포인트</a></li>
+		        <li><a href="#">보유 JAM: <fmt:formatNumber value="${principal.point}" pattern="#,###" /></a></li>
 		        <li><a href="/pay/toss">JAM 충전하기</a></li>		  
 		        <li><a href="#">설정</a></li>
 		        <li><a href="#" id="chat-link">채팅</a></li>

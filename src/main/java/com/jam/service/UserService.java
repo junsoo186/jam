@@ -21,12 +21,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.jam.dto.EmailVerificationResult;
 import com.jam.dto.RefundRequest;
-import com.jam.dto.refundRequestTbDTO;
 import com.jam.dto.signInDTO;
 import com.jam.dto.signUpDTO;
 import com.jam.repository.interfaces.UserRepository;
 import com.jam.repository.model.AccountHistoryDTO;
-import com.jam.repository.model.Payment;
 import com.jam.repository.model.User;
 import com.jam.utils.Define;
 
@@ -56,33 +54,39 @@ public class UserService {
 	private String uploadDir;
 
 	/**
-	 * 
+	 * 회원 가입 메서드
 	 * @param user
 	 */
-	@Transactional // 트랜잭션 처리
-	public void createUser(signUpDTO dto) {
-		int result = 0;
-		if (dto.getMFile() != null && !dto.getMFile().isEmpty()) {
-			// 파일 업로드 로직 구현
-			String[] fileNames = uploadFile(dto.getMFile());
+    @Transactional
+    public String createUser(signUpDTO dto) {
+        int result = 0;
+        
+        // 파일이 있으면 파일 업로드 처리
+        if (dto.getMFile() != null && !dto.getMFile().isEmpty()) {
+            // 파일 업로드 로직 구현 (이미지 저장 후 경로 반환)
+            String[] fileNames = uploadFile(dto.getMFile());
 
-			dto.setOriProfileImg(fileNames[0]);
-			dto.setProfileImg(fileNames[1]);
-		}
-		String hashPwd = passwordEncoder.encode(dto.getPassword());
-		dto.setPassword(hashPwd);
-		result = userRepository.insert(dto);
-		
-		
-		System.out.println("회원가입 서비스 : "+dto.toString());
+            dto.setOriProfileImg(fileNames[0]);
+            dto.setProfileImg(fileNames[1]);
+        }
 
-		if (result == 1) {
-			System.out.println("회원가입 성공");
-		} else {
-			System.out.println("회원가입 실패");
-		}
+        // 비밀번호 해시 처리
+        String hashPwd = passwordEncoder.encode(dto.getPassword());
+        dto.setPassword(hashPwd);
 
-	}
+        // 회원 정보 저장
+        result = userRepository.insert(dto);
+
+        System.out.println("회원가입 서비스: " + dto.toString());
+
+        if (result == 1) {
+            System.out.println("회원가입 성공");
+            return dto.getProfileImg();  // 성공하면 프로필 이미지 경로 반환
+        } else {
+            System.out.println("회원가입 실패");
+            return null;  // 실패하면 null 반환
+        }
+    }
 
 	/**
 	 * 로그인 기능
@@ -477,8 +481,14 @@ public class UserService {
 		userRepository.updatePoint(userId, deposit, point, afterBalance, paymentKey);
 		
 	}
+
+	public void updatePointByCheckout(int userId, long point) {
+		userRepository.updatePointByCheckout(userId, point);	
+	}
 	
-	
+	public void updatePointByRefund(int userId, long point) {
+		userRepository.updatePointByRefund(userId, point);	
+	}
 	
 
 }
