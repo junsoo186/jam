@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -436,7 +437,6 @@ public class PaymentController {
 
     /**
      * 관리자가 환불요청이 들어온것을확인할 수 있다.
-     * 
      * @return
      */
     @PostMapping("/managerapprove")
@@ -450,6 +450,25 @@ public class PaymentController {
         model.addAttribute("payList", payList);
 
         return "redirect:/pay/managerTest";
+    }
+    
+    
+    private boolean isEventActive = false; // 이벤트 상태를 저장하는 변수 (기본값은 비활성화)
+
+    // 이벤트 상태를 토글하는 API (POST 요청)
+    @PostMapping("/toggleEvent")
+    @ResponseBody	
+    public String toggleEvent() {
+        isEventActive = !isEventActive;  // 현재 이벤트 상태를 반전 (true면 false로, false면 true로)
+        System.out.println("이벤트 상태: " + (isEventActive ? "활성화" : "비활성화"));  // 이벤트 상태를 콘솔에 출력
+        return "이벤트 상태가 " + (isEventActive ? "활성화" : "비활성화") + "되었습니다.";  // 상태 메시지를 반환
+    }
+
+    // 현재 이벤트 상태를 반환하는 API (GET 요청)
+    @GetMapping("/eventStatus")
+    @ResponseBody
+    public boolean getEventStatus() {
+        return isEventActive;  // true 또는 false 반환 (JSON 형식)
     }
 
 }
