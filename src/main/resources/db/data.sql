@@ -656,3 +656,32 @@ VALUES
 -- 펀딩 히스토리 테이블 삽입
 INSERT INTO funding_history_tb (project_id)
 VALUES (1), (2), (3), (4), (5);
+
+-- 결제 테이블 샘플데이터 
+INSERT INTO `account_history_tb` 
+(`user_id`, `deposit`, `point`, `after_balance`, `payment_key`, `status`, `refund_reason`)
+VALUES 
+(1, 100000, 5000, 105000, 'pay_key_001', 'PENDING', 'No refund reason');
+
+
+INSERT INTO `account_history_tb` 
+(`user_id`, `deposit`, `point`, `after_balance`, `payment_key`, `status`, `refund_reason`)
+VALUES 
+(2, 150000, 7500, 157500, 'pay_key_002', 'APPROVED', NULL);
+
+INSERT INTO `account_history_tb` 
+(`user_id`, `deposit`, `point`, `after_balance`, `payment_key`, `status`, `refund_reason`)
+VALUES 
+(3, 200000, 10000, 210000, 'pay_key_003', 'REJECTED', 'Insufficient funds');
+
+
+INSERT INTO `account_history_tb` 
+(`user_id`, `deposit`, `point`, `after_balance`, `payment_key`, `status`, `refund_reason`)
+VALUES 
+(4, 50000, 2500, 52500, 'pay_key_004', 'PENDING', 'No refund reason');
+
+
+INSERT INTO `account_history_tb` 
+(`user_id`, `deposit`, `point`, `after_balance`, `payment_key`, `status`, `refund_reason`)
+VALUES 
+(5, 300000, 15000, 315000, 'pay_key_005', 'APPROVED', NULL);

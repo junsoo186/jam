@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.jam.vo.GraphVO">
+<mapper namespace="com.jam.repository.interfaces.GraphRepository">
 
-	<select id="find" resultType="com.jam.vo.GraphVO">
-		select deposit, point, after_balance, status
-		from account_history_tb;
-	</select>
-
+    <!-- find 메서드에 대한 SQL 쿼리 -->
+    <select id="find" resultType="com.jam.vo.GraphVO">
+        SELECT deposit, point, after_balance AS afterBalance, status
+        FROM account_history_tb
+    </select>
 
 </mapper>
+

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graph Data Chart</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+</head>
+<body>
+    <h2>Graph Data Chart</h2>
+    <canvas id="myChart" width="400" height="400"></canvas>
+
+    <script>
+        // 서버에서 데이터를 가져오는 함수
+        async function fetchGraphData() {
+            const response = await fetch('/getGraphData');  // 서버에서 데이터를 가져옴
+            if (!response.ok) {
+                throw new Error("Failed to fetch data from /getGraphData");
+            }
+            const graphData = await response.json();  // JSON 데이터를 JavaScript 객체로 변환
+            return graphData;
+        }
+
+        // 차트를 그리기 위한 함수
+        async function renderChart() {
+            try {
+                const data = await fetchGraphData();
+				console.log("data", data);
+                // 데이터에서 필요한 값 추출 (labels와 data에 맞게 처리)
+                const labels = data.map(item => item.status);  // status를 라벨로 사용
+                const deposits = data.map(item => item.deposit);  // deposit 값을 데이터로 사용
+                const points = data.map(item => item.point);  // point 값을 데이터로 사용
+
+                // 차트 그리기
+                const ctx = document.getElementById('myChart').getContext('2d');
+                const myChart = new Chart(ctx, {
+                    type: 'pie',  // 차트 유형 (막대 차트)
+                    data: {
+                        labels: labels,  // X축 레이블 (status 값)
+                        datasets: [
+                            {
+                                label: 'Deposit',
+                                data: deposits,  // deposit 데이터를 Y축 값으로 사용
+                                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                                borderColor: 'rgba(54, 162, 235, 1)',
+                                borderWidth: 1
+                            },
+                            {
+                                label: 'Point',
+                                data: points,  // point 데이터를 Y축 값으로 사용
+                                backgroundColor: 'rgba(255, 206, 86, 0.2)',
+                                borderColor: 'rgba(255, 206, 86, 1)',
+                                borderWidth: 1
+                            }
+                        ]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true  // Y축 값이 0부터 시작하도록 설정
+                            }
+                        }
+                    }
+                });
+            } catch (error) {
+                console.error('Error rendering chart:', error);
+            }
+        }
+
+        // 페이지 로드 시 차트를 렌더링
+        window.onload = renderChart();
+    </script>
+</body>
+</html>
