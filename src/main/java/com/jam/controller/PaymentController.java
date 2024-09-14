@@ -113,8 +113,6 @@ public class PaymentController {
             		.paymentKey(dto.getPaymentKey()) // 토스 고유번호 주문
             		.build();
             
-            
-            
             model.addAttribute("payment", payment);
             // session.setAttribute("payment", payment);
             System.out.println("#@#@#@# : " + payment.toString());
