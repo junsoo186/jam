@@ -100,7 +100,7 @@ public class PaymentController {
                     TossPaymentResponseDTO.class);
 
             // 토스 페이먼트DTO
-            TossPaymentResponseDTO dto = response.getBody();
+            TossPaymentResponseDTO dto = response.getBody(); // method : 결제방식
 
             System.out.println("@@@@@ : " + response.getBody().toString());
 
@@ -123,18 +123,17 @@ public class PaymentController {
            // isPartialCancelable=false, receipt=null, checkout=null, currency=null, totalAmount=1000, balanceAmount=0, suppliedAmount=0, vat=0, taxFreeAmount=0, method=간편결제, version=null)
 
             
-            // 여기서 유저 서비스를 이용해서 결제 쿼리가 작동하도록 설정해야 한다.
+            // 여기서 유저 서비스를 이용해서 결제 	쿼리가 작동하도록 설정해야 한다.
 
             // 1. 유저
             User principal = (User) session.getAttribute("principal"); // 유저 세션 가져옴
             System.out.println("payController /success : " + principal);
 
-            int userId = principal.getUserId();
+            int userId = principal.getUserId(); // 세션에 있는 유저 아이디
+            System.out.println(userId); // 세션에 있는 유저 아이디 확인
 
             String payKey = paymentKey; // 페이먼트 키 확인
             System.out.println("페이먼트 키 : " + payKey);
-
-            System.out.println(userId);
 
             long balance = userService.searchPoint(userId); // 유저가 가지고 있는 포인트 잔액 조회
 
@@ -147,6 +146,10 @@ public class PaymentController {
             // 유저 상세 정보에 기존에 포인트에 충전한 포인트 입력
             userService.insert(amount, balance, userId);
             // session.setAttribute("TossPaymentResponseDTO", payment);
+            
+            // payment_TB 테이블에도 기록을 남긴다. (이벤트 적용 여부 확인)
+            // (세션 유저 아이디, 페이먼트키, 입금금액, 포인트, 'N' )
+            userService.InsertPaymentTB(userId, paymentKey, deposit, point, 'N');
 
             // 유저의 업데이트된 정보를 가져온다.
             User updatedUser = userService.InformationUpdate(principal.getEmail()); // DB에서 갱신된 유저 정보 가져오기
