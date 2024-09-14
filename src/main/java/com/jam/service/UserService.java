@@ -500,5 +500,17 @@ public class UserService {
 		
 	}
 	
+	/**
+	 * 토스페이먼츠 결제 후 payment_TB에 데이터를 추가한다.
+	 * @param userId
+	 * @param paymentKey
+	 * @param point
+	 * @param deposit
+	 * @param event
+	 */
+	public void InsertPaymentTB(int userId, String paymentKey, long deposit, long point, char event) {
+		userRepository.InsertPaymentTB(userId, paymentKey, deposit, point, event);
+	}
+	
 
 }

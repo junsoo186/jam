@@ -158,7 +158,7 @@ CREATE TABLE `event_winners_tb` (
     FOREIGN KEY (`event_id`) REFERENCES `event_tb`(`event_id`) ON DELETE CASCADE,
     FOREIGN KEY (`user_id`) REFERENCES `user_tb`(`user_id`) ON DELETE CASCADE
 );
-
+-- 토스페이먼츠 결제 성공 시 기록에 저장된다. (user_id, deposit, point, after_balance, created_at, payment_key, status)
 CREATE TABLE `account_history_tb` (
     `account_history_id` int PRIMARY KEY AUTO_INCREMENT NOT NULL,
     `user_id` int NOT NULL COMMENT '외래 키, user_tb 참조',
@@ -187,6 +187,19 @@ CREATE TABLE refund_request_tb (
     FOREIGN KEY (user_id) REFERENCES user_tb(user_id),
     FOREIGN KEY (staff_id) REFERENCES user_tb(user_id)
 );
+
+-- 충전 이벤트 유무를 확인할 수 있다. (만약 이벤트가 'Y' 이면 환불 불가 or 이벤트가 'N' 이라면 환불 가능)
+create table payment_tb(
+	payment_id int primary key auto_increment,
+    user_id int not null,
+    price bigint not null,
+    point bigint not null ,
+    event char(1), -- 'Y' 'N'
+    payment_key varchar(50) not null,
+    FOREIGN KEY (user_id) REFERENCES user_tb(user_id),
+    FOREIGN KEY (payment_key) REFERENCES account_history_tb(payment_key)
+);
+
 
 CREATE TABLE `reward_tb` (
     `reward_id` int PRIMARY KEY AUTO_INCREMENT NOT NULL,

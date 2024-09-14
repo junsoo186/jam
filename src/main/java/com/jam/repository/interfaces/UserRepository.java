@@ -86,4 +86,8 @@ public interface UserRepository {
 	
 	// 관리자가 환불을 거절했을 시 상태값 refundReason(사유)를 업데이트 
 	public void updaterefundReason(@Param("refundReason") String refundReason, @Param("paymentKey") String paymentKey);
+	
+	// 사용자가 포인트 구매를 하면 account_history_tb에 기록을 남기고,
+	// 포인트 적립 이벤트 테이블인 payment_tb에도 기록을 남긴다. event -> 'Y' or 'N'
+	public void InsertPaymentTB(@Param("userId") Integer userId, @Param("paymentKey") String paymentKey, @Param("price") long price, @Param("point") long point, @Param("event") char event);
 }
