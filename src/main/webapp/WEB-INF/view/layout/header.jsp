@@ -110,6 +110,7 @@
 		        <li><a href="/staff">관리자 페이지</a></li>
 		        <button type="button" id="toggle-event-button">이벤트 활성화 버튼</button>
 		        <button type="button" id="check-event-status-button">이벤트 상태 확인</button>
+		        
 
 		        </c:if>
 		    </ul>

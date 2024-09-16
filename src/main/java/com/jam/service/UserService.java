@@ -313,8 +313,8 @@ public class UserService {
 	 * @param point
 	 * @param afterBalance
 	 */
-	public void insertPoint(int userId, long deposit, long point, long afterBalance, String payKey) {
-		userRepository.insertPoint(userId, deposit, point, afterBalance, payKey);
+	public void insertPoint(int userId, long deposit, long point, long afterBalance, String payKey, char event, String method) {
+		userRepository.insertPoint(userId, deposit, point, afterBalance, payKey, event, method);
 	}
 	
 	
@@ -335,9 +335,9 @@ public class UserService {
 	 * @param amount
 	 * @param userId
 	 */
-	public void insert(Integer amount, long balance, int userId) {
+	public void insert(Integer pay2, long balance, int userId) {
 		
-		userRepository.insertUserTbPoint(amount, balance, userId);
+		userRepository.insertUserTbPoint(pay2, balance, userId);
 		
 	}
 	

@@ -36,6 +36,9 @@ public class AccountHistoryDTO {
 	    private String status;
 	    
 	    private String refundReason; // 사유
+	    private char event; // 이벤트로 포인트 구매 여부 'Y', 'N'
+	    
+	    private String method; // 토스 페이먼츠 결제하면 결제유형 ex) 간편결제 이런거
 		
 
 }

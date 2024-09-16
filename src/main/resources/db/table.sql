@@ -169,7 +169,9 @@ CREATE TABLE `account_history_tb` (
     FOREIGN KEY (`user_id`) REFERENCES `user_tb`(`user_id`),
     `payment_key` varchar(50) null comment '토스 환불에서 paymentkey, 결제가격, 환불이유가 필요',
     `status` VARCHAR(20) NOT NULL DEFAULT 'PENDING' COMMENT '요청 상태 (PENDING, APPROVED, REJECTED)',
-    refund_reason VARCHAR(255) COMMENT '환불 사유'
+    refund_reason VARCHAR(255) COMMENT '환불 사유',
+    event char(1),
+    method varchar(15)
 );
 
 -- 환불 요청 테이블 (사용자가 환불요청 하면 관리자가 승인, 거절 할 수 있다.)

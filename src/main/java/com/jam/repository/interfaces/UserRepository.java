@@ -41,7 +41,7 @@ public interface UserRepository {
 	public User InformationUpdate(@Param("email") String email); // 유저 프로필 업데이트 후 갱신 
 	
 	// 유저가 포인트를 적립하려면 유저ID, 입금금액, 충전포인트, 기존포인트 +(-) 충전포인트 
-	public int insertPoint(@Param("userId") Integer userId , @Param("deposit") long deposit, @Param("point") long point, @Param("afterBalance") long afterBalance, @Param("paymentKey") String paymentKey);
+	public int insertPoint(@Param("userId") Integer userId , @Param("deposit") long deposit, @Param("point") long point, @Param("afterBalance") long afterBalance, @Param("paymentKey") String paymentKey, @Param("event") char event, @Param("method") String method);
 	
 	// 관리자가 유저의 환불을 승인하면 기존의 포인트에서 업데이트 한다.
 	public int updatePoint(@Param("userId") Integer userId , @Param("deposit") long deposit, @Param("point") long point, @Param("afterBalance") long afterBalance, @Param("refundReason")String refundReason , @Param("paymentKey") String paymentKey);
@@ -49,7 +49,7 @@ public interface UserRepository {
 	public int selectUserPoint(@Param("userId") Integer userId);
 	
 	// 유저 상세 정보 db에 결제한 포인트 값을 넣는다.
-	public int insertUserTbPoint(@Param("amount") Integer amount, @Param("balance") long balance , @Param("userId") Integer userId);
+	public int insertUserTbPoint(@Param("pay2") Integer pay2, @Param("balance") long balance , @Param("userId") Integer userId);
 	
 	// 유저가 포인트를 환불하면 유저ID, 출금금액, 충전포인트, 기존포인트 - 충전포인트
 	public int deleteUserTbPoint(@Param("refundAmount") long refundAmount, @Param("balance") long balance , @Param("userId") Integer userId);

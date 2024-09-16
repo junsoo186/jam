@@ -14,6 +14,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -54,6 +56,21 @@ public class PaymentController {
         System.out.println("payController /toss : " + principal);
         return "/payment/tossTest";
     }
+    
+    /**
+     * pay2 값을 세션에 저장하는 엔드포인트
+     * 이유 : 토스에서 전달할 수 있는 값이 결제가격, 토스 고유키, 주문번호만 requestparam 으로 받을 수 있어서
+     * 이유 : 포인트 값을 받을 수 없기에 session으로 pay2에 포인트 값을 넣어 @GetMapping("/success") 사용
+     * @param request
+     * @return
+     */
+    @PostMapping("/storePay2")
+    @ResponseBody
+    public ResponseEntity<?> storePay2(@RequestBody Map<String, Integer> request) {
+        Integer pay2 = request.get("pay2");
+        session.setAttribute("pay2", pay2); // 세션에 pay2 저장
+        return ResponseEntity.ok().build();
+    }
 
     /**
      * 결제창에서 포인트 구매
@@ -69,10 +86,14 @@ public class PaymentController {
             @RequestParam(value = "orderId") String orderId,
             @RequestParam(value = "amount") Integer amount,
             @RequestParam(value = "paymentKey") String paymentKey) {
-
-        System.out.println("orderId : " + orderId);
-        System.out.println("amount : " + amount);
-        System.out.println("paymentKey : " + paymentKey);
+    	
+    	// 세션에서 pay2 값 가져오기
+        Integer pay2 = (Integer) session.getAttribute("pay2"); // 포인트
+            
+        System.out.println("pay2 : " + pay2); // 포인트
+        System.out.println("orderId : " + orderId); // 주문번호
+        System.out.println("amount : " + amount); // 결제금액
+        System.out.println("paymentKey : " + paymentKey); // 결제 고유키 
 
         RestTemplate restTemplate = new RestTemplate();
 
@@ -118,12 +139,6 @@ public class PaymentController {
             // session.setAttribute("payment", payment);
             System.out.println("#@#@#@# : " + payment.toString());
             
-           // #@#@#@# : Payment(userId=null, mId=null, lastTransactionKey=null,
-           // paymentKey=tviva20240913192451lfoP9, orderId=858f278f-3f67-43b5-9934-832d374ae166,
-           // orderName=1000코인, taxExemptionAmount=0, status=null, requestedAt=null, approvedAt=null, useEscrow=false, cultureExpense=false, card=null, secret=null, type=null,
-           // isPartialCancelable=false, receipt=null, checkout=null, currency=null, totalAmount=1000, balanceAmount=0, suppliedAmount=0, vat=0, taxFreeAmount=0, method=간편결제, version=null)
-
-            
             // 여기서 유저 서비스를 이용해서 결제 	쿼리가 작동하도록 설정해야 한다.
 
             // 1. 유저
@@ -137,21 +152,38 @@ public class PaymentController {
             System.out.println("페이먼트 키 : " + payKey);
 
             long balance = userService.searchPoint(userId); // 유저가 가지고 있는 포인트 잔액 조회
+            System.out.println("유저 기존 포인트 확인 : " + balance);
 
             long deposit = amount; // 입금 금액
-            long point = amount; // 충전할 포인트
-            long afterBalance = balance + amount; // 소지하고 있는 포인트 + 충전할 포인트 = afterBalance
-
-            userService.insertPoint(userId, deposit, point, afterBalance, paymentKey); // 포인트 충전 INSERT INTO account_history_tb
-
+            long point = pay2; // 충전할 포인트
+            long afterBalance = balance + pay2; // 소지하고 있는 포인트 + 충전할 포인트 = afterBalance
+            
+            // 여기에 이벤트 여부를 넣어야 할거 같음 'Y', 'N'
+            // isEventActive 가 true 이면 이벤트 발생, 아니라면 이벤트 없음  
+            if(isEventActive == true) {
+            // 포인트 충전 INSERT INTO account_history_tb
+            	// 메서드 타입 만들어야 함 (결제 유형) 그리고 이벤트 여부 'y' 일때 환불 버튼 안없어짐 ;;
+            userService.insertPoint(userId, deposit, point, afterBalance, paymentKey, 'Y', dto.getMethod()); 
+            } else {
+            	userService.insertPoint(userId, deposit, point, afterBalance, paymentKey, 'N', dto.getMethod()); 
+            }
             // 유저 상세 정보에 기존에 포인트에 충전한 포인트 입력
-            userService.insert(amount, balance, userId);
+            userService.insert(pay2, balance, userId);
             // session.setAttribute("TossPaymentResponseDTO", payment);
             
             // payment_TB 테이블에도 기록을 남긴다. (이벤트 적용 여부 확인)
             // (세션 유저 아이디, 페이먼트키, 입금금액, 포인트, 'N' )
-            userService.InsertPaymentTB(userId, paymentKey, deposit, point, 'N');
-
+            
+            // isEventActive 가 true 이면 이벤트 발생, 아니라면 이벤트 없음  
+            if(isEventActive == true) {
+            	userService.InsertPaymentTB(userId, paymentKey, deposit, point, 'Y');
+            } else {
+            	userService.InsertPaymentTB(userId, paymentKey, deposit, point, 'N');
+            }
+            
+            // 세션에서 pay2 값 삭제 (더 이상 필요 없으므로)
+            session.removeAttribute("pay2");
+            
             // 유저의 업데이트된 정보를 가져온다.
             User updatedUser = userService.InformationUpdate(principal.getEmail()); // DB에서 갱신된 유저 정보 가져오기
 

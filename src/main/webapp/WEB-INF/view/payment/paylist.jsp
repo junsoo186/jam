@@ -182,11 +182,13 @@ function setRefundReasonAndSubmit(paymentKey, deposit) {
 		<c:if test="${not empty payList}">
 			<table border="1" class="center--paylist--area--list">
 				<tr>
-					<th>주문 번호</th>
+					<th>결제 번호</th>
 					<th>결제 금액</th>
 					<th>충전 포인트</th>
 					<th>결제 날짜</th>
 					<th>잔액</th>
+					<th>결제</th>
+					<th>이벤트 여부</th>
 					<th>환불사유</th>
 					<th>승인여부</th>
 					<th>버튼</th>
@@ -203,6 +205,10 @@ function setRefundReasonAndSubmit(paymentKey, deposit) {
 						<td>${payment.createdAt}</td>
 						<!-- 결제 날짜 출력 -->
 						<td>${payment.afterBalance}코인</td>
+						
+						<td>${payment.method}</td>
+						
+						<td>${payment.event}</td>
 						<td>
 						  <!-- 환불 사유 입력 필드, status가 null이 아닐 때만 보이도록 설정 -->
             <c:choose>
@@ -232,10 +238,6 @@ function setRefundReasonAndSubmit(paymentKey, deposit) {
                 <c:otherwise>
                     <!-- status가 'PENDING'이 아닐 때 버튼 숨김 -->
                     <form id="refundForm_${payment.paymentKey}" action="/pay/manager" method="POST" style="display: none;">
-                        <input type="hidden" name="paymentKey" value="${payment.paymentKey}">
-                        <input type="hidden" name="refundAmount" value="${payment.deposit}">
-                        <input type="hidden" name="userId" value="${payment.userId}">
-                        <input type="hidden" id="refundReasonHidden_${payment.paymentKey}" name="refundReason" value="${payment.paymentKey}">
                         <button type="button" id="refundButton_${payment.paymentKey}" onclick="setRefundReasonAndSubmit('${payment.paymentKey}', '${payment.deposit}')">환불</button>
                     </form>
                 </c:otherwise>
