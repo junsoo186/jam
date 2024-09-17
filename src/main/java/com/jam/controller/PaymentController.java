@@ -252,10 +252,15 @@ public class PaymentController {
     public String tossRefund12(Model model,
             @RequestParam("paymentKey") String paymentKey,
             @RequestParam("refundAmount") long refundAmount,
-            @RequestParam("refundReason") String refundReason) {
+            @RequestParam("refundReason") String refundReason,
+            @RequestParam("point") long point,
+            @RequestParam("method") String method
+    		) {
 
         System.out.println("환불신청");
-
+        
+        System.out.println("point : " + point); // 포인트
+        System.out.println("method : " + method); // 결제 방법
         System.out.println("paymentKey : " + paymentKey); // 환불 고유키
         System.out.println("refundAmount : " + refundAmount); // 환불 가겨
         System.out.println("refundReason : " + refundReason); // 환불 사유
@@ -267,6 +272,8 @@ public class PaymentController {
                 .paymentKey(paymentKey)
                 .refundAmount(refundAmount)
                 .refundReason(refundReason)
+                .point(point)
+                .method(method)
                 .status("PENDING")
                 .build();
         
@@ -303,9 +310,14 @@ public class PaymentController {
             @RequestParam("paymentKey") String paymentKey,
             @RequestParam("refundAmount") long refundAmount,
             @RequestParam("refundReason") String refundReason,
-            @RequestParam("userId") int userId) {
+            @RequestParam("userId") int userId,
+            @RequestParam("point") long point,
+            @RequestParam("method") String method) {
+    	
         System.out.println("환불");
 
+        System.out.println("point : " + point); // 환불 받을 포인트
+        System.out.println("method : " + method); // 결제방식
         System.out.println("paymentKey : " + paymentKey); // 환불 고유키
         System.out.println("refundAmount : " + refundAmount); // 환불 가겨
         System.out.println("refundReason : " + refundReason); // 환불 사유
@@ -345,8 +357,8 @@ public class PaymentController {
             long balance = userService.searchPoint(userId); // 유저가 가지고 있는 포인트 잔액 조회
 
             long deposit = refundAmount; // 입금 금액
-            long point = refundAmount; // 충전할 포인트
-            long afterBalance = balance - refundAmount; // 소지하고 있는 포인트 - 충전할 포인트 = afterBalance
+            long point2 = refundAmount; // 충전할 포인트
+            long afterBalance = balance - point; // 소지하고 있는 포인트 - 충전할 포인트 = point
 
             // 환불 승인 버튼을 눌렀지만 소지포인트 - 환불 포인트가 < 0 일 때 환불 거절로 변경된다.
             if (afterBalance >= 0) { // 포인트가 0 보다 크면 환불을 진행한다.
@@ -356,7 +368,7 @@ public class PaymentController {
                 // 포인트 충전내역
 
                 // 유저 상세 정보에 기존 포인트에 포인트 제거
-                userService.delete(refundAmount, balance, userId);
+                userService.delete(point, balance, userId);
 
                 // 유저의 업데이트된 정보를 가져온다.
                 User updateUser = userService.InformationId(userId);
@@ -464,6 +476,7 @@ public class PaymentController {
         System.out.println("@@@@@@@@@@@@@@@@@@@@");
         List<RefundRequest> payList = userService.selectRefundRequest();
         model.addAttribute("payList", payList);
+        System.out.println("관리자 페이지 이동 payList : "+payList.toString());
         return "/payment/managerTest";
     }
 

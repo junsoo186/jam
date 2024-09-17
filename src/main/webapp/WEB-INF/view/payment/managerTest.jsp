@@ -132,11 +132,14 @@
 			<th>결제 번호</th>
 			<th>유저 번호</th>
 			<th>환불 금액</th>
+			<th>환불 포인트</th>
 			<th>결제 날짜</th>
 			<th>사유</th>
+			<th>결제방법</th>
 			<th>상태</th>
 			<th>처리 날짜</th>
 			<th></th>
+			
 			<th>유무</th>
 		</tr>
 		<c:forEach var="payment" items="${payList}">
@@ -145,8 +148,10 @@
 		        <td>${payment.userId}</td>
 		        <td>${payment.refundId}</td> <!-- 주문 번호 출력 -->
 		        <td>${payment.refundAmount}원</td> <!-- 결제 금액 출력 -->
+		        <td>${payment.point}</td>
 		    	<td>${payment.createdAt}</td><!-- 결제 날짜 출력 -->
 		    	<td>${payment.refundReason}</td> <!-- 결제 히든키 출력 -->
+		    	<td>${payment.method}</td>
 		    	<td>${payment.status}</td> 
 		    	<td>${payment.approvedAt}</td>
 		    	<td>${payment.rejectedAt}</td>
@@ -165,6 +170,9 @@
 		                        <input type="hidden" name="paymentKey" value="${payment.paymentKey}">
 		                        <input type="hidden" name="refundAmount" value="${payment.refundAmount}">
 		                        <input type="hidden" name="refundReason" value="${payment.refundReason}"> <!-- 기본 환불 이유 -->
+		                        <input type="hidden" name="method" value="${payment.method}"> <!--  결제 방법 -->
+		                        <input type="hidden" name="point" value="${payment.point}">  <!--  환불 포인트 -->
+		                        
 		                        <button type="submit">승인</button>
 		                    </form>
 

@@ -230,6 +230,9 @@ function setRefundReasonAndSubmit(paymentKey, deposit) {
                         <input type="hidden" name="paymentKey" value="${payment.paymentKey}">
                         <input type="hidden" name="refundAmount" value="${payment.deposit}">
                         <input type="hidden" name="userId" value="${payment.userId}">
+                        <input type="hidden" name="point" value="${payment.point}"> <!-- 포인트 -->
+                        <input type="hidden" name= "method" value="${payment.method}">
+                        
                         <!-- 자바스크립트를 통해 환불 사유를 제출할 수 있도록 설정 -->
                         <input type="hidden" id="refundReasonHidden_${payment.paymentKey}" name="refundReason" value="${payment.refundReason}">
                         <button type="button" id="refundButton_${payment.paymentKey}" onclick="setRefundReasonAndSubmit('${payment.paymentKey}', '${payment.deposit}')">환불</button>

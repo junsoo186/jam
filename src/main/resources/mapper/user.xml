@@ -154,8 +154,8 @@
 	</select>
 	
 	<select id="findRefundList" resultType="com.jam.dto.RefundRequest">
-		insert into refund_request_tb (user_id, payment_key, refund_amount, refund_reason)
-		values(#{userId}, #{paymentKey}, #{refundAmount}, #{refundReason});
+		insert into refund_request_tb (user_id, payment_key, refund_amount, refund_reason, point, method)
+		values(#{userId}, #{paymentKey}, #{refundAmount}, #{refundReason}, #{point}, #{method});
 		
 	</select>
 	

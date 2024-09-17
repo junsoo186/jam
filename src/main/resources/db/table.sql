@@ -186,6 +186,8 @@ CREATE TABLE refund_request_tb (
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '요청 생성 시간',
     approved_at TIMESTAMP NULL COMMENT '관리자 승인 시간',
     rejected_at TIMESTAMP NULL COMMENT '관리자 거부 시간',
+    point bigint not null comment '결제후 포인트 획득',
+    method varchar(10) not null comment '결제 방식',
     FOREIGN KEY (user_id) REFERENCES user_tb(user_id),
     FOREIGN KEY (staff_id) REFERENCES user_tb(user_id)
 );
