@@ -159,17 +159,23 @@ p {
 
 <script src="/js/payList.js"></script>
 
-<script>
-function setRefundReasonAndSubmit(paymentKey, deposit) {
-    // 환불사유 입력 필드에서 값을 가져옴
-    var refundReason = document.getElementById('refundReason_' + paymentKey).value;
+<script type="text/javascript">
+    // 부모 창에서 실행되는 함수: 팝업 창에서 호출
+    function submitRefundForm(paymentKey, deposit) {
+    	
+        document.getElementById('refundForm_' + paymentKey).submit();
+       
+    }
 
-    // 숨겨진 환불 사유 필드에 값을 설정
-    document.getElementById('refundReasonHidden_' + paymentKey).value = refundReason;
-
-    // 폼을 제출
-    document.getElementById('refundForm_' + paymentKey).submit();
-}
+    function setRefundReasonAndSubmit(paymentKey, refundAmount) {
+    	 // 환불사유 입력 필드에서 값을 가져옴
+        var refundReason = document.getElementById('refundReason_' + paymentKey).value;
+    	// 숨겨진 환불 사유 필드에 값을 설정
+        document.getElementById('refundReasonHidden_' + paymentKey).value = refundReason;
+    	
+        // 약관 창을 새 탭으로 열기
+        window.open('/pay/termsAndConditions?paymentKey=' + paymentKey, '_blank', 'width=500,height=500');
+    }
 </script>
 
 </head>
