@@ -18,32 +18,24 @@
 		<div class="section">
 			<h4>사이트 관리</h4>
 			<ul>
-				<li><a href="javascript:void(0);" class="menu-link" data-url="/staff/dashboard">대시보드</a></li>
-				<li><a href="javascript:void(0);" class="menu-link" data-url="/staff/report">신고 및 작품관리</a></li>
-				<li><a href="javascript:void(0);" class="menu-link" data-url="/pay/payment-management">결제 및 금융관리</a></li>
-				<li><a href="javascript:void(0);" class="menu-link" data-url="/staff/content-management">컨텐츠 관리</a></li>
+				<li><a href="/staff/dashboard">대시보드</a></li>
+				<li><a href="/staff/report">신고 및 작품관리</a></li>
+				<li><a href="/pay/payment-management">결제 및 금융관리</a></li>
+				<li><a href="/staff/content-management">컨텐츠 관리</a></li>
 			</ul>
 		</div>
 
 		<div class="section">
 			<h4>고객지원</h4>
 			<ul>
-				<li><a href="javascript:void(0);" class="menu-link" data-url="/staff/qna">Q&A</a></li>
-				<li><a href="javascript:void(0);" class="menu-link" data-url="/staff/notice">공지사항</a></li>
-				<li><a href="javascript:void(0);" class="menu-link" data-url="/staff/event">이벤트</a></li>
-				<li><a href="javascript:void(0);" class="menu-link"  id="chat-link">채팅</a></li>
+				<li><a href="/staff/qna">Q&A</a></li>
+				<li><a href="/staff/notice">공지사항</a></li>
+				<li><a href="/staff/event">이벤트</a></li>
+				<li><a href="chat-link">채팅</a></li>
 			</ul>
 		</div>
 	</div>
 
-	<!-- 동적으로 콘텐츠가 표시될 영역 -->
-	<div id="content"></div>
-
-	<script type="text/javascript" src="/js/staff/app.js"></script>
-	<script type="text/javascript" src="/js/staff/menu.js"></script>
-	<script type="text/javascript" src="/js/staff/modal.js"></script>
-	<script type="text/javascript" src="/js/staff/chat.js"></script>
-	<script type="text/javascript" src="/js/staff/data.js"></script>
 	
 	
 </body>

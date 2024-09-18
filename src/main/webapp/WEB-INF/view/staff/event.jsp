@@ -3,12 +3,7 @@
 <!-- /WEB-INF/views/event.jsp -->
 <!DOCTYPE html>
 <html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>고객지원 이벤트</title>
-    <link rel="stylesheet" href="/css/staff.css">
-</head>
+<%@ include file="/WEB-INF/view/staff/main.jsp" %>
 <body>
     <div class="main-content">
         <h1>고객지원 이벤트 관리</h1>
