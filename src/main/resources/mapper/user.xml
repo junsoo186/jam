@@ -61,8 +61,7 @@
 	<update id="updatePasswordByEmail">
 		update user_tb
 		set password = #{password}
-		where email =
-#{email};
+		where email = #{email};
 	</update>
 
 	<update id="updateProfileByUserTb">
@@ -113,8 +112,8 @@
 	</select>
 		
 	<insert id="insertPoint">
-   	 INSERT INTO account_history_tb (user_id, deposit, point, after_balance, payment_key )
-    VALUES (#{userId}, #{deposit}, #{point}, #{afterBalance}, #{paymentKey});
+   	 INSERT INTO account_history_tb (user_id, deposit, point, after_balance, payment_key, event, method )
+    VALUES (#{userId}, #{deposit}, #{point}, #{afterBalance}, #{paymentKey}, #{event}, #{method});
 	</insert>
 	
 	<update id="updatePoint">
@@ -122,13 +121,20 @@
 	SET deposit = #{deposit}, 
     point = #{point}, 
     after_balance = #{afterBalance}, 
-    user_id = #{userId}
+    user_id = #{userId},
+    refund_reason = #{refundReason}
 	WHERE payment_key = #{paymentKey}
+	</update>
+	
+	<update id = "updaterefundReason">
+		UPDATE account_history_tb
+		SET refund_reason = #{refundReason}
+		WHERE payment_key = #{paymentKey}
 	</update>
 
 	<insert id ="insertUserTbPoint">
 		UPDATE user_de_tb 
-		SET point = #{balance} + #{amount}
+		SET point = #{balance} + #{pay2}
 		WHERE user_id = #{userId}    
 		
 	</insert>
@@ -150,6 +156,11 @@
 		insert into refund_request_tb (user_id, payment_key, refund_amount, refund_reason)
 		values(#{userId}, #{paymentKey}, #{refundAmount}, #{refundReason});
 	</insert>
+	<select id="findRefundList" resultType="com.jam.dto.RefundRequest">
+		insert into refund_request_tb (user_id, payment_key, refund_amount, refund_reason, point, method)
+		values(#{userId}, #{paymentKey}, #{refundAmount}, #{refundReason}, #{point}, #{method});
+		
+	</select>
 	
 	<select id="selectRefundRequest" resultType="com.jam.repository.model.RefundRequest">
 		SELECT refund.*, u.email 
@@ -195,6 +206,11 @@
 		where payment_key = #{paymentKey}
 		
 	</select>
+	
+	<insert id="InsertPaymentTB">
+		INSERT INTO payment_tb(user_id, payment_key, price, point, event)
+		VALUES (#{userId}, #{paymentKey}, #{price}, #{point}, #{event});
+	</insert>
 
 	<select id="findPayDetailByRefundId" resultType="com.jam.repository.model.RefundRequest">
 		SELECT refund.*, u.email FROM refund_request_tb refund JOIN user_tb u ON u.user_id = refund.user_id where refund_id = #{refundId}

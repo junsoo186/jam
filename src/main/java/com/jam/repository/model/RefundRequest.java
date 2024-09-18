@@ -30,6 +30,9 @@ public class RefundRequest {
     private int pageSize;
     private int page;
     private String paymentMethod;
+    
+    private long point; // 포인트
+    private String method; // 결제 방법
 
     public AccountHistoryDTO toAccountHistoryDTO() {
     	return AccountHistoryDTO.builder()
