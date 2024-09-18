@@ -6,12 +6,13 @@ import java.util.Optional;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import com.jam.dto.NoticeDTO;
 import com.jam.repository.model.Notice;
 
 @Mapper
 public interface NoticeRepository {
 
-	int insert(Notice notice); // 게시글 작성
+	int insert(NoticeDTO notice); // 게시글 작성
 
 	public int delete(int noticeId); // 게시글 삭제
 
@@ -20,10 +21,11 @@ public interface NoticeRepository {
 
 	List<Notice> findAll(@Param("limit") int limit, @Param("offset") int offset); // 게시글 조회
 
+	List<Notice> staffFindAll(@Param("limit")int limit, @Param("offset")int offset);
+	
 	public int countAll();
 
 	Notice findById(@Param("noticeId") int noticeId); // 게시글 상세 조회 메서드 추가
 
-	public Notice selectByNoticeId(@Param("noticeId")int noticeId,
-									@Param("userId")int userId);
+	public Notice selectByNoticeId(@Param("noticeId")int noticeId);
 }

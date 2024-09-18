@@ -15,4 +15,10 @@ public class GraphVO {
 	private String status; 
 	
 
+	private int userId;
+	private String nickName;
+	private String email;
+	private String phoneNumber;
+	private String profileImg;
+
 }

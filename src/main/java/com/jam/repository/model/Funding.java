@@ -3,6 +3,8 @@ package com.jam.repository.model;
 import java.sql.Date;
 import java.sql.Timestamp;
 
+import com.jam.dto.FundingDTO;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -31,5 +33,17 @@ public class Funding {
     private String detailedAddress; // 상세 주소 (번지, 건물 등)
     private String extraAddress; // 참고 항목 (동, 호수 등)
     private String shippingAddress; // 전체 주소
-
+    private String confirmSuccess; // Enum ('N', 'Y')
+    
+    
+    public FundingDTO tofundingDTO() {
+    	return FundingDTO.builder()
+    			.fundingId(fundingId)
+    			.userId(userId)
+    			.rewardId(rewardId)
+    			.createdAt(createdAt)
+    			.canceledAt(canceledAt)
+    			.confirmSuccess(confirmSuccess)
+    			.build();
+	}
 }
