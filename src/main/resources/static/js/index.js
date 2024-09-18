@@ -63,23 +63,25 @@ document.addEventListener('DOMContentLoaded', function() {
 	slides.forEach(slide => {
 		slide.style.flex = `0 0 ${slideWidth}%`; // 슬라이드 너비 설정
 	});
+// 이전 슬라이드 버튼 이벤트
+if (prevBtn) {
+    prevBtn.addEventListener('click', function() {
+        if (currentIndex > 0) {
+            currentIndex--;
+            updateSlider();
+        }
+    });
+}
 
-
-	// 이전 슬라이드로 이동
-/*	prevBtn.addEventListener('click', function() {
-		if (currentIndex > 0) {
-			currentIndex--;
-			updateSlider();
-		}
-	});
-	
-	// 다음 슬라이드로 이동
-	nextBtn.addEventListener('click', function() {
-		if (currentIndex < slides.length - slidesToShow) {
-			currentIndex++;
-			updateSlider();
-		}
-	});*/
+// 다음 슬라이드 버튼 이벤트
+if (nextBtn) {
+    nextBtn.addEventListener('click', function() {
+        if (currentIndex < slides.length - slidesToShow) {
+            currentIndex++;
+            updateSlider();
+        }
+    });
+}
 
 	// 슬라이더 위치 업데이트
 	function updateSlider() {
@@ -238,7 +240,6 @@ function fetchDays(callback) {
             if (callback) callback();
         });
 }
-
 // 카테고리별 책 목록을 가져오고 정렬 후 출력
 function fetchBooksByCategoryOrder(filter, order) {
     fetch(`/api/booksByCategoryOrder?categoryId=${activeCategoryId}&filter=${filter}&order=${order}`)
@@ -247,11 +248,9 @@ function fetchBooksByCategoryOrder(filter, order) {
             const bookListDiv = document.getElementById('categoryContent');
             bookListDiv.innerHTML = ''; // 기존 내용 초기화
 
-            // 책 목록이 비어있으면 "글이 없습니다" 메시지 출력
             if (books.length === 0) {
                 const noBookMessage = document.createElement('div');
-                noBookMessage.innerHTML = '<p style="color: black" >글이 없습니다.</p>';
-				                // 인라인 스타일 추가
+                noBookMessage.innerHTML = '<p style="color: black">글이 없습니다.</p>';
 				noBookMessage.style.textAlign = 'center';
 				noBookMessage.style.color = '#FF4D6D';
 				noBookMessage.style.fontWeight = 'bold';
@@ -273,24 +272,33 @@ function fetchBooksByCategoryOrder(filter, order) {
                 });
             });
 
-            // 모든 이미지가 로드된 후 DOM 업데이트
-            Promise.all(bookPromises).then(booksWithImages => {
-                booksWithImages.forEach(book => {
-                    const bookItem = document.createElement('div');
-                    bookItem.classList.add('book--item');
-                    bookItem.innerHTML = `
-                        <div class="book--info">
-                            <a href="write/workList?bookId=${book.bookId}">
-                                <img src="${book.validImagePath}" alt="${book.title}">
-                                <h4>${book.title}</h4>
-                                <p>저자: ${book.author}</p>
-                                <p>조회수: ${book.views}</p>
-                                <p>좋아요: ${book.likes}</p>
-                            </a>
-                        </div>
-                    `;
-                    bookListDiv.appendChild(bookItem);
-                });
+			Promise.all(bookPromises).then(booksWithImages => {
+			    booksWithImages.forEach(book => {
+			        const bookItem = document.createElement('div');
+			        bookItem.classList.add('book--item');
+			        bookItem.setAttribute('data-work-id', book.bookId); // 책 ID를 data-work-id에 설정
+			        bookItem.innerHTML = `
+			            <div class="book--info">
+			                <img src="${book.validImagePath}" alt="${book.title}">
+			                <h4>${book.title}</h4>
+			                <p>저자: ${book.author}</p>
+			                <p>조회수: ${book.views}</p>
+			                <p>좋아요: ${book.likes}</p>
+			            </div>
+			        `;
+			        bookListDiv.appendChild(bookItem);
+			    });
+
+			    // 책 클릭 시 로컬 스토리지에 책 ID 저장 및 페이지 이동 처리
+			    document.querySelectorAll('.book--item').forEach(item => {
+			        item.addEventListener('click', function() {
+			            const workId = this.getAttribute('data-work-id');
+			            // 공통의 로컬 스토리지 키로 저장
+			            localStorage.setItem('selectedWorkId', workId);
+			            // 페이지 이동
+			            window.location.href = `write/workList?bookId=${workId}`;
+			        });
+			    });
             });
         })
         .catch(error => console.error('Error fetching books:', error));
@@ -301,38 +309,56 @@ function fetchBooksByGenreOrder(filter, order) {
     fetch(`/api/booksByGenreOrder?genreId=${selectedGenreId}&filter=${filter}&order=${order}`)
         .then(response => response.json())
         .then(books => {
+            const bookListDiv = document.getElementById('genreContent');
+            bookListDiv.innerHTML = ''; // 기존 내용 초기화
+
+            if (books.length === 0) {
+                const noBookMessage = document.createElement('div');
+                noBookMessage.innerHTML = '<p style="color: black">글이 없습니다.</p>';
+				noBookMessage.style.textAlign = 'center';
+				noBookMessage.style.color = '#FF4D6D';
+				noBookMessage.style.fontWeight = 'bold';
+				noBookMessage.style.padding = '20px';
+
+                bookListDiv.appendChild(noBookMessage);
+                return;
+            }
+
             const sortedBooks = sortBooks(books, filter, order);
 
-            // 각 책에 대해 이미지 경로를 비동기적으로 확인
             const bookPromises = sortedBooks.map(book => {
                 return getValidImagePath(book.bookCoverImage).then(validImagePath => {
                     return {
                         ...book,
-                        validImagePath: validImagePath // 이미지 경로 포함
+                        validImagePath: validImagePath
                     };
                 });
             });
 
-            // 모든 이미지가 로드된 후 DOM 업데이트
             Promise.all(bookPromises).then(booksWithImages => {
-                const bookListDiv = document.getElementById('genreContent');
-                bookListDiv.innerHTML = ''; // 기존 내용 초기화
-
                 booksWithImages.forEach(book => {
                     const bookItem = document.createElement('div');
                     bookItem.classList.add('book--item');
+                    bookItem.setAttribute('data-work-id', book.bookId); // bookId 설정
                     bookItem.innerHTML = `
                         <div class="book--info">
-                            <a href="write/workList?bookId=${book.bookId}">
-                                <img src="${book.validImagePath}" alt="${book.title}">
-                                <h4>${book.title}</h4>
-                                <p>저자: ${book.author}</p>
-                                <p>조회수: ${book.views}</p>
-                                <p>좋아요: ${book.likes}</p>
-                            </a>
+                            <img src="${book.validImagePath}" alt="${book.title}">
+                            <h4>${book.title}</h4>
+                            <p>저자: ${book.author}</p>
+                            <p>조회수: ${book.views}</p>
+                            <p>좋아요: ${book.likes}</p>
                         </div>
                     `;
                     bookListDiv.appendChild(bookItem);
+                });
+
+				// 로컬 스토리지에 동일한 key 사용
+                document.querySelectorAll('.book--item').forEach(item => {
+                    item.addEventListener('click', function() {
+                        const workId = this.getAttribute('data-work-id');
+                        localStorage.setItem('selectedWorkId', workId);
+                        window.location.href = `write/workList?bookId=${workId}`;
+                    });
                 });
             });
         })
@@ -366,19 +392,31 @@ function fetchBooksByDayOrder(filter, order) {
                     booksWithImages.forEach(book => {
                         const bookItem = document.createElement('div');
                         bookItem.classList.add('book--item');
+                        bookItem.setAttribute('data-work-id', book.bookId); // bookId 설정
+
                         bookItem.innerHTML = `
                             <div class="book--info">
-                                <a href="write/workList?bookId=${book.bookId}">
-                                    <img src="${book.validImagePath}" alt="${book.title}">
-                                    <h4>${book.title}</h4>
-                                    <p>저자: ${book.author}</p>
-                                    <p>조회수: ${book.views}</p>
-                                    <p>좋아요: ${book.likes}</p>
-                                </a>
+                                <img src="${book.validImagePath}" alt="${book.title}">
+                                <h4>${book.title}</h4>
+                                <p>저자: ${book.author}</p>
+                                <p>조회수: ${book.views}</p>
+                                <p>좋아요: ${book.likes}</p>
                             </div>
                         `;
                         bookListDiv.appendChild(bookItem);
                     });
+
+                    // 책 클릭 시 로컬 스토리지에 책 ID 저장 및 페이지 이동 처리
+                    document.querySelectorAll('.book--item').forEach(item => {
+                        item.addEventListener('click', function() {
+                            const workId = this.getAttribute('data-work-id');
+                            // 로컬 스토리지에 선택된 책 ID 저장
+                            localStorage.setItem('selectedWorkId', workId);
+                            // 페이지 이동
+                            window.location.href = `write/workList?bookId=${workId}`;
+                        });
+                    });
+
                 } else {
                     console.error('dayContent 요소를 찾을 수 없습니다.');
                 }
@@ -386,6 +424,7 @@ function fetchBooksByDayOrder(filter, order) {
         })
         .catch(error => console.error('Error fetching books:', error));
 }
+
 
 // 조회수와 좋아요 정렬 버튼 (카테고리)
 function toggleCategoryViewsOrder() {

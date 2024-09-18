@@ -161,6 +161,28 @@ INSERT INTO `event_tb` (
 );
 
 
+-- 메인배너 테이블
+
+INSERT INTO `main_banner_tb` (
+`title` ,`content`,`sub_content`,`image_path`,`event_id`) 
+VALUES (
+    '회원가입 웰컴 반값 이벤트1', 
+    '회원가입 후 첫 코인 구매 시 50% 할인 혜택을 제공합니다.', 
+    '기간한정 이벤트', 'banner/bannerimg1.jpg',1  );
+
+INSERT INTO `main_banner_tb` (
+`title` ,`content`,`sub_content`,`image_path`,`event_id`) 
+VALUES (
+    '회원가입 웰컴 반값 이벤트2', 
+    '회원가입 후 첫 코인 구매 시 50% 할인 혜택을 제공합니다.', 
+    '기간한정 이벤트',  'banner/bannerimg2.jpg', 2 );
+INSERT INTO `main_banner_tb` (
+`title` ,`content`,`sub_content`,`image_path`,`event_id`) 
+VALUES (
+    '회원가입 웰컴 반값 이벤트3', 
+    '회원가입 후 첫 코인 구매 시 50% 할인 혜택을 제공합니다.', 
+    '기간한정 이벤트',  'banner/bannerimg3.jpg', 3);
+
 
 
 -- 카테고리 테이블에 데이터 삽입
@@ -948,14 +970,14 @@ VALUES
 INSERT INTO funding_history_tb (project_id)
 VALUES (1), (2), (3), (4), (5);
 
--- user_tb에서 랜덤한 user_id를 가져오되, view_day, view_month, view_year에 중복되지 않도록 설정
+
 INSERT INTO book_views_rating_tb (book_id, view_year, view_month, view_day, views, rating, user_id)
 SELECT 
     s.book_id,
-    EXTRACT(YEAR FROM s.upload_day) AS view_year,      -- story_tb의 upload_day에서 연도 추출
-    EXTRACT(MONTH FROM s.upload_day) AS view_month,    -- story_tb의 upload_day에서 월 추출
-    EXTRACT(DAY FROM s.upload_day) AS view_day,        -- story_tb의 upload_day에서 일 추출
-    s.views,                                           -- story_tb의 views 값을 가져옴
+    EXTRACT(YEAR FROM s.upload_day) AS view_year,     
+    EXTRACT(MONTH FROM s.upload_day) AS view_month,    
+    EXTRACT(DAY FROM s.upload_day) AS view_day,        
+    s.views,                                           
     ROUND(1 + (RAND() * 4), 1) AS rating,              -- 1.0 ~ 5.0 사이의 랜덤 평점 생성 (소수점 한 자릿수까지)
     (SELECT u.user_id FROM user_tb u 
      WHERE NOT EXISTS (SELECT 1 FROM book_views_rating_tb bvr 

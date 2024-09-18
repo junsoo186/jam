@@ -355,8 +355,8 @@ CREATE TABLE `book_comment_tb` (
     FOREIGN KEY (`user_id`) REFERENCES `user_tb`(`user_id`)
 );
 
-CREATE TABLE `banner_tb`(
-`banner_id`int PRIMARY KEY AUTO_INCREMENT NOT NULL,
+CREATE TABLE `main_banner_tb`(
+`main_banner_id`int PRIMARY KEY AUTO_INCREMENT NOT NULL,
 `title` varchar(1000) COMMENT '베너 제목',
 `content` varchar(1000) COMMENT '베너 내용1',
 `sub_content` varchar(1000) COMMENT '베너 내용2',
