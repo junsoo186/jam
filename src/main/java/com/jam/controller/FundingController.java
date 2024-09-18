@@ -85,8 +85,8 @@ public class FundingController {
 	 */
 	@PostMapping("/createFunding")
 	public ResponseEntity<Map<String, Object>> createFunding(@ModelAttribute ProjectDTO projectDTO,
-			@RequestParam("mFile") List<MultipartFile> mFiles,
-			@RequestParam("bookId") Integer bookId, @RequestParam("rewards") String rewardsJson) {
+			@RequestParam("mFile") List<MultipartFile> mFiles, @RequestParam("bookId") Integer bookId,
+			@RequestParam("rewards") String rewardsJson) {
 		User principal = (User) session.getAttribute("principal");
 
 		// Project 객체 생성 및 저장
@@ -292,15 +292,11 @@ public class FundingController {
 	}
 
 	@PostMapping("/checkout")
-	public String processCheckout(
-			@RequestParam("totalAmount") int totalAmount,
-			@RequestParam("rewardIds") List<String> rewardIdsStr,
-			@RequestParam("quantities") List<Integer> quantities,
+	public String processCheckout(@RequestParam("totalAmount") int totalAmount,
+			@RequestParam("rewardIds") List<String> rewardIdsStr, @RequestParam("quantities") List<Integer> quantities,
 			HttpSession session) {
 
-		List<Integer> rewardIds = rewardIdsStr.stream()
-				.map(Integer::parseInt)
-				.collect(Collectors.toList());
+		List<Integer> rewardIds = rewardIdsStr.stream().map(Integer::parseInt).collect(Collectors.toList());
 
 		System.out.println("totalAmount" + totalAmount);
 		System.out.println("rewards : " + rewardIds.toString());
@@ -343,14 +339,10 @@ public class FundingController {
 	}
 
 	@PostMapping("/checkoutPage")
-	public String processCheckout(
-			@RequestParam("totalAmount") int totalAmount,
-			@RequestParam("rewardIds") List<Integer> rewardIds,
-			@RequestParam("quantities") List<Integer> quantities,
-			@RequestParam("postcode") String postcode,
-			@RequestParam("basicAddress") String basicAddress,
-			@RequestParam("detailedAddress") String detailedAddress,
-			@RequestParam("extraAddress") String extraAddress,
+	public String processCheckout(@RequestParam("totalAmount") int totalAmount,
+			@RequestParam("rewardIds") List<Integer> rewardIds, @RequestParam("quantities") List<Integer> quantities,
+			@RequestParam("postcode") String postcode, @RequestParam("basicAddress") String basicAddress,
+			@RequestParam("detailedAddress") String detailedAddress, @RequestParam("extraAddress") String extraAddress,
 			Model model) {
 
 		User principal = (User) session.getAttribute("principal");
@@ -361,17 +353,13 @@ public class FundingController {
 			Integer quantity = quantities.get(i);
 
 			// 각각의 리워드에 대한 펀딩 생성
-			Funding funding = Funding.builder()
-					.userId(principal.getUserId())
-					.rewardId(rewardId) // 리스트에서 각 리워드 ID
+			Funding funding = Funding.builder().userId(principal.getUserId()).rewardId(rewardId) // 리스트에서 각 리워드 ID
 					.rewardQuantity(quantity) // 해당 리워드에 대한 수량
-					.zipcode(postcode)
-					.basicAddress(basicAddress)
-					.detailedAddress(detailedAddress)
-					.extraAddress(extraAddress)
-					.build();
-			fundingService.insertFunding(funding);	
+					.zipcode(postcode).basicAddress(basicAddress).detailedAddress(detailedAddress)
+					.extraAddress(extraAddress).build();
+			fundingService.insertFunding(funding);
 		}
+		fundingService.usePointByFunding(principal.getUserId(), totalAmount);
 
 		return "redirect:/funding/checkoutComplete";
 	}
@@ -381,6 +369,21 @@ public class FundingController {
 	public String checkoutComplete() {
 
 		return "funding/checkoutComplete"; // 결제 완료 페이지로 이동
+	}
+
+	@PostMapping("/cancelFunding")
+	public ResponseEntity<String> cancelFunding(@RequestBody Map<String, Object> requestData) {
+		Integer fundingId = (Integer) requestData.get("fundingId");
+		Integer totalAmount = (Integer) requestData.get("totalAmount");
+		User principal = (User) session.getAttribute("principal");
+		
+		// 펀딩 취소 로직 실행
+		try {
+			fundingService.cancelFunding(fundingId, totalAmount, principal.getUserId()); // 서비스에서 취소 처리
+			return ResponseEntity.ok("펀딩 취소 성공");
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("펀딩 취소 실패");
+		}
 	}
 
 }

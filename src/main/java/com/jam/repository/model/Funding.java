@@ -18,6 +18,7 @@ public class Funding {
     private int fundingId; // 기본 키
     private int userId; // user_tb와의 외래 키
     private int rewardId; // reward_tb와의 외래 키
+    private int projectId;
     private Timestamp createdAt; // 생성 시간에 대한 타임스탬프
     private Date canceledAt; // 취소된 날짜
     private String cancelConfirm; // 상태 ('N', 'Y')를 나타내는 열거형
@@ -32,4 +33,7 @@ public class Funding {
     private String extraAddress; // 참고 항목 (동, 호수 등)
     private String shippingAddress; // 전체 주소
 
+    
+    private String isClosed;
+    private Date dateEnd;
 }

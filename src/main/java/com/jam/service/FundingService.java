@@ -35,7 +35,6 @@ public class FundingService {
 	private final RewardRepository rewardRepository;
 	private final UserRepository userRepository;
 
-
 	@Value("${file.upload-dir}")
 	private String uploadDir;
 
@@ -245,23 +244,35 @@ public class FundingService {
 		}
 	}
 
-    public boolean insertRewardByUserId(Integer userId, Integer rewardId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'insertRewardByUserId'");
-    }
+	public boolean insertRewardByUserId(Integer userId, Integer rewardId) {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Unimplemented method 'insertRewardByUserId'");
+	}
 
-    public void insertFunding(Funding funding) {
+	@Transactional
+	public void insertFunding(Funding funding) {
 		fundingRepository.insertFunding(funding);
-    }
+	}
 
-    public Reward findRewardByRewardId(Integer rewardId) {
-        Reward reward = rewardRepository.findRewardByRewardId(rewardId);
-        return reward;
-    }
+	public Reward findRewardByRewardId(Integer rewardId) {
+		Reward reward = rewardRepository.findRewardByRewardId(rewardId);
+		return reward;
+	}
 
 	public List<Funding> findFundingByUserId(int userId) {
 		List<Funding> fundings = fundingRepository.findFundingByUserId(userId);
 		return fundings;
+	}
+
+	@Transactional
+	public void usePointByFunding(Integer userId, int totalAmount) {
+		fundingRepository.updatePoint(userId, totalAmount);
+
+	}
+
+	public void cancelFunding(Integer fundingId, Integer totalAmount, Integer userId) {
+		fundingRepository.updateCanceled(fundingId);
+		fundingRepository.updatePointByRefund(userId, totalAmount);
 	}
 
 }

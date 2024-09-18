@@ -1,223 +1,121 @@
-let contentLoaded = false;
+document.addEventListener("DOMContentLoaded", function() {
+    let currentPage = 1;  // 처음 로드 시 페이지 번호는 1
+    const pageSize = 5;   // 한 페이지당 보여줄 항목 수
 
-function loadContent() {
-    if (contentLoaded) return; // 이미 로드된 경우 함수 종료
-    contentLoaded = true; // 로드 중 표시
-
-    console.log('콘텐츠 로드 시작');
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', '/pay/payment-management', true);
-
-    xhr.onload = function() {
-        if (xhr.status === 200) {
-            console.log('콘텐츠 로드 성공');
-            console.log('로드된 콘텐츠:', xhr.responseText);
-            
-            const contentContainer = document.getElementById('contentContainer'); // ID 확인
-            if (contentContainer) {
-                contentContainer.innerHTML = xhr.responseText;
-
-                // 콘텐츠 삽입 후 바로 호출
-                initializePaymentManagement();
-            } else {
-                console.error('콘텐츠를 삽입할 요소를 찾을 수 없습니다');
-            }
-        } else {
-            console.error('콘텐츠 로드 실패', xhr.status);
-        }
-        contentLoaded = false; // 로드 완료 후 표시 초기화
-    };
-
-    xhr.onerror = function() {
-        console.error('콘텐츠 로드 중 오류 발생');
-        contentLoaded = false; // 오류 발생 시 표시 초기화
-    };
-
-    xhr.send();
-    console.log('콘텐츠 요청 전송 완료');
-}
-
-
-function initializePaymentManagement() {
-    console.log('initializePaymentManagement 호출');
-
-    const tableBody = document.getElementById('paymentTableBody');
-    if (tableBody) {
-        console.log('테이블 바디 요소 찾음');
-        window.loadPaymentManagement(1, 5);
-    } else {
-        console.error('테이블 바디 요소를 찾을 수 없습니다');
-    }
-}
-
-function initializePaymentManagement() {
-    console.log('initializePaymentManagement 호출');
-
-    // 테이블 바디 요소가 동적으로 로드된 콘텐츠 안에 존재할 경우
-    const tableBody = document.getElementById('paymentTableBody');
-    if (tableBody) {
-        console.log('테이블 바디 요소 찾음');
-        window.loadPaymentManagement(1, 5); // 페이지가 로드된 후에 호출
-    } else {
-        console.error('테이블 바디 요소를 찾을 수 없습니다');
-    }
-}
-
-window.loadPaymentManagement = function (page = 1, pageSize = 5) {
-    console.log(`1. loadPaymentManagement 호출됨 - Page: ${page}, Page Size: ${pageSize}`);
-
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', `/pay/payment-management?page=${page}&pageSize=${pageSize}`, true);
-
-    xhr.onload = function () {
-        console.log(`2. XHR 요청 성공 - 상태: ${xhr.status}`);
-        if (xhr.status === 200) {
-            try {
-                console.log('3. JSON 데이터 파싱 시도');
-                const data = JSON.parse(xhr.responseText);
-                console.log('4. JSON 데이터 파싱 성공 - 데이터:', data);
-
-                const payList = data.payList;
-                const currentPage = data.currentPage;
-                const totalPages = data.totalPages;
-
-                const tableBody = document.getElementById('paymentTableBody');
-                if (tableBody) {
-                    console.log('5. 테이블 바디 찾음, 기존 데이터 지우기');
-                    tableBody.innerHTML = '';
-
-                    payList.forEach(function (pay, index) {
-                        console.log(`6. 결제 목록 렌더링 중 - ${index + 1}/${payList.length}`);
-                        const row = `
-                            <tr>
-                                <td>${pay.createdAt}</td>
-                                <td>${pay.paymentKey}</td>
-                                <td>${pay.email}</td>
-                                <td>${pay.paymentMethod || 'N/A'}</td>
-                                <td>${pay.refundAmount}원</td>
-                                <td>${pay.status}</td>
-                                <td><button class="detail-pay-btn" data-url="/pay/payDetail" data-refund-id="${pay.refundId}">[상세보기]</button></td>
-                            </tr>`;
-                        tableBody.insertAdjacentHTML('beforeend', row);
-                    });
-
-                    console.log('7. 결제 목록 렌더링 완료');
-                    renderPagination(currentPage, totalPages, pageSize);
-                } else {
-                    console.error('5. 테이블 바디 요소를 찾을 수 없습니다');
-                }
-            } catch (error) {
-                console.error('4. JSON 파싱 실패', error);
-                console.error('서버 응답 내용: ', xhr.responseText);
-            }
-        } else {
-            console.error(`2. XHR 요청 실패 - 상태: ${xhr.status}`);
-        }
-    };
-
-    xhr.onerror = function () {
-        console.error('2. XHR 요청 중 오류 발생');
-    };
-
-    xhr.send();
-    console.log('1. XHR 요청 전송 완료');
-};
-
-// 페이지네이션 렌더링 함수
-function renderPagination(currentPage, totalPages, pageSize) {
-    console.log(`8. 페이지네이션 렌더링 시작 - 현재 페이지: ${currentPage}, 총 페이지: ${totalPages}`);
-    const pagination = document.getElementById('pagination');
-    if (!pagination) {
-        console.error('8. 페이지네이션 요소를 찾을 수 없습니다');
-        return;
+    // 페이지 로드 시 데이터를 불러오는 함수
+    function loadPayments(page) {
+        fetch(`/pay/payment-management?page=${page}&pageSize=${pageSize}`)
+            .then(response => response.json())
+            .then(data => {
+                renderPayments(data.payList);
+                renderPagination(data.currentPage, data.totalPages);
+            })
+            .catch(error => console.error('Error:', error));
     }
 
-    if (!totalPages || totalPages < 2) {
-        console.log('8. 총 페이지가 2개 미만이므로 페이지네이션을 표시하지 않음');
-        return; // 페이지가 1개 이하일 경우 페이지네이션을 표시하지 않음
-    }
+    // 결제 데이터를 테이블에 렌더링하는 함수
+    function renderPayments(payList) {
+        const paymentTableBody = document.getElementById("paymentTableBody");
+        paymentTableBody.innerHTML = "";  // 기존 데이터를 비움
 
-    pagination.innerHTML = '';
+        if (payList.length > 0) {
+            payList.forEach(payment => {
+                const row = document.createElement("tr");
 
-    // 이전 버튼
-    const prevButton = document.createElement('button');
-    prevButton.textContent = '이전';
-    prevButton.classList.add('page-item');
-    if (currentPage === 1) {
-        prevButton.classList.add('disabled');
-    } else {
-        prevButton.addEventListener('click', () => {
-            console.log('9. 이전 버튼 클릭');
-            loadPaymentManagement(currentPage - 1, pageSize);
-        });
-    }
-    pagination.appendChild(prevButton);
+                row.innerHTML = `
+                    <td>${formatDate(payment.createdAt)}</td>
+                    <td>${payment.paymentKey}</td>
+                    <td>${payment.email}</td>
+                    <td>${payment.paymentMethod}</td>
+                    <td>${formatCurrency(payment.refundAmount)}</td>
+                    <td>${payment.status}</td>
+                    <td><button class="details-btn" data-id="${payment.refundId}">상세보기</button></td>
+                `;
 
-    // 페이지 번호 (현재 페이지 주변 2개씩 표시)
-    const maxVisiblePages = 5;
-    let startPage = Math.max(currentPage - 2, 1);
-    let endPage = Math.min(currentPage + 2, totalPages);
-
-    if (currentPage <= 3) {
-        endPage = Math.min(5, totalPages);
-    } else if (currentPage + 2 >= totalPages) {
-        startPage = Math.max(totalPages - 4, 1);
-    }
-
-    if (startPage > 1) {
-        addPageItem(1);
-        if (startPage > 2) {
-            addEllipsis();
-        }
-    }
-
-    for (let i = startPage; i <= endPage; i++) {
-        addPageItem(i);
-    }
-
-    if (endPage < totalPages) {
-        if (endPage < totalPages - 1) {
-            addEllipsis();
-        }
-        addPageItem(totalPages);
-    }
-
-    // 다음 버튼
-    const nextButton = document.createElement('button');
-    nextButton.textContent = '다음';
-    nextButton.classList.add('page-item');
-    if (currentPage === totalPages) {
-        nextButton.classList.add('disabled');
-    } else {
-        nextButton.addEventListener('click', () => {
-            console.log('9. 다음 버튼 클릭');
-            loadPaymentManagement(currentPage + 1, pageSize);
-        });
-    }
-    pagination.appendChild(nextButton);
-
-    function addPageItem(pageNumber) {
-        const pageButton = document.createElement('button');
-        pageButton.textContent = pageNumber;
-        pageButton.classList.add('page-item');
-        if (pageNumber === currentPage) {
-            pageButton.classList.add('active');
-        } else {
-            pageButton.addEventListener('click', () => {
-                console.log(`9. 페이지 번호 클릭 - 이동할 페이지: ${pageNumber}`);
-                loadPaymentManagement(pageNumber, pageSize);
+                paymentTableBody.appendChild(row);
             });
+
+            bindDetailButtons();
+        } else {
+            paymentTableBody.innerHTML = "<tr><td colspan='7'>환불 신청 내역 없음</td></tr>";
         }
-        pagination.appendChild(pageButton);
     }
 
-    function addEllipsis() {
-        const dots = document.createElement('span');
-        dots.textContent = '...';
-        dots.classList.add('page-item');
-        dots.style.cursor = 'default';
-        pagination.appendChild(dots);
+    // 페이지네이션을 렌더링하는 함수
+    function renderPagination(currentPage, totalPages) {
+        const pagination = document.getElementById("pagination");
+        pagination.innerHTML = "";  // 기존 페이지네이션을 비움
+
+        for (let i = 1; i <= totalPages; i++) {
+            const pageButton = document.createElement("button");
+            pageButton.textContent = i;
+            pageButton.classList.add("page-btn");
+            if (i === currentPage) {
+                pageButton.classList.add("active");
+            }
+            pageButton.addEventListener("click", () => {
+                currentPage = i;
+                loadPayments(i);
+            });
+            pagination.appendChild(pageButton);
+        }
     }
 
-    console.log('8. 페이지네이션 렌더링 완료');
-}
+    // 상세보기 버튼에 이벤트 바인딩
+    function bindDetailButtons() {
+        const detailButtons = document.querySelectorAll(".details-btn");
+        detailButtons.forEach(button => {
+            button.addEventListener("click", function() {
+                const paymentId = this.getAttribute("data-id");
+                openPayModal(paymentId);
+            });
+        });
+    }
+
+    // 모달 열기 및 외부 JSP 파일 로드
+    function openPayModal(refundId) {
+        const modal = document.getElementById('payModal');
+        const modalBody = document.getElementById('payModalBody');
+
+        // AJAX로 모달에 보여줄 JSP 파일을 로드
+        fetch(`/pay/payDetail?refundId=${refundId}`)
+            .then(response => response.text())
+            .then(html => {
+                modalBody.innerHTML = html;  // 모달 내용에 JSP 파일을 삽입
+                modal.style.display = 'block';  // 모달을 보여줌
+            })
+            .catch(error => console.error('Error loading modal content:', error));
+
+        // 모달 닫기 이벤트 설정
+        const closeModalBtn = document.querySelector('.close');
+        closeModalBtn.addEventListener('click', function() {
+            modal.style.display = 'none';
+        });
+
+        // 모달 외부 클릭 시 모달 닫기
+        window.addEventListener('click', function(event) {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+    }
+
+    // 금액 포맷팅 함수 (예시)
+    function formatCurrency(amount) {
+        return new Intl.NumberFormat('ko-KR', { style: 'currency', currency: 'KRW' }).format(amount);
+    }
+
+    // 날짜 포맷팅 함수 (예시)
+    function formatDate(dateString) {
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        return new Date(dateString).toLocaleDateString('ko-KR', options);
+    }
+
+    // 페이지 최초 로드 시 결제 데이터를 불러옴
+    loadPayments(currentPage);
+
+    // **추가 1**: 자동 데이터 갱신 (30초마다 데이터 갱신)
+    setInterval(function() {
+        loadPayments(currentPage);
+    }, 30000);  // 30초마다 자동 갱신
+});
