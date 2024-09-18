@@ -85,23 +85,28 @@ input {
         	</div>
 
 			<div class="form-group">
-				<label for="name">이름</label> <input type="text" name="name" id="name" value="${principal.name}">
+				<label for="name">이름</label>
+				<input type="text" name="name" id="name" value="${principal.name}">
 			</div>
 
 			<div class="form-group">
-				<label for="email">이메일</label> <input type="text" name="email" id="email" value="${principal.email}" readonly>
+				<label for="email">이메일</label>
+				<input type="text" name="email" id="email" value="${principal.email}" readonly>
 			</div>
 
 			<div class="form-group">
-				<label for="phoneNumber">전화번호</label> <input type="text" name="phoneNumber" id="phoneNumber" oninput="validatePhoneNumber(this)" placeholder="01000000000" value="${principal.phoneNumber}">
+				<label for="phoneNumber">전화번호</label>
+				<input type="text" name="phoneNumber" id="phoneNumber" oninput="validatePhoneNumber(this)" placeholder="010123456789" value="${principal.phoneNumber}">
 			</div>
 
 			<div class="form-group">
-				<label for="address">주소</label> <input type="text" name="address" id="address" value="${principal.address}" required>
+				<label for="address">주소</label>
+				<input type="text" name="address" id="address" value="${principal.address}" required>
 			</div>
 
 			<div class="form-group">
-				<label for="birthDate">생일</label> <input type="date" name="birthDate" id="birthDate" value="${principal.birthDate}" required>
+				<label for="birthDate">생일</label>
+				<input type="date" name="birthDate" id="birthDate" value="${principal.birthDate}" required>
 			</div>
 
 			<div class="form-actions">

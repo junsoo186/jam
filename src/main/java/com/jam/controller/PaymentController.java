@@ -15,7 +15,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -24,6 +23,7 @@ import org.springframework.web.client.RestTemplate;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jam.dto.RefundRequest;
 import com.jam.dto.TossPaymentResponseDTO;
+import com.jam.dto.bookRentHistryDTO;
 import com.jam.repository.model.AccountHistoryDTO;
 import com.jam.repository.model.Funding;
 import com.jam.repository.model.Payment;
@@ -515,5 +515,9 @@ public class PaymentController {
     public boolean getEventStatus() {
         return isEventActive;  // true 또는 false 반환 (JSON 형식)
     }
-
+    
+    
+    
+    
+    
 }

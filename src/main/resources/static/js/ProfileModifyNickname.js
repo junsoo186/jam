@@ -21,7 +21,10 @@ document.addEventListener('DOMContentLoaded', function() {
 	
 	// 닉네임 중복 체크
 	const signUpButton = document.getElementById('modify'); // 수정하기 버튼
-		
+	
+	// 기존에 사용하던 닉네임 세션에서 추출
+    const currentNickName = nickName.value;
+    console.log(currentNickName); // 확인용 출력
 	
 	function updateSignUpButton(isEnabled) {
 		signUpButton.disabled = !isEnabled; // 버튼을 비활성화하거나 활성화
@@ -33,7 +36,13 @@ document.addEventListener('DOMContentLoaded', function() {
 		const nickName = document.getElementById('nickName').value;
 		const nickNameCheckMessage = document.getElementById('nickNameCheckMessage'); // 메시지 표시 영역
 		
-		
+		// 기존 닉네임과 동일한지 먼저 확인
+	    if (nickName === currentNickName) {
+	        nickNameCheckMessage.textContent = '현재 사용 중인 닉네임입니다.';
+	        nickNameCheckMessage.style.color = 'blue'; // 같은 경우 파란색으로 표시
+	        updateSignUpButton(true); // 기존 닉네임은 허용
+	        return;
+	    }
 		
 
 		// 닉네임이 입력되지 않았을 경우 중복 검사 실행 안함
@@ -43,6 +52,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			updateSignUpButton(false);
 			return;
 		}
+		
 
 		// 닉네임 중복 체크 API 호출
 		fetch(`/user/check-nickname?nickName=${encodeURIComponent(nickName)}`)

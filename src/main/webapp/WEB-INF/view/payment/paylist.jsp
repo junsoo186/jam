@@ -230,7 +230,7 @@ p {
         <td>${payment.status}</td>
         <td>
             <c:choose>
-                <c:when test="${payment.status == 'PENDING'}">
+                <c:when test="${payment.status == 'PENDING' && fn:trim(payment.event) == 'N'}">
                     <!-- status가 'PENDING'일 때만 환불 버튼을 보여줌 -->
                     <form id="refundForm_${payment.paymentKey}" action="/pay/manager" method="POST">
                         <input type="hidden" name="paymentKey" value="${payment.paymentKey}">
@@ -252,6 +252,7 @@ p {
                 </c:otherwise>
             </c:choose>
         </td>
+        
 					</tr>
 				</c:forEach>
 			</table>
