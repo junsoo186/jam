@@ -3,6 +3,8 @@ package com.jam.repository.model;
 import java.sql.Date;
 import java.sql.Timestamp;
 
+import com.jam.dto.FundingDTO;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

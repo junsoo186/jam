@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jam.repository.interfaces.StaffEventRepository">
+
+    <!-- insertE : 이벤트 글쓰기 -->
+    <insert id="insertE">
+        INSERT INTO event_tb (event_title, event_content, created_at, start_day, end_day, user_id)
+        VALUES (#{eventTitle}, #{eventContent}, now(), #{startDay}, #{endDay}, #{userId});
+    </insert>
+
+    <!-- updateE : 글 수정 -->
+    <update id="updateE">
+        UPDATE event_tb
+        SET event_title = #{eventTitle},
+            event_content = #{eventContent},
+            start_day = #{startDay},
+            end_day = #{endDay}
+        WHERE event_id = #{eventId};
+    </update>
+
+    <!-- selectAllPage : 페이지 조회 -->
+    <select id="selectAllPage" parameterType="map" resultType="com.jam.repository.model.Event">
+        SELECT * FROM event_tb
+        ORDER BY event_id DESC
+        LIMIT #{limit} OFFSET #{offset};
+    </select>
+
+    <!-- countAll : 전체 개수 -->
+    <select id="countAll" resultType="int">
+        SELECT count(*)
+        FROM event_tb
+    </select>
+
+    <!-- selectByEventId : 상세보기 -->
+    <select id="selectByEventId" resultType="com.jam.repository.model.Event">
+        SELECT e.*
+        FROM event_tb AS e
+        LEFT JOIN user_tb AS u ON e.user_id = u.user_id
+        WHERE e.event_id = #{eventId}
+    </select>
+
+    <!-- deleteE : 글 삭제 -->
+    <delete id="deleteE">
+        DELETE FROM event_tb WHERE event_id = #{eventId};
+    </delete>
+
+</mapper>
+ 

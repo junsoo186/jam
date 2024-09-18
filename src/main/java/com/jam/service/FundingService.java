@@ -270,6 +270,7 @@ public class FundingService {
 
 	}
 
+	@Transactional
 	public void cancelFunding(Integer fundingId, Integer totalAmount, Integer userId) {
 		fundingRepository.updateCanceled(fundingId);
 		fundingRepository.updatePointByRefund(userId, totalAmount);

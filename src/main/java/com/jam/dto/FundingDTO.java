@@ -1,11 +1,15 @@
 package com.jam.dto;
 
-import lombok.*;
-
-import java.sql.Timestamp;
 import java.sql.Date;
+import java.sql.Timestamp;
 
 import com.jam.repository.model.Funding;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @ToString
 @Builder
@@ -43,3 +47,5 @@ public class FundingDTO {
                 .build();
     }
 }
+
+

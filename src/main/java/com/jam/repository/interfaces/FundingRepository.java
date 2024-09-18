@@ -3,8 +3,11 @@ package com.jam.repository.interfaces;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.jam.repository.model.Funding;
+import com.jam.repository.model.User;
 
 import org.apache.ibatis.annotations.Param;
 

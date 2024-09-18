@@ -246,7 +246,7 @@ public class UserService {
 		String saveDirectory = new File(uploadDir).getAbsolutePath();
 
 		// 파일 이름 생성(중복 이름 예방)
-		String uploadFileName = UUID.randomUUID() + "_" + mFile.getOriginalFilename();
+		String uploadFileName = "profile/"+ UUID.randomUUID() + "_" + mFile.getOriginalFilename();
 		// 파일 전체 경로 + 새로생성한 파일명
 		String uploadPath = saveDirectory + File.separator + uploadFileName;
 		File destination = new File(uploadPath);
