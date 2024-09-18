@@ -1,11 +1,15 @@
 package com.jam.dto;
 
-import lombok.*;
-
-import java.sql.Timestamp;
 import java.sql.Date;
+import java.sql.Timestamp;
 
 import com.jam.repository.model.Funding;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @ToString
 @Builder
@@ -14,21 +18,21 @@ import com.jam.repository.model.Funding;
 @Data
 public class FundingDTO {
 
-    private int fundingId; // Primary Key
-    private int userId; // Foreign key to user_tb
-    private int rewardId; // Foreign key to reward_tb
-    private Timestamp createdAt; // Timestamp for creation time
-    private Date canceledAt; // Date for cancellation
-    private String cancelConfirm; // Enum ('N', 'Y')
-    private int rewardQuantity; // Number of rewards selected
+	private int fundingId; // Primary Key
+	private int userId; // Foreign key to user_tb
+	private int rewardId; // Foreign key to reward_tb
+	private Timestamp createdAt; // Timestamp for creation time
+	private Date canceledAt; // Date for cancellation
+	private String cancelConfirm; // Enum ('N', 'Y')
+	private int rewardQuantity; // Number of rewards selected
 
-    // Address fields
-    private String zipcode; // 우편번호
-    private String basicAddress; // 기본 주소 (시/구)
-    private String detailedAddress; // 상세 주소 (번지, 건물 등)
-    private String extraAddress; // 참고 항목 (동, 호수 등)
+	// Address fields
+	private String zipcode; // 우편번호
+	private String basicAddress; // 기본 주소 (시/구)
+	private String detailedAddress; // 상세 주소 (번지, 건물 등)
+	private String extraAddress; // 참고 항목 (동, 호수 등)
 
-    public Funding toFunding(Integer userId) {
+	public Funding toFunding(Integer userId) {
         return Funding.builder()
                 .userId(userId)
                 .rewardId(this.rewardId)

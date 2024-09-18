@@ -35,7 +35,6 @@ public class FundingService {
 	private final RewardRepository rewardRepository;
 	private final UserRepository userRepository;
 
-
 	@Value("${file.upload-dir}")
 	private String uploadDir;
 
@@ -245,23 +244,42 @@ public class FundingService {
 		}
 	}
 
-    public boolean insertRewardByUserId(Integer userId, Integer rewardId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'insertRewardByUserId'");
-    }
+	public boolean insertRewardByUserId(Integer userId, Integer rewardId) {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Unimplemented method 'insertRewardByUserId'");
+	}
 
-    public void insertFunding(Funding funding) {
+	public void insertFunding(Funding funding) {
 		fundingRepository.insertFunding(funding);
-    }
+	}
 
-    public Reward findRewardByRewardId(Integer rewardId) {
-        Reward reward = rewardRepository.findRewardByRewardId(rewardId);
-        return reward;
-    }
+	public Reward findRewardByRewardId(Integer rewardId) {
+		Reward reward = rewardRepository.findRewardByRewardId(rewardId);
+		return reward;
+	}
 
 	public List<Funding> findFundingByUserId(int userId) {
 		List<Funding> fundings = fundingRepository.findFundingByUserId(userId);
 		return fundings;
+	}
+
+	public List<Funding> selectAllFund() {
+		List<Funding> list = new ArrayList<>();
+		list = fundingRepository.selectAll();
+
+		return list;
+	}
+
+	public int countFundingById(int fundingId) {
+		int countNum = fundingRepository.countFundingById(fundingId);
+
+		return countNum;
+	}
+
+	public int countFundingAll() {
+		int countNum = fundingRepository.countFundingId();
+
+		return countNum;
 	}
 
 }

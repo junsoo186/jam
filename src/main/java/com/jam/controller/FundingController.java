@@ -30,6 +30,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jam.dto.FundingDTO;
 import com.jam.dto.ProjectDTO;
 import com.jam.dto.RewardDTO;
 import com.jam.repository.model.Book;
@@ -43,11 +44,9 @@ import com.jam.service.UserService;
 import com.jam.service.WriterService;
 
 import jakarta.servlet.http.HttpSession;
-import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequestMapping("/funding")
-@RequiredArgsConstructor
 public class FundingController {
 
 	private final HttpSession session;
@@ -85,8 +84,8 @@ public class FundingController {
 	 */
 	@PostMapping("/createFunding")
 	public ResponseEntity<Map<String, Object>> createFunding(@ModelAttribute ProjectDTO projectDTO,
-			@RequestParam("mFile") List<MultipartFile> mFiles,
-			@RequestParam("bookId") Integer bookId, @RequestParam("rewards") String rewardsJson) {
+			@RequestParam("mFile") List<MultipartFile> mFiles, @RequestParam("bookId") Integer bookId,
+			@RequestParam("rewards") String rewardsJson) {
 		User principal = (User) session.getAttribute("principal");
 
 		// Project 객체 생성 및 저장
@@ -292,15 +291,11 @@ public class FundingController {
 	}
 
 	@PostMapping("/checkout")
-	public String processCheckout(
-			@RequestParam("totalAmount") int totalAmount,
-			@RequestParam("rewardIds") List<String> rewardIdsStr,
-			@RequestParam("quantities") List<Integer> quantities,
+	public String processCheckout(@RequestParam("totalAmount") int totalAmount,
+			@RequestParam("rewardIds") List<String> rewardIdsStr, @RequestParam("quantities") List<Integer> quantities,
 			HttpSession session) {
 
-		List<Integer> rewardIds = rewardIdsStr.stream()
-				.map(Integer::parseInt)
-				.collect(Collectors.toList());
+		List<Integer> rewardIds = rewardIdsStr.stream().map(Integer::parseInt).collect(Collectors.toList());
 
 		System.out.println("totalAmount" + totalAmount);
 		System.out.println("rewards : " + rewardIds.toString());
@@ -343,14 +338,10 @@ public class FundingController {
 	}
 
 	@PostMapping("/checkoutPage")
-	public String processCheckout(
-			@RequestParam("totalAmount") int totalAmount,
-			@RequestParam("rewardIds") List<Integer> rewardIds,
-			@RequestParam("quantities") List<Integer> quantities,
-			@RequestParam("postcode") String postcode,
-			@RequestParam("basicAddress") String basicAddress,
-			@RequestParam("detailedAddress") String detailedAddress,
-			@RequestParam("extraAddress") String extraAddress,
+	public String processCheckout(@RequestParam("totalAmount") int totalAmount,
+			@RequestParam("rewardIds") List<Integer> rewardIds, @RequestParam("quantities") List<Integer> quantities,
+			@RequestParam("postcode") String postcode, @RequestParam("basicAddress") String basicAddress,
+			@RequestParam("detailedAddress") String detailedAddress, @RequestParam("extraAddress") String extraAddress,
 			Model model) {
 
 		User principal = (User) session.getAttribute("principal");
@@ -361,16 +352,11 @@ public class FundingController {
 			Integer quantity = quantities.get(i);
 
 			// 각각의 리워드에 대한 펀딩 생성
-			Funding funding = Funding.builder()
-					.userId(principal.getUserId())
-					.rewardId(rewardId) // 리스트에서 각 리워드 ID
+			Funding funding = Funding.builder().userId(principal.getUserId()).rewardId(rewardId) // 리스트에서 각 리워드 ID
 					.rewardQuantity(quantity) // 해당 리워드에 대한 수량
-					.zipcode(postcode)
-					.basicAddress(basicAddress)
-					.detailedAddress(detailedAddress)
-					.extraAddress(extraAddress)
-					.build();
-			fundingService.insertFunding(funding);	
+					.zipcode(postcode).basicAddress(basicAddress).detailedAddress(detailedAddress)
+					.extraAddress(extraAddress).build();
+			fundingService.insertFunding(funding);
 		}
 
 		return "redirect:/funding/checkoutComplete";
@@ -383,4 +369,31 @@ public class FundingController {
 		return "funding/checkoutComplete"; // 결제 완료 페이지로 이동
 	}
 
+	@PostMapping("/list")
+	public String handleFunding() {
+		return "funding";
+	}
+
+	/**
+	 * 
+	 * 리스트 페이지 (funding 페이지 아직없음)
+	 * 
+	 * @param model
+	 * @return
+	 */
+	@GetMapping("/fundingList")
+	public String handleFundingPage(Model model) {
+		List<Funding> List = fundingService.selectAllFund();
+		int countNum = fundingService.countFundingAll();
+		for (Funding funding : List) {
+			List<FundingDTO> fundingList = new ArrayList<>();
+			fundingList.add(funding.tofundingDTO());
+
+			model.addAttribute("fundingList", fundingList);
+			model.addAttribute("countNum", countNum);
+
+		}
+		return "funding/fundingList";
+
+	}
 }

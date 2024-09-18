@@ -1,6 +1,9 @@
 package com.jam.service;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -83,6 +86,66 @@ public class WriterService {
 		}
 		return books;
 	}
+	
+	/**
+	 *  전체 조회 (요일 포함)
+	 * @return
+	 */
+	public List<Book> readBookSerial() {
+		List<Book> books = new ArrayList<Book>();
+		// TODO - 페이징 추가
+		// TODO - 오류 처리
+		try {
+			books = bookRepository.findSerialDay();
+		} catch (Exception e) {
+
+		}
+		return books;
+	}
+	
+	/**
+	 *  요일 ,좋아요,조회 모든 값
+	 * @return
+	 */
+	public List<Book> readAllbookSerial(String filter,String order){
+		List<Book> books = new ArrayList<Book>();
+		// TODO - 페이징 추가
+		// TODO - 오류 처리
+		try {
+			books = bookRepository.AllBookSerial(filter, order);
+		} catch (Exception e) {
+
+		}
+		return books;
+	}
+	
+	/**
+	 * 
+	 * @param categoryId
+	 * @param filter
+	 * @param order
+	 * @return
+	 */
+	public List<Book> readAllBooksByCategoryIdOrder( int categoryId,String filter,String order){
+		List<Book> bookList= new ArrayList<>();
+		bookList=bookRepository.AllBookListCategoryOrderBy(categoryId, filter, order);
+		return bookList;
+	}
+	
+	
+	
+	/**
+	 *  카테고리 ver2
+	 * @param genreId
+	 * @param filter
+	 * @param order
+	 * @return
+	 */
+	public List<Book> readAllBooksByGenreIdOrder( int genreId,String filter,String order){
+		List<Book> bookList= new ArrayList<>();
+		bookList=bookRepository.AllBookListGenreOrderBy(genreId, filter, order);
+		return bookList;
+	}
 
 	/**
 	 * 작성한 책 리스트
@@ -155,18 +218,44 @@ public class WriterService {
 	@Transactional
 	public Integer createStory(StoryDTO storyDTO, Integer bookId, Integer principalId) {
 		int result = 0;
-		Story story = new Story();
-		try {
-			result = storyRepository.insertStory(storyDTO.toStroy(bookId, principalId));
-			story = storyRepository.findStoryIdByBookIdAndUserId(bookId, principalId);
-		} catch (Exception e) {
-			// TODO - 오류 처리
-		}
-		if (result != 1) {
-			// TODO - 오류 처리
-		}
-		System.out.println("storyId : " + story.toString());
-		return story.getStoryId();
+	    Story story = new Story();
+	    String directoryPath = "src/main/resources/static/contentText/";
+	    String storyPath = directoryPath + storyDTO.getTitle() + ".txt";
+
+	    // 디렉토리 생성 (존재하지 않을 경우)
+	    File directory = new File(directoryPath);
+	    if (!directory.exists()) {
+	        directory.mkdirs(); // 경로에 있는 모든 디렉토리 생성
+	    }
+
+	    // 파일 생성 및 내용 저장
+	    try {
+	        File file = new File(storyPath);
+	        FileWriter writer = new FileWriter(file);
+	        writer.write(storyDTO.getContents());
+	        writer.close();
+	        System.out.println("작성 성공 ++++++++");
+	    } catch (IOException e) {
+	        // TODO: 파일 저장 중 오류 처리
+	        e.printStackTrace();
+	    }
+
+	    // 스토리 데이터베이스에 저장
+	    try {
+	        result = storyRepository.insertStory(storyDTO.toStory(bookId, principalId, storyPath));
+	        story = storyRepository.findStoryIdByBookIdAndUserId(bookId, principalId);
+	    } catch (Exception e) {
+	        // TODO - 오류 처리
+	        e.printStackTrace();
+	    }
+
+	    if (result != 1) {
+	        // TODO - 오류 처리
+	        System.out.println("스토리 저장 실패");
+	    }
+
+	    System.out.println("storyId : " + story.toString());
+	    return story.getStoryId();
 	}
 
 	/**
@@ -175,14 +264,41 @@ public class WriterService {
 	 * @param bookId
 	 * @return
 	 */
+	public List<Story> findAllStoryByBookIdPage(Integer bookId,int page, int size) {
+		List<Story> stories = new ArrayList<Story>();
+		int limit = size;
+		int offset = (page - 1) * size;
+		try {
+			stories = storyRepository.findAllStoryByBookIdPage(bookId,limit,offset);
+		} catch (Exception e) {
+			// TODO - 오류 처리
+		}
+		return stories;
+	}
+
+
+
 	public List<Story> findAllStoryByBookId(Integer bookId) {
 		List<Story> stories = new ArrayList<Story>();
+	
 		try {
 			stories = storyRepository.findAllStoryByBookId(bookId);
 		} catch (Exception e) {
 			// TODO - 오류 처리
 		}
 		return stories;
+	}
+
+
+	public int countStoriesByBookId( Integer bookId){
+		Integer count = storyRepository.countStoriesByBookId(bookId);
+		return count != null ? count : 0;
+	}
+
+
+
+	public int allList(){
+		return storyRepository.countAll();
 	}
 
 	/**
@@ -192,15 +308,38 @@ public class WriterService {
 	 * @param number
 	 * @return
 	 */
-	public Story outputStoryContentByStoryId(Integer StoryId) {
+	public Story outputStoryContentByStoryId(Integer storyId) {
 		Story story = new Story();
-		try {
-			story = storyRepository.outputStoryContentByStoryId(StoryId);
-		} catch (Exception e) {
-			// TODO - 오류 처리
-		}
-		return story;
+	    try {
+	        // 데이터베이스에서 Story 객체 가져오기
+	        story = storyRepository.outputStoryContentByStoryId(storyId);
+
+	        // Story 객체에 저장된 파일 경로 가져오기
+	        String filePath = story.getContents(); // 'contents' 필드에 파일 경로가 저장되어 있다고 가정
+
+	        // 파일 내용을 읽어서 Story 객체의 contents 필드에 설정
+	        StringBuilder contentBuilder = new StringBuilder();
+	        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+	            String line;
+	            while ((line = reader.readLine()) != null) {
+	                contentBuilder.append(line);
+	                contentBuilder.append(System.lineSeparator());
+	            }
+	        } catch (IOException e) {
+	            // TODO: 파일 읽기 오류 처리
+	            e.printStackTrace();
+	        }
+
+	        // 파일에서 읽은 내용을 Story 객체에 설정
+	        story.setContents(contentBuilder.toString());
+	    } catch (Exception e) {
+	        // TODO - 데이터베이스 조회 오류 처리
+	        e.printStackTrace();
+	    }
+
+	    return story;
 	}
+	
 
 	/**
 	 * 회차 수정
@@ -398,32 +537,30 @@ public class WriterService {
 	 * @return
 	 */
 	private String[] uploadFile(MultipartFile mFile) {
+		// 파일 크기 제한 확인
 		if (mFile.getSize() > Define.MAX_FILE_SIZE) {
-			// TODO - 오류 처리
-//			throw new DataDeliveryException("파일 크기는 20MB 이상 클 수 없습니다.", HttpStatus.BAD_REQUEST);
+			throw new RuntimeException("파일 크기는 20MB 이상일 수 없습니다.");
 		}
-
-		// 코드 수정
-		// File - getAbsolutePath()
-		// (리눅스 또는 MacOS)에 맞춰서 절대 경로 생성을 시킬 수 있다.
+	
+		// 저장 디렉토리 확인 및 절대 경로로 변환
 		String saveDirectory = new File(uploadDir).getAbsolutePath();
-
-		// 파일 이름 생성(중복 이름 예방)
-		String uploadFileName = UUID.randomUUID() + "_" + mFile.getOriginalFilename();
-		// 파일 전체 경로 + 새로생성한 파일명
+		System.out.println("저장 경로: " + saveDirectory);
+	
+		// 파일 이름 생성 및 특수 문자 처리
+		String sanitizedFileName = mFile.getOriginalFilename().replaceAll("\\s+", "_");
+		String uploadFileName = "cover/" + UUID.randomUUID() + "_" + sanitizedFileName;
 		String uploadPath = saveDirectory + File.separator + uploadFileName;
 		File destination = new File(uploadPath);
-		
-		// 반드시 수행
+	
+		// 파일 저장
 		try {
 			mFile.transferTo(destination);
 		} catch (IllegalStateException | IOException e) {
-			// TODO - 오류 처리
-//			e.printStackTrace();
-//			throw new DataDeliveryException("파일 업로드 중 오류가 발생했습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
+			e.printStackTrace();
+			throw new RuntimeException("파일 업로드 중 오류가 발생했습니다.", e);
 		}
-
-		return new String[] { mFile.getOriginalFilename(), uploadFileName };
+	
+		return new String[]{mFile.getOriginalFilename(), uploadFileName};
 	}
 	
 	public Book findBookByBookId(Integer bookId) {

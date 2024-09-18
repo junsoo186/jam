@@ -10,15 +10,27 @@ body {
     flex-direction: column;
 }
 
+
+
 .top-area {
-    padding: 10px 20px;
+    width: 1200px;
+  
     border-bottom-color: #333;
 }
 
 .top-nav {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    justify-content: space-between; /* 양쪽 끝으로 배치 */
+    align-items: center; /* 세로 가운데 정렬 */
+}
+
+.top-logo {
+    flex: 1; /* 로고 영역을 왼쪽으로 배치 */
+}
+
+.top-staff {
+    flex: 1;
+    text-align: right; /* 관리자 페이지 링크를 오른쪽으로 정렬 */
 }
 
 
@@ -71,7 +83,6 @@ li {
 #cover {
     left: 0;
     right: 0;
-    width: 1400px;
     margin: -83px auto 0 auto;
     background-color: #fff;
     border: 15px solid #ff4d6d;
@@ -101,7 +112,6 @@ search-form {
 
 #s-cover {
     width: 1px;
-    padding-left: 35px;
 }
 
 .search-button {
@@ -228,4 +238,10 @@ header {
     justify-content: center;
     padding: 0 20px;
     border-bottom: solid 1px #e1e3e1;
+}
+
+.top-all-inside{
+
+    width: 1200px;
+
 }
