@@ -324,5 +324,9 @@ public class FundingService {
 	
 		return projectRepository.findAllProject(size, offset);
 	}
+
+	public int getTotalProjectCount() {
+		return projectRepository.getTotalProjectCount();
+	}
 	
 }

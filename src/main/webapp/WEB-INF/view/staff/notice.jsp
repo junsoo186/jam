@@ -12,7 +12,7 @@
 </head>
 <body>
 
-<div class ="main--content" >
+<div class ="main-content" >
 
 	<h2>공지사항 페이지</h2>
 	

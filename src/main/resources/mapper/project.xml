@@ -10,20 +10,14 @@
 		#{onelineComment}, #{title}, #{contents}, #{goal}, #{mainImg}, #{dateEnd}) </insert>
 
 	<select id="findAllProject"
-		resultType="com.jam.repository.model.Project">
-		SELECT p.*, u.nick_name AS author, cate.category_name, p.main_img, 
-           COUNT(DISTINCT f.user_id) AS participantCount,
-           IFNULL(SUM(CASE WHEN f.cancel_confirm = 'N' THEN r.reward_point * f.reward_quantity ELSE 0 END), 0) AS totalAmount 
-    FROM project_tb p
-    JOIN user_tb u ON p.user_id = u.user_id
-    JOIN book_tb b ON p.book_id = b.book_id
-    JOIN category_tb cate ON b.category_id = cate.category_id
-    LEFT JOIN reward_tb r ON p.project_id = r.project_id
-    LEFT JOIN funding_tb f ON r.reward_id = f.reward_id
-    GROUP BY p.project_id, u.nick_name, cate.category_name, p.main_img
-    ORDER BY p.created_at DESC
-    LIMIT #{size} OFFSET #{offset}
-	 </select>
+		resultType="com.jam.repository.model.Project"> SELECT p.*, u.nick_name AS author,
+		cate.category_name, p.main_img, COUNT(DISTINCT f.user_id) AS participantCount,
+		IFNULL(SUM(CASE WHEN f.cancel_confirm = 'N' THEN r.reward_point * f.reward_quantity ELSE 0
+		END), 0) AS totalAmount FROM project_tb p JOIN user_tb u ON p.user_id = u.user_id JOIN
+		book_tb b ON p.book_id = b.book_id JOIN category_tb cate ON b.category_id = cate.category_id
+		LEFT JOIN reward_tb r ON p.project_id = r.project_id LEFT JOIN funding_tb f ON r.reward_id =
+		f.reward_id GROUP BY p.project_id, u.nick_name, cate.category_name, p.main_img ORDER BY
+		p.created_at DESC LIMIT #{size} OFFSET #{offset} </select>
 
 	<select id="findDetailProject"
 		resultType="com.jam.repository.model.Project"> SELECT p.*, u.nick_name AS author,
@@ -69,12 +63,12 @@
 	<!-- 이미지 ID로 프로젝트 이미지 삭제 쿼리 -->
 	<delete id="deleteProjectImage"> delete from content_tb where content_id = #{contentId} </delete>
 
-	<select id="findByDeadlineBeforeAndIsCanceledFalse" resultType="com.jam.repository.model.Project">
-		SELECT * 
-        FROM project_tb 
-        WHERE date_end &lt; #{now}
-        AND project_successful = 'N'
-	</select>
+	<select id="findByDeadlineBeforeAndIsCanceledFalse"
+		resultType="com.jam.repository.model.Project"> SELECT * FROM project_tb WHERE date_end &lt;
+		#{now} AND project_successful = 'N' </select>
 
+	<select id="getTotalProjectCount" resultType="int">
+		SELECT COUNT(*) AS totalProjects FROM project_tb
+	</select>
 
 </mapper>

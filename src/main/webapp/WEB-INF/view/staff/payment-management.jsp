@@ -4,7 +4,7 @@
 <%@ include file="/WEB-INF/view/staff/main.jsp" %>
 <script type="text/javascript" src="/js/pay/payment.js"></script>
 <body>
-    <div class="container">
+    <div class="main-content">
         <h1>결제 및 금융관리</h1>
 
         <!-- 환불 요청 테이블 -->

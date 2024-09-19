@@ -384,30 +384,37 @@ public class PaymentController {
 
 	@GetMapping("/payment-management")
 	@ResponseBody
-    public ResponseEntity<Map<String, Object>> getPaymentManagement(
-            @RequestParam(value = "page", defaultValue = "1") int page,
-            @RequestParam(value = "pageSize", defaultValue = "5") int pageSize) {
+	public ResponseEntity<Map<String, Object>> getPaymentManagement(
+			@RequestParam(value = "page", defaultValue = "1") int page, // 기본값을 1로 설정
+			@RequestParam(value = "pageSize", defaultValue = "5") int pageSize) {
 
-        // 페이징 처리된 결제 정보와 기타 필요한 데이터 로직
-        List<RefundRequest> payList = userService.selectRefundRequest(page, pageSize);
-        int totalPayCount = userService.getTotalRefundRequestCount();
-        int totalPages = (int) Math.ceil((double) totalPayCount / pageSize);
+		// 페이지 번호가 1 이상이어야 함
+		if (page < 1) {
+			page = 1;
+		}
 
-        // 응답할 데이터를 Map 형태로 담음
-        Map<String, Object> response = new HashMap<>();
-        response.put("payList", payList);
-        response.put("currentPage", page);
-        response.put("totalPages", totalPages);
+		// DB 조회 시 페이지는 0부터 시작하는 인덱스를 사용하므로 page - 1로 조정
+		int offset = (page - 1) * pageSize;
 
-        // JSON으로 응답
-        return ResponseEntity.ok(response);
-    }
-	
-	@GetMapping("/payment-page")
-	public String getPaymentPage() {
-	    return "staff/payment-management";
+		// 페이징 처리된 결제 정보와 기타 필요한 데이터 로직
+		List<RefundRequest> payList = userService.selectRefundRequest(offset, pageSize);
+		int totalPayCount = userService.getTotalRefundRequestCount();
+		int totalPages = (int) Math.ceil((double) totalPayCount / pageSize);
+
+		// 응답할 데이터를 Map 형태로 담음
+		Map<String, Object> response = new HashMap<>();
+		response.put("payList", payList);
+		response.put("currentPage", page); // 클라이언트에게 표시할 현재 페이지
+		response.put("totalPages", totalPages);
+
+		// JSON으로 응답
+		return ResponseEntity.ok(response);
 	}
 
+	@GetMapping("/payment-page")
+	public String getPaymentPage() {
+		return "staff/payment-management";
+	}
 
 	@GetMapping("/payDetail")
 	public String getMethodName(Model model, @RequestParam("refundId") Integer refundId) {

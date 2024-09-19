@@ -44,4 +44,6 @@ public interface ProjectRepository {
 
 	public List<Project> findByDeadlineBeforeAndIsCanceledFalse(@Param("now") LocalDateTime now);
 
+    int getTotalProjectCount();
+
 }

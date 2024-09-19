@@ -10,7 +10,7 @@ body {
 	background-color: #f9f9f9;
 }
 
-.main--content {
+.main-content {
 	margin-top: 100px;
 	margin-left: 150px;
 	padding-left: 150px;
@@ -71,7 +71,8 @@ body {
 	/* 사이드바가 콘텐츠 위로 올라오지 않도록 설정 */
 }
 
-.sidebar h2, .sidebar h3 {
+.sidebar h2,
+.sidebar h3 {
 	text-align: center;
 	margin-bottom: 15px;
 }
@@ -134,11 +135,14 @@ table {
 	/* 테두리의 부드러운 그림자 효과 */
 }
 
-table, th, td {
+table,
+th,
+td {
 	border: 1px solid #ddd;
 }
 
-th, td {
+th,
+td {
 	padding: 12px;
 }
 
@@ -164,7 +168,9 @@ form label {
 	margin-bottom: 10px;
 }
 
-form input[type="text"], form input[type="date"], form textarea {
+form input[type="text"],
+form input[type="date"],
+form textarea {
 	width: 100%;
 	padding: 10px;
 	margin-bottom: 20px;
@@ -221,15 +227,16 @@ form button:hover {
 	/* 모달 팝업 시 애니메이션 추가 */
 }
 
-@
-keyframes fadeIn {from { opacity:0;
-	transform: translateY(-20px);
-}
+@keyframes fadeIn {
+	from {
+		opacity: 0;
+		transform: translateY(-20px);
+	}
 
-to {
-	opacity: 1;
-	transform: translateY(0);
-}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
 
 }
 
@@ -244,7 +251,8 @@ to {
 	cursor: pointer;
 }
 
-.close:hover, .close:focus {
+.close:hover,
+.close:focus {
 	color: #000;
 	text-decoration: none;
 	cursor: pointer;
@@ -261,7 +269,8 @@ to {
 	margin-bottom: 8px;
 }
 
-.modal-content form input, .modal-content form textarea {
+.modal-content form input,
+.modal-content form textarea {
 	margin-bottom: 15px;
 	padding: 10px;
 	border: 1px solid #ddd;
@@ -376,6 +385,7 @@ to {
 	border-color: #ccc;
 	background-color: #f9f9f9;
 }
+
 /*페이징처리*/
 .bottom--page--area {
 	margin-top: 30px;
