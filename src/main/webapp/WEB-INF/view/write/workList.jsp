@@ -4,7 +4,7 @@
 
 
 <link rel="stylesheet" href="/css/workList.css">
-<<<<<<< HEAD
+
 <link rel="stylesheet" href="/css/toggleSwitch.css">    
 
 <section>
@@ -30,8 +30,6 @@
 	
 </section>
 
-=======
->>>>>>> 834ff0d546f865f12d767d930f5eaea093c34a41
 <main>
     <section class="top--nav--area">
         <div class="navbar">
@@ -42,32 +40,6 @@
         </div>
     </section>
 
-<<<<<<< HEAD
-						<div class="extra-content">
-							<div class="center-section text--book--info">
-								<span>${list.authorComment}</span> <br> <span class="text--likes--count"> <img src="//images.novelpia.com/img/new/icon/count_good.png" alt="좋아요 아이콘">
-									${list.likes}
-								</span> <br> <span class="text--book--tags"> <c:forEach var="tag" items="${list.tagNames}">
-										<span class="tag--hash--off">#${tag}</span>
-									</c:forEach>
-								</span>
-							</div>
-							<div class="right-section area--btn--book--actions">
-								<a href="/write/storyInsert?bookId=${list.bookId}"> <img src="//images.novelpia.com/img/new/mybook/btn_episode.png" class="btn--book--action--img" alt="에피소드 추가">
-								</a> <a href="/write/workUpdate?bookId=${list.bookId}"> <img src="//images.novelpia.com/img/new/mybook/btn_novel_manage.png" class="btn--book--action--img" alt="작품 관리">
-								</a>
-							</div>
-						</div>
-					</div>
-				</c:forEach>
-			</c:when>
-			<c:otherwise>
-				<p>작성한 책 내역이 존재하지 않습니다.</p>
-			</c:otherwise>
-		</c:choose>
-	</div>
-	
-=======
     <section class="top--banner--area">
         <c:forEach items="${banner}" var="bannerItem">
             <div class="banner--content">
@@ -115,7 +87,7 @@
                                             <p>저자: ${list.author}</p>
                                             <p>제목: ${list.title}</p>
                                         </div>
-                                    </div>
+                                    </div>    
                                 </div>
 
                                 <!-- 이야기 목록과 페이지네이션 영역 -->
@@ -135,13 +107,11 @@
             </c:choose>
         </div>
     </section>
->>>>>>> 834ff0d546f865f12d767d930f5eaea093c34a41
 </main>
     
 
 <script type="text/javascript" src="/js/workList.js"></script>
 
-<<<<<<< HEAD
 <script type="text/javascript">
 		
 
@@ -197,8 +167,4 @@
             
 </script>
 
-
-=======
-
 <%@ include file="/WEB-INF/view/layout/footer.jsp"%>
->>>>>>> 834ff0d546f865f12d767d930f5eaea093c34a41
