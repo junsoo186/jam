@@ -3,10 +3,10 @@ package com.jam.repository.interfaces;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.jam.repository.model.MainBanner;
 
-import io.lettuce.core.dynamic.annotation.Param;
 
 @Mapper
 public interface MainBannerRepository {

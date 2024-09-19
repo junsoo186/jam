@@ -54,9 +54,6 @@
   }
 }
 
-p {
-	color: #f9f9f9;
-}
 
 .strong--text {
 	font-weight: bold;
@@ -336,11 +333,6 @@ h3 {
 }
 
 
-
-
-
-
-
 /* 슬라이더 내부 래퍼 */
 .slider--wrapper {
 	width: 100%;
@@ -360,3 +352,44 @@ h3 {
 	display: inline-flex;
 	gap: 40px;
 }
+
+
+  -- asd
+  .slider-container {
+    position: relative;
+    width: 100%;
+    height: 300px;
+    overflow: hidden;
+}
+
+
+.banner--text--box {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    color: white;
+}
+
+.prev--btn, .next--btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.prev--btn {
+    left: 10px;
+}
+
+.next--btn {
+    right: 10px;
+}
+  
+
+
