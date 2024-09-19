@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jam.repository.interfaces.BannerRepository">
+
+    <select id="selectAllBanner" resultType="com.jam.repository.model.Banner">
+   SELECT * FROM banner_tb 
+    LIMIT #{limit} OFFSET #{offset};
+    </select>
+
+    <select id="countBanner" resultType="int">
+    	SELECT count(*) FROM banner_tb;
+    </select>
+
+</mapper>
