@@ -503,6 +503,7 @@ public class PaymentController {
         // 응답할 데이터를 Map 형태로 담음
         Map<String, Object> response = new HashMap<>();
         response.put("payList", payList);
+        System.out.println("payList offset : " + payList.toString());
         response.put("currentPage", page); // 클라이언트에게 표시할 현재 페이지
         response.put("totalPages", totalPages);
 
