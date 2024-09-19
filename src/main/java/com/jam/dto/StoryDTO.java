@@ -32,7 +32,7 @@ public class StoryDTO {
 	private Integer cost;
 	private String contents;
 
-	public Story toStroy(Integer bookId, Integer principalId) {
+	public Story toStory(Integer bookId, Integer principalId ,String storyPath) {
 		return Story.builder()
 				.bookId(bookId)
 				.userId(principalId)
@@ -42,7 +42,7 @@ public class StoryDTO {
 				.uploadDay(this.uploadDay)
 				.save(this.save)
 				.cost(this.cost)
-				.contents(this.contents)
+				.contents(storyPath)
 				.build();
 	}
 	

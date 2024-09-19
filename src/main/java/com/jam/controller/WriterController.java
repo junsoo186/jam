@@ -2,29 +2,31 @@ package com.jam.controller;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.jam.dto.BookDTO;
 import com.jam.dto.StoryDTO;
-import com.jam.repository.interfaces.ProjectRepository;
+import com.jam.repository.model.Banner;
 import com.jam.repository.model.Book;
 import com.jam.repository.model.Category;
 import com.jam.repository.model.Genre;
-import com.jam.repository.model.Project;
 import com.jam.repository.model.Story;
 import com.jam.repository.model.Tag;
 import com.jam.repository.model.User;
-import com.jam.service.FundingService;
+import com.jam.service.BannerService;
 import com.jam.service.WriterService;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 
@@ -34,10 +36,9 @@ import lombok.RequiredArgsConstructor;
 public class WriterController {
 
 	private final WriterService writerService;
-	@Autowired
+	private final BannerService bannerService;
+	// private final BennerService bennerService; 
 	private final HttpSession session;
-
-	private final FundingService fundingService;
 
 	// TODO - 검색 기능 추가
 
@@ -48,23 +49,75 @@ public class WriterController {
 	 * @return
 	 */
 	@GetMapping("/workList")
-	public String handleWorkList(Model model) {
-		User principal = (User) session.getAttribute("principal");
+	public String handleWorkList(
+		@RequestParam(name = "bookId", required = false) Integer bookId, 
+		@RequestParam(name = "page", defaultValue = "1") int page,
+		@RequestParam(name = "size", defaultValue = "4") int size,
+		@RequestParam(name = "bannerpage", defaultValue = "1") int bannerpage,
+		@RequestParam(name = "bannersize", defaultValue = "1") int bannersize,
+		Model model,
+		HttpServletRequest request) {
+	
+		// 세션에서 사용자 정보 가져오기
+		User principal = (User) request.getSession().getAttribute("principal");
 		List<Book> bookList = writerService.readAllBookListByprincipalId(principal.getUserId());
+	
+		// 책 이미지 설정
 		for (Book book : bookList) {
 			String bookImg = book.setUpUserImage();
 			book.setBookCoverImage(bookImg);
 		}
-
-		if (bookList.isEmpty()) {
-			model.addAttribute("bookList", null);
-		} else {
-			model.addAttribute("bookList", bookList);
+	
+		// 배너 페이징 처리
+		List<Banner> bannerList = bannerService.findAll(bannerpage, bannersize);
+		for (Banner banner : bannerList) {
+			String bannerImg = banner.setUpBannerImage();
+			banner.setImagePath(bannerImg);
 		}
+	
+		// bookId가 없으면 첫 번째 책을 선택
+		if (bookId == null && !bookList.isEmpty()) {
+			bookId = bookList.get(0).getBookId();
+		}
+	
+		int totalRecords = 0;
+		int totalPages = 0;
+		Map<Integer, List<Story>> storyMap = new HashMap<>();
+	
+		if (bookId != null) {
+			totalRecords = writerService.countStoriesByBookId(bookId);
+			totalPages = (int) Math.ceil((double) totalRecords / size);
+	
+			// 이야기 목록 가져오기
+			List<Story> storyList = writerService.findAllStoryByBookIdPage(bookId, page, size);
+			storyMap.put(bookId, storyList != null ? storyList : new ArrayList<>());
+		}
+	
+		// 배너 총 개수와 총 페이지 수 계산
+		int totalBannerRecords = bannerService.countTotalBanners();  // 배너의 총 개수
+		int totalBannerPages = (int) Math.ceil((double) totalBannerRecords / bannersize);
+	
+		// 모델에 데이터 추가
+		model.addAttribute("banner", bannerList);
+		model.addAttribute("bookList", bookList);
+		model.addAttribute("storyMap", storyMap);
+		model.addAttribute("currentPage", page);
+		model.addAttribute("totalPages", totalPages);
+		model.addAttribute("size", size);
+		model.addAttribute("bookId", bookId);
+	
+		// 배너 페이징 정보
+		model.addAttribute("currentBannerPage", bannerpage);
+		model.addAttribute("totalBannerPages", totalBannerPages);
+		model.addAttribute("bannersize", bannersize);
+	
+		// AJAX 요청에 대한 처리
+		if ("XMLHttpRequest".equals(request.getHeader("X-Requested-With"))) {
+			return "write/workListPartial"; // Partial View 반환
+		}
+	
 		return "write/workList";
 	}
-	
-
 	// TODO - 전체 작품 리스트 추가
 
 	/**
@@ -92,7 +145,8 @@ public class WriterController {
 	 * @return 작품 리스트 페이지로 리다이렉트
 	 */
 	@PostMapping("/workInsert")
-	public String completedWorkProc(BookDTO bookDTO) {
+	public String completedWorkProc(@RequestParam("bookCover") MultipartFile bookCover,
+	BookDTO bookDTO) {
 		User principal = (User) session.getAttribute("principal");
 
 		// 유효성 검사 (생략)
@@ -101,7 +155,7 @@ public class WriterController {
 		List<Tag> existingTags = writerService.selectAllTags();
 		List<String> tagNames = bookDTO.getCustomTag();
 		List<Integer> tagIdsToInsert = new ArrayList<>();
-
+		bookDTO.setBookCover(bookCover);
 		// 현재 존재하는 태그들과 bookDTO의 태그 이름들을 비교합니다.
 		for (String tagName : tagNames) {
 			boolean tagExists = false;
@@ -144,7 +198,8 @@ public class WriterController {
 	 * @return
 	 */
 	@GetMapping("/storyInsert")
-	public String handleStoryInsert() {
+	public String handleStoryInsert(@RequestParam(name="bookId") int bookId, Model model) {
+		model.addAttribute("bookId", bookId);
 		return "write/storyInsert";
 	}
 
@@ -200,13 +255,9 @@ public class WriterController {
 		String bookImg = bookDetail.setUpUserImage(); // 책의 이미지 경로를 설정
 		bookDetail.setBookCoverImage(bookImg); // 설정한 이미지 경로를 Book 객체에 저장
 
-		Project project = fundingService.findProjectByBookId(bookDetail.getBookId());
-
 		model.addAttribute("bookId", bookId);
 		model.addAttribute("bookDetail", bookDetail);
 		model.addAttribute("principalId", principal.getUserId());
-		model.addAttribute("project", project);
-
 
 		// 디버깅을 위해 각 Story 객체의 userId를 출력
 
@@ -228,7 +279,7 @@ public class WriterController {
 		Book bookDetail = writerService.detailBook(bookId);
 		String bookImg = bookDetail.setUpUserImage(); // 책의 이미지 경로를 설정
 		bookDetail.setBookCoverImage(bookImg); // 설정한 이미지 경로를 Book 객체에 저장
-		
+
 		String tagNames = bookDetail.getTagNames();
 		String[] tagsArray = tagNames.split(",");
 		List<String> tagList = new ArrayList<String>();
@@ -258,9 +309,9 @@ public class WriterController {
 				}
 			}
 		}
-			model.addAttribute("selectTags", selectTags);
-			model.addAttribute("bookId", bookId);
-			model.addAttribute("bookDetail", bookDetail);
+		model.addAttribute("selectTags", selectTags);
+		model.addAttribute("bookId", bookId);
+		model.addAttribute("bookDetail", bookDetail);
 		return "write/workUpdate";
 	}
 

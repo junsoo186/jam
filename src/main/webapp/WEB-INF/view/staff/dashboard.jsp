@@ -1,12 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="ko">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>대시보드</title>
-<!-- 외부 CSS 파일 -->
-</head>
+<%@ include file="/WEB-INF/view/staff/main.jsp" %>
 <body>
 	<!-- 메인 콘텐츠 영역 -->
 	<div class="main-content">

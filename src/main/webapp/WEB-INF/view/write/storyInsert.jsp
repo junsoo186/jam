@@ -1,13 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/view/layout/header.jsp" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <link rel="stylesheet" href="/css/storyInsert.css">
 
 <main>
 <div class="content--container">
     <h1>회차 생성</h1>
     <div class="content--area">
-        <form action="storyInsert" method="post">
+        <form action="/write/storyInsert" method="post">
             
             <!-- 상단에 '내용 전' 섹션 -->
             <div class="top--section">
@@ -42,19 +43,39 @@
             </div>
 
             <!-- 중간에 '내용' 입력 필드 -->
+
+
+
             <div class="middle-section">
                 <div class="story">
                     <label for="contents">내용:</label>
-                    <textarea id="contents" name="contents" placeholder="소설 작성전 안내사항"></textarea>
+                    <textarea name="contents" id="editor"></textarea>
                 </div>
             </div>
 
+
+
+
+
+
+
             <!-- 하단 버튼 영역 -->
             <div class="btn--area">
-                <input type="hidden" name="bookId" value="1">
+                <input type="hidden" name="bookId" value="${bookId}">
                 <button type="submit" id="btnInsert">회차 등록</button>
             </div>
         </form>
     </div>
    </div>
 </main>
+<script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
+
+<script>
+    ClassicEditor
+        .create(document.querySelector('#editor'), {
+            toolbar: ['bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote']
+        })
+        .catch(error => {
+            console.error(error);
+        });
+</script>

@@ -10,6 +10,12 @@ body {
 	background-color: #f9f9f9;
 }
 
+.main-content {
+	margin-top: 100px;
+	margin-left: 150px;
+	padding-left: 150px;
+}
+
 /* 헤더 스타일 */
 .header {
 	background-color: #f4f4f4;
@@ -17,11 +23,14 @@ body {
 	justify-content: space-between;
 	padding: 10px 20px;
 	border-bottom: 1px solid #ddd;
-	position: fixed; /* 헤더 고정 */
+	position: fixed;
+	/* 헤더 고정 */
 	top: 0;
 	left: 0;
-	width: 100%; /* 전체 너비를 차지 */
-	z-index: 1000; /* 헤더가 다른 요소 위에 있도록 설정 */
+	width: 100%;
+	/* 전체 너비를 차지 */
+	z-index: 1000;
+	/* 헤더가 다른 요소 위에 있도록 설정 */
 }
 
 .header h1 {
@@ -51,16 +60,19 @@ body {
 	width: 250px;
 	background-color: #333;
 	position: fixed;
-	top: 60px; /* 헤더 아래로 배치 */
+	top: 60px;
+	/* 헤더 아래로 배치 */
 	bottom: 0;
 	left: 0;
 	padding-top: 20px;
 	color: white;
 	border-right: 1px solid #ddd;
-	z-index: 999; /* 사이드바가 콘텐츠 위로 올라오지 않도록 설정 */
+	z-index: 999;
+	/* 사이드바가 콘텐츠 위로 올라오지 않도록 설정 */
 }
 
-.sidebar h2, .sidebar h3 {
+.sidebar h2,
+.sidebar h3 {
 	text-align: center;
 	margin-bottom: 15px;
 }
@@ -91,12 +103,16 @@ body {
 
 /* 메인 콘텐츠 스타일 */
 #content {
-	margin-left: 240px; /* 사이드바의 너비와 일치 */
+	margin-left: 240px;
+	/* 사이드바의 너비와 일치 */
 	padding: 30px;
 	background-color: #f9f9f9;
-	min-height: calc(100vh - 10px); /* 화면 높이에서 헤더 높이 제외 */
-	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 살짝 그림자 효과 추가 */
-	padding-top: 80px; /* 헤더 아래로 콘텐츠 영역을 내림 */
+	min-height: calc(100vh - 10px);
+	/* 화면 높이에서 헤더 높이 제외 */
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	/* 살짝 그림자 효과 추가 */
+	padding-top: 80px;
+	/* 헤더 아래로 콘텐츠 영역을 내림 */
 	width: auto;
 }
 
@@ -109,18 +125,24 @@ table {
 	width: 100%;
 	border-collapse: collapse;
 	margin-top: 30px;
-	text-align: center; /* 테이블 내용을 가운데 정렬 */
-	background-color: #fff; /* 테이블 배경 흰색 */
+	text-align: center;
+	/* 테이블 내용을 가운데 정렬 */
+	background-color: #fff;
+	/* 테이블 배경 흰색 */
 	border-radius: 8px;
 	overflow: hidden;
-	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* 테두리의 부드러운 그림자 효과 */
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+	/* 테두리의 부드러운 그림자 효과 */
 }
 
-table, th, td {
+table,
+th,
+td {
 	border: 1px solid #ddd;
 }
 
-th, td {
+th,
+td {
 	padding: 12px;
 }
 
@@ -146,7 +168,9 @@ form label {
 	margin-bottom: 10px;
 }
 
-form input[type="text"], form input[type="date"], form textarea {
+form input[type="text"],
+form input[type="date"],
+form textarea {
 	width: 100%;
 	padding: 10px;
 	margin-bottom: 20px;
@@ -178,8 +202,10 @@ form button:hover {
 	width: 100%;
 	height: 100%;
 	overflow: auto;
-	background-color: rgba(0, 0, 0, 0.5); /* 어두운 배경 */
-	display: flex; /* 중앙 정렬 */
+	background-color: rgba(0, 0, 0, 0.5);
+	/* 어두운 배경 */
+	display: flex;
+	/* 중앙 정렬 */
 	align-items: center;
 	justify-content: center;
 }
@@ -187,12 +213,18 @@ form button:hover {
 .modal-content {
 	background-color: #fff;
 	padding: 20px;
-	border-radius: 10px; /* 둥근 모서리 */
-	width: 500px; /* 모달 너비 고정 */
-	max-width: 90%; /* 화면이 작아지면 너비가 90%까지 줄어듦 */
-	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); /* 부드러운 그림자 */
-	position: relative; /* 닫기 버튼을 위한 상대적 위치 */
-	animation: fadeIn 0.3s ease; /* 모달 팝업 시 애니메이션 추가 */
+	border-radius: 10px;
+	/* 둥근 모서리 */
+	width: 500px;
+	/* 모달 너비 고정 */
+	max-width: 90%;
+	/* 화면이 작아지면 너비가 90%까지 줄어듦 */
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+	/* 부드러운 그림자 */
+	position: relative;
+	/* 닫기 버튼을 위한 상대적 위치 */
+	animation: fadeIn 0.3s ease;
+	/* 모달 팝업 시 애니메이션 추가 */
 }
 
 @keyframes fadeIn {
@@ -200,10 +232,12 @@ form button:hover {
 		opacity: 0;
 		transform: translateY(-20px);
 	}
+
 	to {
 		opacity: 1;
 		transform: translateY(0);
 	}
+
 }
 
 /* 닫기 버튼 스타일 */
@@ -217,7 +251,8 @@ form button:hover {
 	cursor: pointer;
 }
 
-.close:hover, .close:focus {
+.close:hover,
+.close:focus {
 	color: #000;
 	text-decoration: none;
 	cursor: pointer;
@@ -234,7 +269,8 @@ form button:hover {
 	margin-bottom: 8px;
 }
 
-.modal-content form input, .modal-content form textarea {
+.modal-content form input,
+.modal-content form textarea {
 	margin-bottom: 15px;
 	padding: 10px;
 	border: 1px solid #ddd;
@@ -287,34 +323,103 @@ form button:hover {
 
 /* 오늘의 현황 스타일 */
 .status-box {
-    background-color: #f8f8f8;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin-bottom: 30px;
+	background-color: #f8f8f8;
+	padding: 20px;
+	border-radius: 8px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	margin-bottom: 30px;
 }
 
 .status-box h3 {
-    font-size: 24px;
-    margin-bottom: 15px;
+	font-size: 24px;
+	margin-bottom: 15px;
 }
 
 .status-box ul {
-    list-style-type: none;
+	list-style-type: none;
 }
 
 .status-box ul li {
-    font-size: 18px;
-    margin-bottom: 10px;
+	font-size: 18px;
+	margin-bottom: 10px;
 }
 
 /* 프로젝트 현황 테이블 스타일 */
 .project-status {
-    margin-top: 30px;
+	margin-top: 30px;
 }
 
 .project-status h3 {
-    font-size: 24px;
-    margin-bottom: 15px;
+	font-size: 24px;
+	margin-bottom: 15px;
 }
 
+#pagination {
+	text-align: center;
+}
+
+.page-item {
+	display: inline-block;
+	margin: 0 3px;
+	padding: 5px 10px;
+	cursor: pointer;
+	border: 1px solid #ccc;
+	border-radius: 3px;
+	background-color: #fff;
+	transition: background-color 0.3s;
+}
+
+.page-item:hover {
+	background-color: #f0f0f0;
+}
+
+.page-item.active {
+	background-color: #007BFF;
+	color: white;
+	border-color: #007BFF;
+}
+
+.page-item.disabled {
+	pointer-events: none;
+	color: #ccc;
+	border-color: #ccc;
+	background-color: #f9f9f9;
+}
+
+/*페이징처리*/
+.bottom--page--area {
+	margin-top: 30px;
+	text-align: center;
+}
+
+.pagination {
+	list-style: none;
+	padding: 0;
+}
+
+.pagination .page--item {
+	display: inline-block;
+	margin: 0 5px;
+}
+
+.pagination .page--link {
+	display: inline-block;
+	padding: 8px 12px;
+	font-size: 14px;
+	border: 1px solid #E6E6E5;
+	color: #333;
+	border-radius: 4px;
+	transition: background-color 0.3s ease, color 0.3s ease;
+	text-decoration: none;
+}
+
+.pagination .page--link:hover {
+	background-color: #E6E6E5;
+	color: 333;
+}
+
+.pagination .page--item.active .page--link {
+	background-color: #E6E6E5;
+	color: 333;
+	border-color: #E6E6E5;
+}

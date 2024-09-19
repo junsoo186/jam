@@ -1,11 +1,15 @@
 package com.jam.dto;
 
-import lombok.*;
-
-import java.sql.Timestamp;
 import java.sql.Date;
+import java.sql.Timestamp;
 
 import com.jam.repository.model.Funding;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @ToString
 @Builder
@@ -18,7 +22,7 @@ public class FundingDTO {
     private int userId; // Foreign key to user_tb
     private int rewardId; // Foreign key to reward_tb
     private Timestamp createdAt; // Timestamp for creation time
-    private Date canceledAt; // Date for cancellation
+    private Timestamp canceledAt; // Date for cancellation
     private String cancelConfirm; // Enum ('N', 'Y')
     private int rewardQuantity; // Number of rewards selected
 
@@ -43,3 +47,5 @@ public class FundingDTO {
                 .build();
     }
 }
+
+

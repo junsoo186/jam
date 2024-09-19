@@ -29,6 +29,7 @@ spring:
       suffix: .jsp # 뷰 이름에 자동으로 추가될 파일 확장자를 설정합니다.
 
   servlet:
+    content-type: text/html
     multipart:
       enabled: true
       max-file-size: 20MB # 파일 최대 크기 20MB
@@ -83,7 +84,7 @@ logging:
     org.apache.ibatis: DEBUG  # MyBatis 로깅 레벨을 DEBUG로 설정하여 SQL 쿼리 로그 출력
 
 file:
-  upload-dir: C:\work_spring\upload/  # 파일 업로드 디렉토리 설정
+  upload-dir: src/main/resources/static/images/  # 파일 업로드 디렉토리 설정
 
 tenco:
   key: 54d5cb2d332dbdb4850293caae4559ce88b65163f1ea5d4e4b3ac49d772ded14 

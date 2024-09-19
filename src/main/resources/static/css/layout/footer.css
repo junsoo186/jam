@@ -1,37 +1,62 @@
 @charset "UTF-8";
 
-.bottom-footer {
-    background-color: #fdeb60; 
-    color: white; 
+footer {
+    background-color: #222; /* 어두운 배경 */
+    color: #999; /* 텍스트 색상 */
     padding: 20px 0;
     font-family: 'Nunito', sans-serif;
+    width: 100%;
+    box-sizing: border-box;
 }
 
-.footer-content {
+.footer-top-content, .footer-bottom-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 10px 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
 }
 
+<<<<<<< HEAD
 .footer-logo img {
     width: 100px;
+=======
+.footer-info {
+    width: 70%;
+    line-height: 1.6;
+}
+
+.footer-social a {
+    color: #999;
+    margin-right: 10px;
+    text-decoration: none;
+    font-size: 20px;
+}
+
+.footer-social a:hover {
+    color: #fff; /* 아이콘 hover 시 색상 변경 */
+}
+>>>>>>> 834ff0d546f865f12d767d930f5eaea093c34a41
 
 .footer-links {
     display: flex;
-    gap: 20px; 
+    justify-content: space-around;
+    width: 100%;
+    padding-top: 10px;
 }
 
 .footer-links a {
-    color: white; 
+    color: #999;
+    margin: 0 10px;
     text-decoration: none;
     font-size: 14px;
 }
 
 .footer-links a:hover {
+<<<<<<< HEAD
     text-decoration: underline; 
 }
 
@@ -55,4 +80,7 @@
     font-size: 12px;
     background-color: black;
 }
+=======
+    color: #fff; /* 링크 hover 시 색상 변경 */
+>>>>>>> 834ff0d546f865f12d767d930f5eaea093c34a41
 }

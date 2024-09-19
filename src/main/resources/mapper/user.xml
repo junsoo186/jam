@@ -152,17 +152,19 @@
     WHERE user_id = #{userId}
     <!-- order by created_at desc;  -->
 	</select>
-	
+
 	<select id="findRefundList" resultType="com.jam.dto.RefundRequest">
 		insert into refund_request_tb (user_id, payment_key, refund_amount, refund_reason, point, method)
 		values(#{userId}, #{paymentKey}, #{refundAmount}, #{refundReason}, #{point}, #{method});
 		
 	</select>
+
 	
-	<select id="selectRefundList">
-		select *
-		from refund_request_tb
-		
+	<select id="selectRefundRequest" resultType="com.jam.repository.model.RefundRequest">
+		SELECT refund.*, u.email 
+		FROM refund_request_tb refund 
+		JOIN user_tb u ON u.user_id = refund.user_id
+		LIMIT #{pageSize} OFFSET #{page}
 	</select>
 	
 	<update id="pointAudit">
@@ -208,5 +210,12 @@
 		VALUES (#{userId}, #{paymentKey}, #{price}, #{point}, #{event});
 	</insert>
 
+	<select id="findPayDetailByRefundId" resultType="com.jam.repository.model.RefundRequest">
+		SELECT refund.*, u.email FROM refund_request_tb refund JOIN user_tb u ON u.user_id = refund.user_id where refund_id = #{refundId}
+	</select>
+
+	<select id="getTotalRefundRequestCount" resultType="int">
+		SELECT COUNT(*) FROM refund_request_tb
+	</select>
 
 </mapper>

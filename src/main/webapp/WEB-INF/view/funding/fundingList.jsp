@@ -7,43 +7,17 @@
 
                 <body>
                     <main>
-                        <c:choose>
-                            <c:when test="${project.staffAgree eq Y}">
-                                <div class="project-container">
-                                    <c:forEach items="${projectList}" var="project" varStatus="status">
-                                        <form action="/funding/fundingDetail" method="get" class="project-form">
-                                            <div class="project-card" data-goal="${project.goal}"
-                                                data-current="${project.totalAmount}"
-                                                data-end-date="${project.dateEnd}">
-                                                <div class="project-image">
-                                                    <img alt="프로젝트 이미지" src="${project.mainImg}" class="project-img">
-                                                </div>
-                                                <div class="project-info">
-                                                    <div class="project-title">${project.title}</div>
-                                                    <div class="project-author">${project.author}</div>
-                                                    <div class="project-comment">${project.onelineComment}</div>
-                                                    <div class="progress-info">
-                                                        <span class="progress-percentage"
-                                                            id="progress-percentage-${status.index}"></span>
-                                                        <span class="progress-funding"
-                                                            id="progress-funding-${status.index}"></span>
-                                                    </div>
-                                                    <div class="progress-bar-container">
-                                                        <div class="progress-bar" id="progress-bar-${status.index}">
-                                                        </div>
-                                                    </div>
-                                                    <div class="progress-days" id="progress-days-${status.index}"></div>
-                                                </div>
-                                                <input type="hidden" name="projectId" value="${project.projectId}">
-                                            </div>
-                                        </form>
-                                    </c:forEach>
-                                </div>
-                            </c:when>
-                            <c:otherwise>
-                                <h3>진행 중인 프로젝트가 없습니다 !</h3>
-                            </c:otherwise>
-                        </c:choose>
+                        <!-- 프로젝트 컨테이너 (동적으로 프로젝트를 여기에 추가) -->
+                        <div class="project-container"></div>
+
+                        <!-- 스크롤 감지용 로딩 인디케이터 -->
+                        <div class="loading-indicator" style="text-align: center; padding: 20px;">
+                            Loading...
+                        </div>
                     </main>
+
+                    <!-- 프로젝트 리스트 로딩을 위한 JavaScript 파일 -->
                     <script src="/js/funding/fundingList.js"></script>
                 </body>
+
+                </html>

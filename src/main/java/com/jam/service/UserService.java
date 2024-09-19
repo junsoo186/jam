@@ -20,11 +20,11 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.jam.dto.EmailVerificationResult;
-import com.jam.dto.RefundRequest;
 import com.jam.dto.signInDTO;
 import com.jam.dto.signUpDTO;
 import com.jam.repository.interfaces.UserRepository;
 import com.jam.repository.model.AccountHistoryDTO;
+import com.jam.repository.model.RefundRequest;
 import com.jam.repository.model.User;
 import com.jam.utils.Define;
 
@@ -246,7 +246,7 @@ public class UserService {
 		String saveDirectory = new File(uploadDir).getAbsolutePath();
 
 		// 파일 이름 생성(중복 이름 예방)
-		String uploadFileName = UUID.randomUUID() + "_" + mFile.getOriginalFilename();
+		String uploadFileName = "profile/"+ UUID.randomUUID() + "_" + mFile.getOriginalFilename();
 		// 파일 전체 경로 + 새로생성한 파일명
 		String uploadPath = saveDirectory + File.separator + uploadFileName;
 		File destination = new File(uploadPath);
@@ -367,9 +367,8 @@ public class UserService {
 	 * 유저의 환불 요청을 db에 저장하여 관리자가 볼수 있도록 한다.
 	 * @param refundRequest
 	 */
-	public List<RefundRequest> saveRefundRequest(RefundRequest refundRequest) {
-		List<RefundRequest> dto = userRepository.findRefundList(refundRequest);
-		return dto;
+	public void saveRefundRequest(RefundRequest refundRequest) {
+		userRepository.findRefundList(refundRequest);
 	}
 	
 	/**
@@ -378,7 +377,7 @@ public class UserService {
 	 * @return
 	 */
 	public List<RefundRequest> selectRefundRequest() {
-		List<RefundRequest> dto = userRepository.selectRefundList();
+		List<RefundRequest> dto = userRepository.selectRefundRequest();
 		return dto;
 	}
 	
@@ -488,6 +487,15 @@ public class UserService {
 	
 	public void updatePointByRefund(int userId, long point) {
 		userRepository.updatePointByRefund(userId, point);	
+	}
+
+	public RefundRequest findPayDetailByRefundId(Integer refundId) {
+		RefundRequest refundRequest = userRepository.findPayDetailByRefundId(refundId);
+		return refundRequest;
+	}
+
+	public int getTotalRefundRequestCount() {
+		return userRepository.getTotalRefundRequestCount();
 	}
 	
 	/**

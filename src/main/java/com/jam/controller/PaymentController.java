@@ -21,12 +21,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jam.dto.RefundRequest;
 import com.jam.dto.TossPaymentResponseDTO;
-import com.jam.dto.bookRentHistryDTO;
 import com.jam.repository.model.AccountHistoryDTO;
 import com.jam.repository.model.Funding;
 import com.jam.repository.model.Payment;
+import com.jam.repository.model.RefundRequest;
 import com.jam.repository.model.User;
 import com.jam.service.FundingService;
 import com.jam.service.UserService;
@@ -432,7 +431,7 @@ public class PaymentController {
         
 
         User user = (User) session.getAttribute("principal");
-        RefundRequest refundRequest = RefundRequest.builder()
+       RefundRequest refundRequest = RefundRequest.builder()
                 .userId(userId) // 유저 아이디
                 .staffId(user.getUserId()) // 관리자 아이디
                 .paymentKey(paymentKey) // 결제 코드
