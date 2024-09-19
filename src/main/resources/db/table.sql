@@ -376,6 +376,13 @@ CREATE TABLE `score_tb`(
     `created_at` timestamp
 );
 
+CREATE TABLE banner_tb(
+banner_id int PRIMARY KEY AUTO_INCREMENT NOT NULL,
+title varchar(1000) COMMENT '베너 제목',
+content varchar(1000) COMMENT '베너 내용1',
+sub_content varchar(1000) COMMENT '베너 내용2',
+image_path varchar(2000) COMMENT '이미지 경로'
+);
 
 
 
