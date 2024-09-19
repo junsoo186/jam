@@ -8,12 +8,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class GraphVO {
-	
+
 	private int deposit;
 	private int point;
 	private int afterBalance;
-	private String status; 
-	
+	private String status;
 
 	private int userId;
 	private String nickName;

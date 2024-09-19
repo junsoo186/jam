@@ -30,6 +30,20 @@ public class GraphController {
 		// GraphRepository에서 데이터를 가져와서 List에 저장
 		List<GraphVO> graphList = graphRepository.find();
 		System.out.println("graphList 데이터: " + graphList);
+		 for (GraphVO graph : graphList) {
+		        String status = graph.getStatus();
+		        switch (status) {
+		            case "PENDING":
+		                graph.setStatus("대기 중");
+		                break;
+		            case "APPROVED":
+		                graph.setStatus("승인됨");
+		                break;
+		            case "REJECTED":
+		                graph.setStatus("거절됨");
+		                break;
+		        }
+		    }
 
 		// Gson 객체를 사용해 List<GraphVO>를 JSON으로 변환
 		Gson gson = new Gson();
