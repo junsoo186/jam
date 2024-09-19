@@ -4,8 +4,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,20 +18,26 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.jam.dto.NoticeDTO;
+import com.jam.handler.exception.UnAuthorizedException;
 import com.jam.repository.model.Notice;
 import com.jam.repository.model.Project;
+import com.jam.repository.model.Qna;
 import com.jam.repository.model.User;
 import com.jam.service.FundingService;
 import com.jam.service.NoticeService;
-import com.mysql.cj.Session;
+import com.jam.service.QnaService;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 @RequestMapping("/staff")
 @RequiredArgsConstructor
 public class StaffController {
+
+	private final QnaService qnaService;
+	private final HttpSession session;
 
 	/**
 	 * 관리자 메인 페이지
@@ -124,10 +133,64 @@ public class StaffController {
 	 * @return
 	 */
 	@GetMapping("/qna")
-	public String handleQna() {
-		return "staff/qna";
+	@ResponseBody
+	public ResponseEntity<Map<String, Object>> getQnaList(@RequestParam(name = "page", defaultValue = "1") int page,
+			@RequestParam(name = "size", defaultValue = "10") int size) {
+		User principal = (User) session.getAttribute("principal");
+		if (principal == null) {
+			throw new UnAuthorizedException("인증된 사용자가 아닙니다.", HttpStatus.UNAUTHORIZED);
+		}
+
+		int totalRecords = qnaService.allList();
+		int totalPages = (int) Math.ceil((double) totalRecords / size);
+		List<Qna> qnaList = qnaService.selectAllQna(page, size);
+
+		Map<String, Object> response = new HashMap<>();
+		response.put("qnaList", qnaList);
+		response.put("currentPage", page);
+		response.put("totalPages", totalPages);
+		response.put("size", size);
+
+		return ResponseEntity.ok(response);
 	}
 
+	@GetMapping("/qnaPage")
+	public String getQnaList() {
+		return "staff/qna/qna";
+	}
+
+	@GetMapping("/qnaDetail/{qnaId}")
+	public String getQnaDetail(@PathVariable(name = "qnaId") int qnaId, Model model) {
+		Qna qna = qnaService.findQnaByQnaId(qnaId);
+		model.addAttribute("qna", qna);
+		return "staff/qna/qnaDetail";
+	}
+
+	@PostMapping("/qnaAnswer")
+	public String postQnaAnswer(@RequestParam("answerContent") String answerContent,
+			@RequestParam("qnaId") Integer qnaId) {
+		User principal = (User) session.getAttribute("principal");
+		Integer staffId = principal.getUserId();
+
+		qnaService.updateQnaAnswer(answerContent, staffId, qnaId);
+
+		return "redirect:/staff/qnaPage";
+	}
+
+	@DeleteMapping("/qnaDelete/{qnaId}")
+	public ResponseEntity<?> deleteQna(@PathVariable("qnaId") int qnaId) {
+		qnaService.delete(qnaId);
+		return ResponseEntity.ok().build();
+	}
+
+	@PostMapping("/deleteAnswer/{qnaId}")
+	public String postQnaAnswer(@PathVariable("qnaId") int qnaId) {
+
+		qnaService.deleteQnaAnswer(qnaId);
+
+		return "redirect:/staff/qnaPage";
+	}
+	
 	/**
 	 * 공지 사항 화면 이동
 	 * 

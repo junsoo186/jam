@@ -270,7 +270,10 @@ CREATE TABLE `qna_tb` (
     `question_content` text COMMENT '질문 사항 내용',
     `answer_content` text COMMENT '질문 사항 내용',
     `created_at` timestamp NOT NULL DEFAULT current_timestamp,
-    FOREIGN KEY (`user_id`) REFERENCES `user_tb`(`user_id`)
+    `staff_id` int NULL COMMENT '답변한 관리자 ID',
+    `answer_date` timestamp null COMMENT '답변 일자',
+    FOREIGN KEY (`user_id`) REFERENCES `user_tb`(`user_id`),
+    FOREIGN KEY (`staff_id`) REFERENCES `user_tb`(`user_id`)
 );
 
 CREATE TABLE `user_alert_list_tb` (

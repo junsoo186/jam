@@ -30,9 +30,9 @@
 			<div class="section">
 				<h4>고객지원</h4>
 				<ul>
-					<li><a href="/staff/qna">Q&A</a></li>
+					<li><a href="/staff/qnaPage">Q&A</a></li>
 					<li><a href="/staff/notice">공지사항</a></li>
-					<li><a href="/staff/event">이벤트</a></li>
+					<li><a href="/staffEvent/list">이벤트</a></li>
 					<li><a href="chat-link">채팅</a></li>
 				</ul>
 			</div>

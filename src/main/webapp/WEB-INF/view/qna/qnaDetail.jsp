@@ -8,10 +8,10 @@
 <div class="container p-5">
 	<div class="card">
 		<div class="card-header">
-			<b>상세보기 남기기</b>
+			<b>QnA 상세보기</b>
 		</div>
 		<div class="mb-3">제목: ${qna.title}</div>
-		<div class="mb-3">작성자: ${qna.nickname}</div>
+		<div class="mb-3">작성자: ${qna.userName}</div>
 		<div class="mb-3">내용: ${qna.questionContent}</div>
 		<div class="mb-3">작성일: ${qna.createdAt}</div>
 		<c:choose>

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,16 +26,8 @@ import lombok.RequiredArgsConstructor;
 public class StaffEventController {
 	
 	private final StaffEventService staffEventService;
-	
-	
-	@GetMapping("")
-	public String handleStaffMain(@RequestParam(name = "page", required = false) String page, Model model) {
-		String sectionUrl = "/staff/" + page;
-		model.addAttribute("sectionUrl", sectionUrl);
-		return "staff/main";
-	}
-	
-	@GetMapping("list")
+
+	@GetMapping("/list")
 	public String eventListPage(@RequestParam(name = "page", defaultValue = "1") int page,
 			@RequestParam(name = "size", defaultValue = "10") int size, Model model,@SessionAttribute(Define.PRINCIPAL) User principal) {
 		int totalRecords = staffEventService.allList();
@@ -46,16 +39,16 @@ public class StaffEventController {
 		model.addAttribute("totalPages", totalPages);
 		model.addAttribute("size", size);
 
-		return "staff/event";
+		return "staff/event/event";
 	}
 
 
 	@GetMapping("/write")
 	public String eventWritePage() {
-		return "/staff/eventWrite";
+		return "/staff/event/eventWrite";
 	}
 
-	@PostMapping("write")
+	@PostMapping("/write")
 	public String eventWrite(EventDTO dto, @SessionAttribute(Define.PRINCIPAL) User principal) {
 	    // DTO의 eventTitle이 null이거나 빈 문자열인지 먼저 확인
 	    if (dto.getEventTitle() == null || dto.getEventTitle().isEmpty()) {
@@ -68,37 +61,30 @@ public class StaffEventController {
 	}
 
 
-	@GetMapping("detail/{eventId}")
+	@GetMapping("/detail/{eventId}")
 	public String eventDetailPage(@PathVariable(name = "eventId") int eventId, Model model) {
 		Event event = staffEventService.selectByEventId(eventId);
 		model.addAttribute("event", event);
-		return "/staff/eventDetail";
+		return "/event/eventDetail";
 	}
 
-	@GetMapping("delete/{eventId}")
+	@DeleteMapping("/delete/{eventId}")
 	public String deleteEvent(@PathVariable(name = "eventId")Integer eventId) {
-		staffEventService.delete(eventId);
-		return "redirect:/staff?page=event";
-	}
-
-	@PostMapping("delete/{eventId}")
-	public String delete(@PathVariable(name = "noticeId") Integer noticeId) {
-		staffEventService.delete(noticeId);
-		return "redirect:/staff?page=event";
+		staffEventService.delete(eventId); // 배너때문에 TODO
+		return "redirect:/staffEvent/list";
 	}
 	
-	@GetMapping("update/{eventId}")
+	@GetMapping("/update/{eventId}")
 	public String updatePage(@PathVariable(name = "eventId") int eventId, Model model) {
-		Event event = new Event();
-		event = staffEventService.selectByEventId(eventId);
+		Event event = staffEventService.selectByEventId(eventId);
 		model.addAttribute("event", event);
-		return "/staff/eventUpdate";
+		return "/staff/event/eventUpdate";
 	}
 
-	@PostMapping("update/{eventId}")
+	@PostMapping("/update/{eventId}")
 	public String updateEvent(@RequestParam(name = "eventId") int eventId, EventDTO dto) {
 		staffEventService.eventUpdate(dto, eventId);
-		return "redirect:/staff?page=event";
+		return "redirect:/staffEvent/list";
 	}
 	
 //	/*

@@ -25,11 +25,20 @@
 	
 	<!--전체 Q&A 조회  --> 
 	<select id="selectAllQnaPage" resultType="com.jam.repository.model.Qna">
-		SELECT q.* , u.nick_name
-		FROM qna_tb as q 
-		LEFT JOIN user_tb as u on q.user_id = u.user_id
-		ORDER BY q.qna_id DESC
-		LIMIT #{limit} OFFSET #{offset};
+		SELECT 
+			q.*, 
+			u1.nick_name AS user_name,  -- 작성자의 이름
+			u2.nick_name AS staff_name  -- 관리자의 이름 (답변한 경우)
+		FROM 
+			qna_tb AS q
+		LEFT JOIN 
+			user_tb AS u1 ON q.user_id = u1.user_id  -- 작성자 정보와 조인
+		LEFT JOIN 
+			user_tb AS u2 ON q.staff_id = u2.user_id -- 관리자의 정보와 조인 (LEFT JOIN)
+		ORDER BY 
+			q.qna_id DESC
+		LIMIT 
+			#{limit} OFFSET #{offset};
 	</select>
 	
 	<!--qnaID 로 상세보기  -->
@@ -56,9 +65,43 @@
 	
 	<!--사용자 본인이 남긴 Q&A 삭제  -->
 	
-	<delete id="deletByQnaId">
-	DELETE FROM qna_tb WHERE qna_id = #{qnaID}
+	<delete id="deleteByQnaId">
+		DELETE FROM qna_tb WHERE qna_id = #{qnaID}
 	</delete>
 	
+	<select id="findQnaByQnaId" resultType="com.jam.repository.model.Qna">
+		SELECT 
+			q.qna_id,
+			q.title,
+			q.question_content,
+			q.answer_content,
+			q.created_at,
+			q.answer_date,
+			u1.nick_name AS user_name,   -- 작성자의 이름
+			u2.nick_name AS staff_name   -- 관리자의 이름 (답변한 사람)
+		FROM 
+			qna_tb q
+		JOIN 
+			user_tb u1 ON q.user_id = u1.user_id   -- 작성자 정보와 조인
+		LEFT JOIN 
+			user_tb u2 ON q.staff_id = u2.user_id  -- 관리자의 정보와 조인 (답변자가 없을 수 있으므로 LEFT JOIN)
+		where qna_id = #{qnaId}
+	</select>
+
+	<update id="updateQnaAnswer">
+		update qna_tb
+		set answer_content = #{answerContent},
+		staff_id = #{staffId},
+		answer_date = now()
+		where qna_id = #{qnaId}
+	</update>
+
+	<update id="deleteQnaAnswer">
+		update qna_tb
+		set answer_content = null,
+		staff_id = null,
+		answer_date = now()
+		where qna_id = #{qnaId}
+	</update>
 
 </mapper>

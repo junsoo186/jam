@@ -27,5 +27,9 @@ public interface QnaRepository {
 	public Qna selectQnaByQnaId(int qnaId); // qna 아이디 값으로 불러오기
 	public int countAll();
 	public List<Qna> selectAllQnaByUserId(); // QnA 전체 화면에 출력(유저)
+    public Qna findQnaByQnaId(Integer qnaId);
+
+	public void updateQnaAnswer(@Param("answerContent") String answerContent, @Param("staffId") Integer staffId, @Param("qnaId") Integer qnaId);
+	public void deleteQnaAnswer(int qnaId);
 } 
 	
