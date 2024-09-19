@@ -465,38 +465,55 @@ public class PaymentController {
         return "/payment/termsAndConditions";
     }
 
-    /**
-     * 관리자 페이지 이동 (관리자)
-     * 
-     * @return
-     */
-    @GetMapping("/managerTest")
-    public String managerTest(Model model) {
-        System.out.println("@@@@@@@@@@@@@@@@@@@@");
-        List<RefundRequest> payList = userService.selectRefundRequest();
-        model.addAttribute("payList", payList);
-        System.out.println("관리자 페이지 이동 payList : "+payList.toString());
-        return "/payment/managerTest";
-    }
+//    /**
+//     * 관리자 페이지 이동 (관리자)
+//     * 
+//     * @return
+//     */
+//    @GetMapping("/managerTest")
+//    public String managerTest(Model model) {
+//        System.out.println("@@@@@@@@@@@@@@@@@@@@");
+//        List<RefundRequest> payList = userService.selectRefundRequest(offset, pageSize);
+//        model.addAttribute("payList", payList);
+//        System.out.println("관리자 페이지 이동 payList : "+payList.toString());
+//        return "/payment/managerTest";
+//    }
+    
+    @GetMapping("/payment-management")
+	@ResponseBody
+	public ResponseEntity<Map<String, Object>> getPaymentManagement(
+			@RequestParam(value = "page", defaultValue = "1") int page, // 기본값을 1로 설정
+			@RequestParam(value = "pageSize", defaultValue = "5") int pageSize) {
 
-    /**
-     * 관리자가 환불요청이 들어온것을확인할 수 있다.
-     * @return
-     */
-    @PostMapping("/managerapprove")
-    public String managerTest2(Model model) {
+		// 페이지 번호가 1 이상이어야 함
+		if (page < 1) {
+			page = 1;
+		}
 
-        List<RefundRequest> payList = userService.selectRefundRequest();
+		// DB 조회 시 페이지는 0부터 시작하는 인덱스를 사용하므로 page - 1로 조정
+		int offset = (page - 1) * pageSize;
 
-        System.out.println("관리자가 환불 요청 온거 확인? : " + payList);
+		// 페이징 처리된 결제 정보와 기타 필요한 데이터 로직
+		List<RefundRequest> payList = userService.selectRefundRequest(offset, pageSize);
+		int totalPayCount = userService.getTotalRefundRequestCount();
+		int totalPages = (int) Math.ceil((double) totalPayCount / pageSize);
 
-        // 모델에 결제 리스트를 추가
-        model.addAttribute("payList", payList);
+		// 응답할 데이터를 Map 형태로 담음
+		Map<String, Object> response = new HashMap<>();
+		response.put("payList", payList);
+		response.put("currentPage", page); // 클라이언트에게 표시할 현재 페이지
+		response.put("totalPages", totalPages);
 
-        return "redirect:/pay/managerTest";
+		// JSON으로 응답
+		return ResponseEntity.ok(response);
+	}
+    
+    @GetMapping("/payment-page")
+    public String getPaymentPage() {
+        return "staff/payment-management";
     }
     
-    
+
     private boolean isEventActive = false; // 이벤트 상태를 저장하는 변수 (기본값은 비활성화)
 
     // 이벤트 상태를 토글하는 API (POST 요청)

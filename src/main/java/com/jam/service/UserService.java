@@ -14,6 +14,7 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.repository.query.Param;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -376,7 +377,7 @@ public class UserService {
 	 * (테스트용)
 	 * @return
 	 */
-	public List<RefundRequest> selectRefundRequest() {
+	public List<RefundRequest> selectRefundRequest(@Param("page") int page, @Param("pageSize") int pageSize) {
 		List<RefundRequest> dto = userRepository.selectRefundRequest();
 		return dto;
 	}
