@@ -12,6 +12,7 @@
 </head>
 <body>
 
+<div class ="main--content" >
 
 	<h2>공지사항 페이지</h2>
 	
@@ -54,12 +55,13 @@
 
 
 			</c:forEach>
+			
 		</tbody>
 	</table>
 	
 	
-
-	<script type="text/javascript" src="/js/navigation.js"></script>
+	
+</div>
 
 
 </body>

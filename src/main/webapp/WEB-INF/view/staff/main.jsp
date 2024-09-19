@@ -32,10 +32,6 @@
 				<li><a href="/staff/notice">공지사항</a></li>
 				<li><a href="/staff/event">이벤트</a></li>
 				<li><a href="chat-link">채팅</a></li>
-				<li><a href="javascript:void(0);" class="menu-link" data-url="/staff/qna">Q&A</a></li>
-				<li><a href="javascript:void(0);" class="menu-link" data-url="/staff/notice">공지사항</a></li>
-				<li><a href="javascript:void(0);" class="menu-link" data-url="/staffEvent/list">이벤트</a></li>
-				<li><a href="javascript:void(0);" class="menu-link"  id="chat-link">채팅</a></li>
 			</ul>
 		</div>
 	</div>
@@ -43,10 +39,6 @@
 	
 	
 	<!-- 동적으로 콘텐츠가 표시될 영역 -->
-	<div id="content"></div>
-	<script type="text/javascript">
-		const sectionUrl = `${sectionUrl}`;
-	</script>
-	<script type="text/javascript" src="/js/navigation.js"></script>
+	
 </body>
 </html>

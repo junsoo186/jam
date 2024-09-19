@@ -10,6 +10,12 @@ body {
 	background-color: #f9f9f9;
 }
 
+.main--content {
+	margin-top: 100px;
+	margin-left: 150px;
+	padding-left: 150px;
+}
+
 /* 헤더 스타일 */
 .header {
 	background-color: #f4f4f4;
@@ -65,8 +71,7 @@ body {
 	/* 사이드바가 콘텐츠 위로 올라오지 않도록 설정 */
 }
 
-.sidebar h2,
-.sidebar h3 {
+.sidebar h2, .sidebar h3 {
 	text-align: center;
 	margin-bottom: 15px;
 }
@@ -129,14 +134,11 @@ table {
 	/* 테두리의 부드러운 그림자 효과 */
 }
 
-table,
-th,
-td {
+table, th, td {
 	border: 1px solid #ddd;
 }
 
-th,
-td {
+th, td {
 	padding: 12px;
 }
 
@@ -162,9 +164,7 @@ form label {
 	margin-bottom: 10px;
 }
 
-form input[type="text"],
-form input[type="date"],
-form textarea {
+form input[type="text"], form input[type="date"], form textarea {
 	width: 100%;
 	padding: 10px;
 	margin-bottom: 20px;
@@ -221,16 +221,16 @@ form button:hover {
 	/* 모달 팝업 시 애니메이션 추가 */
 }
 
-@keyframes fadeIn {
-	from {
-		opacity: 0;
-		transform: translateY(-20px);
-	}
+@
+keyframes fadeIn {from { opacity:0;
+	transform: translateY(-20px);
+}
 
-	to {
-		opacity: 1;
-		transform: translateY(0);
-	}
+to {
+	opacity: 1;
+	transform: translateY(0);
+}
+
 }
 
 /* 닫기 버튼 스타일 */
@@ -244,8 +244,7 @@ form button:hover {
 	cursor: pointer;
 }
 
-.close:hover,
-.close:focus {
+.close:hover, .close:focus {
 	color: #000;
 	text-decoration: none;
 	cursor: pointer;
@@ -262,8 +261,7 @@ form button:hover {
 	margin-bottom: 8px;
 }
 
-.modal-content form input,
-.modal-content form textarea {
+.modal-content form input, .modal-content form textarea {
 	margin-bottom: 15px;
 	padding: 10px;
 	border: 1px solid #ddd;
@@ -379,40 +377,39 @@ form button:hover {
 	background-color: #f9f9f9;
 }
 /*페이징처리*/
-
 .bottom--page--area {
-    margin-top: 30px;
-    text-align: center;
+	margin-top: 30px;
+	text-align: center;
 }
 
 .pagination {
-    list-style: none;
-    padding: 0;
+	list-style: none;
+	padding: 0;
 }
 
 .pagination .page--item {
-    display: inline-block;
-    margin: 0 5px;
+	display: inline-block;
+	margin: 0 5px;
 }
 
 .pagination .page--link {
-    display: inline-block;
-    padding: 8px 12px;
-    font-size: 14px;
-    border: 1px solid #E6E6E5;
-    color: #333;
-    border-radius: 4px;
-    transition: background-color 0.3s ease, color 0.3s ease;
-    text-decoration: none;
+	display: inline-block;
+	padding: 8px 12px;
+	font-size: 14px;
+	border: 1px solid #E6E6E5;
+	color: #333;
+	border-radius: 4px;
+	transition: background-color 0.3s ease, color 0.3s ease;
+	text-decoration: none;
 }
 
 .pagination .page--link:hover {
-    background-color: #E6E6E5;
-    color: 333;
+	background-color: #E6E6E5;
+	color: 333;
 }
 
 .pagination .page--item.active .page--link {
-    background-color: #E6E6E5;
-    color: 333;
-    border-color: #E6E6E5;
+	background-color: #E6E6E5;
+	color: 333;
+	border-color: #E6E6E5;
 }
