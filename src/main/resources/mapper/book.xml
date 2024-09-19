@@ -55,7 +55,7 @@
 	 from book_tb as b
 	 left join
 	 book_views_rating_tb vr on  vr.book_id = b.book_id
-	group by  b.book_id,b.user_id,b.author,b.title,b.title,b.book_cover_image,b.likes,b.age,b.serial_day
+	group by  b.book_id,b.user_id,b.author,b.title,b.book_cover_image,b.likes,b.age,b.serial_day
 	<choose>
 	        <when test="filter == 'views'">
 	            ORDER BY views
@@ -253,6 +253,31 @@
 		b.title ASC;
 	</select>
 
+	<!--  views 트랜잭션 -->
+
+	<select id="checkUserViewExists" resultType="int">
+    SELECT COUNT(*)
+    FROM book_views_rating_tb
+    WHERE user_id = #{userId}
+    AND book_id = #{bookId}
+    AND view_year = YEAR(CURRENT_DATE)
+    AND view_month = MONTH(CURRENT_DATE)
+    AND view_day = DAY(CURRENT_DATE)
+	</select>
+	
+	<update id="updateViews">	
+	UPDATE book_views_rating_tb 
+	SET views = views + 1
+	WHERE book_id = #{bookId};
+	</update>
+
+	<insert id="insertUserViewRecord">
+    INSERT INTO book_views_rating_tb (user_id, book_id, view_year, view_month, view_day, views)
+    VALUES (#{userId}, #{bookId}, YEAR(CURRENT_DATE), MONTH(CURRENT_DATE), DAY(CURRENT_DATE), 1 })
+	</insert>
+
+	<!-- 끝 -->
+
 	<update id="updateBook">
 		UPDATE book_tb
 		SET
@@ -267,6 +292,9 @@
 		WHERE
 		book_id = #{bookId}
 	</update>
+	
+	
+	
 
 	<update id="bookViewCountUp">
 		update book_tb set

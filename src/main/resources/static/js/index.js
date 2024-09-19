@@ -1,53 +1,66 @@
 document.addEventListener('DOMContentLoaded', function() {
-	const pageNumbers = document.querySelectorAll('.page--num');
-	const banners = document.querySelectorAll('.visual--image');
-	const textBoxes = document.querySelectorAll('.banner--text--box');
-	const bannerContainer = document.getElementById('top--banner');
+    const pageNumbers = document.querySelectorAll('.page--num');
+    const banners = document.querySelectorAll('.visual--image');
+    const textBoxes = document.querySelectorAll('.banner--text--box');
+    const bannerContainer = document.getElementById('top--banner');
 
-	const slider = document.querySelector('.slider');
-	const slides = document.querySelectorAll('.slide');
-	
-	const prevBtn = document.querySelector('.prev--btn');
-	const nextBtn = document.querySelector('.next--btn');
+    const slider = document.querySelector('.slider');
+    const slides = document.querySelectorAll('.slide');
 
-	const slidesToShow = 3; // 한 번에 보이는 슬라이드 수
-	const slideWidth = 100 / slidesToShow; // 각 슬라이드의 너비 (100% / 보여질 슬라이드 수)
+    const prevBtn = document.querySelector('.prev--btn');
+    const nextBtn = document.querySelector('.next--btn');
 
-	// 각 배너에 대해 배경색을 정의합니다.
-	const bannerBackgrounds = [
-		'radial-gradient(#1F325C, #3A5CA8)',  // 배너 1의 배경색
-		'radial-gradient(#283048, #859398)',  // 배너 2의 배경색
-		'radial-gradient(#134E5E, #71B280)'   // 배너 3의 배경색
-	];
+    const slidesToShow = 3; // 한 번에 보이는 슬라이드 수
+    const slideWidth = 100 / slidesToShow; // 각 슬라이드의 너비 (100% / 보여질 슬라이드 수)
 
-	let currentIndex = 0; // 현재 배너 인덱스
+    // 각 배너에 대해 배경색을 정의합니다.
+    const bannerBackgrounds = [
+        'radial-gradient(#1F325C, #3A5CA8)',  // 배너 1의 배경색
+        'radial-gradient(#283048, #859398)',  // 배너 2의 배경색
+        'radial-gradient(#134E5E, #71B280)'   // 배너 3의 배경색
+    ];
 
-	// 배너 전환 함수
-	function showBanner(index) {
-		// 모든 배너와 텍스트박스를 숨기고, 활성 페이지 업데이트
-		banners.forEach(banner => banner.style.display = 'none');
-		textBoxes.forEach(textBox => textBox.style.display = 'none');
-		pageNumbers.forEach(num => num.classList.remove('active'));
+    let currentIndex = 0; // 현재 배너 인덱스
 
-		// 해당 인덱스에 맞는 배너와 텍스트박스를 보여주기
-		banners[index].style.display = 'block';
-		textBoxes[index].style.display = 'block';
-		
-		pageNumbers[index].classList.add('active');
+    // 배너 전환 함수
+    function showBanner(index) {
+        // banners와 textBoxes가 비어있을 경우 함수 종료
+        if (banners.length === 0 || textBoxes.length === 0 || pageNumbers.length === 0) {
+            console.error('배너 또는 텍스트 박스가 없습니다.');
+            return;
+        }
 
-		// 배너의 배경색을 변경
-		if (bannerContainer) {
-		bannerContainer.style.backgroundImage = bannerBackgrounds[index];
-		}
-	}
+        // 모든 배너와 텍스트박스를 숨기고, 활성 페이지 업데이트
+        banners.forEach(banner => banner.style.display = 'none');
+        textBoxes.forEach(textBox => textBox.style.display = 'none');
+        pageNumbers.forEach(num => num.classList.remove('active'));
 
-	// 자동 슬라이드 시작 함수
-	function startAutoSlide() {
-		setInterval(function() {
-			currentIndex = (currentIndex + 1) % banners.length; // 다음 배너 인덱스 계산
-			showBanner(currentIndex);
-		}, 3000); // 3000ms = 3초
-	}
+        // 인덱스가 banners 배열 길이를 넘지 않는지 확인
+        if (index >= 0 && index < banners.length) {
+            // 해당 인덱스에 맞는 배너와 텍스트박스를 보여주기
+            banners[index].style.display = 'block';
+            textBoxes[index].style.display = 'block';
+            pageNumbers[index].classList.add('active');
+
+            // 배너의 배경색을 변경
+            if (bannerContainer) {
+                bannerContainer.style.backgroundImage = bannerBackgrounds[index];
+            }
+        } else {
+            console.error('유효하지 않은 배너 인덱스입니다.');
+        }
+    }
+
+    // 자동 슬라이드 시작 함수
+    function startAutoSlide() {
+        if (banners.length === 0) return; // 배너가 없는 경우 슬라이드 동작 중단
+        setInterval(function() {
+            currentIndex = (currentIndex + 1) % banners.length; // 다음 배너 인덱스 계산
+            showBanner(currentIndex);
+        }, 3000); // 3000ms = 3초
+    }
+
+    startAutoSlide(); // 슬라이드 자동 시작
 
 	// 페이지 번호 클릭 이벤트 설정
 	pageNumbers.forEach((pageNum, index) => {
@@ -520,3 +533,62 @@ function toggleDayLikesOrder() {
     dayButtonContainer.classList.add('active-before');
     dayButtonContainer.classList.remove('active-after');
 }
+
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    let currentPage = 0;
+    const size = 1; // 배너 하나씩 가져오기
+
+    const prevBtn = document.querySelector('.prev--btn');
+    const nextBtn = document.querySelector('.next--btn');
+    const bannerContainer = document.querySelector('.slider');
+
+    // Fetch banners from the server
+    function fetchMainBanner(page, size) {
+        fetch(`/api/main-banners?page=${page}&size=${size}`)
+            .then(response => response.json())
+            .then(banners => {
+                if (banners.length === 0) {
+                    console.error('No banners found.');
+                    return;
+                }
+
+                // Clear current banner
+                bannerContainer.innerHTML = '';
+
+                // Show the new banner
+                banners.forEach(banner => {
+                    const bannerElement = document.createElement('div');
+                    bannerElement.classList.add('slide');
+                    bannerElement.innerHTML = `
+                        <img src="${banner.imagePath}" alt="${banner.title}">
+                        <div class="banner--text--box">
+                            <h2>${banner.title}</h2>
+                            <p>${banner.content}</p>
+                        </div>
+                    `;
+                    bannerContainer.appendChild(bannerElement);
+                });
+            })
+            .catch(error => console.error('Error fetching banners:', error));
+    }
+
+    // Load initial banner
+    fetchMainBanner(currentPage, size);
+
+    // Previous banner
+    prevBtn.addEventListener('click', function() {
+        if (currentPage > 0) {
+            currentPage--;
+            fetchMainBanner(currentPage, size);
+        }
+    });
+
+    // Next banner
+    nextBtn.addEventListener('click', function() {
+        currentPage++;
+        fetchMainBanner(currentPage, size);
+    });
+});
+

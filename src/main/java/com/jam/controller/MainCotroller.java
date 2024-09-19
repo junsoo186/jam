@@ -51,18 +51,19 @@ public class MainCotroller {
 	
 	/**
 	 * 배너 페이징 비동기처리
-	 * @param model
 	 * @param page
 	 * @param size
 	 * @return
 	 */
     @GetMapping("/api/main-banners")
     @ResponseBody
-    public List<MainBanner> getMainBanners(Model model,
-            @RequestParam(defaultValue = "0") int page, 
-            @RequestParam(defaultValue = "1") int size) {
+    public List<MainBanner> getMainBanners(
+            @RequestParam(name = "page" ,defaultValue = "1") int page, 
+            @RequestParam(name = "size" ,defaultValue = "3") int size) {
 		List<MainBanner> mainBannerList=mainBannerService.readAllMainBanner(page,size);
-		
+		for (MainBanner mainBanner : mainBannerList) {
+			 mainBanner.setImagePath(mainBanner.setUpUserImage());
+		}
         return mainBannerList;
     }
 
