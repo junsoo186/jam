@@ -10,8 +10,8 @@
 <link rel="stylesheet" href="/css/index.css">
 <main>
 
-	<div class="container--banner">
-		<!-- 배너 -->
+<!-- 	<div class="container--banner">
+		배너
 		<section class="top--banner" id="top--banner">
 			<div class="banner--back--container">
 				<div class="banner--paging">
@@ -22,7 +22,7 @@
 				</div>
 			</div>
 
-			<!-- 배너 이미지와 텍스트박스 -->
+			배너 이미지와 텍스트박스
 			<div class="visual--meta">
 				<div class="visual--image" id="banner--1">
 					<img alt="banner--image" src="/images/banner/bannerimg1.jpg" class="fixed--size">
@@ -37,20 +37,20 @@
 					<div class="banner--text--box" id="text--1">
 						<p class="strong--text">명문 고등학교에서 일어난</p>
 						<p class="strong--text">충격적인 살인사건</p>
-						<p>시간 순삭 ! 추리소설</p>
+						<p class="strong--text">시간 순삭 ! 추리소설</p>
 					</div>
 					<div class="banner--text--box" id="text--2" style="display: none;">
 						<p class="strong--text">나도? 웹소설 작가!</p>
-						<p>
+						<p class="strong--text">
 							<b>잼</b> 을 통해 데뷔할 신입작가를 모집합니다!
 						</p>
 					</div>
 					<div class="banner--text--box" id="text--3" style="display: none;">
 						<p class="strong--text">당신의 밤을 몰수하는 톨쥬</p>
 						<p class="strong--text">혼불</p>
-						<p>펀딩시 50화 무료</p>
+						<p class="strong--text">펀딩시 50화 무료</p>
 					</div>
-					<!-- 페이지 번호는 텍스트 박스 아래에 위치 -->
+					페이지 번호는 텍스트 박스 아래에 위치
 					<div class="page--number">
 						<strong class="page--num active" data--page="1">1</strong> <span class="dash">/</span> <strong class="page--num" data--page="2">2</strong> <span class="dash">/</span> <strong
 							class="page--num" data--page="3">3</strong>
@@ -58,8 +58,18 @@
 				</div>
 			</div>
 		</section>
-	</div>
- <p style="color: black">실시간,주간 조회수 만들어야댐 db추가해야함</p>
+	</div> -->
+	
+    <div id="top--banner" class="slider-container">
+        <div class="slider">
+            <!-- Banners will be dynamically loaded here -->
+        </div>
+        <button class="prev--btn">Previous</button>
+        <button class="next--btn">Next</button>
+    </div>
+	
+	
+ <!-- <p style="color: black">실시간,주간 조회수 만들어야댐 db추가해야함</p> -->
 <h3>요일별 작품</h3>
 <!-- 요일별 작품 영역 -->
 <div class="day--area--filter" id="dayFilter"></div>
@@ -185,5 +195,6 @@
 </main>
 	<!-- JavaScript 파일을 여기에 포함 -->
 	<script type="text/javascript" src="/js/index.js"></script>
+	
 <%@ include file="/WEB-INF/view/layout/footer.jsp"%>
 

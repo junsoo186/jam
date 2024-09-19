@@ -41,6 +41,7 @@ public class MainBannerService {
 		List<MainBanner> mainBannerList=new ArrayList<>();
 		int limit = size;
 		int offset = (page - 1) * size;
+		System.out.println(limit +"sadasd"+offset);
 		mainBannerList= mainBannerRepository.selectAllMainBanner(limit,offset);
 		return mainBannerList;
 		

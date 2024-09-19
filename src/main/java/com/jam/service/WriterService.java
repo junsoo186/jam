@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.jam.dto.BookDTO;
 import com.jam.dto.StoryDTO;
 import com.jam.dto.UserDTO;
+import com.jam.repository.interfaces.BannerRepository;
 import com.jam.repository.interfaces.BookRepository;
 import com.jam.repository.interfaces.StoryRepository;
 import com.jam.repository.interfaces.TagRepository;
@@ -38,6 +39,7 @@ public class WriterService {
 	private final BookRepository bookRepository;
 	private final StoryRepository storyRepository;
 	private final TagRepository tagRepository;
+	
 	
 	@Value("${file.upload-dir}")
 	private String uploadDir;

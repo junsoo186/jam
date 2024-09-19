@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jam.repository.interfaces.MainBannerRepository">
+
+
+	<select id="selectByEventId"
+		resultType="com.jam.repository.model.MainBanner">
+		select *
+		from main_banner_tb
+		where event_id = #{eventId}
+	</select>
+	
+	<select id="selectAllMainBanner"
+		resultType="com.jam.repository.model.MainBanner">
+		select *
+		from main_banner_tb
+		LIMIT #{limit} OFFSET #{offset}
+	</select>
+
+
+</mapper>

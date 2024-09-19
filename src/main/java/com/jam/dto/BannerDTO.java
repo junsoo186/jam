@@ -1,6 +1,6 @@
 package com.jam.dto;
 
-public class BennerDTO {
+public class BannerDTO {
 
     private String title;
     private String content;
