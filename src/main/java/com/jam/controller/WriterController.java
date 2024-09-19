@@ -1,7 +1,5 @@
 package com.jam.controller;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.request;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -21,11 +19,9 @@ import com.jam.dto.StoryDTO;
 import com.jam.repository.model.Book;
 import com.jam.repository.model.Category;
 import com.jam.repository.model.Genre;
-import com.jam.repository.model.Project;
 import com.jam.repository.model.Story;
 import com.jam.repository.model.Tag;
 import com.jam.repository.model.User;
-import com.jam.service.FundingService;
 import com.jam.service.WriterService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -38,10 +34,8 @@ import lombok.RequiredArgsConstructor;
 public class WriterController {
 
 	private final WriterService writerService;
-	// private final BennerService bennerService;
+	// private final BennerService bennerService; 
 	private final HttpSession session;
-
-	private final FundingService fundingService;
 
 	// TODO - 검색 기능 추가
 
@@ -52,57 +46,52 @@ public class WriterController {
 	 * @return
 	 */
 	@GetMapping("/workList")
-	public String handleWorkList(@RequestParam(name = "bookId", required = false) Integer bookId,
-			@RequestParam(name = "page", defaultValue = "1") int page,
-			@RequestParam(name = "size", defaultValue = "4") int size, Model model, HttpServletRequest request) {
+public String handleWorkList(
+    @RequestParam(name = "bookId", required = false) Integer bookId, 
+    @RequestParam(name = "page", defaultValue = "1") int page,
+    @RequestParam(name = "size", defaultValue = "4") int size,
+    Model model,
+    HttpServletRequest request) {
 
-		if (bookList.isEmpty()) {
-			model.addAttribute("bookList", null);
-		} else {
-			model.addAttribute("bookList", bookList);
-		}
-		return "write/workList";
-	}
+    User principal = (User) request.getSession().getAttribute("principal");
+    List<Book> bookList = writerService.readAllBookListByprincipalId(principal.getUserId());
 
-	User principal = (User) request.getSession().getAttribute("principal");
-	List<Book> bookList = writerService.readAllBookListByprincipalId(principal.getUserId());
+    for (Book book : bookList) {
+        String bookImg = book.setUpUserImage();
+        book.setBookCoverImage(bookImg);
+    }
 
-	for(
-	Book book:bookList)
-	{
-		String bookImg = book.setUpUserImage();
-		book.setBookCoverImage(bookImg);
-	}
+    // 기본값 설정: bookId가 없으면 첫 번째 책을 선택
+    if (bookId == null && !bookList.isEmpty()) {
+        bookId = bookList.get(0).getBookId();
+    }
 
-	// 기본값 설정: bookId가 없으면 첫 번째 책을 선택
-	if(bookId==null&&!bookList.isEmpty())
-	{
-		bookId = bookList.get(0).getBookId();
-	}
+    int totalRecords = 0;
+    int totalPages = 0;
+    Map<Integer, List<Story>> storyMap = new HashMap<>();
 
-	int totalRecords = 0;
-	int totalPages = 0;
-	Map<Integer, List<Story>> storyMap = new HashMap<>();
+    if (bookId != null) {
+        totalRecords = writerService.countStoriesByBookId(bookId);
+        totalPages = (int) Math.ceil((double) totalRecords / size);
 
-	if(bookId!=null)
-	{
-		totalRecords = writerService.countStoriesByBookId(bookId);
-		totalPages = (int) Math.ceil((double) totalRecords / size);
+        List<Story> storyList = writerService.findAllStoryByBookIdPage(bookId, page, size);
+        storyMap.put(bookId, storyList != null ? storyList : new ArrayList<>()); // 이야기 목록 초기화
+    }
 
-		List<Story> storyList = writerService.findAllStoryByBookIdPage(bookId, page, size);
-		storyMap.put(bookId, storyList != null ? storyList : new ArrayList<>()); // 이야기 목록 초기화
-	}
+    model.addAttribute("bookList", bookList);
+    model.addAttribute("storyMap", storyMap);
+    model.addAttribute("currentPage", page);
+    model.addAttribute("totalPages", totalPages);
+    model.addAttribute("size", size);
+    model.addAttribute("bookId", bookId);
 
-	model.addAttribute("bookList",bookList);model.addAttribute("storyMap",storyMap);model.addAttribute("currentPage",page);model.addAttribute("totalPages",totalPages);model.addAttribute("size",size);model.addAttribute("bookId",bookId);
+    // AJAX 요청에 대한 처리
+    if ("XMLHttpRequest".equals(request.getHeader("X-Requested-With"))) {
+        return "write/workListPartial"; // Partial View 반환
+    }
 
-	// AJAX 요청에 대한 처리
-	if("XMLHttpRequest".equals(request.getHeader("X-Requested-With")))
-	{
-		return "write/workListPartial"; // Partial View 반환
-	}
-
-	return"write/workList";
-	}
+    return "write/workList";
+}
 	// TODO - 전체 작품 리스트 추가
 
 	/**
@@ -130,7 +119,8 @@ public class WriterController {
 	 * @return 작품 리스트 페이지로 리다이렉트
 	 */
 	@PostMapping("/workInsert")
-	public String completedWorkProc(@RequestParam("bookCover") MultipartFile bookCover, BookDTO bookDTO) {
+	public String completedWorkProc(@RequestParam("bookCover") MultipartFile bookCover,
+	BookDTO bookDTO) {
 		User principal = (User) session.getAttribute("principal");
 
 		// 유효성 검사 (생략)
@@ -182,7 +172,7 @@ public class WriterController {
 	 * @return
 	 */
 	@GetMapping("/storyInsert")
-	public String handleStoryInsert(@RequestParam(name = "bookId") int bookId, Model model) {
+	public String handleStoryInsert(@RequestParam(name="bookId") int bookId, Model model) {
 		model.addAttribute("bookId", bookId);
 		return "write/storyInsert";
 	}
@@ -239,12 +229,9 @@ public class WriterController {
 		String bookImg = bookDetail.setUpUserImage(); // 책의 이미지 경로를 설정
 		bookDetail.setBookCoverImage(bookImg); // 설정한 이미지 경로를 Book 객체에 저장
 
-		Project project = fundingService.findProjectByBookId(bookDetail.getBookId());
-
 		model.addAttribute("bookId", bookId);
 		model.addAttribute("bookDetail", bookDetail);
 		model.addAttribute("principalId", principal.getUserId());
-		model.addAttribute("project", project);
 
 		// 디버깅을 위해 각 Story 객체의 userId를 출력
 
