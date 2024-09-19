@@ -4,6 +4,32 @@
 
 
 <link rel="stylesheet" href="/css/workList.css">
+
+<link rel="stylesheet" href="/css/toggleSwitch.css">    
+
+<section>
+	<div class="area--btn--top">
+		<form action="workInsert" method="get">
+			<button type="submit" id="btnInsert" class="btn--insert">신규 작품 등록</button>
+		</form>
+	</div>
+
+	<div class="area--navbar--top">
+		<a href="#myWorks">작품관리</a> <a href="#supportManagement">후원관리</a> <a href="#workStatistics">정산</a> <a href="#settlement">펀딩관리</a>
+	</div>
+	
+	<div class="toggle-container">
+	        <div class="toggle-button" id="supporterButton" onclick="toggleButton('supporter')">
+	            <span>유저</span>
+	        </div>
+	        
+	        <div class="toggle-button" id="makerButton" onclick="toggleButton('maker')">
+	            <span>작가</span>
+       	   </div>
+    	</div>
+	
+</section>
+
 <main>
     <section class="top--nav--area">
         <div class="navbar">
@@ -61,7 +87,7 @@
                                             <p>저자: ${list.author}</p>
                                             <p>제목: ${list.title}</p>
                                         </div>
-                                    </div>
+                                    </div>    
                                 </div>
 
                                 <!-- 이야기 목록과 페이지네이션 영역 -->
@@ -86,5 +112,59 @@
 
 <script type="text/javascript" src="/js/workList.js"></script>
 
+<script type="text/javascript">
+		
+
+            var principalEmail = "<c:out value='${principal != null ? principal.email : ""}' />";
+            
+            function toggleButton(selected) {
+                const supporterButton = document.getElementById('supporterButton');
+                const makerButton = document.getElementById('makerButton');
+
+                if (selected === 'supporter') {
+                    supporterButton.classList.add('active');
+                    makerButton.classList.remove('active');
+                    
+               		// 서포터(작가) 버튼 클릭 시 서버의 컨트롤러 경로로 이동
+                    window.location.href = '/user/myPage'; // 컨트롤러 경로로 리다이렉트
+                                        
+                    // 선택된 상태를 로컬 스토리지에 저장
+                    localStorage.setItem('selectedButton', 'supporter');
+                    
+                } else {
+                    makerButton.classList.add('active');
+                    supporterButton.classList.remove('active');
+                    
+                 	// 서포터(작가) 버튼 클릭 시 서버의 컨트롤러 경로로 이동
+                    window.location.href = '/write/workList'; // 컨트롤러 경로로 리다이렉트
+                    
+                    // 선택된 상태를 로컬 스토리지에 저장
+                    localStorage.setItem('selectedButton', 'maker');
+                    
+                    
+                }
+            }
+            
+          // 페이지 로드 시 로컬 스토리지에서 선택된 버튼 상태를 불러와 유지
+            window.onload = function() {
+                const selectedButton = localStorage.getItem('selectedButton');
+                const supporterButton = document.getElementById('supporterButton');
+                const makerButton = document.getElementById('makerButton');
+                
+                // 로그인된 사용자의 email이 있을 경우 "유저" 버튼을 활성화
+                if (!selectedButton && principalEmail !== "") {
+                    supporterButton.classList.add('active');
+                    makerButton.classList.remove('active');
+                    sessionStorage.setItem('selectedButton', 'supporter'); // 기본값으로 저장
+                } else if (selectedButton === 'supporter') {
+                    supporterButton.classList.add('active');
+                    makerButton.classList.remove('active');
+                } else if (selectedButton === 'maker') {
+                    makerButton.classList.add('active');
+                    supporterButton.classList.remove('active');
+                }
+            }    
+            
+</script>
 
 <%@ include file="/WEB-INF/view/layout/footer.jsp"%>

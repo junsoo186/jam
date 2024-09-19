@@ -1335,14 +1335,14 @@ VALUES
 (4, 4, 'N', 1, '34567', '부산시', '서구 암남동 101번지', 'D동 404호'),
 (5, 5, 'N', 1, '45678', '부산시', '동구 초량동 123번지', 'E동 505호');  
 
-INSERT INTO refund_request_tb (user_id, staff_id, payment_key, refund_amount, refund_reason, status, created_at, approved_at, rejected_at) 
+INSERT INTO refund_request_tb (user_id, staff_id, payment_key, refund_amount, refund_reason, status, created_at, approved_at, rejected_at, point, method) 
 VALUES 
-(1, NULL, 'tviva20240913154802sCY46', 1000, '환불', 'PENDING', '2024-09-13 15:48:44.159782', NULL, NULL),
-(2, NULL, 'tviva20240913154803sCY47', 2000, '제품 불만', 'PENDING', '2024-09-13 15:50:00.000000', NULL, NULL),
-(3, NULL, 'tviva20240913154804sCY48', 1500, '배송 지연', 'PENDING', '2024-09-13 16:00:00.000000', NULL, NULL),
-(4, NULL, 'tviva20240913154805sCY49', 2500, '오배송', 'PENDING', '2024-09-13 16:10:00.000000', NULL, NULL),
-(1, 1, 'tviva20240913154806sCY50', 1000, '취소 요청', 'APPROVED', '2024-09-13 16:20:00.000000', '2024-09-13 17:00:00.000000', NULL),
-(2, 1, 'tviva20240913154807sCY51', 3000, '상품 불만족', 'REJECTED', '2024-09-13 16:30:00.000000', NULL, '2024-09-13 18:00:00.000000');
+(1, NULL, 'tviva20240913154802sCY46', 1000, '환불', 'PENDING', '2024-09-13 15:48:44.159782', NULL, NULL, 0, '간편결제'),
+(2, NULL, 'tviva20240913154803sCY47', 2000, '제품 불만', 'PENDING', '2024-09-13 15:50:00.000000', NULL, NULL, 0, '간편결제'),
+(3, NULL, 'tviva20240913154804sCY48', 1500, '배송 지연', 'PENDING', '2024-09-13 16:00:00.000000', NULL, NULL, 0, '간편결제'),
+(4, NULL, 'tviva20240913154805sCY49', 2500, '오배송', 'PENDING', '2024-09-13 16:10:00.000000', NULL, NULL, 0, '간편결제'),
+(1, 1, 'tviva20240913154806sCY50', 1000, '취소 요청', 'APPROVED', '2024-09-13 16:20:00.000000', '2024-09-13 17:00:00.000000', NULL, 0, '간편결제'),
+(2, 1, 'tviva20240913154807sCY51', 3000, '상품 불만족', 'REJECTED', '2024-09-13 16:30:00.000000', NULL, '2024-09-13 18:00:00.000000', 0, '간편결제');
 
 -- user_tb에서 랜덤한 user_id를 가져오되, view_day, view_month, view_year에 중복되지 않도록 설정
 INSERT INTO book_views_rating_tb (book_id, view_year, view_month, view_day, views, rating, user_id)
@@ -1364,4 +1364,38 @@ FROM
     story_tb s;
 
     INSERT INTO banner_tb (`title`, `image_path`) VALUES ('이미지1', 'banner/banner.jpg');
+
+
+-- 펀딩 히스토리 테이블 삽입
+INSERT INTO funding_history_tb (project_id)
+VALUES (1), (2), (3), (4), (5);
+
+-- 결제 테이블 샘플데이터 
+INSERT INTO `account_history_tb` 
+(`user_id`, `deposit`, `point`, `after_balance`, `payment_key`, `status`, `refund_reason`)
+VALUES 
+(1, 100000, 5000, 105000, 'pay_key_001', 'PENDING', 'No refund reason');
+
+
+INSERT INTO `account_history_tb` 
+(`user_id`, `deposit`, `point`, `after_balance`, `payment_key`, `status`, `refund_reason`)
+VALUES 
+(2, 150000, 7500, 157500, 'pay_key_002', 'APPROVED', NULL);
+
+INSERT INTO `account_history_tb` 
+(`user_id`, `deposit`, `point`, `after_balance`, `payment_key`, `status`, `refund_reason`)
+VALUES 
+(3, 200000, 10000, 210000, 'pay_key_003', 'REJECTED', 'Insufficient funds');
+
+
+INSERT INTO `account_history_tb` 
+(`user_id`, `deposit`, `point`, `after_balance`, `payment_key`, `status`, `refund_reason`)
+VALUES 
+(4, 50000, 2500, 52500, 'pay_key_004', 'PENDING', 'No refund reason');
+
+
+INSERT INTO `account_history_tb` 
+(`user_id`, `deposit`, `point`, `after_balance`, `payment_key`, `status`, `refund_reason`)
+VALUES 
+(5, 300000, 15000, 315000, 'pay_key_005', 'APPROVED', NULL);
 

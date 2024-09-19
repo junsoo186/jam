@@ -14,6 +14,7 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.repository.query.Param;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,9 +25,9 @@ import com.jam.dto.signInDTO;
 import com.jam.dto.signUpDTO;
 import com.jam.repository.interfaces.UserRepository;
 import com.jam.repository.model.AccountHistoryDTO;
+import com.jam.repository.model.RefundRequest;
 import com.jam.repository.model.User;
 import com.jam.utils.Define;
-import com.jam.repository.model.RefundRequest;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -313,8 +314,8 @@ public class UserService {
 	 * @param point
 	 * @param afterBalance
 	 */
-	public void insertPoint(int userId, long deposit, long point, long afterBalance, String payKey) {
-		userRepository.insertPoint(userId, deposit, point, afterBalance, payKey);
+	public void insertPoint(int userId, long deposit, long point, long afterBalance, String payKey, char event, String method) {
+		userRepository.insertPoint(userId, deposit, point, afterBalance, payKey, event, method);
 	}
 	
 	
@@ -335,9 +336,9 @@ public class UserService {
 	 * @param amount
 	 * @param userId
 	 */
-	public void insert(Integer amount, long balance, int userId) {
+	public void insert(Integer pay2, long balance, int userId) {
 		
-		userRepository.insertUserTbPoint(amount, balance, userId);
+		userRepository.insertUserTbPoint(pay2, balance, userId);
 		
 	}
 	
@@ -376,8 +377,8 @@ public class UserService {
 	 * (테스트용)
 	 * @return
 	 */
-	public List<RefundRequest> selectRefundRequest(int page, int pageSize) {
-		List<RefundRequest> dto = userRepository.selectRefundRequest(page, pageSize);
+	public List<RefundRequest> selectRefundRequest(@Param("page") int page, @Param("pageSize") int pageSize) {
+		List<RefundRequest> dto = userRepository.selectRefundRequest();
 		return dto;
 	}
 	
@@ -474,10 +475,10 @@ public class UserService {
 	 * @param afterBalance
 	 * @param paymentKey
 	 */
-	public void updatePoint(int userId, long deposit, long point, long afterBalance, String paymentKey) {
+	public void updatePoint(int userId, long deposit, long point, long afterBalance, String refundReason, String paymentKey) {
 		// TODO Auto-generated method stub
 		System.out.println("updatepoint 사용거쳐감");
-		userRepository.updatePoint(userId, deposit, point, afterBalance, paymentKey);
+		userRepository.updatePoint(userId, deposit, point, afterBalance, refundReason, paymentKey);
 		
 	}
 
@@ -496,6 +497,28 @@ public class UserService {
 
 	public int getTotalRefundRequestCount() {
 		return userRepository.getTotalRefundRequestCount();
+	}
+	
+	/**
+	 * 환불 거절당했을때 사유 refundReason 업데이트
+	 * @param refundReason
+	 * @param refundReason2
+	 */
+	public void checkRequesrefusal(String refundReason, String paymentKey) {
+		userRepository.updaterefundReason(refundReason, paymentKey);
+		
+	}
+	
+	/**
+	 * 토스페이먼츠 결제 후 payment_TB에 데이터를 추가한다.
+	 * @param userId
+	 * @param paymentKey
+	 * @param point
+	 * @param deposit
+	 * @param event
+	 */
+	public void InsertPaymentTB(int userId, String paymentKey, long deposit, long point, char event) {
+		userRepository.InsertPaymentTB(userId, paymentKey, deposit, point, event);
 	}
 	
 

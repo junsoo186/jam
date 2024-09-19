@@ -182,7 +182,7 @@ CREATE TABLE `event_winners_tb` (
     FOREIGN KEY (`event_id`) REFERENCES `event_tb`(`event_id`) ON DELETE CASCADE,
     FOREIGN KEY (`user_id`) REFERENCES `user_tb`(`user_id`) ON DELETE CASCADE
 );
-
+-- 토스페이먼츠 결제 성공 시 기록에 저장된다. (user_id, deposit, point, after_balance, created_at, payment_key, status)
 CREATE TABLE `account_history_tb` (
     `account_history_id` int PRIMARY KEY AUTO_INCREMENT NOT NULL,
     `user_id` int NOT NULL COMMENT '외래 키, user_tb 참조',
@@ -193,7 +193,9 @@ CREATE TABLE `account_history_tb` (
     FOREIGN KEY (`user_id`) REFERENCES `user_tb`(`user_id`),
     `payment_key` varchar(50) null comment '토스 환불에서 paymentkey, 결제가격, 환불이유가 필요',
     `status` VARCHAR(20) NOT NULL DEFAULT 'PENDING' COMMENT '요청 상태 (PENDING, APPROVED, REJECTED)',
-    refund_reason VARCHAR(255) COMMENT '환불 사유'
+    refund_reason VARCHAR(255) COMMENT '환불 사유',
+    event char(1) COMMENT '이벤트를 적용하여 결제했는지 여부를 확인 Y, N ',
+    method varchar(15) COMMENT '결제 api를 통해 어떤 방법으로 결제했는지 ex) 간편결제'
 );
 
 -- 환불 요청 테이블 (사용자가 환불요청 하면 관리자가 승인, 거절 할 수 있다.)
@@ -208,9 +210,24 @@ CREATE TABLE refund_request_tb (
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '요청 생성 시간',
     approved_at TIMESTAMP NULL COMMENT '관리자 승인 시간',
     rejected_at TIMESTAMP NULL COMMENT '관리자 거부 시간',
+    point bigint not null comment '결제후 포인트 획득',
+    method varchar(10) null comment '결제 방식',
     FOREIGN KEY (user_id) REFERENCES user_tb(user_id),
     FOREIGN KEY (staff_id) REFERENCES user_tb(user_id)
 );
+
+-- 충전 이벤트 유무를 확인할 수 있다. (만약 이벤트가 'Y' 이면 환불 불가 or 이벤트가 'N' 이라면 환불 가능)
+create table payment_tb(
+	payment_id int primary key auto_increment,
+    user_id int not null,
+    price bigint not null,
+    point bigint not null ,
+    event char(1), -- 'Y' 'N'
+    payment_key varchar(50) not null,
+    FOREIGN KEY (user_id) REFERENCES user_tb(user_id),
+    FOREIGN KEY (payment_key) REFERENCES account_history_tb(payment_key)
+);
+
 
 CREATE TABLE `reward_tb` (
     `reward_id` int PRIMARY KEY AUTO_INCREMENT NOT NULL,
@@ -252,6 +269,12 @@ CREATE TABLE `funding_result_tb` (
     CONSTRAINT fk_funding_project FOREIGN KEY (`project_id`) REFERENCES `project_tb`(`project_id`) ON DELETE CASCADE
 ) COMMENT='펀딩 결과 저장 테이블';
 
+
+CREATE TABLE `funding_history_tb` (
+    `id` int PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    `project_id` int NOT NULL,
+    FOREIGN KEY (`project_id`) REFERENCES `project_tb`(`project_id`)
+);
 
 CREATE TABLE `notice_tb` (
     `notice_id` int PRIMARY KEY AUTO_INCREMENT NOT NULL,

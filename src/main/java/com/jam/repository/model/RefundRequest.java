@@ -27,9 +27,9 @@ public class RefundRequest {
     private Date createdAt; // 날짜
     private Date approvedAt; // 승인날짜
     private Date rejectedAt; // 거절날짜
-    private int pageSize;
-    private int page;
-    private String paymentMethod;
+    
+    private long point; // 포인트
+    private String method; // 결제 방법
 
     public AccountHistoryDTO toAccountHistoryDTO() {
     	return AccountHistoryDTO.builder()
