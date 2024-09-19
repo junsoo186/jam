@@ -1,5 +1,6 @@
 package com.jam.repository.interfaces;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -27,4 +28,8 @@ public interface FundingRepository {
 	public void updateCanceled(@Param("fundingId") Integer fundingId);
 
 	public void updatePointByRefund(@Param("userId") Integer userId, @Param("totalAmount") int totalAmount);
+
+    public List<Funding> findByProjectId(@Param("projectId") int projectId);
+
+	public void updateFundingStatus(Funding funding);
 }

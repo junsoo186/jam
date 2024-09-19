@@ -136,16 +136,17 @@ public class FundingController {
 	 * @return
 	 */
 	@GetMapping("/fundingList")
-	public String handleFundingList(Model model) {
-		List<Project> projects = fundingService.findAllProject();
+	@ResponseBody
+    public List<Project> getProjects(@RequestParam(value = "page", defaultValue = "1") int page,
+	@RequestParam(value = "size", defaultValue = "16") int size) {
+        return fundingService.getPagedProjects(page, size);  // 페이지 번호와 사이즈에 맞게 프로젝트 목록을 가져옴
+    }
 
-		for (Project project : projects) {
-			project.setMainImg(project.setUpMainImage()); // 바로 설정
-		}
-		model.addAttribute("projectList", projects);
-
+	@GetMapping("/projects")
+	public String handleProjectList() {
 		return "funding/fundingList";
 	}
+	
 
 	/**
 	 * 

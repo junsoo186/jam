@@ -1,6 +1,9 @@
 package com.jam.dto;
 
 
+import java.util.List;
+
+import com.jam.repository.model.Project;
 import com.jam.repository.model.Reward;
 
 import lombok.AllArgsConstructor;
@@ -8,6 +11,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+
+
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

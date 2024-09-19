@@ -1333,11 +1333,7 @@ VALUES
 (2, 2, 'N', 1, '67890', '부산시', '수영구 민락동 456번지', 'B동 202호'),
 (3, 3, 'N', 2, '23456', '부산시', '동래구 명륜동 789번지', 'C동 303호'),
 (4, 4, 'N', 1, '34567', '부산시', '서구 암남동 101번지', 'D동 404호'),
-(5, 5, 'N', 1, '45678', '부산시', '동구 초량동 123번지', 'E동 505호');
-
--- 펀딩 히스토리 테이블 삽입
-INSERT INTO funding_history_tb (project_id)
-VALUES (1), (2), (3), (4), (5);
+(5, 5, 'N', 1, '45678', '부산시', '동구 초량동 123번지', 'E동 505호');  
 
 INSERT INTO refund_request_tb (user_id, staff_id, payment_key, refund_amount, refund_reason, status, created_at, approved_at, rejected_at) 
 VALUES 
@@ -1347,6 +1343,7 @@ VALUES
 (4, NULL, 'tviva20240913154805sCY49', 2500, '오배송', 'PENDING', '2024-09-13 16:10:00.000000', NULL, NULL),
 (1, 1, 'tviva20240913154806sCY50', 1000, '취소 요청', 'APPROVED', '2024-09-13 16:20:00.000000', '2024-09-13 17:00:00.000000', NULL),
 (2, 1, 'tviva20240913154807sCY51', 3000, '상품 불만족', 'REJECTED', '2024-09-13 16:30:00.000000', NULL, '2024-09-13 18:00:00.000000');
+
 -- user_tb에서 랜덤한 user_id를 가져오되, view_day, view_month, view_year에 중복되지 않도록 설정
 INSERT INTO book_views_rating_tb (book_id, view_year, view_month, view_day, views, rating, user_id)
 SELECT 

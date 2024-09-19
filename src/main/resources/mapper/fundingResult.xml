@@ -1,0 +1,20 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+    namespace="com.jam.repository.interfaces.FundingResultRepository">
+
+    <select id="findByProjectId" parameterType="int" resultType="com.jam.repository.model.FundingResult">
+        SELECT * 
+        FROM funding_result_tb 
+        WHERE project_id = #{projectId}
+    </select>
+
+    <update id="updateFundingResult" parameterType="com.jam.repository.model.FundingResult">
+        UPDATE funding_result_tb
+        SET
+            funding_status = #{fundingStatus},
+            is_refunded = #{isRefunded},
+            refund_date = #{refundDate}
+        WHERE funding_result_id = #{fundingResultId}
+    </update>
+
+</mapper>

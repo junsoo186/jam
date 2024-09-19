@@ -22,7 +22,7 @@ public class FundingDTO {
     private int userId; // Foreign key to user_tb
     private int rewardId; // Foreign key to reward_tb
     private Timestamp createdAt; // Timestamp for creation time
-    private Date canceledAt; // Date for cancellation
+    private Timestamp canceledAt; // Date for cancellation
     private String cancelConfirm; // Enum ('N', 'Y')
     private int rewardQuantity; // Number of rewards selected
 

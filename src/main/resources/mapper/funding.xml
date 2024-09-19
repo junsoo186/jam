@@ -60,4 +60,20 @@
 		WHERE user_id = #{userId}
 	</update> 
 
+	<select id="findByProjectId" parameterType="int" resultType="com.jam.repository.model.Funding">
+        SELECT * 
+        FROM funding_tb 
+        WHERE reward_id IN (
+            SELECT reward_id FROM reward_tb WHERE project_id = #{projectId}
+        )
+    </select>
+
+    <update id="updateFundingStatus" parameterType="com.jam.repository.model.Funding">
+        UPDATE funding_tb
+        SET 
+            cancel_confirm = #{cancelConfirm}, 
+            canceled_at = #{canceledAt}
+        WHERE funding_id = #{fundingId}
+    </update>
+
 </mapper>

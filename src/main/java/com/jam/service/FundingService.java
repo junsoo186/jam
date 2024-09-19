@@ -2,12 +2,15 @@ package com.jam.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -15,11 +18,13 @@ import org.springframework.web.multipart.MultipartFile;
 import com.jam.dto.ProjectDTO;
 import com.jam.dto.RewardDTO;
 import com.jam.repository.interfaces.FundingRepository;
+import com.jam.repository.interfaces.FundingResultRepository;
 import com.jam.repository.interfaces.ProjectRepository;
 import com.jam.repository.interfaces.RewardRepository;
 import com.jam.repository.interfaces.UserRepository;
 import com.jam.repository.model.Content;
 import com.jam.repository.model.Funding;
+import com.jam.repository.model.FundingResult;
 import com.jam.repository.model.Project;
 import com.jam.repository.model.Reward;
 import com.jam.utils.Define;
@@ -34,17 +39,10 @@ public class FundingService {
 	private final ProjectRepository projectRepository;
 	private final RewardRepository rewardRepository;
 	private final UserRepository userRepository;
+	private final FundingResultRepository fundingResultRepository;
 
 	@Value("${file.upload-dir}")
 	private String uploadDir;
-
-	public List<Project> findAllProject() {
-		List<Project> projects = new ArrayList<>();
-
-		projects = projectRepository.findAllProject();
-
-		return projects;
-	}
 
 	@Transactional
 	public void insertProject(Project project, List<RewardDTO> rewards, List<MultipartFile> projectImgs) {
@@ -270,10 +268,61 @@ public class FundingService {
 
 	}
 
+	/**
+	 * 
+	 * @param fundingId
+	 * @param totalAmount
+	 * @param userId
+	 */
 	@Transactional
 	public void cancelFunding(Integer fundingId, Integer totalAmount, Integer userId) {
 		fundingRepository.updateCanceled(fundingId);
 		fundingRepository.updatePointByRefund(userId, totalAmount);
 	}
 
+	@Scheduled(cron = "0 0 0 * * ?")
+	@Transactional
+	public void checkFundingDeadline() {
+		// 마감된 프로젝트 중 목표 금액을 달성하지 못한 프로젝트들을 조회
+		List<Project> endedProjects = projectRepository.findByDeadlineBeforeAndIsCanceledFalse(LocalDateTime.now());
+
+		for (Project project : endedProjects) {
+			// 펀딩 결과 조회
+			FundingResult fundingResult = fundingResultRepository.findByProjectId(project.getProjectId());
+
+			if (project.getTotalAmount() < project.getGoal()) {
+				// 목표 금액에 도달하지 못한 경우 -> 펀딩 실패
+				fundingResult.setFundingStatus("실패");
+				fundingResult.setRefundDate(LocalDateTime.now());
+				fundingResult.setRefunded(true);
+
+				// 해당 프로젝트에 참여한 모든 후원자의 펀딩 취소 및 환불 처리
+				List<Funding> fundings = fundingRepository.findByProjectId(project.getProjectId());
+				for (Funding funding : fundings) {
+					funding.setCancelConfirm("Y");
+					funding.setCanceledAt(Timestamp.valueOf(LocalDateTime.now()));
+					fundingRepository.updateFundingStatus(funding); // 환불 상태 업데이트
+				}
+
+			} else {
+				// 목표 금액에 도달한 경우 -> 펀딩 성공
+				fundingResult.setFundingStatus("성공");
+			}
+
+			// 펀딩 결과 업데이트
+			fundingResultRepository.updateFundingResult(fundingResult);
+		}
+	}
+
+	public List<Project> getPagedProjects(int page, int size) {
+		// 페이지가 1보다 작을 경우 1로 설정
+		if (page < 1) {
+			page = 1;
+		}
+	
+		int offset = (page - 1) * size;
+	
+		return projectRepository.findAllProject(size, offset);
+	}
+	
 }

@@ -1,28 +1,90 @@
-document.addEventListener("DOMContentLoaded", function () {
-    const projects = document.querySelectorAll('.project-card');
+document.addEventListener('DOMContentLoaded', function () {
+    let currentPage = 0;
+    const pageSize = 16;  // 한번에 불러올 프로젝트 개수
+    const projectContainer = document.querySelector('.project-container');
+    const loadingIndicator = document.querySelector('.loading-indicator'); // 이미 HTML에 있는 요소 사용
 
     const currentDate = new Date(); // 현재 날짜를 한 번만 가져옴
+    let isLoading = false; // 로딩 중인지 확인하는 변수
+    let hasMoreData = true; // 더 불러올 데이터가 있는지 확인
 
-    projects.forEach((project, index) => {
-        const goalAmount = project.getAttribute('data-goal');
-        const currentAmount = project.getAttribute('data-current');
-        const endDate = project.getAttribute('data-end-date');
+    // 데이터를 서버에서 불러오는 함수
+    function fetchProjects(page) {
+        if (isLoading || !hasMoreData) return; // 이미 로딩 중이거나 데이터가 더 이상 없으면 중단
+        isLoading = true; // 로딩 상태로 설정
 
-        const parsedGoal = parseInt(goalAmount, 10);
-        const parsedCurrent = parseInt(currentAmount, 10);
+        fetch(`/funding/fundingList?page=${page}&size=${pageSize}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.length === 0) {
+                    hasMoreData = false; // 더 이상 데이터가 없음을 설정
+                    loadingIndicator.style.display = 'none'; // 로딩 인디케이터 숨기기
+                    return;
+                }
 
-        calculateProgress(index, parsedCurrent, parsedGoal, endDate, currentDate);
+                data.forEach((project, index) => {
+                    const projectCard = document.createElement('div');
+                    projectCard.classList.add('project-card');
+                    projectCard.setAttribute('data-goal', project.goal);
+                    projectCard.setAttribute('data-current', project.totalAmount);
+                    projectCard.setAttribute('data-end-date', project.dateEnd);
 
-        // form 영역 클릭 시 해당 경로로 이동
-        project.addEventListener('click', function () {
-            const form = project.closest('form');
-            if (form) {
-                form.submit();  // form을 submit하여 해당 경로로 이동
-            }
-        });
+                    projectCard.innerHTML = `
+                        <div class="project-image">
+                            <img alt="프로젝트 이미지" src="${project.mainImg}" class="project-img">
+                        </div>
+                        <div class="project-info">
+                            <div class="project-title">${project.title}</div>
+                            <div class="project-author">${project.author}</div>
+                            <div class="project-comment">${project.onelineComment}</div>
+                            <div class="progress-info">
+                                <span class="progress-percentage" id="progress-percentage-${index}"></span>
+                                <span class="progress-funding" id="progress-funding-${index}"></span>
+                            </div>
+                            <div class="progress-bar-container">
+                                <div class="progress-bar" id="progress-bar-${index}"></div>
+                            </div>
+                            <div class="progress-days" id="progress-days-${index}"></div>
+                        </div>
+                    `;
+                    projectContainer.appendChild(projectCard);
+
+                    // 진행 상황 계산 함수 호출
+                    calculateProgress(index, project.totalAmount, project.goal, project.dateEnd, currentDate);
+
+                    // form 영역 클릭 시 해당 경로로 이동
+                    projectCard.addEventListener('click', function () {
+                        const form = projectCard.closest('form');
+                        if (form) {
+                            form.submit();  // form을 submit하여 해당 경로로 이동
+                        }
+                    });
+                });
+
+                currentPage++;
+                isLoading = false; // 로딩 완료
+            })
+            .catch(err => {
+                console.error('Error fetching projects:', err);
+                isLoading = false; // 오류 발생 시에도 로딩 완료로 설정
+            });
+    }
+
+    // IntersectionObserver 설정
+    const observer = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && !isLoading && hasMoreData) {
+            fetchProjects(currentPage);
+        }
     });
+
+    // 무한 스크롤을 감지할 요소
+    observer.observe(loadingIndicator);
+
+    // 초기 데이터 로드
+    fetchProjects(currentPage);
 });
 
+// 프로젝트 진행 상황을 계산하는 함수
 function calculateProgress(index, currentAmount, goalAmount, endDate, currentDate) {
     // 목표 날짜 계산
     const targetDate = new Date(endDate);

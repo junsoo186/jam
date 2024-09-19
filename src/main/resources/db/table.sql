@@ -238,11 +238,20 @@ CREATE TABLE `funding_tb` (
     FOREIGN KEY (`reward_id`) REFERENCES `reward_tb`(`reward_id`) ON DELETE CASCADE
 );
 
-CREATE TABLE `funding_history_tb` (
-    `funding_history_id` int PRIMARY KEY AUTO_INCREMENT NOT NULL COMMENT 'auto',
-    `project_id` int NOT NULL COMMENT '외래 키, project_tb 참조',
-    FOREIGN KEY (`project_id`) REFERENCES `project_tb`(`project_id`)
-);
+CREATE TABLE `funding_result_tb` (
+    `funding_result_id` INT PRIMARY KEY AUTO_INCREMENT NOT NULL COMMENT 'auto increment ID',
+    `project_id` INT NOT NULL COMMENT '펀딩된 프로젝트 ID, project_tb 참조',
+    `total_funding_amount` DECIMAL(15, 2) NOT NULL COMMENT '총 펀딩된 금액',
+    `total_backers` INT NOT NULL COMMENT '펀딩에 참여한 총 인원 수',
+    `funding_goal` DECIMAL(15, 2) NOT NULL COMMENT '펀딩 목표 금액',
+    `funding_status` VARCHAR(20) NOT NULL COMMENT '펀딩 상태 (성공, 실패, 취소)',
+    `is_refunded` BOOLEAN DEFAULT FALSE COMMENT '환불 여부',
+    `final_funding_date` DATETIME NOT NULL COMMENT '펀딩 종료 날짜',
+    `reward_distributed` BOOLEAN DEFAULT FALSE COMMENT '보상 지급 여부',
+    `refund_date` DATETIME DEFAULT NULL COMMENT '환불 날짜(있을 경우)',
+    CONSTRAINT fk_funding_project FOREIGN KEY (`project_id`) REFERENCES `project_tb`(`project_id`) ON DELETE CASCADE
+) COMMENT='펀딩 결과 저장 테이블';
+
 
 CREATE TABLE `notice_tb` (
     `notice_id` int PRIMARY KEY AUTO_INCREMENT NOT NULL,
