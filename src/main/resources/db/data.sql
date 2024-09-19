@@ -989,3 +989,5 @@ SELECT
 FROM
     story_tb s;
 
+    INSERT INTO banner_tb (`title`, `image_path`) VALUES ('이미지1', 'banner/banner.jpg');
+

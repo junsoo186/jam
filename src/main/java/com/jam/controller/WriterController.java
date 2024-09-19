@@ -16,12 +16,14 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.jam.dto.BookDTO;
 import com.jam.dto.StoryDTO;
+import com.jam.repository.model.Banner;
 import com.jam.repository.model.Book;
 import com.jam.repository.model.Category;
 import com.jam.repository.model.Genre;
 import com.jam.repository.model.Story;
 import com.jam.repository.model.Tag;
 import com.jam.repository.model.User;
+import com.jam.service.BannerService;
 import com.jam.service.WriterService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -34,6 +36,7 @@ import lombok.RequiredArgsConstructor;
 public class WriterController {
 
 	private final WriterService writerService;
+	private final BannerService bannerService;
 	// private final BennerService bennerService; 
 	private final HttpSession session;
 
@@ -46,52 +49,75 @@ public class WriterController {
 	 * @return
 	 */
 	@GetMapping("/workList")
-public String handleWorkList(
-    @RequestParam(name = "bookId", required = false) Integer bookId, 
-    @RequestParam(name = "page", defaultValue = "1") int page,
-    @RequestParam(name = "size", defaultValue = "4") int size,
-    Model model,
-    HttpServletRequest request) {
-
-    User principal = (User) request.getSession().getAttribute("principal");
-    List<Book> bookList = writerService.readAllBookListByprincipalId(principal.getUserId());
-
-    for (Book book : bookList) {
-        String bookImg = book.setUpUserImage();
-        book.setBookCoverImage(bookImg);
-    }
-
-    // 기본값 설정: bookId가 없으면 첫 번째 책을 선택
-    if (bookId == null && !bookList.isEmpty()) {
-        bookId = bookList.get(0).getBookId();
-    }
-
-    int totalRecords = 0;
-    int totalPages = 0;
-    Map<Integer, List<Story>> storyMap = new HashMap<>();
-
-    if (bookId != null) {
-        totalRecords = writerService.countStoriesByBookId(bookId);
-        totalPages = (int) Math.ceil((double) totalRecords / size);
-
-        List<Story> storyList = writerService.findAllStoryByBookIdPage(bookId, page, size);
-        storyMap.put(bookId, storyList != null ? storyList : new ArrayList<>()); // 이야기 목록 초기화
-    }
-
-    model.addAttribute("bookList", bookList);
-    model.addAttribute("storyMap", storyMap);
-    model.addAttribute("currentPage", page);
-    model.addAttribute("totalPages", totalPages);
-    model.addAttribute("size", size);
-    model.addAttribute("bookId", bookId);
-
-    // AJAX 요청에 대한 처리
-    if ("XMLHttpRequest".equals(request.getHeader("X-Requested-With"))) {
-        return "write/workListPartial"; // Partial View 반환
-    }
-
-    return "write/workList";
-}
+	public String handleWorkList(
+		@RequestParam(name = "bookId", required = false) Integer bookId, 
+		@RequestParam(name = "page", defaultValue = "1") int page,
+		@RequestParam(name = "size", defaultValue = "4") int size,
+		@RequestParam(name = "bannerpage", defaultValue = "1") int bannerpage,
+		@RequestParam(name = "bannersize", defaultValue = "1") int bannersize,
+		Model model,
+		HttpServletRequest request) {
+	
+		// 세션에서 사용자 정보 가져오기
+		User principal = (User) request.getSession().getAttribute("principal");
+		List<Book> bookList = writerService.readAllBookListByprincipalId(principal.getUserId());
+	
+		// 책 이미지 설정
+		for (Book book : bookList) {
+			String bookImg = book.setUpUserImage();
+			book.setBookCoverImage(bookImg);
+		}
+	
+		// 배너 페이징 처리
+		List<Banner> bannerList = bannerService.findAll(bannerpage, bannersize);
+		for (Banner banner : bannerList) {
+			String bannerImg = banner.setUpBannerImage();
+			banner.setImagePath(bannerImg);
+		}
+	
+		// bookId가 없으면 첫 번째 책을 선택
+		if (bookId == null && !bookList.isEmpty()) {
+			bookId = bookList.get(0).getBookId();
+		}
+	
+		int totalRecords = 0;
+		int totalPages = 0;
+		Map<Integer, List<Story>> storyMap = new HashMap<>();
+	
+		if (bookId != null) {
+			totalRecords = writerService.countStoriesByBookId(bookId);
+			totalPages = (int) Math.ceil((double) totalRecords / size);
+	
+			// 이야기 목록 가져오기
+			List<Story> storyList = writerService.findAllStoryByBookIdPage(bookId, page, size);
+			storyMap.put(bookId, storyList != null ? storyList : new ArrayList<>());
+		}
+	
+		// 배너 총 개수와 총 페이지 수 계산
+		int totalBannerRecords = bannerService.countTotalBanners();  // 배너의 총 개수
+		int totalBannerPages = (int) Math.ceil((double) totalBannerRecords / bannersize);
+	
+		// 모델에 데이터 추가
+		model.addAttribute("banner", bannerList);
+		model.addAttribute("bookList", bookList);
+		model.addAttribute("storyMap", storyMap);
+		model.addAttribute("currentPage", page);
+		model.addAttribute("totalPages", totalPages);
+		model.addAttribute("size", size);
+		model.addAttribute("bookId", bookId);
+	
+		// 배너 페이징 정보
+		model.addAttribute("currentBannerPage", bannerpage);
+		model.addAttribute("totalBannerPages", totalBannerPages);
+		model.addAttribute("bannersize", bannersize);
+	
+		// AJAX 요청에 대한 처리
+		if ("XMLHttpRequest".equals(request.getHeader("X-Requested-With"))) {
+			return "write/workListPartial"; // Partial View 반환
+		}
+	
+		return "write/workList";
+	}
 	// TODO - 전체 작품 리스트 추가
 
 	/**
