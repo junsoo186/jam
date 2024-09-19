@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/view/layout/header.jsp"%>
 
+
+
 <link rel="stylesheet" href="/css/workList.css">
 <main>
     <section class="top--nav--area">
@@ -12,10 +14,12 @@
         </div>
     </section>
 
-    <section class="top--benner--area">
-        <div class="benner--content">
-            <img src="../images/benner/benner.jpg">
-        </div>
+    <section class="top--banner--area">
+        <c:forEach items="${banner}" var="bannerItem">
+            <div class="banner--content">
+                <img src="${bannerItem.imagePath}" alt="banner image" class="banner-img" style="display: none;" />
+            </div>    
+        </c:forEach>
     </section>
 
     <div class="top--btn--area">
@@ -51,7 +55,7 @@
                             <!-- 책 영역 시작 -->
                             <div class="book--area novel-${list.bookId} s-inv" onmouseenter="showDetails(this)" onmouseleave="hideDetails(this)">
                                 <div class="left-section" onclick="navigateToDetail(${list.bookId}, ${principal.userId})">
-                                    <img src="${pageContext.request.contextPath}${list.bookCoverImage}" class="img--cover" alt="${list.title} 이미지">
+                                    <img src="${pageContext.request.contextPath}${list.bookCoverImage}" class="img--cover">
                                     <div class="overlay">
                                         <div class="overlay-content">
                                             <p>저자: ${list.author}</p>
@@ -81,5 +85,6 @@
     
 
 <script type="text/javascript" src="/js/workList.js"></script>
+
 
 <%@ include file="/WEB-INF/view/layout/footer.jsp"%>

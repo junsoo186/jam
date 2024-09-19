@@ -59,7 +59,7 @@
 			</div>
 		</section>
 	</div>
-
+ <!-- <p style="color: black">실시간,주간 조회수 만들어야댐 db추가해야함</p> -->
 <h3>요일별 작품</h3>
 <!-- 요일별 작품 영역 -->
 <div class="day--area--filter" id="dayFilter"></div>

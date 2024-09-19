@@ -161,6 +161,28 @@ INSERT INTO `event_tb` (
 );
 
 
+-- 메인배너 테이블
+
+INSERT INTO `main_banner_tb` (
+`title` ,`content`,`sub_content`,`image_path`,`event_id`) 
+VALUES (
+    '회원가입 웰컴 반값 이벤트1', 
+    '회원가입 후 첫 코인 구매 시 50% 할인 혜택을 제공합니다.', 
+    '기간한정 이벤트', 'banner/bannerimg1.jpg',1  );
+
+INSERT INTO `main_banner_tb` (
+`title` ,`content`,`sub_content`,`image_path`,`event_id`) 
+VALUES (
+    '회원가입 웰컴 반값 이벤트2', 
+    '회원가입 후 첫 코인 구매 시 50% 할인 혜택을 제공합니다.', 
+    '기간한정 이벤트',  'banner/bannerimg2.jpg', 2 );
+INSERT INTO `main_banner_tb` (
+`title` ,`content`,`sub_content`,`image_path`,`event_id`) 
+VALUES (
+    '회원가입 웰컴 반값 이벤트3', 
+    '회원가입 후 첫 코인 구매 시 50% 할인 혜택을 제공합니다.', 
+    '기간한정 이벤트',  'banner/bannerimg3.jpg', 3);
+
 
 
 -- 카테고리 테이블에 데이터 삽입
@@ -623,37 +645,37 @@ VALUES (10, 14, 9, '유료', '9화: 마지막 퍼즐', '2024-03-18', '', 200, 52
 -- 11  Book Information 
 INSERT INTO book_tb (user_id, title, author_comment, author, category_id, genre_id, introduction, age,likes,serial_day,book_cover_image) 
 VALUES (18, '얼어붙은 대지의 심장', '끝없는 겨울을 끝내기 위한 기사단의 희생과 모험 이야기', '작가 K', 3, 5, '얼어붙은 대지의 저주를 풀기 위해 설산의 심장부로 향하는 기사단의 여정', 
-			'15',10,'화요일','cover/11.png');
+			'15',10,'월요일','cover/11.png');
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents ,cost ,views)
-VALUES (11, 18, 0, '프롤로그', '얼어붙은 심장', '2023-08-30','' , 0 ,932);
+VALUES (11, 18, 0, '프롤로그', '얼어붙은 심장', '2023-08-29','' , 0 ,932);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (11, 18, 1, '유료', '1화: 겨울의 저주', '2023-09-06', '', 200, 980);
+VALUES (11, 18, 1, '유료', '1화: 겨울의 저주', '2023-09-05', '', 200, 980);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (11, 18, 2, '유료', '2화: 얼어붙은 심장', '2023-09-13', '', 200, 840);
+VALUES (11, 18, 2, '유료', '2화: 얼어붙은 심장', '2023-09-12', '', 200, 840);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (11, 18, 3, '유료', '3화: 눈 속의 진실', '2023-09-20', '', 200, 920);
+VALUES (11, 18, 3, '유료', '3화: 눈 속의 진실', '2023-09-19', '', 200, 920);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (11, 18, 4, '유료', '4화: 설산의 전설', '2023-09-27', '', 200, 880);
+VALUES (11, 18, 4, '유료', '4화: 설산의 전설', '2023-09-26', '', 200, 880);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (11, 18, 5, '유료', '5화: 얼음의 전사', '2023-10-04', '', 200, 890);
+VALUES (11, 18, 5, '유료', '5화: 얼음의 전사', '2023-10-03', '', 200, 890);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (11, 18, 6, '유료', '6화: 희생의 서사시', '2023-10-11', '', 200, 950);
+VALUES (11, 18, 6, '유료', '6화: 희생의 서사시', '2023-10-10', '', 200, 950);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (11, 18, 7, '유료', '7화: 대지의 울음', '2023-10-18', '', 200, 900);
+VALUES (11, 18, 7, '유료', '7화: 대지의 울음', '2023-10-17', '', 200, 900);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (11, 18, 8, '유료', '8화: 불의 도전', '2023-10-25', '', 200, 860);
+VALUES (11, 18, 8, '유료', '8화: 불의 도전', '2023-10-24', '', 200, 860);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (11, 18, 9, '유료', '9화: 저주의 파괴', '2023-11-01', '', 200, 920);
+VALUES (11, 18, 9, '유료', '9화: 저주의 파괴', '2023-10-31', '', 200, 920);
 
 
 
@@ -948,14 +970,14 @@ VALUES
 INSERT INTO funding_history_tb (project_id)
 VALUES (1), (2), (3), (4), (5);
 
--- user_tb에서 랜덤한 user_id를 가져오되, view_day, view_month, view_year에 중복되지 않도록 설정
+
 INSERT INTO book_views_rating_tb (book_id, view_year, view_month, view_day, views, rating, user_id)
 SELECT 
     s.book_id,
-    EXTRACT(YEAR FROM s.upload_day) AS view_year,      -- story_tb의 upload_day에서 연도 추출
-    EXTRACT(MONTH FROM s.upload_day) AS view_month,    -- story_tb의 upload_day에서 월 추출
-    EXTRACT(DAY FROM s.upload_day) AS view_day,        -- story_tb의 upload_day에서 일 추출
-    s.views,                                           -- story_tb의 views 값을 가져옴
+    EXTRACT(YEAR FROM s.upload_day) AS view_year,     
+    EXTRACT(MONTH FROM s.upload_day) AS view_month,    
+    EXTRACT(DAY FROM s.upload_day) AS view_day,        
+    s.views,                                           
     ROUND(1 + (RAND() * 4), 1) AS rating,              -- 1.0 ~ 5.0 사이의 랜덤 평점 생성 (소수점 한 자릿수까지)
     (SELECT u.user_id FROM user_tb u 
      WHERE NOT EXISTS (SELECT 1 FROM book_views_rating_tb bvr 
@@ -966,4 +988,6 @@ SELECT
      ORDER BY RAND() LIMIT 1) AS user_id              -- user_id 중복 방지
 FROM
     story_tb s;
+
+    INSERT INTO banner_tb (`title`, `image_path`) VALUES ('이미지1', 'banner/banner.jpg');
 

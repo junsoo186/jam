@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import com.jam.repository.model.Book;
 import com.jam.repository.model.Category;
 import com.jam.repository.model.Genre;
+import com.jam.repository.model.MainBanner;
 import com.jam.repository.model.User;
+import com.jam.service.MainBannerService;
 import com.jam.service.WriterService;
 import com.jam.utils.Define;
 
@@ -25,6 +27,7 @@ import lombok.RequiredArgsConstructor;
 public class MainCotroller {
 	
 	private final WriterService writerService;
+	private final MainBannerService mainBannerService;
 	
 	
 	
@@ -38,12 +41,31 @@ public class MainCotroller {
 		List<Book>bookList=writerService.readAllBookList();
         List<Category> categoryList = writerService.findAllCategory();
         List<Genre> genreList= writerService.findAllGenre();
+
+        
 		model.addAttribute("bookList",bookList);
 		model.addAttribute("categoryList",categoryList);
 		model.addAttribute("genreList",genreList);
 		return "/index";
 	}
 	
+	/**
+	 * 배너 페이징 비동기처리
+	 * @param model
+	 * @param page
+	 * @param size
+	 * @return
+	 */
+    @GetMapping("/api/main-banners")
+    @ResponseBody
+    public List<MainBanner> getMainBanners(Model model,
+            @RequestParam(defaultValue = "0") int page, 
+            @RequestParam(defaultValue = "1") int size) {
+		List<MainBanner> mainBannerList=mainBannerService.readAllMainBanner(page,size);
+		
+        return mainBannerList;
+    }
+
 	
 	/**
 	 * 

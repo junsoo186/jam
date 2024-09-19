@@ -8,7 +8,7 @@ body {
     padding: 0;
 }
 
-.benner--content img {
+.banner--content img {
     width: 100%; /* 부모 요소에 맞춤 */
     max-width: 1200px; /* 최대 너비 제한 */
     height: auto; /* 비율 유지 */
