@@ -37,13 +37,17 @@ public class MainBannerService {
 		 return MainBanner;
 		}
 	
-	public List<MainBanner> readAllMainBanner(int size,int page) {
+	public List<MainBanner> readAllMainBanner(int page,int size) {
 		List<MainBanner> mainBannerList=new ArrayList<>();
 		int limit = size;
 		int offset = (page - 1) * size;
-		System.out.println(limit +"sadasd"+offset);
 		mainBannerList= mainBannerRepository.selectAllMainBanner(limit,offset);
 		return mainBannerList;
 		
+	}
+	
+	public int countAllBanner() {
+		int sumCount=mainBannerRepository.countAllMainBanner();
+		return sumCount;
 	}
 }

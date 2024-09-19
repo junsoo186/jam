@@ -1,78 +1,6 @@
 /* 기존 CSS 스타일 유지 */
 /* index.css */
 
-.container--banner {
-	padding-top: 20px; /* 헤더 아래의 간격 */
-	display: flex;
-}
-
-.top--banner {
-	position: relative;
-	/* 그라데이션 배경 */
-	background-image: radial-gradient(#1F325C, #3A5CA8);
-	text-align: center;
-	width: 100vw;
-}
-
-.visual--meta {
-	display: flex;
-	align-items: center; /* 이미지와 텍스트 박스 수직 가운데 정렬 */
-	justify-content: center; /* 이미지와 텍스트 박스 수평 가운데 정렬 */
-	gap: 30px; /* 이미지와 텍스트 박스 사이의 간격 */
-}
-
-.fixed--size {
-	width: 500px; /* 고정 너비 */
-	height: 403px; /* 고정 높이 */
-	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-	transition: transform 5s ease-in-out; /* 확대 애니메이션 추가 */
-}
-
-.banner--text--container {
-	display: flex;
-	flex-direction: column; /* 텍스트 박스와 페이지 번호를 세로로 배치 */
-	align-items: flex-start; /* 텍스트 박스를 왼쪽 정렬 */
-}
-
-.banner--text--box {
-	text-align: left;
-	color: black;
-	margin-bottom: 3px; /* 텍스트 박스와 페이지 번호 사이의 간격 */
-	opacity: 0; /* 초기 상태: 투명하게 설정 */
-	transform: translateY(20px); /* 초기 상태: 아래로 이동 */
-	animation: slideUp 1s ease forwards; /* 애니메이션 효과 추가 */
-}
-
-@keyframes slideUp {
-  0% {
-    opacity: 0;
-    transform: translateY(20px); /* 아래에서 시작 */
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0); /* 원래 위치로 이동 */
-  }
-}
-
-
-.strong--text {
-	font-weight: bold;
-	font-size: 1.5em;
-	color: #f9f9f9;
-}
-
-.page--number {
-	text-align: left;
-	color: #f9f9f9;
-}
-
-/* 추가 배너 스타일 */
-.banner {
-	margin-top: 20px;
-	padding: 20px;
-	background-color: #ddd;
-}
-
 /* a 링크 */
     a { text-decoration: none; color: black; }
     a:visited { text-decoration: none; }
@@ -141,7 +69,6 @@
     width: 10%;   /* 원의 너비 */
     height: 20px;  /* 원의 높이 */
     border-radius: 25px;  /* 원형으로 만들기 */
-    border: 2px solid #000;  /* 테두리 */
     padding: 10px;
     background-color: #f0f0f0; /* 원의 배경색 */
     position: relative;
@@ -167,10 +94,10 @@
 .btn--area--day::before {
     content: '';
     position: absolute;
-    width: 60px;
+    width: 70px;
     height: 40px;
-    background-color: #007bff;  /* 선택된 버튼 색상 */
-    border-radius: 5px;
+    background-color: black;  /* 선택된 버튼 색상 */
+    border-radius: 25px;
     transition: transform 0.5s ease, width 0.5s ease;
     z-index: 0; /* 배경은 버튼 아래 */
     transform: translateX(-30px);  /* 처음에 왼쪽에 위치 */
@@ -179,7 +106,7 @@
 .btn--area--category button.active,
 .btn--area--genre button.active,
 .btn--area--day button.active  {
-    color: black;
+    color: white;
 }
 
 /* 애니메이션: 배경이 이동하는 효과 */
@@ -187,14 +114,16 @@
 .btn--area--genre.active-before::before,
 .btn--area--day.active-before::before {
     transform: translateX(calc(30px + 0px)); /* 두 번째 버튼으로 이동하는 애니메이션 */
-    width: 60px;
+    width: 70px;
+        border-radius: 25px;
 }
 
 .btn--area--category.active-after::before,
 .btn--area--genre.active-after::before,
 .btn--area--day.active-after::before   {
     transform: translateX(-30px); /* 첫 번째 버튼으로 이동하는 애니메이션 */
-    width: 60px;
+    width: 70px;
+    border-radius: 25px;
 }
 
 /* 책 목록 스타일 */
@@ -309,87 +238,99 @@ h3 {
 }
 
 
-/* 슬라이더 전체 컨테이너 스타일 */
-.event--container {
-	padding: 50px;
-	padding-top: 60px;
-	padding-left: 130px; position : relative;
-	width: 100%;
-	max-width: 1200px; /* 슬라이더의 최대 너비 */
-	margin: auto; /* 중앙 정렬 */
-	overflow: hidden; /* 슬라이드가 밖으로 나가지 않도록 숨김 */
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	position: relative;
+/* swiper 라이브러리*/
+.swiper-container {
+    width: 70%; /* 전체 화면 너비 */
+    height: 80%; /* 슬라이드의 고정된 높이 */
+    overflow: hidden; /* 넘치는 부분을 숨김 */
 }
 
-/* 슬라이더 버튼 스타일 */
-.event--banner {
-	width: 350px; /* 고정 너비 */
-	height: 150px; /* 고정 높이 */
-	border-radius: 10px;
-	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+.swiper-slide {
+	left:200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%; /* 슬라이드 높이와 동일하게 설정 */
+    margin: 0; /* 슬라이드 간 여백을 없앰 */
 }
 
-
-/* 슬라이더 내부 래퍼 */
-.slider--wrapper {
-	width: 100%;
-	overflow: hidden;
+.swiper-slide img {
+    width: 50%;  /* 이미지 너비를 슬라이드 크기에 맞게 설정 (90%로 줄임) */
+    height: 70%; /* 이미지의 높이를 슬라이드에 맞추어 설정 */
+    object-fit: cover; /* 이미지가 슬라이드 크기를 맞추면서 잘리지 않도록 설정 */
+    border-radius: 10px; /* 이미지에 약간의 둥근 모서리 추가 */
 }
 
-/* 슬라이더 스타일 */
-.slider {
-	display: flex;
-	transition: transform 0.5s ease; /* 슬라이드 전환 애니메이션 */
+:root {
+    --swiper-pagination-bullet-width: 20px;
+    --swiper-pagination-bullet-height: 20px;
+    --swiper-pagination-bullet-active: red;
+    --swiper-pagination-color: #ff0047ed; /* 활성화된 페이지네이션 색상 */
+    --swiper-theme-color: blue; /* 기본 테마 색상 (필요한 경우) */
+    --swiper-pagination-bottom: 15%; /* 원하는 값으로 변경 */
 }
-
-/* 개별 슬라이드 스타일 */
-.slide {
-	min-width: 100%;
-	box-sizing: border-box;
-	display: inline-flex;
-	gap: 40px;
+.swiper-pagination {
+    position: absolute; /* 절대 위치 지정 */
+    top: 10px; /* 상단에서의 거리 */
+    left: 50%; /* 수평 중앙 정렬 */
+    transform: translateX(-50%); /* 중앙 정렬을 위한 변환 */
+    z-index: 10; /* 다른 요소 위에 보이게 하기 위해 z-index 설정 */
 }
 
 
-  -- asd
-  .slider-container {
-    position: relative;
-    width: 100%;
-    height: 300px;
-    overflow: hidden;
+.swiper-pagination-bullet {
+    width: var(--swiper-pagination-bullet-width);
+    height: var(--swiper-pagination-bullet-height);
+    display: inline-block;
+    border-radius: 50%;
+    background: var(--swiper-pagination-bullet-active);
+    opacity: 1;
 }
 
-
-.banner--text--box {
-    position: absolute;
-    bottom: 10px;
-    left: 10px;
-    background-color: rgba(0, 0, 0, 0.5);
-    padding: 20px;
-    color: white;
+.swiper-pagination-bullet-active {
+    background: #ff0047ed;
 }
 
-.prev--btn, .next--btn {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background-color: rgba(0, 0, 0, 0.5);
-    color: white;
-    border: none;
-    padding: 10px;
-    cursor: pointer;
+/* 기본적으로 모든 이미지와 텍스트 숨기기 */
+.banner--text--box, .banner-image {
+    opacity: 0;
+    visibility: hidden; /* 기본적으로 숨김 */
+    transition: opacity 0.5s ease, visibility 0s 0.5s; /* 부드러운 전환 */
 }
 
-.prev--btn {
-    left: 10px;
+/* 활성화된 슬라이드에만 이미지와 텍스트 보이게 설정 */
+.swiper-slide-active .banner--text--box, 
+.swiper-slide-active .banner-image {
+    opacity: 1;
+    visibility: visible; /* 활성화된 슬라이드에서는 보이도록 설정 */
+    transition: opacity 0.5s ease; /* opacity만 전환 */
+    cursor: pointer
+}
+/* 왼쪽/오른쪽 네비게이션 버튼의 위치 조정 */
+.swiper-button-next, .swiper-button-prev {
+    top: 50%; /* 버튼의 수직 위치 */
+    transform: translateY(-50%); /* 가운데 정렬 */
+    width: 30px; /* 버튼 너비 (원하는 크기로 변경 가능) */
+    height: 30px; /* 버튼 높이 (원하는 크기로 변경 가능) */
 }
 
-.next--btn {
-    right: 10px;
+.swiper-button-next {
+    margin-right: 30vw; /* 화면 너비의 10% */
+    border-radius: 50%; 
+  	box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* 약간의 그림자 효과 */
+    width: 60px!important;
+    height: 60px!important;
+    color: black!important;
 }
-  
+
+/* 왼쪽 버튼 (가까이 배치) */
+.swiper-button-prev {
+   	margin-left: 30vw; /* 화면 너비의 10% */
+    border-radius: 50%; 
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* 약간의 그림자 효과 */
+    width: 60px!important;
+    height: 60px!important;
+    color: black!important;
+}
 
 

@@ -64,4 +64,19 @@ public interface BookRepository {
 
 	public List<Genre> findAllGenre();
 
+	// 당일 책별 views 
+	public List<Book> findViews(@Param("order") String order);
+	
+	
+	// views 증가 트랜잭션 
+	// 당일 userId 를 통한 views 체크
+	public int checkUserViewExists(@Param("userId") int userId,@Param("bookId") int bookId);
+	
+	// 당일 userId 로 views+1 증가
+	public void insertUserViewRecord(int userId, int bookId);
+
+
+	
+	
+
 }

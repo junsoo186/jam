@@ -15,4 +15,5 @@ public interface MainBannerRepository {
 	public  MainBanner selectByEventId(int Eventid);
 	public MainBanner selectById(int id);
 	public List<MainBanner> selectAllMainBanner(@Param("limit") int limit,@Param("offset") int offset);
+	public int countAllMainBanner();
 }

@@ -168,20 +168,20 @@ INSERT INTO `main_banner_tb` (
 VALUES (
     '회원가입 웰컴 반값 이벤트1', 
     '회원가입 후 첫 코인 구매 시 50% 할인 혜택을 제공합니다.', 
-    '기간한정 이벤트', 'banner/bannerimg1.jpg',1  );
+    '기간한정 이벤트', 'mainbanner/bannerimg1.jpg',1  );
 
 INSERT INTO `main_banner_tb` (
 `title` ,`content`,`sub_content`,`image_path`,`event_id`) 
 VALUES (
     '회원가입 웰컴 반값 이벤트2', 
     '회원가입 후 첫 코인 구매 시 50% 할인 혜택을 제공합니다.', 
-    '기간한정 이벤트',  'banner/bannerimg2.jpg', 2 );
+    '기간한정 이벤트',  'mainbanner/bannerimg2.jpg', 2 );
 INSERT INTO `main_banner_tb` (
 `title` ,`content`,`sub_content`,`image_path`,`event_id`) 
 VALUES (
     '회원가입 웰컴 반값 이벤트3', 
     '회원가입 후 첫 코인 구매 시 50% 할인 혜택을 제공합니다.', 
-    '기간한정 이벤트',  'banner/bannerimg3.jpg', 3);
+    '기간한정 이벤트',  'mainbanner/bannerimg3.jpg', 3);
 
 
 
@@ -991,3 +991,21 @@ FROM
 
     INSERT INTO banner_tb (`title`, `image_path`) VALUES ('이미지1', 'banner/banner.jpg');
 
+insert into book_views_rating_tb (book_id, view_year, view_month, view_day, views, rating, user_id)
+values(1,YEAR(CURRENT_DATE),month(CURRENT_DATE),day(CURRENT_DATE),1,2.5,11);
+insert into book_views_rating_tb (book_id, view_year, view_month, view_day, views, rating, user_id)
+values(1,YEAR(CURRENT_DATE),month(CURRENT_DATE),day(CURRENT_DATE),1,3.5,17);
+insert into book_views_rating_tb (book_id, view_year, view_month, view_day, views, rating, user_id)
+values(1,YEAR(CURRENT_DATE),month(CURRENT_DATE),day(CURRENT_DATE),1,4.5,10);
+insert into book_views_rating_tb (book_id, view_year, view_month, view_day, views, rating, user_id)
+values(4,YEAR(CURRENT_DATE),month(CURRENT_DATE),day(CURRENT_DATE),1,3.5,15);
+insert into book_views_rating_tb (book_id, view_year, view_month, view_day, views, rating, user_id)
+values(4,YEAR(CURRENT_DATE),month(CURRENT_DATE),day(CURRENT_DATE),1,4.5,14);
+insert into book_views_rating_tb (book_id, view_year, view_month, view_day, views, rating, user_id)
+values(4,YEAR(CURRENT_DATE),month(CURRENT_DATE),day(CURRENT_DATE),1,1.5,13);
+insert into book_views_rating_tb (book_id, view_year, view_month, view_day, views, rating, user_id)
+values(5,YEAR(CURRENT_DATE),month(CURRENT_DATE),day(CURRENT_DATE),1,2.5,23);
+insert into book_views_rating_tb (book_id, view_year, view_month, view_day, views, rating, user_id)
+values(5,YEAR(CURRENT_DATE),month(CURRENT_DATE),day(CURRENT_DATE),1,3,21);
+insert into book_views_rating_tb (book_id, view_year, view_month, view_day, views, rating, user_id)
+values(5,YEAR(CURRENT_DATE),month(CURRENT_DATE),day(CURRENT_DATE),1,4.5,20);
