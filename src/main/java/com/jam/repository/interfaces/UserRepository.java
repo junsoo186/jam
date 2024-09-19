@@ -60,7 +60,7 @@ public interface UserRepository {
 	void findRefundList(RefundRequest refundRequest);
 	
 	// 환불을 신청한 모든 사람들을 조회한다.
-	public List<RefundRequest> selectRefundRequest();
+	public List<RefundRequest> selectRefundRequest(@Param("pageSize") int pageSize, @Param("offset") int offset);
 	
 	// 관리자가 유저의 포인트 환불에 대해 승인 할 수 있다.
 	public void pointAudit(RefundRequest dto);

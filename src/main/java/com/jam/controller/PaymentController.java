@@ -55,11 +55,12 @@ public class PaymentController {
         System.out.println("payController /toss : " + principal);
         return "/payment/tossTest";
     }
-    
+
     /**
      * pay2 값을 세션에 저장하는 엔드포인트
      * 이유 : 토스에서 전달할 수 있는 값이 결제가격, 토스 고유키, 주문번호만 requestparam 으로 받을 수 있어서
      * 이유 : 포인트 값을 받을 수 없기에 session으로 pay2에 포인트 값을 넣어 @GetMapping("/success") 사용
+     * 
      * @param request
      * @return
      */
@@ -85,14 +86,14 @@ public class PaymentController {
             @RequestParam(value = "orderId") String orderId,
             @RequestParam(value = "amount") Integer amount,
             @RequestParam(value = "paymentKey") String paymentKey) {
-    	
-    	// 세션에서 pay2 값 가져오기
+
+        // 세션에서 pay2 값 가져오기
         Integer pay2 = (Integer) session.getAttribute("pay2"); // 포인트
-            
+
         System.out.println("pay2 : " + pay2); // 포인트
         System.out.println("orderId : " + orderId); // 주문번호
         System.out.println("amount : " + amount); // 결제금액
-        System.out.println("paymentKey : " + paymentKey); // 결제 고유키 
+        System.out.println("paymentKey : " + paymentKey); // 결제 고유키
 
         RestTemplate restTemplate = new RestTemplate();
 
@@ -127,18 +128,18 @@ public class PaymentController {
 
             // model 패키지 안에 있는 Payment 사용
             Payment payment = Payment.builder()
-            		.orderId(dto.getOrderId()) // 주문번호
-            		.orderName(dto.getOrderName()) // 주문 이름
-            		.totalAmount(dto.getTotalAmount()) // 결제 금액
-            		.method(dto.getMethod()) // 간편결제
-            		.paymentKey(dto.getPaymentKey()) // 토스 고유번호 주문
-            		.build();
-            
+                    .orderId(dto.getOrderId()) // 주문번호
+                    .orderName(dto.getOrderName()) // 주문 이름
+                    .totalAmount(dto.getTotalAmount()) // 결제 금액
+                    .method(dto.getMethod()) // 간편결제
+                    .paymentKey(dto.getPaymentKey()) // 토스 고유번호 주문
+                    .build();
+
             model.addAttribute("payment", payment);
             // session.setAttribute("payment", payment);
             System.out.println("#@#@#@# : " + payment.toString());
-            
-            // 여기서 유저 서비스를 이용해서 결제 	쿼리가 작동하도록 설정해야 한다.
+
+            // 여기서 유저 서비스를 이용해서 결제 쿼리가 작동하도록 설정해야 한다.
 
             // 1. 유저
             User principal = (User) session.getAttribute("principal"); // 유저 세션 가져옴
@@ -156,33 +157,33 @@ public class PaymentController {
             long deposit = amount; // 입금 금액
             long point = pay2; // 충전할 포인트
             long afterBalance = balance + pay2; // 소지하고 있는 포인트 + 충전할 포인트 = afterBalance
-            
+
             // 여기에 이벤트 여부를 넣어야 할거 같음 'Y', 'N'
-            // isEventActive 가 true 이면 이벤트 발생, 아니라면 이벤트 없음  
-            if(isEventActive == true) {
-            // 포인트 충전 INSERT INTO account_history_tb
-            	// 메서드 타입 만들어야 함 (결제 유형) 그리고 이벤트 여부 'y' 일때 환불 버튼 안없어짐 ;;
-            userService.insertPoint(userId, deposit, point, afterBalance, paymentKey, 'Y', dto.getMethod()); 
+            // isEventActive 가 true 이면 이벤트 발생, 아니라면 이벤트 없음
+            if (isEventActive == true) {
+                // 포인트 충전 INSERT INTO account_history_tb
+                // 메서드 타입 만들어야 함 (결제 유형) 그리고 이벤트 여부 'y' 일때 환불 버튼 안없어짐 ;;
+                userService.insertPoint(userId, deposit, point, afterBalance, paymentKey, 'Y', dto.getMethod());
             } else {
-            	userService.insertPoint(userId, deposit, point, afterBalance, paymentKey, 'N', dto.getMethod()); 
+                userService.insertPoint(userId, deposit, point, afterBalance, paymentKey, 'N', dto.getMethod());
             }
             // 유저 상세 정보에 기존에 포인트에 충전한 포인트 입력
             userService.insert(pay2, balance, userId);
             // session.setAttribute("TossPaymentResponseDTO", payment);
-            
+
             // payment_TB 테이블에도 기록을 남긴다. (이벤트 적용 여부 확인)
             // (세션 유저 아이디, 페이먼트키, 입금금액, 포인트, 'N' )
-            
-            // isEventActive 가 true 이면 이벤트 발생, 아니라면 이벤트 없음  
-            if(isEventActive == true) {
-            	userService.InsertPaymentTB(userId, paymentKey, deposit, point, 'Y');
+
+            // isEventActive 가 true 이면 이벤트 발생, 아니라면 이벤트 없음
+            if (isEventActive == true) {
+                userService.InsertPaymentTB(userId, paymentKey, deposit, point, 'Y');
             } else {
-            	userService.InsertPaymentTB(userId, paymentKey, deposit, point, 'N');
+                userService.InsertPaymentTB(userId, paymentKey, deposit, point, 'N');
             }
-            
+
             // 세션에서 pay2 값 삭제 (더 이상 필요 없으므로)
             session.removeAttribute("pay2");
-            
+
             // 유저의 업데이트된 정보를 가져온다.
             User updatedUser = userService.InformationUpdate(principal.getEmail()); // DB에서 갱신된 유저 정보 가져오기
 
@@ -232,7 +233,7 @@ public class PaymentController {
         // 유저의 결제 리스트 가져오기
         List<AccountHistoryDTO> payList = userService.findPayList(userId);
         List<Funding> fundingList = fundingService.findFundingByUserId(userId);
-        
+
         System.out.println("/paylist : " + payList);
         System.out.println("/paylist : " + fundingList);
 
@@ -253,11 +254,10 @@ public class PaymentController {
             @RequestParam("refundAmount") long refundAmount,
             @RequestParam("refundReason") String refundReason,
             @RequestParam("point") long point,
-            @RequestParam("method") String method
-    		) {
+            @RequestParam("method") String method) {
 
         System.out.println("환불신청");
-        
+
         System.out.println("point : " + point); // 포인트
         System.out.println("method : " + method); // 결제 방법
         System.out.println("paymentKey : " + paymentKey); // 환불 고유키
@@ -265,7 +265,7 @@ public class PaymentController {
         System.out.println("refundReason : " + refundReason); // 환불 사유
 
         User user = (User) session.getAttribute("principal");
-        
+
         RefundRequest refundRequest = RefundRequest.builder()
                 .userId(user.getUserId())
                 .paymentKey(paymentKey)
@@ -275,8 +275,8 @@ public class PaymentController {
                 .method(method)
                 .status("PENDING")
                 .build();
-        
-        System.out.println("refundRequest : " +refundRequest.toString());
+
+        System.out.println("refundRequest : " + refundRequest.toString());
 
         int number = 0; // paymentKey 키로 account_history_tb 신청을 1번만 가능하도록 한다.
         number = userService.paymentCheck(paymentKey);
@@ -312,7 +312,7 @@ public class PaymentController {
             @RequestParam("userId") int userId,
             @RequestParam("point") long point,
             @RequestParam("method") String method) {
-    	
+
         System.out.println("환불");
 
         System.out.println("point : " + point); // 환불 받을 포인트
@@ -362,7 +362,9 @@ public class PaymentController {
             // 환불 승인 버튼을 눌렀지만 소지포인트 - 환불 포인트가 < 0 일 때 환불 거절로 변경된다.
             if (afterBalance >= 0) { // 포인트가 0 보다 크면 환불을 진행한다.
 
-                userService.updatePoint(userId, deposit, point, afterBalance, refundReason, paymentKey); // 포인트 충전내역 업데이트 @#!@#@!#@!#!@#
+                userService.updatePoint(userId, deposit, point, afterBalance, refundReason, paymentKey); // 포인트 충전내역
+                                                                                                         // 업데이트
+                                                                                                         // @#!@#@!#@!#!@#
                 // userService.insertPoint(userId, deposit, point, afterBalance, paymentKey); //
                 // 포인트 충전내역
 
@@ -402,7 +404,7 @@ public class PaymentController {
                 userService.updateStatus2(paymentKey); // 거절로 변경
                 userService.refundreject(refundRequest);
                 System.out.println("환불 승인을 시도했으나 포인트 부족으로 환불 불가");
-                return "redirect:/";
+                return "redirect:/pay/payment-page";
             }
 
         } catch (Exception e) {
@@ -411,7 +413,7 @@ public class PaymentController {
             // System.out.println("환불실패");
             // return "redirect:/pay/fail"; // 환불 실패
         }
-        return "redirect:/"; // 환불 성공 시
+        return "redirect:/pay/payment-page"; // 환불 성공 시
     }
 
     /**
@@ -428,10 +430,9 @@ public class PaymentController {
         System.out.println("refundAmount @#!#@!#@!#@! : " + refundAmount);
         System.out.println("refundReason @#!#@!#@!#@! : " + refundReason);
         System.out.println("userId @#!#@!#@!#@! : " + userId);
-        
 
         User user = (User) session.getAttribute("principal");
-       RefundRequest refundRequest = RefundRequest.builder()
+        RefundRequest refundRequest = RefundRequest.builder()
                 .userId(userId) // 유저 아이디
                 .staffId(user.getUserId()) // 관리자 아이디
                 .paymentKey(paymentKey) // 결제 코드
@@ -439,7 +440,7 @@ public class PaymentController {
                 .refundReason(refundReason)
                 // .status("거절")
                 .build();
-        
+
         userService.checkRequesrefusal(refundReason, paymentKey); // ddd
 
         AccountHistoryDTO dto = AccountHistoryDTO.builder()
@@ -452,7 +453,7 @@ public class PaymentController {
 
         userService.updateStatus2(paymentKey); // pedding --> 거절로 변경
 
-        return "redirect:/";
+        return "redirect:/pay/payment-page";
     }
 
     /**
@@ -465,75 +466,79 @@ public class PaymentController {
         return "/payment/termsAndConditions";
     }
 
-//    /**
-//     * 관리자 페이지 이동 (관리자)
-//     * 
-//     * @return
-//     */
-//    @GetMapping("/managerTest")
-//    public String managerTest(Model model) {
-//        System.out.println("@@@@@@@@@@@@@@@@@@@@");
-//        List<RefundRequest> payList = userService.selectRefundRequest(offset, pageSize);
-//        model.addAttribute("payList", payList);
-//        System.out.println("관리자 페이지 이동 payList : "+payList.toString());
-//        return "/payment/managerTest";
-//    }
-    
+    // /**
+    // * 관리자 페이지 이동 (관리자)
+    // *
+    // * @return
+    // */
+    // @GetMapping("/managerTest")
+    // public String managerTest(Model model) {
+    // System.out.println("@@@@@@@@@@@@@@@@@@@@");
+    // List<RefundRequest> payList = userService.selectRefundRequest(offset,
+    // pageSize);
+    // model.addAttribute("payList", payList);
+    // System.out.println("관리자 페이지 이동 payList : "+payList.toString());
+    // return "/payment/managerTest";
+    // }
+
     @GetMapping("/payment-management")
-	@ResponseBody
-	public ResponseEntity<Map<String, Object>> getPaymentManagement(
-			@RequestParam(value = "page", defaultValue = "1") int page, // 기본값을 1로 설정
-			@RequestParam(value = "pageSize", defaultValue = "5") int pageSize) {
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> getPaymentManagement(
+            @RequestParam(value = "page", defaultValue = "1") int page, // 기본값을 1로 설정
+            @RequestParam(value = "pageSize", defaultValue = "5") int pageSize) {
 
-		// 페이지 번호가 1 이상이어야 함
-		if (page < 1) {
-			page = 1;
-		}
+        // 페이지 번호가 1 이상이어야 함
+        if (page < 1) {
+            page = 1;
+        }
 
-		// DB 조회 시 페이지는 0부터 시작하는 인덱스를 사용하므로 page - 1로 조정
-		int offset = (page - 1) * pageSize;
+        // DB 조회 시 페이지는 0부터 시작하는 인덱스를 사용하므로 page - 1로 조정
+        int offset = (page - 1) * pageSize;
 
-		// 페이징 처리된 결제 정보와 기타 필요한 데이터 로직
-		List<RefundRequest> payList = userService.selectRefundRequest(offset, pageSize);
-		int totalPayCount = userService.getTotalRefundRequestCount();
-		int totalPages = (int) Math.ceil((double) totalPayCount / pageSize);
+        // 페이징 처리된 결제 정보와 기타 필요한 데이터 로직
+        List<RefundRequest> payList = userService.selectRefundRequest(offset, pageSize);
+        int totalPayCount = userService.getTotalRefundRequestCount();
+        int totalPages = (int) Math.ceil((double) totalPayCount / pageSize);
 
-		// 응답할 데이터를 Map 형태로 담음
-		Map<String, Object> response = new HashMap<>();
-		response.put("payList", payList);
-		response.put("currentPage", page); // 클라이언트에게 표시할 현재 페이지
-		response.put("totalPages", totalPages);
+        // 응답할 데이터를 Map 형태로 담음
+        Map<String, Object> response = new HashMap<>();
+        response.put("payList", payList);
+        response.put("currentPage", page); // 클라이언트에게 표시할 현재 페이지
+        response.put("totalPages", totalPages);
 
-		// JSON으로 응답
-		return ResponseEntity.ok(response);
-	}
-    
+        // JSON으로 응답
+        return ResponseEntity.ok(response);
+    }
+
     @GetMapping("/payment-page")
     public String getPaymentPage() {
-        return "staff/payment-management";
+        return "staff/pay/payment-management";
     }
-    
+
+    @GetMapping("/payDetail")
+	public String getMethodName(Model model, @RequestParam("refundId") Integer refundId) {
+
+		RefundRequest refund = userService.findPayDetailByRefundId(refundId);
+		model.addAttribute("refund", refund);
+		return "staff/pay/payDetail";
+	}
 
     private boolean isEventActive = false; // 이벤트 상태를 저장하는 변수 (기본값은 비활성화)
 
     // 이벤트 상태를 토글하는 API (POST 요청)
     @PostMapping("/toggleEvent")
-    @ResponseBody	
+    @ResponseBody
     public String toggleEvent() {
-        isEventActive = !isEventActive;  // 현재 이벤트 상태를 반전 (true면 false로, false면 true로)
-        System.out.println("이벤트 상태: " + (isEventActive ? "활성화" : "비활성화"));  // 이벤트 상태를 콘솔에 출력
-        return "이벤트 상태가 " + (isEventActive ? "활성화" : "비활성화") + "되었습니다.";  // 상태 메시지를 반환
+        isEventActive = !isEventActive; // 현재 이벤트 상태를 반전 (true면 false로, false면 true로)
+        System.out.println("이벤트 상태: " + (isEventActive ? "활성화" : "비활성화")); // 이벤트 상태를 콘솔에 출력
+        return "이벤트 상태가 " + (isEventActive ? "활성화" : "비활성화") + "되었습니다."; // 상태 메시지를 반환
     }
 
     // 현재 이벤트 상태를 반환하는 API (GET 요청)
     @GetMapping("/eventStatus")
     @ResponseBody
     public boolean getEventStatus() {
-        return isEventActive;  // true 또는 false 반환 (JSON 형식)
+        return isEventActive; // true 또는 false 반환 (JSON 형식)
     }
-    
-    
-    
-    
-    
+
 }

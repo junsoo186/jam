@@ -378,7 +378,7 @@ public class UserService {
 	 * @return
 	 */
 	public List<RefundRequest> selectRefundRequest(@Param("page") int page, @Param("pageSize") int pageSize) {
-		List<RefundRequest> dto = userRepository.selectRefundRequest();
+		List<RefundRequest> dto = userRepository.selectRefundRequest(pageSize, page);
 		return dto;
 	}
 	

@@ -73,24 +73,28 @@
                     <td>${refund.refundReason}</td>
                 </tr>
             </table>
-            <div style="display: flex;">
-                <form action="/pay/reques" method="post">
-                    <input type="hidden" name="paymentKey" value="${refund.paymentKey}">
-                    <input type="hidden" name="refundAmount" value="${refund.refundAmount}">
-                    <input type="hidden" name="refundReason" value="${refund.refundReason}">
-                    <input type="hidden" name="userId" value="${refund.userId}">
-                    <button type="submit" class="btn--refund--action" 
-                        <c:if test="${refund.status == 'APPROVED'}">disabled</c:if>>환불 승인</button>
-                </form>
-                <form action="/pay/requesrefusal" method="post">
-                    <input type="hidden" name="paymentKey" value="${refund.paymentKey}">
-                    <input type="hidden" name="refundAmount" value="${refund.refundAmount}">
-                    <input type="hidden" name="refundReason" value="${refund.refundReason}">
-                    <input type="hidden" name="userId" value="${refund.userId}">
-                    <button type="submit" class="btn--refund--action" 
-                        <c:if test="${refund.status == 'APPROVED'}">disabled</c:if>>환불 거절</button>
-                </form>
-            </div>
+
+            <!-- 상태가 PENDING일 때만 승인 및 거절 버튼을 출력 -->
+            <c:if test="${refund.status == 'PENDING'}">
+                <div style="display: flex;">
+                    <form action="/pay/reques" method="post">
+                        <input type="hidden" name="paymentKey" value="${refund.paymentKey}">
+                        <input type="hidden" name="refundAmount" value="${refund.refundAmount}">
+                        <input type="hidden" name="refundReason" value="${refund.refundReason}">
+                        <input type="hidden" name="point" value="${refund.point}"> 
+                        <input type="hidden" name="method" value="${refund.method}"> 
+                        <input type="hidden" name="userId" value="${refund.userId}">
+                        <button type="submit" class="btn--refund--action">환불 승인</button>
+                    </form>
+                    <form action="/pay/requesrefusal" method="post">
+                        <input type="hidden" name="paymentKey" value="${refund.paymentKey}">
+                        <input type="hidden" name="refundAmount" value="${refund.refundAmount}">
+                        <input type="hidden" name="refundReason" value="${refund.refundReason}">
+                        <input type="hidden" name="userId" value="${refund.userId}">
+                        <button type="submit" class="btn--refund--action">환불 거절</button>
+                    </form>
+                </div>
+            </c:if>
         </div>
     </div>
 
