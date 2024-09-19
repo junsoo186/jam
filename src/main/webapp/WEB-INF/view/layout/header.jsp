@@ -149,7 +149,6 @@ document.getElementById("check-event-status-button").addEventListener("click", f
             console.error("이벤트 상태를 가져오는 중 오류 발생:", error);
         });
 });
-   
     
 </script>
 		

@@ -102,7 +102,7 @@ public class UserController {
 		String profileImg = principal.setUpUserImage();
 		principal.setProfileImg(profileImg);
 		session.setAttribute("principal", principal);
-		System.out.println("principal : " + principal);
+		System.out.println("principal : " + principal);		
 		return "redirect:/"; // 로그인 성공 시 메인 페이지로 리다이렉트
 	}
 

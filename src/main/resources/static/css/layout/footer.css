@@ -18,7 +18,7 @@
 }
 
 .footer-logo img {
-    width: 100px; 
+    width: 100px;
 
 .footer-links {
     display: flex;
@@ -54,4 +54,5 @@
     padding: 10px 0;
     font-size: 12px;
     background-color: black;
+}
 }
