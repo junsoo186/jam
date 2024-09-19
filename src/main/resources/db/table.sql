@@ -382,41 +382,37 @@ CREATE TABLE `book_comment_tb` (
 );
 
 CREATE TABLE `main_banner_tb`(
-`main_banner_id`int PRIMARY KEY AUTO_INCREMENT NOT NULL,
-`title` varchar(1000) COMMENT '베너 제목',
-`content` varchar(1000) COMMENT '베너 내용1',
-`sub_content` varchar(1000) COMMENT '베너 내용2',
-`image_path` varchar(2000) COMMENT '이미지 경로',
-`event_id` int,
-FOREIGN KEY (`event_id`) REFERENCES `event_tb`(`event_id`)
+    `main_banner_id` int PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    `title` varchar(1000) COMMENT '베너 제목',
+    `content` varchar(1000) COMMENT '베너 내용1',
+    `sub_content` varchar(1000) COMMENT '베너 내용2',
+    `image_path` varchar(2000) COMMENT '이미지 경로',
+    `event_id` int,
+    FOREIGN KEY (`event_id`) REFERENCES `event_tb`(`event_id`)
 );
 
 -- project_tb에 reward_id에 대한 외래 키 추가
-ALTER TABLE `project_tb`
-ADD CONSTRAINT fk_project_reward FOREIGN KEY (`reward_id`) REFERENCES `reward_tb`(`reward_id`);
-
-
+-- ALTER TABLE `project_tb`
+-- ADD CONSTRAINT fk_project_reward FOREIGN KEY (`reward_id`) REFERENCES `reward_tb`(`reward_id`);
 CREATE TABLE `score_tb`(
-    `score_id`int PRIMARY KEY AUTO_INCREMENT NOT NULL,
-    `user_id`int COMMENT '일반 사용자 ID',
-    `book_id`int COMMENT '책_ID', 
+    `score_id` int PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    `user_id` int COMMENT '일반 사용자 ID',
+    `book_id` int COMMENT '책_ID',
     `give_score` int,
     `created_at` timestamp
 );
 
 CREATE TABLE banner_tb(
-banner_id int PRIMARY KEY AUTO_INCREMENT NOT NULL,
-title varchar(1000) COMMENT '베너 제목',
-content varchar(1000) COMMENT '베너 내용1',
-sub_content varchar(1000) COMMENT '베너 내용2',
-image_path varchar(2000) COMMENT '이미지 경로'
+    banner_id int PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    title varchar(1000) COMMENT '베너 제목',
+    content varchar(1000) COMMENT '베너 내용1',
+    sub_content varchar(1000) COMMENT '베너 내용2',
+    image_path varchar(2000) COMMENT '이미지 경로'
 );
-
-
 
 -- fk 순환구조라 오류생김
 -- reward_tb에 project_id에 대한 외래 키 추가
-ALTER TABLE
-    `reward_tb`
-ADD
-    CONSTRAINT fk_reward_project FOREIGN KEY (`project_id`) REFERENCES `project_tb`(`project_id`);
+-- ALTER TABLE
+--     `reward_tb`
+-- ADD
+--     CONSTRAINT fk_reward_project FOREIGN KEY (`project_id`) REFERENCES `project_tb`(`project_id`);
