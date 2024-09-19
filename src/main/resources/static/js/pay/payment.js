@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     <td>${formatDate(payment.createdAt)}</td>
                     <td>${payment.paymentKey}</td>
                     <td>${payment.email}</td>
-                    <td>${payment.paymentMethod}</td>
+                    <td>${payment.method}</td>
                     <td>${formatCurrency(payment.refundAmount)}</td>
                     <td>${payment.status}</td>
                     <td><button class="details-btn" data-id="${payment.refundId}">상세보기</button></td>

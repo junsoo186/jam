@@ -164,7 +164,7 @@
 		SELECT refund.*, u.email 
 		FROM refund_request_tb refund 
 		JOIN user_tb u ON u.user_id = refund.user_id
-		LIMIT #{pageSize} OFFSET #{page}
+		LIMIT #{pageSize} OFFSET #{offset}
 	</select>
 	
 	<update id="pointAudit">
