@@ -1,0 +1,61 @@
+@charset "UTF-8";
+
+h2 {
+	text-align: center;
+}
+
+.emailForm {
+	margin: 0;
+	padding: 0;
+	display: flex;
+	justify-content: center; /* 가로 중앙 정렬 */
+	align-items: center; /* 세로 중앙 정렬 */
+}
+/* 폼 영역 스타일 */
+form {
+	background-color: #fff;
+	padding: 20px;
+	width: 100%;
+	max-width: 400px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+/* 레이블과 입력 필드 스타일 */
+label {
+	font-size: 16px;
+	margin-bottom: 10px;
+	color: #555;
+	align-self: flex-start;
+}
+
+input[type="email"] {
+	width: 100%;
+	padding: 10px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	font-size: 16px;
+	margin-bottom: 20px;
+	box-sizing: border-box;
+}
+
+/* 버튼 스타일 */
+button {
+	width: 100%;
+	padding: 12px;
+	background-color: #ff4d6d;
+	color: white;
+	border: none;
+	border-radius: 5px;
+	font-size: 16px;
+	cursor: pointer;
+}
+
+/* 결과 표시 영역 */
+#result {
+	margin-top: 20px;
+	font-size: 16px;
+	color: #333;
+	text-align: center;
+}

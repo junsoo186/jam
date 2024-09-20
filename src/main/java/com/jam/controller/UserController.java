@@ -525,7 +525,7 @@ public class UserController {
 	/**
 	 * 마이페이지 회원정보 수정 페이지 이동
 	 */
-	@GetMapping("/myProfileModify")
+	@GetMapping("/profileSetting")
 	public String getDetailMyPage() {
 		
 //		User user2 = (User)session.getAttribute("principal"); // 세션값 변경준비

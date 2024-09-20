@@ -58,8 +58,7 @@
 									<a class="profile-area" href="/#"> <img class="nav-profile"
 										src="/images/profile/profile.png">
 								</a>
-									<a class="profile-area" href="#"> <img class="nav-profile" src="/images/profile/profile.png">
-									</a>
+									
 								</c:otherwise>
 							</c:choose>
 						</c:when>

@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', function () {
 				} else if (response.ok) {
 					// 사용 가능한 이메일일 경우
 					emailCheckMessage.textContent = '사용 가능한 이메일입니다.';
-					emailCheckMessage.style.color = 'green';  // 사용 가능할 경우 초록색 표시
+					emailCheckMessage.style.color = 'blue';  // 사용 가능할 경우 초록색 표시
 					document.getElementById('emailButton').disabled = false; // 인증 요청 버튼 활성화
 					isEmailDuplicate = false;
 				}
@@ -160,7 +160,7 @@ document.addEventListener('DOMContentLoaded', function () {
 				} else if (response.ok) {
 					// 사용 가능한 닉네임일 경우
 					nickNameCheckMessage.textContent = '사용 가능한 닉네임입니다.';
-					nickNameCheckMessage.style.color = 'green'; // 사용 가능할 경우 초록색 표시
+					nickNameCheckMessage.style.color = 'blue'; // 사용 가능할 경우 초록색 표시
 					updateSignUpButton(true); // 버튼 활성화
 					isNickNameValid = true;
 				}

@@ -1,0 +1,53 @@
+@charset "UTF-8";
+
+body {
+	font-family: Arial, sans-serif;
+}
+
+main {
+	width: 60%;
+	margin: 0 auto;
+	padding: 20px;
+}
+
+.form-group {
+	margin-bottom: 20px;
+}
+
+label {
+	display: inline-block;
+	width: 120px;
+	font-weight: bold;
+	padding-right: 10px;
+	text-align: right;
+}
+
+input {
+	padding: 8px;
+	width: 250px;
+	border: 1px solid #ddd;
+}
+
+.form-actions {
+	display: flex;
+	justify-content: space-around;
+	padding-top: 20px;
+}
+
+.form-actions button {
+	padding: 10px 20px;
+	color: white;
+	background-color: #ff4d6d;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+
+#previewImage {
+	display: block;
+	margin-top: 10px;
+	width: 100px;
+	height: 100px;
+	border-radius: 50%;
+}
