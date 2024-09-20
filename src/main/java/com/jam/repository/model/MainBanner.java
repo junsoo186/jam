@@ -1,5 +1,7 @@
 package com.jam.repository.model;
 
+import com.jam.dto.MainBannerDTO;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -27,4 +29,5 @@ public class MainBanner {
 			return "/images/" + imagePath;
 		}
 	}
+    
 }

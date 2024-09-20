@@ -1,77 +1,9 @@
 /* 기존 CSS 스타일 유지 */
 /* index.css */
-
-.container--banner {
-	padding-top: 20px; /* 헤더 아래의 간격 */
-	display: flex;
+main{
+	font-family: 'GmarketSansMedium', Arial, sans-serif;
 }
 
-.top--banner {
-	position: relative;
-	/* 그라데이션 배경 */
-	background-image: radial-gradient(#1F325C, #3A5CA8);
-	text-align: center;
-	width: 100vw;
-}
-
-.visual--meta {
-	display: flex;
-	align-items: center; /* 이미지와 텍스트 박스 수직 가운데 정렬 */
-	justify-content: center; /* 이미지와 텍스트 박스 수평 가운데 정렬 */
-	gap: 30px; /* 이미지와 텍스트 박스 사이의 간격 */
-}
-
-.fixed--size {
-	width: 500px; /* 고정 너비 */
-	height: 403px; /* 고정 높이 */
-	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-	transition: transform 5s ease-in-out; /* 확대 애니메이션 추가 */
-}
-
-.banner--text--container {
-	display: flex;
-	flex-direction: column; /* 텍스트 박스와 페이지 번호를 세로로 배치 */
-	align-items: flex-start; /* 텍스트 박스를 왼쪽 정렬 */
-}
-
-.banner--text--box {
-	text-align: left;
-	color: black;
-	margin-bottom: 3px; /* 텍스트 박스와 페이지 번호 사이의 간격 */
-	opacity: 0; /* 초기 상태: 투명하게 설정 */
-	transform: translateY(20px); /* 초기 상태: 아래로 이동 */
-	animation: slideUp 1s ease forwards; /* 애니메이션 효과 추가 */
-}
-
-@keyframes slideUp {
-  0% {
-    opacity: 0;
-    transform: translateY(20px); /* 아래에서 시작 */
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0); /* 원래 위치로 이동 */
-  }
-}
-
-
-.strong--text {
-	font-weight: bold;
-	font-size: 1.5em;
-	color: #f9f9f9;
-}
-
-.page--number {
-	text-align: left;
-	color: #f9f9f9;
-}
-
-/* 추가 배너 스타일 */
-.banner {
-	margin-top: 20px;
-	padding: 20px;
-	background-color: #ddd;
-}
 
 /* a 링크 */
     a { text-decoration: none; color: black; }
@@ -99,27 +31,23 @@
 	margin-top: 15px;
 	margin-bottom: 15px;
 	height: 40px;
-	padding: 10px 15px;
-	background-color: #f9f9f9;
+	background-color: white;
 	border-width: 1px; /* 변경된 부분: 1px로 설정 */
-	border-color: #dedede;
-	border-style: solid; /* 추가된 부분: solid로 명시적 설정 */
-	border-radius: 25px;
-	cursor: pointer;
-}
-
-.category--btn:hover,
-.genre--btn:hover,
-.day--btn:hover {
-	border-color: #FF4D6D; /* 변경된 부분 */
-	transition: background-color 0.3s ease;
+     border: 1px solid #ddd;
+    border-radius: 3px;
+    padding: 0 15px;
+    cursor: pointer;
+    color: #000 !important;
+    font-weight: 600;
+   font-family: 'GmarketSansMedium', Arial, sans-serif;
 }
 
 .category--btn.active,
 .genre--btn.active,
 .day--btn.active {
-	background-color: #FFF9D8;
-	color: #444;
+	background-color: #f06292;
+	color: white!important;
+		font-family: 'GmarketSansMedium', Arial, sans-serif;
 }
 
 
@@ -141,7 +69,6 @@
     width: 10%;   /* 원의 너비 */
     height: 20px;  /* 원의 높이 */
     border-radius: 25px;  /* 원형으로 만들기 */
-    border: 2px solid #000;  /* 테두리 */
     padding: 10px;
     background-color: #f0f0f0; /* 원의 배경색 */
     position: relative;
@@ -156,21 +83,22 @@
     width: 80px;
     height: 40px;
     border: none;
-    color: black;
+    color: black;;
     border-radius: 5px;
     cursor: pointer;
     background-color: transparent; /* 기본 버튼 배경 투명 */
     transition: color 0.3s ease;
+    	font-family: 'GmarketSansMedium', Arial, sans-serif;
 }
 .btn--area--category::before,
 .btn--area--genre::before,
 .btn--area--day::before {
     content: '';
     position: absolute;
-    width: 60px;
+    width: 70px;
     height: 40px;
-    background-color: #007bff;  /* 선택된 버튼 색상 */
-    border-radius: 5px;
+    background-color: #f06292;  /* 선택된 버튼 색상 */
+    border-radius: 25px;
     transition: transform 0.5s ease, width 0.5s ease;
     z-index: 0; /* 배경은 버튼 아래 */
     transform: translateX(-30px);  /* 처음에 왼쪽에 위치 */
@@ -179,7 +107,7 @@
 .btn--area--category button.active,
 .btn--area--genre button.active,
 .btn--area--day button.active  {
-    color: black;
+    color: white;
 }
 
 /* 애니메이션: 배경이 이동하는 효과 */
@@ -187,14 +115,16 @@
 .btn--area--genre.active-before::before,
 .btn--area--day.active-before::before {
     transform: translateX(calc(30px + 0px)); /* 두 번째 버튼으로 이동하는 애니메이션 */
-    width: 60px;
+    width: 70px;
+        border-radius: 25px;
 }
 
 .btn--area--category.active-after::before,
 .btn--area--genre.active-after::before,
 .btn--area--day.active-after::before   {
     transform: translateX(-30px); /* 첫 번째 버튼으로 이동하는 애니메이션 */
-    width: 60px;
+    width: 70px;
+    border-radius: 25px;
 }
 
 /* 책 목록 스타일 */
@@ -206,23 +136,18 @@ h3 {
 }
 
 .book--list--1, .book--list--2, .book--list--3 {
-	display: flex;
-	flex-wrap: wrap;
-	width:1200px;
-	gap: 20px;
-	margin-left: 100px;
-	margin-bottom: 100px;
-	justify-content: flex-start; /* 책 목록 중앙 정렬 */
+        max-width: 1200px;
+        width:1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-auto-flow: column;
+        grid-template-rows: repeat(3, 1fr);
+        grid-gap: 1px 25px;
+        justify-content: start;
 }
 
 .book--item {
-	width: 150px;
-	height: 250px;
-	text-align: center;
-	padding: 25px;
-	border-radius: 8px;
-	background-color: #f9f9f9;
-	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+	width:400px;
 	transition: transform 0.3s ease, box-shadow 0.3s ease;
 	    cursor: pointer; 
 }
@@ -236,16 +161,10 @@ h3 {
 /* 너비가 556px 이상일 때 마진 적용 */
 @media (min-width: 556px) {
   .book--item {
-    margin: 100px auto; /* 큰 화면에서의 마진 설정 */
+    margin: 1px auto; /* 큰 화면에서의 마진 설정 */
   }
 }
 
-
-.book--item:hover, .book--item--funding:hover {
-	background-color: #FFF9D8;
-	transition: transform 0.3s ease, box-shadow 0.3s ease;
-	transform: scale(1.05);  /* 마우스를 올렸을 때 살짝 확대되게 처리 */
-}
 
 .book--item--funding {
 	width: 300px;
@@ -258,10 +177,6 @@ h3 {
 	transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.book--item:hover {
-	transform: translateY(-5px); /* 마우스 오버 시 위로 살짝 이동 */
-	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-}
 
 .book--item--funding:hover {
 	transform: translateY(-5px); /* 마우스 오버 시 위로 살짝 이동 */
@@ -269,9 +184,10 @@ h3 {
 }
 
 .book--item img {
-	width: 100%;
-	height: auto;
+	width: 120px;
+	height: 130px;
 	border-radius: 5px;
+	object-fit: cover; /* 이미지 비율 유지 */
 }
 
 .book--item--funding img {
@@ -281,115 +197,205 @@ h3 {
 }
 
 .book--info {
-	margin-top: 10px;
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            width: 380px; /* 전체 배너의 너비를 제한 */
+            margin: 10px;
+            background-color: white;
 }
 
 .book--info--funding {
 	margin-top: 10px;
 }
 
-.book--info h4 {
-	font-size: 14px;
-	margin: 3px 0;
-}
 
 .book--info--funding h4 {
 	font-size: 14px;
 	margin: 3px 0;
 }
 
-.book--info p {
-	font-size: 14px;
-	color: #666;
-}
-
 .book--info--funding p {
 	font-size: 14px;
 	color: #666;
 }
-
-
-/* 슬라이더 전체 컨테이너 스타일 */
-.event--container {
-	padding: 50px;
-	padding-top: 60px;
-	padding-left: 130px; position : relative;
-	width: 100%;
-	max-width: 1200px; /* 슬라이더의 최대 너비 */
-	margin: auto; /* 중앙 정렬 */
-	overflow: hidden; /* 슬라이드가 밖으로 나가지 않도록 숨김 */
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	position: relative;
+.book--text{
+	display:flex;
+ 	margin-left: 20px;
+   	max-width: 250px; /* 텍스트 영역의 최대 너비를 설정 */
+   	white-space: normal; /* 텍스트 줄바꿈 허용 */
+   	gap:10px;
+}
+.text--number{
+    font-size: 24px;
+   line-height: 24px;
+   font-weight: 600;
+   margin-top: 15px;
+}
+.text--title{
+	        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 5px;
+        overflow: hidden;
+        white-space: normal;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+        word-break: keep-all;
+        max-width: 270px;
+}
+.text--writer{
+	        color: #888;
+        font-size: 14px;
+        margin-bottom: 15px;
+        margin-top: 2px;
+}
+.text--view{
+	    color: #2B6FE6;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        font-size:.875rem;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        word-wrap: break-word;
+        -webkit-box-orient: vertical;
+        margin: 0;
+}
+/* swiper 라이브러리*/
+.swiper-container {
+    width: 70%; /* 전체 화면 너비 */
+    height: 80%; /* 슬라이드의 고정된 높이 */
+    overflow: hidden; /* 넘치는 부분을 숨김 */
 }
 
-/* 슬라이더 버튼 스타일 */
-.event--banner {
-	width: 350px; /* 고정 너비 */
-	height: 150px; /* 고정 높이 */
-	border-radius: 10px;
-	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+.swiper-slide {
+	left:200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%; /* 슬라이드 높이와 동일하게 설정 */
+    margin: 0; /* 슬라이드 간 여백을 없앰 */
+}
+
+.swiper-slide img {
+    width: 50%;  /* 이미지 너비를 슬라이드 크기에 맞게 설정 (90%로 줄임) */
+    height: 70%; /* 이미지의 높이를 슬라이드에 맞추어 설정 */
+    object-fit: cover; /* 이미지가 슬라이드 크기를 맞추면서 잘리지 않도록 설정 */
+    border-radius: 10px; /* 이미지에 약간의 둥근 모서리 추가 */
+}
+
+:root {
+    --swiper-pagination-bullet-width: 20px;
+    --swiper-pagination-bullet-height: 20px;
+    --swiper-pagination-bullet-active: #f06292;;
+    --swiper-pagination-color: #f06292; /* 활성화된 페이지네이션 색상 */
+    --swiper-theme-color: blue; /* 기본 테마 색상 (필요한 경우) */
+    --swiper-pagination-bottom: 15%; /* 원하는 값으로 변경 */
+}
+.swiper-pagination {
+    position: absolute; /* 절대 위치 지정 */
+    top: 10px; /* 상단에서의 거리 */
+    left: 50%; /* 수평 중앙 정렬 */
+    transform: translateX(-50%); /* 중앙 정렬을 위한 변환 */
+    z-index: 10; /* 다른 요소 위에 보이게 하기 위해 z-index 설정 */
 }
 
 
-/* 슬라이더 내부 래퍼 */
-.slider--wrapper {
-	width: 100%;
-	overflow: hidden;
+.swiper-pagination-bullet {
+    width: var(--swiper-pagination-bullet-width);
+    height: var(--swiper-pagination-bullet-height);
+    display: inline-block;
+    border-radius: 50%;
+    background: var(--swiper-pagination-bullet-active);
+    opacity: 1;
 }
 
-/* 슬라이더 스타일 */
-.slider {
-	display: flex;
-	transition: transform 0.5s ease; /* 슬라이드 전환 애니메이션 */
+.swiper-pagination-bullet-active {
+    background: #f06292;;
 }
 
-/* 개별 슬라이드 스타일 */
-.slide {
-	min-width: 100%;
-	box-sizing: border-box;
-	display: inline-flex;
-	gap: 40px;
+/* 기본적으로 모든 이미지와 텍스트 숨기기 */
+.banner--text--box, .banner-image {
+    opacity: 0;
+    visibility: hidden; /* 기본적으로 숨김 */
+    transition: opacity 0.5s ease, visibility 0s 0.5s; /* 부드러운 전환 */
 }
 
-
-  -- asd
-  .slider-container {
-    position: relative;
-    width: 100%;
-    height: 300px;
-    overflow: hidden;
+/* 활성화된 슬라이드에만 이미지와 텍스트 보이게 설정 */
+.swiper-slide-active .banner--text--box, 
+.swiper-slide-active .banner-image {
+    opacity: 1;
+    visibility: visible; /* 활성화된 슬라이드에서는 보이도록 설정 */
+    transition: opacity 0.5s ease; /* opacity만 전환 */
+    cursor: pointer
+}
+/* 왼쪽/오른쪽 네비게이션 버튼의 위치 조정 */
+.banner-swiper-button-prev, .banner-swiper-button-next  {
+    top: 50%; /* 버튼의 수직 위치 */
+    transform: translateY(-50%); /* 가운데 정렬 */
+    width: 30px; /* 버튼 너비 (원하는 크기로 변경 가능) */
+    height: 30px; /* 버튼 높이 (원하는 크기로 변경 가능) */
+}
+.book-swiper-button-prev, .book-swiper-button-next  {
+    top: 30%; /* 버튼의 수직 위치 */
+    transform: translateY(-80%); /* 가운데 정렬 */
+    width: 30px; /* 버튼 너비 (원하는 크기로 변경 가능) */
+    height: 500px; /* 버튼 높이 (원하는 크기로 변경 가능) */
 }
 
+.swiper-button-next {
+    margin-right: 30vw; /* 화면 너비의 10% */
+    border-radius: 50%; 
+  	box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* 약간의 그림자 효과 */
+    width: 60px!important;
+    height: 60px!important;
+    color: black!important;
+}
 
-.banner--text--box {
-    position: absolute;
-    bottom: 10px;
+/* 왼쪽 버튼 (가까이 배치) */
+.swiper-button-prev {
+   	margin-left: 30vw; /* 화면 너비의 10% */
+    border-radius: 50%; 
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* 약간의 그림자 효과 */
+    width: 60px!important;
+    height: 60px!important;
+    color: black!important;
+}
+
+/* 배너 Swiper 버튼 */
+
+.banner-swiper-button-prev {
     left: 10px;
-    background-color: rgba(0, 0, 0, 0.5);
-    padding: 20px;
-    color: white;
 }
 
-.prev--btn, .next--btn {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background-color: rgba(0, 0, 0, 0.5);
-    color: white;
-    border: none;
-    padding: 10px;
-    cursor: pointer;
-}
-
-.prev--btn {
-    left: 10px;
-}
-
-.next--btn {
+.banner-swiper-button-next {
     right: 10px;
 }
-  
 
 
+.book-swiper-button-prev {
+    left: 10px;
+}
+
+.book-swiper-button-next {
+    right: 200px !important;
+}
+
+.book--cover{
+	position: relative;
+}
+.age--mark{
+	background-color: rgba(255, 0, 0, 0.9); 
+	display:flex;
+	position: absolute !important;
+	font-size:12px;
+    top: 5px !important;
+    right: 5px !important;
+    width: 20px !important;
+    height: 20px !important;
+    border-radius: 10px;
+    align-items: center; 
+    justify-content: center; 
+    line-height: 15px; /* 높이와 동일하게 설정하여 수직 중앙 정렬 */
+}
