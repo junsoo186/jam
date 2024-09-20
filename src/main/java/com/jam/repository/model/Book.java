@@ -38,7 +38,8 @@ public class Book {
     private String introduction;
     private Timestamp createdAt;
     private String age;
-    private Integer likes;	
+    private Integer likes;
+    private Integer	bookTotalScore;
     private Integer views;
     private String serialDay;
 

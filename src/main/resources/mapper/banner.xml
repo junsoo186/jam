@@ -4,12 +4,9 @@
 <mapper namespace="com.jam.repository.interfaces.BannerRepository">
 
     <select id="selectAllBanner" resultType="com.jam.repository.model.Banner">
-   SELECT * FROM banner_tb 
-    LIMIT #{limit} OFFSET #{offset};
+   SELECT * FROM banner_tb;
     </select>
 
-    <select id="countBanner" resultType="int">
-    	SELECT count(*) FROM banner_tb;
-    </select>
+   
 
 </mapper>

@@ -72,6 +72,17 @@ public class WriterService {
 		return bookDTO.getBookId();
 	}
 
+	public int countBook(Integer userId){
+		Integer count = bookRepository.countBook(userId);
+		return count != null ? count : 0;
+
+	}
+
+
+
+
+
+
 	/**
 	 * 전체 책 리스트
 	 * 
@@ -155,12 +166,12 @@ public class WriterService {
 	 * @param principalId // 현재 사용자
 	 * @return
 	 */
-	public List<Book> readAllBookListByprincipalId(Integer principalId) {
+	public List<Book> readAllBookListByprincipalId(Integer principalId,int page, int size) {
 		List<Book> books = new ArrayList<Book>();
-		// TODO - 페이징 추가
-		// TODO - 오류 처리
+		int limit = size;
+		int offset = (page - 1) * size;
 		try {
-			books = bookRepository.findAllBookListByUserId(principalId);
+			books = bookRepository.findAllBookListByUserId(principalId,limit,offset);
 		} catch (Exception e) {
 
 		}

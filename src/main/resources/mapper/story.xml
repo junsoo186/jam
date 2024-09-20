@@ -23,9 +23,10 @@
 		as book on story.book_id
 		= book.book_id
 		where book.book_id = #{bookId}
-		ORDER BY number
+		ORDER BY number ASC
 		LIMIT #{limit} OFFSET #{offset};
 	</select>
+	
 	<select id="countStoriesByBookId"
 		resultType="int">
 		select count(*)

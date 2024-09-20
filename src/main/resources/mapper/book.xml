@@ -99,6 +99,14 @@
 		b.title
 		ASC
 	</select>
+
+
+		<select id="countBook" resultType="int">
+    		SELECT count(*)
+    		FROM book_tb
+   		 	WHERE user_id = #{userId}
+		</select>
+
 	
 	<select id="AllBookListCategoryOrderBy" resultType="com.jam.repository.model.Book">
 	    SELECT
@@ -214,6 +222,7 @@
 		b.book_id
 		ORDER BY
 		b.title ASC
+		LIMIT #{limit} OFFSET #{offset};
 	</select>
 
 	<select id="detailBookByBookId"

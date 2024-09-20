@@ -1,0 +1,36 @@
+@charset "UTF-8";
+
+.flex--page{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+
+}
+
+
+
+.pagination {
+    display: inline-block;
+    padding: 10px 0;
+}
+
+.pagination a {
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    transition: background-color 0.3s;
+    border: 1px solid #ddd;
+    margin: 0 4px;
+}
+
+.pagination a.active {
+    background-color: #f06292;
+    color: white;
+    border: 1px solid #f06292;
+}
+
+.pagination a:hover:not(.active) {
+    background-color: #ddd;
+}
+
