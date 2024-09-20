@@ -1,0 +1,7 @@
+@charset "UTF-8";
+
+.chart-container {
+	width: 200px; /* 차트 컨테이너 너비를 작게 설정 */
+	height: 200px; /* 차트 컨테이너 높이를 작게 설정 */
+}
+
