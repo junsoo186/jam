@@ -22,9 +22,11 @@
     
     const profileImg = '${profileImg}';
     const userId = '${userId}';
-    const nickname = '${nickname}'; 
+    const nickname = '${nickname}';
+    const roomId = '${roomId}';
     
 </script>
+    console.log(nickname);
     <script type="text/javascript" src="/js/chat.js"></script>
 </body>
 </html>

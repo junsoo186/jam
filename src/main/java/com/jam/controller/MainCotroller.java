@@ -22,6 +22,7 @@ import com.jam.service.MainBannerService;
 import com.jam.service.WriterService;
 import com.jam.utils.Define;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 
 
@@ -32,7 +33,7 @@ public class MainCotroller {
 	private final WriterService writerService;
 	private final MainBannerService mainBannerService;
 	private final ChatService chatService;
-	
+	private final HttpSession session;
 	
 	
 	/**
@@ -211,6 +212,7 @@ public class MainCotroller {
 	    model.addAttribute("profileImg", profileImg); // 프로필 이미지 추가
 	   
 	    System.out.println("@@" +nickname);
+	    System.out.println("@@" +nickname);
 	    
 	    return "/chatPage";
 	}
@@ -228,8 +230,15 @@ public class MainCotroller {
 
 	// 관리자가 특정 채팅방에 들어가는 페이지
     @GetMapping("/admin/chatRoom/{roomId}")
-    public String adminChatRoom(@PathVariable(name = "roomId") String roomId, Model model) {
+    public String adminChatRoom(@PathVariable(name = "roomId") String roomId, Model model, @SessionAttribute(Define.PRINCIPAL) User principal) {
     	if (chatService.isRoomExist(roomId)) {
+    		
+    		String nickname = principal.getNickName();
+    		String profileImg = principal.getProfileImg();
+    		
+    		
+    		model.addAttribute("profileImg", profileImg);  // 존재하는 방일 경우만 roomId 전달
+    		model.addAttribute("nickname", nickname);  // 존재하는 방일 경우만 roomId 전달
             model.addAttribute("roomId", roomId);  // 존재하는 방일 경우만 roomId 전달
             return "admin/chatRoom";  // admin/chatRoom.jsp로 이동
         } else {

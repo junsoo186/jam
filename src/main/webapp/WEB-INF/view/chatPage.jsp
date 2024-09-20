@@ -29,6 +29,7 @@
     const profileImg = '${profileImg}';
     const userId = '${userId}';
     const nickname = '${nickname}'; 
+    const roomId = '${roomId}'; 
    
     </script>
      <script type="text/javascript" src="/js/chat.js"></script>
