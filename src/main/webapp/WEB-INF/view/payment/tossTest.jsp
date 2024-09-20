@@ -44,7 +44,7 @@ h1 {
 
 .pay---button {
 	padding: 10px 20px;
-	background-color: #ff00ff;
+	background-color: #ff4d6d;
 	color: white;
 	border: none;
 	border-radius: 5px;
@@ -52,9 +52,6 @@ h1 {
 	transition: background-color 0.3s;
 }
 
-.pay---button:hover {
-	background-color: #ff00ee;
-}
 </style>
 
 <script src="/js/pay/tossTest.js"></script>

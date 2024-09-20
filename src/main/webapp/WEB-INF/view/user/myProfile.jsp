@@ -5,68 +5,11 @@
 <meta charset="UTF-8">
 <title>회원 정보 수정</title>
 <link rel="stylesheet" href="/css/signIn.css">
-<style>
-body {
-	font-family: Arial, sans-serif;
-}
+<link rel="stylesheet" href="/css/user/myProfile.css">
 
-main {
-	width: 60%;
-	margin: 0 auto;
-	padding: 20px;
-	background-color: #f9f9f9;
-	border-radius: 10px;
-	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
-
-.form-group {
-	margin-bottom: 20px;
-}
-
-label {
-	display: inline-block;
-	width: 120px;
-	font-weight: bold;
-	padding-right: 10px;
-	text-align: right;
-}
-
-input {
-	padding: 8px;
-	width: 250px;
-	border: 1px solid #ddd;
-	border-radius: 4px;
-}
-
-.form-actions {
-	display: flex;
-	justify-content: space-around;
-	padding-top: 20px;
-}
-
-.form-actions button {
-	padding: 10px 20px;
-	color: white;
-	background-color: #007bff;
-	border: none;
-	border-radius: 5px;
-	cursor: pointer;
-}
-
-.form-actions button:hover {
-	background-color: #0056b3;
-}
-
-#previewImage {
-	display: block;
-	margin-top: 10px;
-	width: 100px;
-	height: 100px;
-	border-radius: 50%;
-}
-</style>
 </head>
 <body>
+	<%@ include file="/WEB-INF/view/layout/header.jsp"%>
 
 	<main>
 		<form action="/user/userModify1212" method="post" enctype="multipart/form-data">
@@ -116,7 +59,7 @@ input {
 		</form>
 		<div class="form-actions">
 			<button type="submit">
-				<a href="/">홈페이지로 돌아가기</a>
+				<a href="/user/myPage">마이페이지로 돌아가기</a>
 			</button>
 		</div>
 	</main>

@@ -10,7 +10,7 @@
 	<h2>이메일 가입 여부 확인</h2>
 	<div class="emailForm">
 		<form onsubmit="checkEmail(event)">
-			<label for="email">이메일:</label> <input type="email" id="email" name="email" required>
+			<label for="email"></label> <input type="email" id="email" name="email" required placeholder="이메일">
 			<button type="submit">확인</button>
 		</form>
 

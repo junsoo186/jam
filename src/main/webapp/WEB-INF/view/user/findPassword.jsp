@@ -12,7 +12,7 @@
 	<form>
 		<div id="emailSection">
 		<div class="inputpass">
-			<label for="email"><h4>이메일:</h4></label> <input type="email" class="input--class" id="email" name="email" required>
+			<label for="email"></label> <input type="email"  id="email" name="email" required placeholder="이메일">
 			</div>
 			<div id="emailCheckMessage"></div>
 			<button type="button" id="emailButton">이메일 인증 요청</button>
