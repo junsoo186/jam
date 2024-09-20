@@ -16,7 +16,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.jam.dto.BookDTO;
 import com.jam.dto.StoryDTO;
-import com.jam.dto.UserDTO;
 import com.jam.repository.interfaces.BookRepository;
 import com.jam.repository.interfaces.StoryRepository;
 import com.jam.repository.interfaces.TagRepository;
@@ -563,4 +562,16 @@ public class WriterService {
 		return new String[]{mFile.getOriginalFilename(), uploadFileName};
 	}
 
+	/**
+	 * 랭킹
+	 * @return
+	 */
+	 public List<Book> getBooksSortedBy(String sortBy) {
+	        if (sortBy.equals("likes")) {
+	            return bookRepository.findAllByOrderByLikesDesc();
+	        } else {
+	            return bookRepository.findAllByOrderByViewsDesc();
+	        }
+	    }
+	
 }

@@ -125,39 +125,44 @@ INSERT INTO user_alert_history_tb ( alert_id,user_id,period_date) VALUES ( 4,24,
 INSERT INTO user_alert_history_tb ( alert_id,user_id,period_date) VALUES ( 5,28,'2024-10-05');
 
 INSERT INTO `event_tb` (
-    `event_title`, `event_content`, `start_day`, `end_day`, `user_id`
+    `event_title`, `event_content`, `start_day`, `end_day`, `user_id`,`event_image`
 ) VALUES (
-    '회원가입 웰컴 반값 이벤트1', '회원가입 후 첫 코인 구매 시 50% 할인 혜택을 제공합니다.', 
+    '회원가입 웰컴 반값 이벤트!', '회원가입 후 첫 코인 구매 시 50% 할인 혜택을 제공합니다.', 
     '2024-09-01', 
     '2024-12-31', 
-    4  -- user_tb에서 user_id 101번 사용자가 이벤트를 관리
+    4 , -- user_tb에서 user_id 101번 사용자가 이벤트를 관리
+    'event/event-detail1.jpg'
+    
 );
 INSERT INTO `event_tb` (
-    `event_title`, `event_content`, `start_day`, `end_day`, `user_id`
+    `event_title`, `event_content`, `start_day`, `end_day`, `user_id`,`event_image`
 ) VALUES (
-    '회원가입 웰컴 반값 이벤트2', 
+    '잼코인 랜덤 뽑기!', 
     '회원가입 후 첫 코인 구매 시 50% 할인 혜택을 제공합니다.', 
     '2024-09-01', 
     '2024-12-31',
-    5 -- user_tb에서 user_id 101번 사용자가 이벤트를 관리
+    5, -- user_tb에서 user_id 101번 사용자가 이벤트를 관리
+     'event/event-detail2.jpg'
 );
 INSERT INTO `event_tb` (
-    `event_title`, `event_content`, `start_day`, `end_day`, `user_id`
+    `event_title`, `event_content`, `start_day`, `end_day`, `user_id`,`event_image`
 ) VALUES (
-    '회원가입 웰컴 반값 이벤트3', 
+    '2024 ! 천하제일 쩀 대회!', 
     '회원가입 후 첫 코인 구매 시 50% 할인 혜택을 제공합니다.', 
-    '2024-09-01', 
-    '2024-12-31',
-    6  -- user_tb에서 user_id 101번 사용자가 이벤트를 관리
+    '2024-08-01', 
+    '2024-09-15',
+    6,  -- user_tb에서 user_id 101번 사용자가 이벤트를 관리
+     'event/event-detail3.jpg'
 );
 INSERT INTO `event_tb` (
-    `event_title`, `event_content`, `start_day`, `end_day`, `user_id`
+    `event_title`, `event_content`, `start_day`, `end_day`, `user_id`,`event_image`
 ) VALUES (
     '회원가입 웰컴 반값 이벤트4', 
     '회원가입 후 첫 코인 구매 시 50% 할인 혜택을 제공합니다.', 
     '2024-09-01', 
-    '2024-12-31',
-    3  -- user_tb에서 user_id 101번 사용자가 이벤트를 관리
+    '2024-9-10',
+    3,  -- user_tb에서 user_id 101번 사용자가 이벤트를 관리
+     'event/event-detail3.jpg'
 );
 
 
