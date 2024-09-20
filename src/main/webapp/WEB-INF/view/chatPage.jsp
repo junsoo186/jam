@@ -26,10 +26,10 @@
   
     <script type="text/javascript">
     
-    const profileImg = '${profileImg}';
-    const userId = '${userId}';
-    const nickname = '${nickname}'; 
-    const roomId = '${roomId}'; 
+    const profileImg = '${profileImg}'; // 사용자 프로필 이미지 경로
+    const userId = '${userId}'; // 현재 사용자 ID
+    const nickname = '${nickname}'; // 현재 사용자 닉네임
+    const roomId = '${roomId}'; // 현재 채팅방 ID	
    
     </script>
      <script type="text/javascript" src="/js/chat.js"></script>

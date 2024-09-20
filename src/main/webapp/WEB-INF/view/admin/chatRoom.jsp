@@ -8,9 +8,10 @@
 <head>
     <meta charset="UTF-8">
     <title>관리자 채팅</title>
+    <a href="/admin/chatRooms">채팅방 나가기</a>
 </head>
 <body>
-    <h1>관리자 채팅방: ${roomId}</h1>
+    
     
    <div id="messages"></div>
         <div  class= " bottom--sendarea" style="display: flex; align-items: center;">
@@ -20,10 +21,10 @@
 
     <script>
     
-    const profileImg = '${profileImg}';
-    const userId = '${userId}';
-    const nickname = '${nickname}';
-    const roomId = '${roomId}';
+    const profileImg = '${profileImg}';  // 사용자 프로필 이미지
+    const userId = '${userId}'; // 현재 사용자 ID (관리자)
+    const nickname = '${nickname}'; // 현재 사용자 닉네임 (관리자)
+    const roomId = '${roomId}'; // 현재 채팅방 ID
     
 </script>
     <script type="text/javascript" src="/js/chat.js"></script>

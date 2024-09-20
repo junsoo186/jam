@@ -185,61 +185,92 @@ public class MainCotroller {
     }
 	
     /**
-     * // 사용자 채팅 페이지
-     * @return
+     * // 사용자 채팅 페이지로 이동
+     * 현재 사용자의 ID에 해당하는 채팅방이 있으면 해당 방으로 이동하고, 없으면 새로운 방을 생성함
+     * @param principal 현재 세션의 사용자 정보
+     * @param model 뷰로 데이터를 전달하기 위한 객체
+     * @return /chatPage (채팅 페이지 JSP)
      */
 	@GetMapping("/chatPage")
 	public String chatPage(@SessionAttribute(Define.PRINCIPAL) User principal, Model model) {
 		
-		String userId = String.valueOf(principal.getUserId());  // 현재 사용자의 userId
-        Set<String> roomIds = chatService.getChatRoomList();    // 현재 존재하는 방 목록
+		// 현재 사용자의 userId를 가져옴
+		String userId = String.valueOf(principal.getUserId());
 		
-        // 해당 userId에 해당하는 방이 있는지 확인
+		// 현재 존재하는 모든 채팅방의 목록을 가져옴
+        Set<String> roomIds = chatService.getChatRoomList();    
+		
+        // userId에 해당하는 채팅방이 이미 존재하는지 확인
         if (roomIds.contains(userId)) {
-            // 이미 존재하는 방으로 리다이렉트
+        // 존재하는 방이 있으면 해당 방으로 리다이렉트
+        	// 데이터를 전달하기 위한 객체
             model.addAttribute("roomId", userId);
         } else {
-            // 새로운 방 생성
+        // 존재하는 방이 없으면 새로운 방을 생성
             chatService.createNewRoom(userId);
+            // 데이터를 전달하기 위한 객체
             model.addAttribute("roomId", userId);
         }
-		
+        
+        // 사용자 정보를 모델에 추가
 	    String nickname = principal.getNickName();
 	    String profileImg = principal.getProfileImg();
 	    
+	    // 데이터를 전달하기 위한 객체
 	    model.addAttribute("nickname", nickname);
 	    model.addAttribute("userId", userId);
 	    model.addAttribute("profileImg", profileImg); // 프로필 이미지 추가
-	   
 	    
+	    // 채팅 페이지로 이동
 	    return "/chatPage";
 	}
 	
-	// 관리자 채팅방 목록 페이지
+	/**
+	 * 관리자 채팅방 목록 페이지
+	 * @param model  채팅방 목록을 뷰로 전달하기 위한 객체
+	 * @return /admin/chatRooms (관리자용 채팅방 목록 페이지 JSP)
+	 */
     @GetMapping("/admin/chatRooms")
     public String adminChatRooms(Model model) {
-        // 채팅방 목록 가져오기 (추후 서비스로부터 실제 목록을 불러와야 함)
-        Set<String> roomIds = chatService.getChatRoomList();  // 예: 채팅방 목록을 가져오는 로직
+    	
+    	// 현재 존재하는 모든 채팅방 목록을 가져옴
+        Set<String> roomIds = chatService.getChatRoomList();
+        
+        // 모델에 채팅방 목록을 추가
         model.addAttribute("roomIds", roomIds);
         System.out.println("roomIds : " + roomIds);
-        return "/admin/chatRooms";  // 관리자 채팅방 목록 페이지로 이동
+        
+        // 관리자 채팅방 목록 페이지로 이동
+        return "/admin/chatRooms"; 
     }
 
-
-	// 관리자가 특정 채팅방에 들어가는 페이지
+    /**
+     * 관리자가 특정 채팅방에 접속하는 페이지
+     * @param roomId 접속하려는 채팅방의 ID
+     * @param model 해당 채팅방의 정보를 뷰로 전달하기 위한 객체
+     * @param principal 현재 세션의 관리자 정보
+     * @return admin/chatRoom (관리자용 채팅방 페이지 JSP)
+     */
     @GetMapping("/admin/chatRoom/{roomId}")
     public String adminChatRoom(@PathVariable(name = "roomId") String roomId, Model model, @SessionAttribute(Define.PRINCIPAL) User principal) {
+    	
+    	// 요청한 roomId에 해당하는 채팅방이 존재하는지 확인
     	if (chatService.isRoomExist(roomId)) {
     		
     		String nickname = principal.getNickName();
     		String profileImg = principal.getProfileImg();
     		
-    		model.addAttribute("profileImg", profileImg);  // 존재하는 방일 경우만 roomId 전달
-    		model.addAttribute("nickname", nickname);  // 존재하는 방일 경우만 roomId 전달
-            model.addAttribute("roomId", roomId);  // 존재하는 방일 경우만 roomId 전달
-            return "admin/chatRoom";  // admin/chatRoom.jsp로 이동
+    		 // 채팅방이 존재하면 관리자 정보(닉네임, 프로필 이미지)를 모델에 추가
+    		model.addAttribute("profileImg", profileImg);  
+    		model.addAttribute("nickname", nickname);  
+    		
+    		// 해당 채팅방 ID를 모델에 추가하여 뷰로 전달
+            model.addAttribute("roomId", roomId);  
+            // 관리자 채팅방 페이지로 이동
+            return "admin/chatRoom";
         } else {
-            return "redirect:/admin/chatRooms";  // 방이 없으면 목록 페이지로 리다이렉트
+        	// 채팅방이 존재하지 않으면 채팅방 목록 페이지로 리다이렉트
+            return "redirect:/admin/chatRooms";
         }
     }
 
