@@ -2,10 +2,12 @@ package com.jam.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
@@ -15,6 +17,7 @@ import com.jam.repository.model.Category;
 import com.jam.repository.model.Genre;
 import com.jam.repository.model.MainBanner;
 import com.jam.repository.model.User;
+import com.jam.service.ChatService;
 import com.jam.service.MainBannerService;
 import com.jam.service.WriterService;
 import com.jam.utils.Define;
@@ -28,6 +31,7 @@ public class MainCotroller {
 	
 	private final WriterService writerService;
 	private final MainBannerService mainBannerService;
+	private final ChatService chatService;
 	
 	
 	
@@ -180,20 +184,59 @@ public class MainCotroller {
     }
 	
     /**
-     * 채팅창 열기
+     * // 사용자 채팅 페이지
      * @return
      */
-
 	@GetMapping("/chatPage")
 	public String chatPage(@SessionAttribute(Define.PRINCIPAL) User principal, Model model) {
+		
+		String userId = String.valueOf(principal.getUserId());  // 현재 사용자의 userId
+        Set<String> roomIds = chatService.getChatRoomList();    // 현재 존재하는 방 목록
+		
+        // 해당 userId에 해당하는 방이 있는지 확인
+        if (roomIds.contains(userId)) {
+            // 이미 존재하는 방으로 리다이렉트
+            model.addAttribute("roomId", userId);
+        } else {
+            // 새로운 방 생성
+            chatService.createNewRoom(userId);
+            model.addAttribute("roomId", userId);
+        }
+		
 	    String nickname = principal.getNickName();
-	    int userId = principal.getUserId();
 	    String profileImg = principal.getProfileImg();
+	    
 	    model.addAttribute("nickname", nickname);
 	    model.addAttribute("userId", userId);
 	    model.addAttribute("profileImg", profileImg); // 프로필 이미지 추가
+	   
+	    System.out.println("@@" +nickname);
+	    
 	    return "/chatPage";
 	}
+	
+	// 관리자 채팅방 목록 페이지
+    @GetMapping("/admin/chatRooms")
+    public String adminChatRooms(Model model) {
+        // 채팅방 목록 가져오기 (추후 서비스로부터 실제 목록을 불러와야 함)
+        Set<String> roomIds = chatService.getChatRoomList();  // 예: 채팅방 목록을 가져오는 로직
+        model.addAttribute("roomIds", roomIds);
+        System.out.println("roomIds : " + roomIds);
+        return "/admin/chatRooms";  // 관리자 채팅방 목록 페이지로 이동
+    }
+
+
+	// 관리자가 특정 채팅방에 들어가는 페이지
+    @GetMapping("/admin/chatRoom/{roomId}")
+    public String adminChatRoom(@PathVariable(name = "roomId") String roomId, Model model) {
+    	if (chatService.isRoomExist(roomId)) {
+            model.addAttribute("roomId", roomId);  // 존재하는 방일 경우만 roomId 전달
+            return "admin/chatRoom";  // admin/chatRoom.jsp로 이동
+        } else {
+            return "redirect:/admin/chatRooms";  // 방이 없으면 목록 페이지로 리다이렉트
+        }
+    }
+
 
 
 	

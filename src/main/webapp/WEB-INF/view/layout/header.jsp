@@ -109,12 +109,13 @@
 							value="${principal.point}" pattern="#,###" /></a></li>
 		        <li><a href="/pay/toss">JAM 충전하기</a></li>		  
 		        <li><a href="#">설정</a></li>
-		        <li><a href="#" id="chat-link">채팅</a></li>
+		        <li><a href="/chatPage" id="chat-link">채팅</a></li>
 		        <li><a href="/qna/list"> Q&A</a></li>
 		        <li><a href="/user/logout">로그아웃</a></li>
 		        <br>
 		        <c:if test="${principal.role eq 'admin'}">
 		        <li><a href="/staff">관리자 페이지</a></li>
+		        <li><a href="/admin/chatRooms" id="chat-link-admin">관리자 채팅방</a></li>
 		        <button type="button" id="toggle-event-button">이벤트 활성화 버튼</button>
 		        <button type="button" id="check-event-status-button">이벤트 상태 확인</button>
 		        
