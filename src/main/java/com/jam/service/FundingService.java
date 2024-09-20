@@ -328,5 +328,9 @@ public class FundingService {
 	public int getTotalProjectCount() {
 		return projectRepository.getTotalProjectCount();
 	}
+
+    public void updateProjectState(String state, Integer projectId) {
+        projectRepository.updateProjectState(state, projectId);
+    }
 	
 }

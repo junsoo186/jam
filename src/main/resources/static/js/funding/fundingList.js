@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
-    let currentPage = 0;
+    let currentPage = 1;
     const pageSize = 16;  // 한번에 불러올 프로젝트 개수
     const projectContainer = document.querySelector('.project-container');
     const loadingIndicator = document.querySelector('.loading-indicator'); // 이미 HTML에 있는 요소 사용
@@ -23,11 +23,18 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
 
                 data.forEach((project, index) => {
+                    // 중복 방지를 위한 조건: 이미 추가된 프로젝트인지 확인
+                    const existingProject = document.querySelector(`.project-card[data-project-id="${project.projectId}"]`);
+                    if (existingProject) {
+                        return; // 이미 존재하는 프로젝트는 추가하지 않음
+                    }
+
                     const projectCard = document.createElement('div');
                     projectCard.classList.add('project-card');
                     projectCard.setAttribute('data-goal', project.goal);
                     projectCard.setAttribute('data-current', project.totalAmount);
                     projectCard.setAttribute('data-end-date', project.dateEnd);
+                    projectCard.setAttribute('data-project-id', project.projectId); // 각 프로젝트에 고유 ID 부여
 
                     projectCard.innerHTML = `
                         <div class="project-image">
@@ -61,7 +68,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     });
                 });
 
-                currentPage++;
+                currentPage++; // 데이터를 성공적으로 불러온 후 페이지 증가
                 isLoading = false; // 로딩 완료
             })
             .catch(err => {

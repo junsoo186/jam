@@ -75,10 +75,10 @@
 
 			<!-- 검색 관련 코드  -->
 			<div id="cover">
-				<form method="get" action="" class="search-form">
+				<form method="get" action="/search-page" class="search-form">
 					<div class="search-tb">
 						<div class="search-td">
-							<input type="text" class="search-input" placeholder="작가 또는 작품 검색">
+							<input type="text" class="search-input" name="q" placeholder="작가 또는 작품 검색" required oninput="searchBooks(this.value)">
 						</div>
 						<div class="search-td" id="s-cover">
 							<button type="submit" class="search-button">
@@ -87,6 +87,8 @@
 							</button>
 						</div>
 					</div>
+					<!-- 검색 결과를 표시할 영역 -->
+					<ul id="searchResults"></ul>
 				</form>
 			</div>
 			<!-- 검색 관련 코드 종료  -->
@@ -162,7 +164,8 @@ document.getElementById("check-event-status-button").addEventListener("click", f
 </script>
 		
 	
-	<script type="text/javascript" src="/js/header.js"></script>
+	<script type="text/javascript" src="/js/header/header.js"></script>
+	<script type="text/javascript" src="/js/header/search.js"></script>
 	
 </header>
 	

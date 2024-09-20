@@ -28,8 +28,12 @@
                     </table>
                     <div class="modal-actions">
                         <c:if test="${project.staffAgree != 'Y'}">
-                            <button class="modal-btn approve">승인</button>
-                            <button class="modal-btn reject">거부</button>
+                            <form method="post" action="/staff/content">
+                                <input type="hidden" name="projectId" value="${project.projectId}">
+                                <button type="submit" name="action" value="approve" class="modal-btn approve">승인</button>
+                                <button type="submit" name="action" value="reject" class="modal-btn reject">거부</button>
+                            </form>
+                            
                         </c:if>
                     </div>
                 </div>

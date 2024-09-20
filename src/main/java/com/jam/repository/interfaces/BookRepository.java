@@ -64,4 +64,5 @@ public interface BookRepository {
 
 	public List<Genre> findAllGenre();
 
+	public List<Book> searchBooks(@Param("searchTerm") String searchTerm);
 }

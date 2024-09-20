@@ -71,4 +71,10 @@
 		SELECT COUNT(*) AS totalProjects FROM project_tb
 	</select>
 
+	<select id="updateProjectState">
+		update project_tb
+		set staff_agree = #{state}
+		where projcet_id = #{projectId}
+	</select>
+
 </mapper>

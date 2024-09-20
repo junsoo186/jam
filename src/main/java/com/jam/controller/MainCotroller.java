@@ -3,6 +3,7 @@ package com.jam.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.tags.shaded.org.apache.xpath.operations.Mod;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +17,7 @@ import com.jam.repository.model.Genre;
 import com.jam.repository.model.MainBanner;
 import com.jam.repository.model.User;
 import com.jam.service.MainBannerService;
+import com.jam.service.SearchService;
 import com.jam.service.WriterService;
 import com.jam.utils.Define;
 
@@ -28,6 +30,7 @@ public class MainCotroller {
 	
 	private final WriterService writerService;
 	private final MainBannerService mainBannerService;
+    private final SearchService searchService;
 	
 	
 	
@@ -196,7 +199,34 @@ public class MainCotroller {
 	}
 
 
-	
+	@GetMapping("/search")
+    @ResponseBody
+    public List<Book> searchBooks(@RequestParam("q") String searchTerm) {
+        List<Book> books = searchService.searchBooks(searchTerm);
+        for (Book book : books) {
+            book.setBookCoverImage(book.setUpUserImage());
+        }
+        return books;
+    }
+
+    @GetMapping("/search-page")
+    public String getMethodName(@RequestParam("q") String searchTerm, Model model) {
+        List<Book> books = searchService.searchBooks(searchTerm);
+        for (Book book : books) {
+            book.setBookCoverImage(book.setUpUserImage());
+        }
+        model.addAttribute("books", books);
+        return "layout/search";
+    }
+    
+
+    // @GetMapping("/search")
+    // public String searchBooks(@RequestParam("q") String searchTerm, Model model) {
+    //     List<Book> searchResults = searchService.searchBooks(searchTerm);
+    //     model.addAttribute("results", searchResults);
+    //     return "layout/search"; // search.jsp 뷰를 반환
+    // }
+
 
 	
 //	@GetMapping("/chatRoom{}")

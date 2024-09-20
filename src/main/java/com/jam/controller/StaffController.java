@@ -127,6 +127,20 @@ public class StaffController {
 		return "staff/contentDetail";
 	}
 
+	@PostMapping("/content")
+	public String handleContentAction(@RequestParam("action") String action, @RequestParam("projectId") Integer projectId) {
+		if ("approve".equals(action)) {
+			// 승인 처리 로직
+			String state = "Y";
+			fundingService.updateProjectState(state, projectId);
+		} else if ("reject".equals(action)) {
+			// 거부 처리 로직
+			String state = "N";
+			fundingService.updateProjectState(state, projectId);
+		}
+		return "redirect:/staff/content-management";
+	}
+
 	/**
 	 * qna 화면 이동
 	 * 
@@ -190,7 +204,7 @@ public class StaffController {
 
 		return "redirect:/staff/qnaPage";
 	}
-	
+
 	/**
 	 * 공지 사항 화면 이동
 	 * 
