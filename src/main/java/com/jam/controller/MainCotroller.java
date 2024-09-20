@@ -211,8 +211,6 @@ public class MainCotroller {
 	    model.addAttribute("userId", userId);
 	    model.addAttribute("profileImg", profileImg); // 프로필 이미지 추가
 	   
-	    System.out.println("@@" +nickname);
-	    System.out.println("@@" +nickname);
 	    
 	    return "/chatPage";
 	}
@@ -235,7 +233,6 @@ public class MainCotroller {
     		
     		String nickname = principal.getNickName();
     		String profileImg = principal.getProfileImg();
-    		
     		
     		model.addAttribute("profileImg", profileImg);  // 존재하는 방일 경우만 roomId 전달
     		model.addAttribute("nickname", nickname);  // 존재하는 방일 경우만 roomId 전달

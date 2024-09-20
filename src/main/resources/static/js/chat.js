@@ -1,4 +1,4 @@
-// const ws = new WebSocket('ws://192.168.0.32:8080/ws/chat');
+// const ws = new WebSocket('ws://192.168.0.32:8080/ws/chat/${roomId}');
 const ws = new WebSocket(`ws://localhost:8080/ws/chat/${roomId}`);
 
 ws.onopen = function () {
