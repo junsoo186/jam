@@ -1,0 +1,83 @@
+@charset "UTF-8";
+
+.login-icon {
+	width: 100px;
+	padding: 30px;
+}
+
+/* 중앙 로그인 영역 스타일 */
+.center--login--area {
+	width: 80%;
+	max-width: 400px; /* 섹션의 최대 너비 */
+	margin: 0 auto;
+	padding: 40px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+/* 섹션 내부 제목 스타일 */
+.center--login--area h1 {
+	text-align: center;
+	font-size: 24px;
+	margin-bottom: 20px;
+	color: #333;
+}
+
+/* 입력창 스타일 */
+.input--area {
+	width: 100%;
+	padding: 12px;
+	margin-bottom: 10px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	font-size: 14px;
+	box-sizing: border-box;
+}
+
+/* 버튼 스타일 */
+button {
+	width: 100%;
+	padding: 12px;
+	background-color: #ff4d6d;
+	color: white;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+	font-size: 16px;
+	margin-top: 10px;
+}
+
+/* 중복확인 버튼 등 사이드 버튼 */
+.side--btn--check {
+	width: auto;
+	padding: 10px;
+	background-color: #e0e0e0;
+	color: #333;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+	font-size: 12px;
+	margin-top: 5px;
+}
+
+/* 프로필 이미지 미리보기 스타일 */
+#previewImage {
+	display: block;
+	margin-top: 10px;
+	border-radius: 50%;
+	border: 1px solid #ccc;
+	object-fit: cover; /* 이미지 잘리지 않도록 */
+}
+
+/* 로그인 페이지 이동 링크 */
+a {
+	text-align: center;
+	display: block;
+	margin-top: 15px;
+	color: #666;
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}

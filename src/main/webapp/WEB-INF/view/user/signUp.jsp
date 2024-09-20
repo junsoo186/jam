@@ -1,13 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <%@ include file="/WEB-INF/view/layout/header.jsp"%>
-<link rel="stylesheet" type="text/css" href="/css/signIn.css">
+<link rel="stylesheet" type="text/css" href="/css/user/signUp.css">
 <body>
 
 	<main>
 
 		<section class="center--login--area">
-			<h1>회원가입</h1>
+		     <img src="/images/layout/jam.png" alt="로그인 아이콘" class="login-icon">
 			<!-- 회원가입 폼 -->
 			<form action="/user/sign-up" method="post" enctype="multipart/form-data">
 				<div>
@@ -19,7 +19,8 @@
 
 				<!-- 이메일 입력 섹션 -->
 				<div id="emailSection">
-					<label for="email">이메일</label> <input type="email" id="email" name="email" class="input--area"  required placeholder="이메일을 입력하세요">
+					<label for="email">이메일</label>
+					<input type="email" id="email" name="email" class="input--area"  required placeholder="이메일을 입력하세요">
 					<button type="button" id="emailButton" class="side--btn--check">인증 요청</button>
 
 					<!-- 이메일 중복 여부를 표시할 텍스트 -->
