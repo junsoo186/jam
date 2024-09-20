@@ -2,39 +2,45 @@ document.addEventListener('DOMContentLoaded', function () {
     let currentPage = 1;
     const pageSize = 16;  // 한번에 불러올 프로젝트 개수
     const projectContainer = document.querySelector('.project-container');
-    const loadingIndicator = document.querySelector('.loading-indicator'); // 이미 HTML에 있는 요소 사용
+    const loadingIndicator = document.querySelector('.loading-indicator');
 
-    const currentDate = new Date(); // 현재 날짜를 한 번만 가져옴
-    let isLoading = false; // 로딩 중인지 확인하는 변수
-    let hasMoreData = true; // 더 불러올 데이터가 있는지 확인
+    const currentDate = new Date(); // 현재 날짜
+    let isLoading = false;
+    let hasMoreData = true;
 
     // 데이터를 서버에서 불러오는 함수
     function fetchProjects(page) {
-        if (isLoading || !hasMoreData) return; // 이미 로딩 중이거나 데이터가 더 이상 없으면 중단
-        isLoading = true; // 로딩 상태로 설정
+        if (isLoading || !hasMoreData) return;
+        isLoading = true;
 
         fetch(`/funding/fundingList?page=${page}&size=${pageSize}`)
             .then(response => response.json())
             .then(data => {
                 if (data.length === 0) {
-                    hasMoreData = false; // 더 이상 데이터가 없음을 설정
-                    loadingIndicator.style.display = 'none'; // 로딩 인디케이터 숨기기
+                    hasMoreData = false;
+                    loadingIndicator.style.display = 'none';
                     return;
                 }
 
                 data.forEach((project, index) => {
+                    // projectId가 유효한지 확인
+                    if (!project.projectId) {
+                        console.error('Invalid projectId for project:', project);
+                        return;
+                    }
+
                     // 중복 방지를 위한 조건: 이미 추가된 프로젝트인지 확인
                     const existingProject = document.querySelector(`.project-card[data-project-id="${project.projectId}"]`);
                     if (existingProject) {
-                        return; // 이미 존재하는 프로젝트는 추가하지 않음
+                        return;
                     }
 
                     const projectCard = document.createElement('div');
                     projectCard.classList.add('project-card');
+                    projectCard.setAttribute('data-project-id', project.projectId);
                     projectCard.setAttribute('data-goal', project.goal);
                     projectCard.setAttribute('data-current', project.totalAmount);
                     projectCard.setAttribute('data-end-date', project.dateEnd);
-                    projectCard.setAttribute('data-project-id', project.projectId); // 각 프로젝트에 고유 ID 부여
 
                     projectCard.innerHTML = `
                         <div class="project-image">
@@ -59,21 +65,22 @@ document.addEventListener('DOMContentLoaded', function () {
                     // 진행 상황 계산 함수 호출
                     calculateProgress(index, project.totalAmount, project.goal, project.dateEnd, currentDate);
 
-                    // form 영역 클릭 시 해당 경로로 이동
+                    // 프로젝트 카드 클릭 시 페이지 이동
                     projectCard.addEventListener('click', function () {
-                        const form = projectCard.closest('form');
-                        if (form) {
-                            form.submit();  // form을 submit하여 해당 경로로 이동
+                        if (project.projectId) {
+                            window.location.href = `/funding/fundingDetail?projectId=${project.projectId}`; // projectId로 이동
+                        } else {
+                            console.error('Invalid projectId for navigation');
                         }
                     });
                 });
 
-                currentPage++; // 데이터를 성공적으로 불러온 후 페이지 증가
-                isLoading = false; // 로딩 완료
+                currentPage++;
+                isLoading = false;
             })
             .catch(err => {
                 console.error('Error fetching projects:', err);
-                isLoading = false; // 오류 발생 시에도 로딩 완료로 설정
+                isLoading = false;
             });
     }
 

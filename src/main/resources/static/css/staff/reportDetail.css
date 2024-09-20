@@ -1,0 +1,121 @@
+/* 전체 페이지에 대한 기본 스타일 */
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    padding: 0;
+    background-color: #f7f7f7;
+}
+
+.modal--h2 {
+    text-align: center;
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+p {
+    font-size: 16px;
+    margin: 10px 0;
+    color: #555;
+}
+
+b {
+    color: #333;
+}
+
+form {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* 폼 레이블과 입력 필드 간격 조정 */
+form label {
+    display: block;
+    margin-bottom: 5px;
+    color: #333;
+    font-weight: bold;
+}
+
+form input[type="text"],
+form select {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+/* 제출 버튼 스타일 */
+/* 공통 버튼 스타일 */
+form button[type="submit"],
+form .reject-btn {
+    width: 100%;
+    padding: 10px;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+/* 승인 버튼 스타일 */
+form button[type="submit"] {
+    background-color: #007bff;
+    /* 기본 파란색 */
+}
+
+form button[type="submit"]:hover {
+    background-color: #0056b3;
+    /* 호버 시 진한 파란색 */
+}
+
+/* 반려 버튼 스타일 */
+form .reject-btn {
+    background-color: #dc3545;
+    /* 기본 빨간색 */
+    margin-top: 10px;
+    /* 반려 버튼의 상단 여백 */
+}
+
+form .reject-btn:hover {
+    background-color: #c82333;
+    /* 호버 시 진한 빨간색 */
+}
+
+
+/* 테이블 스타일 조정 */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+table th,
+table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+table tr:hover {
+    background-color: #f1f1f1;
+}

@@ -1,0 +1,104 @@
+/* Pagination container */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+/* Pagination links */
+.pagination a {
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    border: 1px solid #ddd;
+    margin: 0 4px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+/* Add a background color on hover */
+.pagination a:hover {
+    background-color: #f1f1f1;
+    border-color: #999;
+}
+
+/* Active/current page */
+.pagination a.active {
+    background-color: #4CAF50;
+    color: white;
+    border: 1px solid #4CAF50;
+}
+
+/* Disabled page link */
+.pagination a.disabled {
+    pointer-events: none;
+    background-color: #ddd;
+    color: #777;
+    border-color: #ddd;
+}
+
+/* 모달 배경 (화면 어두운 부분) */
+.modal {
+    display: none; /* 기본적으로 모달은 숨김 */
+    position: fixed; /* 화면 스크롤에도 모달이 고정됨 */
+    z-index: 1000; /* 다른 요소들보다 위에 표시 */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* 반투명 검은 배경 */
+}
+
+/* 모달 콘텐츠 */
+.modal-content {
+    position: relative;
+    background-color: white;
+    margin: 15% auto; /* 모달을 화면 가운데로 */
+    padding: 20px;
+    border-radius: 8px;
+    width: 80%; /* 모달 창 크기 */
+    max-width: 600px;
+    box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.2); /* 모달 그림자 */
+    animation: fadeIn 0.3s ease; /* 페이드 인 애니메이션 */
+}
+
+/* 모달 닫기 버튼 */
+.modal .close {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    color: #333;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.modal .close:hover {
+    color: #e74c3c; /* 닫기 버튼 hover 시 색상 */
+}
+
+/* 모달 창 내용 */
+.modal-content h2 {
+    margin-top: 0;
+    font-size: 24px;
+}
+
+.modal-content p {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #333;
+}
+
+/* 모달 애니메이션 */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+

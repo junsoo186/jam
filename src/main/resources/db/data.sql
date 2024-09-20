@@ -1399,3 +1399,27 @@ INSERT INTO `account_history_tb`
 VALUES 
 (5, 300000, 15000, 315000, 'pay_key_005', 'APPROVED', NULL);
 
+INSERT INTO `user_alert_list_tb` (`alert_content`) VALUES 
+('비속어 사용 경고'),
+('도배 행위 경고'),
+('부적절한 내용 경고'),
+('스팸 행위 경고'),
+('기타 경고');
+
+INSERT INTO `user_alert_history_tb` (`alert_id`, `user_id`, `period_date`) VALUES 
+(1, 1, '2024-09-01'),
+(2, 2, '2024-09-05'),
+(3, 3, '2024-09-10'),
+(4, 4, '2024-09-12'),
+(5, 5, '2024-09-15');
+
+INSERT INTO `report_tb` (`alert_id`, `user_id`, `report_user_id`, `project_id`, `book_id`, `period_content`, `processing`) VALUES 
+(1, 1, 2, NULL, 1, '부적절한 리뷰 작성으로 신고합니다.', 'N'),
+(2, 2, 3, 1, NULL, '도배로 인한 신고입니다.', 'N'),
+(3, 3, 4, NULL, 2, '부적절한 게시물로 신고합니다.', 'Y'),
+(4, 4, 5, 2, NULL, '스팸 행위로 신고합니다.', 'Y'),
+(5, 5, 1, NULL, 3, '기타 이유로 신고합니다.', 'N');
+
+INSERT INTO `report_history_tb` (`report_id`, `user_id`, `alert_id`, `period_days`) VALUES 
+(3, 1, 3, 7),
+(4, 2, 4, 0);

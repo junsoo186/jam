@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="ko">
 <%@ include file="/WEB-INF/view/staff/main.jsp" %>
-<script type="text/javascript" src="/js/pay/payment.js"></script>
+
 <body>
     <div class="main-content">
         <h1>결제 및 금융관리</h1>
@@ -43,5 +43,6 @@
     </div>
 
     <!-- JavaScript 파일 불러오기 -->
+    <script type="text/javascript" src="/js/pay/payment.js"></script>
 </body>
 </html>

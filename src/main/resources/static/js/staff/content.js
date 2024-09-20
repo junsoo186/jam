@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', function () {
             // 테이블 행 생성
             const tr = document.createElement('tr');
             tr.innerHTML = `
-                <td>${project.title}</td>
+                <td><a href="/funding/fundingDetail?projectId=${project.projectId}">${project.title}</td>
                 <td>${project.author}</td>
                 <td>${createdAtFormatted} ~ ${dateEndFormatted}</td>
                 <td>₩${goalFormatted}</td>

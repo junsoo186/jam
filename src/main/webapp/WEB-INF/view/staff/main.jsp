@@ -21,7 +21,7 @@
 				<h4>사이트 관리</h4>
 				<ul>
 					<li><a href="/staff/dashboard">대시보드</a></li>
-					<li><a href="/staff/report">신고 및 작품관리</a></li>
+					<li><a href="/staff/report-page">신고 관리</a></li>
 					<li><a href="/pay/payment-page">결제 및 금융관리</a></li>
 					<li><a href="/staff/content-page">컨텐츠 관리</a></li>
 				</ul>

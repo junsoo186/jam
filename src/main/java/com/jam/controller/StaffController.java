@@ -1,8 +1,10 @@
 package com.jam.controller;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,17 +21,19 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.jam.dto.NoticeDTO;
 import com.jam.handler.exception.UnAuthorizedException;
+import com.jam.repository.model.Alert;
 import com.jam.repository.model.Notice;
 import com.jam.repository.model.Project;
 import com.jam.repository.model.Qna;
+import com.jam.repository.model.Report;
 import com.jam.repository.model.User;
 import com.jam.service.FundingService;
 import com.jam.service.NoticeService;
 import com.jam.service.QnaService;
+import com.jam.service.ReportService;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 @RequestMapping("/staff")
@@ -37,6 +41,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class StaffController {
 
 	private final QnaService qnaService;
+	private final ReportService reportService;
 	private final HttpSession session;
 
 	/**
@@ -70,30 +75,92 @@ public class StaffController {
 	 * @return
 	 */
 	@GetMapping("/report")
-	public String handleReport() {
-		return "staff/report";
+	@ResponseBody
+	public Map<String, List<Report>> handleReport() {
+		// 모든 데이터를 불러옵니다.
+		List<Report> allReports = reportService.findAllReports();
+
+		// 책 신고 데이터만 필터링
+		List<Report> bookReports = allReports.stream()
+				.filter(report -> report.getBookId() != null)
+				.collect(Collectors.toList());
+
+		// 프로젝트 신고 데이터만 필터링
+		List<Report> projectReports = allReports.stream()
+				.filter(report -> report.getProjectId() != null)
+				.collect(Collectors.toList());
+
+		// 사용자 신고 데이터만 필터링
+		List<Report> userReports = allReports.stream()
+				.filter(report -> report.getReportUserId() != null)
+				.collect(Collectors.toList());
+
+		// 데이터를 JSON 형태로 반환
+		Map<String, List<Report>> reportData = new HashMap<>();
+		reportData.put("bookReports", bookReports);
+		reportData.put("projectReports", projectReports);
+		reportData.put("userReports", userReports);
+
+		return reportData; // JSON 형태로 반환
 	}
 
-	/**
-	 * 고객 지원 화면 이동
-	 * 
-	 * @return
-	 */
-	@GetMapping("/support")
-	public String handleSupport() {
-		return "staff/support";
+	@GetMapping("/report-page")
+	public String getMethodName() {
+		return "staff/report/report";
 	}
 
-	/**
-	 * 이벤트 화면 이동
-	 * 
-	 * @return
-	 */
+	@GetMapping("/userReportDetail")
+	public String handleUserReportDetail(@RequestParam("reportId") Integer reportId, Model model) {
+		Report report = reportService.findReportByReportId(reportId);
+		List<Alert> alerts = reportService.findAllAlert();
+		model.addAttribute("report", report);
+		model.addAttribute("alerts", alerts);
+		return "staff/report/userReportDetail";
+	}
 
-	@GetMapping("/event")
-	public String handleEvent() {
-		System.out.println("eventPage");
-		return "staff/event";
+	@GetMapping("/projectReportDetail")
+	public String handleProjectReportDetail(@RequestParam("reportId") Integer reportId, Model model) {
+		Report report = reportService.findReportByReportId(reportId);
+		List<Alert> alerts = reportService.findAllAlert();
+		model.addAttribute("report", report);
+		model.addAttribute("alerts", alerts);
+		return "staff/report/projectReportDetail";
+	}
+
+	@GetMapping("/bookReportDetail")
+	public String handleBookReportDetail(@RequestParam("reportId") Integer reportId, Model model) {
+		Report report = reportService.findReportByReportId(reportId);
+		List<Alert> alerts = reportService.findAllAlert();
+		model.addAttribute("report", report);
+		model.addAttribute("alerts", alerts);
+		return "staff/report/bookReportDetail";
+	}
+
+	@PostMapping("/processReport")
+	public String processReport(@RequestParam("reportId") Integer reportId, @RequestParam("period") Integer period,
+			@RequestParam("alertId") Integer alertId) {
+		User principal = (User) session.getAttribute("principal");
+		// 1. 신고 데이터를 reportId로 조회
+		Report report = reportService.findReportByReportId(reportId);
+
+		if (report != null) {
+			// 2. 현재 시간을 처리 완료 시간으로 설정
+			LocalDateTime processedAt = LocalDateTime.now();
+			report.setProcessedAt(processedAt);
+
+			// 3. 처리 기간을 계산하여 해제 일자 설정
+			LocalDateTime releaseDate = processedAt.plusDays(period);
+			report.setReleaseDate(releaseDate);
+
+			// 4. 신고 상태를 '처리 완료'로 설정 (예: 'Y')
+			report.setProcessing("Y");
+
+			// 5. 신고 데이터를 저장 (업데이트)
+			reportService.updateReport(report, period, principal.getUserId(), alertId);
+		}
+
+		// 처리 후 신고 목록 페이지로 리다이렉트
+		return "redirect:/staff/report-page";
 	}
 
 	/**
@@ -128,7 +195,8 @@ public class StaffController {
 	}
 
 	@PostMapping("/content")
-	public String handleContentAction(@RequestParam("action") String action, @RequestParam("projectId") Integer projectId) {
+	public String handleContentAction(@RequestParam("action") String action,
+			@RequestParam("projectId") Integer projectId) {
 		if ("approve".equals(action)) {
 			// 승인 처리 로직
 			String state = "Y";

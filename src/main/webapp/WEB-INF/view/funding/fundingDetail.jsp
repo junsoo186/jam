@@ -141,8 +141,8 @@
                             document.querySelectorAll('.reward-button').forEach(button => {
                                 const remainingQuantity = parseInt(button.getAttribute('data-reward-quantity'), 10);
 
-                                // 프로젝트가 마감되었거나 리워드 수량이 0인 경우 버튼 비활성화
-                                if (remainingQuantity === 0 || dateEnd < currentDate) {
+                                // 프로젝트가 마감되었거나 리워드 수량이 0보다 작지만 -1은 제외
+                                if ((remainingQuantity < 0 && remainingQuantity !== -1) || dateEnd < currentDate) {
                                     button.classList.add('disabled'); // 버튼 비활성화 스타일 추가
                                     button.disabled = true; // 실제로 클릭을 방지
                                 }
