@@ -1,44 +1,30 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Swiper 인스턴스 초기화
-    let swiper = new Swiper('.swiper-container', {
+    // 배너 Swiper 인스턴스 초기화
+    let bannerSwiper = new Swiper('.banner-swiper-container', {
         slidesPerView: 1,
-        spaceBetween: 0,
         loop: true,
         pagination: {
-            el: '.swiper-pagination',
+            el: '.banner-swiper-pagination',
             clickable: true,
         },
         navigation: {
-            nextEl: '.swiper-button-next',
-            prevEl: '.swiper-button-prev',
+            nextEl: '.banner-swiper-button-next',
+            prevEl: '.banner-swiper-button-prev',
         },
         on: {
             slideChangeTransitionStart: function() {
-                // 이전 슬라이드 숨기기
                 const previousSlide = document.querySelector('.swiper-slide-prev .banner-image');
                 const previousTextBox = document.querySelector('.swiper-slide-prev .banner--text--box');
                 if (previousSlide) {
                     previousSlide.style.opacity = '0';
                     previousSlide.style.visibility = 'hidden';
                 }
-                if (previousTextBox) {
-                    previousTextBox.style.opacity = '0';
-                    previousTextBox.style.visibility = 'hidden';
-                }
-
-                // 다음 슬라이드도 숨기기 (왼쪽으로 이동하는 경우)
                 const nextSlide = document.querySelector('.swiper-slide-next .banner-image');
                 const nextTextBox = document.querySelector('.swiper-slide-next .banner--text--box');
                 if (nextSlide) {
                     nextSlide.style.opacity = '0';
                     nextSlide.style.visibility = 'hidden';
                 }
-                if (nextTextBox) {
-                    nextTextBox.style.opacity = '0';
-                    nextTextBox.style.visibility = 'hidden';
-                }
-
-                // 활성화된 슬라이드 배너 보이기
                 const activeSlide = document.querySelector('.swiper-slide-active .banner-image');
                 const activeTextBox = document.querySelector('.swiper-slide-active .banner--text--box');
                 if (activeSlide) {
@@ -53,7 +39,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // 서버에서 배너를 가져오는 함수
+    // 서버에서 배너 데이터를 가져오는 함수
     function fetchMainBanner() {
         fetch('/api/main-banners?page=1&size=3')
             .then(response => response.json())
@@ -76,14 +62,13 @@ document.addEventListener('DOMContentLoaded', function() {
                             <p>${banner.content}</p>
                         </div>
                     `;
-                    // Swiper에 동적으로 슬라이드 추가
-                    swiper.appendSlide(slide);
+                    bannerSwiper.appendSlide(slide);
                 });
 
-                // Swiper를 다시 초기화하여 슬라이드가 적용되도록 함
-                swiper.update();
+                // Swiper 업데이트하여 새 슬라이드를 반영
+                bannerSwiper.update();
 
-                // 배너 이미지 클릭 이벤트 리스너 추가
+                // 배너 이미지 클릭 이벤트 추가
                 const images = document.querySelectorAll('.banner-image');
                 images.forEach(image => {
                     image.addEventListener('click', function() {
@@ -95,10 +80,9 @@ document.addEventListener('DOMContentLoaded', function() {
             .catch(error => console.error('Error fetching banners:', error));
     }
 
-    // 배너 데이터를 불러옴
+    // 배너 데이터를 로드
     fetchMainBanner();
 });
-
 
 // 정렬 구간
 // 카테고리 정렬을 위한 초기 설정
@@ -109,7 +93,7 @@ let activeCategoryId = 3;  // 초기 카테고리 ID (기본 선택할 카테고
 // 장르 정렬을 위한 초기 설정
 let currentGenreViewsOrder = 'DESC';
 let currentGenreLikesOrder = 'DESC';
-let selectedGenreId = 2;  // 초기 장르 ID (기본 선택할 장르 ID)
+let selectedGenreId = 5;  // 초기 장르 ID (기본 선택할 장르 ID)
 
 // 요일별 정렬을 위한 초기 설정
 let currentDayViewsOrder = 'DESC';
@@ -274,7 +258,7 @@ function fetchBooksByCategoryOrder(filter, order) {
 
             const sortedBooks = sortBooks(books, filter, order);
 			
-			const limitedBooks = sortedBooks.slice(0, 10);
+			const limitedBooks = sortedBooks.slice(0, 9);
             // 각 책에 대해 이미지 경로를 비동기적으로 확인
             const bookPromises = limitedBooks.map(book => {
                 return getValidImagePath(book.bookCoverImage).then(validImagePath => {
@@ -290,13 +274,29 @@ function fetchBooksByCategoryOrder(filter, order) {
 			        const bookItem = document.createElement('div');
 			        bookItem.classList.add('book--item');
 			        bookItem.setAttribute('data-work-id', book.bookId); // 책 ID를 data-work-id에 설정
+					        // 추가할 내용 변수
+			        let additionalInfo = '';
+			        // book.age에 따른 조건문
+					if (book.age === '15') {
+					    additionalInfo = '<div class="age--mark" style="background-color: blue; color: white;">15</div>';
+					} else if (book.age === '19') {
+					    additionalInfo = '<div  class="age--mark" style="background-color: red; color: white;">19</div>';
+					}
 			        bookItem.innerHTML = `
 			            <div class="book--info">
-			                <img src="${book.validImagePath}" alt="${book.title}">
-			                <h4>${index + 1} ${book.title}</h4>
-			                <p>저자: ${book.author}</p>
-			                <p>조회수: ${book.views}</p>
-			                <p>좋아요: ${book.likes}</p>
+			                <div class="book--cover">
+			                    <img src="${book.validImagePath}" alt="${book.title}">
+			                        ${additionalInfo} <!-- 추가 정보 삽입 -->
+			                </div>
+			                <div class="book--text">
+			                    <div class="text--number">${index + 1}</div>
+			                    <div>
+			                        <p class="text--title">${book.title}</p>
+			                        <p class="text--writer">저자: ${book.author}</p>
+			                        <p class="text--view">조회수: ${book.views}</p>
+			                        <p class="text--view">좋아요: ${book.likes}</p>
+			                    </div>
+			                </div>
 			            </div>
 			        `;
 			        bookListDiv.appendChild(bookItem);
@@ -342,7 +342,7 @@ function fetchBooksByGenreOrder(filter, order) {
             const sortedBooks = sortBooks(books, filter, order);
 
             // 최대 10개의 책만 선택
-            const limitedBooks = sortedBooks.slice(0, 10);
+            const limitedBooks = sortedBooks.slice(0, 9);
             
             const bookPromises = limitedBooks.map(book => {
                 return getValidImagePath(book.bookCoverImage).then(validImagePath => {
@@ -358,15 +358,30 @@ function fetchBooksByGenreOrder(filter, order) {
                     const bookItem = document.createElement('div');
                     bookItem.classList.add('book--item');
                     bookItem.setAttribute('data-work-id', book.bookId); // bookId 설정
+                let additionalInfo = '';
+		        // book.age에 따른 조건문
+				if (book.age === '15') {
+				    additionalInfo = '<div class="age--mark" style="background-color: blue; color: white;">15</div>';
+				} else if (book.age === '19') {
+				    additionalInfo = '<div  class="age--mark" style="background-color: red; color: white;">19</div>';
+				}
                     bookItem.innerHTML = `
-                        <div class="book--info">
-                            <img src="${book.validImagePath}" alt="${book.title}">
-			                <h4>${index + 1} ${book.title}</h4>
-                            <p>저자: ${book.author}</p>
-                            <p>조회수: ${book.views}</p>
-                            <p>좋아요: ${book.likes}</p>
-                        </div>
-                    `;
+ 			            <div class="book--info">
+			            	<div class="book--cover">
+			                <img src="${book.validImagePath}" alt="${book.title}">
+			                ${additionalInfo} <!-- 추가 정보 삽입 -->
+			                </div>
+			                <div class="book--text">
+			                	<div class="text--number">${index + 1}</div>
+			                	<div>
+				                <p class="text--title"> ${book.title}</p>
+				                <p class="text--writer">저자: ${book.author}</p>
+				                <p class="text--view">조회수: ${book.views}</p>
+				                <p class="text--view">좋아요: ${book.likes}</p>
+				                </div>
+			                </div>
+			            </div>
+			        `;
                     bookListDiv.appendChild(bookItem);
                 });
 
@@ -391,7 +406,7 @@ function fetchBooksByDayOrder(filter, order) {
             const filteredBooks = books.filter(book => book.serialDay === activeSerialDay);
             const sortedBooks = sortBooks(filteredBooks, filter, order);
 
-			const limitedBooks = sortedBooks.slice(0, 10);
+			const limitedBooks = sortedBooks.slice(0, 9);
             // 각 책에 대해 이미지 경로를 비동기적으로 확인
             const bookPromises = limitedBooks.map(book => {
                 return getValidImagePath(book.bookCoverImage).then(validImagePath => {
@@ -412,16 +427,30 @@ function fetchBooksByDayOrder(filter, order) {
                         const bookItem = document.createElement('div');
                         bookItem.classList.add('book--item');
                         bookItem.setAttribute('data-work-id', book.bookId); // bookId 설정
-
+	                let additionalInfo = '';
+			        // book.age에 따른 조건문
+					if (book.age === '15') {
+					    additionalInfo = '<div class="age--mark" style="background-color: blue; color: white;">15</div>';
+					} else if (book.age === '19') {
+					    additionalInfo = '<div  class="age--mark" style="background-color: red; color: white;">19</div>';
+					}
                         bookItem.innerHTML = `
-                            <div class="book--info">
-                                <img src="${book.validImagePath}" alt="${book.title}">
-			                <h4>${index + 1} ${book.title}</h4>
-                                <p>저자: ${book.author}</p>
-                                <p>조회수: ${book.views}</p>
-                                <p>좋아요: ${book.likes}</p>
-                            </div>
-                        `;
+			            <div class="book--info">
+			            	<div class="book--cover">
+			                <img src="${book.validImagePath}" alt="${book.title}">
+			                 ${additionalInfo} <!-- 추가 정보 삽입 -->
+			                </div>
+			                <div class="book--text">
+			                	<div class="text--number">${index + 1}</div>
+			                	<div>
+				                <p class="text--title"> ${book.title}</p>
+				                <p class="text--writer">저자: ${book.author}</p>
+				                <p class="text--view">조회수: ${book.views}</p>
+				                <p class="text--view">좋아요: ${book.likes}</p>
+				                </div>
+			                </div>
+			            </div>
+			        `;
                         bookListDiv.appendChild(bookItem);
                     });
 
@@ -544,7 +573,7 @@ function toggleDayLikesOrder() {
 // 조회수 정렬을 위한 변수 (초기값은 내림차순)
 let newViewsOrder = 'DESC';
 
-// 새로운 요일별 책 목록을 비동기적으로 로드 후 DOM을 업데이트하는 함수
+// 당일 책 목록을 비동기적으로 로드 후 DOM을 업데이트하는 함수
 function fetchBooksByNewDayOrder(order) {
     fetch(`/api/bookDayViews?order=${order}`)  // 서버 API 호출 (기존 API 사용)
         .then(response => response.json())
@@ -557,12 +586,27 @@ function fetchBooksByNewDayOrder(order) {
                     const bookItem = document.createElement('div');
                         bookItem.classList.add('book--item');
                         bookItem.setAttribute('data-work-id', book.bookId); // bookId 설정
-
-                        bookItem.innerHTML = `
+					        // 추가할 내용 변수
+			        let additionalInfo = '';
+			        // book.age에 따른 조건문
+					if (book.age === '15') {
+					    additionalInfo = '<div class="age--mark" style="background-color: blue; color: white;">15</div>';
+					} else if (book.age === '19') {
+					   additionalInfo = '<div class="age--mark" style="color: white;">19</div>';
+					}
+                        bookItem.innerHTML =`
                         <div class="book--info">
-                            <img src="${book.bookCoverImage}" alt="${book.title}" width="100">
-			                <h4>${index + 1} ${book.title}</h4>
-                            <p>저자: ${book.author}</p>
+                        	<div class="book--cover">
+                            	<img src="${book.bookCoverImage}" alt="${book.title}" width="100">
+                            	 ${additionalInfo} <!-- 추가 정보 삽입 -->
+                             </div>
+ 							<div class="book--text">
+			                	<div class="text--number">${index + 1}</div>
+			                	<div>
+					                <p class="text--title"> ${book.title}</p>
+					                <p class="text--writer">저자: ${book.author}</p>
+				                </div>
+			                </div>
                         </div>
                     `;
                     bookListDiv.appendChild(bookItem);
@@ -596,4 +640,5 @@ function toggleNewViewsOrder() {
 document.addEventListener('DOMContentLoaded', function() {
     fetchBooksByNewDayOrder(newViewsOrder);
 });
+
 

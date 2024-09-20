@@ -1,0 +1,10 @@
+@font-face {
+    font-family: 'GmarketSansMedium';
+    src: url('GmarketSansMedium.woff2') format('woff2'),  /* 최신 브라우저용 */
+         url('GmarketSansMedium.woff') format('woff'),    /* 일반 브라우저용 */
+         url('GmarketSansMedium.otf') format('opentype'); /* 백업용 */
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+

@@ -48,6 +48,7 @@
 	b.user_id,
 	b.author,
 	b.title,
+	b.age,
 	b.book_cover_image,
 	b.likes,
 	b.age,
@@ -56,7 +57,7 @@
 	 from book_tb as b
 	 left join
 	 book_views_rating_tb vr on  vr.book_id = b.book_id
-	group by  b.book_id,b.user_id,b.author,b.title,b.book_cover_image,b.likes,b.age,b.serial_day
+	group by  b.book_id,b.user_id,b.author,b.title,b.book_cover_image,b.likes,b.age,b.serial_day,b.age
 	<choose>
 	        <when test="filter == 'views'">
 	            ORDER BY views
@@ -106,6 +107,7 @@
 	        b.book_id,
 	        b.title,
 	        b.author,
+	        b.age,
 	        b.likes,
 	        sum(vr.views) as views,
 	        b.category_id,
@@ -123,7 +125,7 @@
 	    WHERE
 	        b.category_id = #{categoryId}  <!-- 파라미터로 카테고리 필터링 -->
 	    GROUP BY
-	        b.book_id, b.title, b.author, b.likes, b.category_id, b.genre_id, b.book_cover_image
+	        b.book_id, b.title, b.author, b.likes, b.category_id, b.genre_id, b.book_cover_image,b.age
 	    <choose>
 	        <when test="filter == 'views'">
 	            ORDER BY views
@@ -151,6 +153,7 @@
 	        b.book_id,
 	        b.title,
 	        b.author,
+	        b.age,
 	        b.likes,
 	        sum(vr.views) as views,
 	        b.category_id,
@@ -168,7 +171,7 @@
 	    WHERE
 	        b.genre_id = #{genreId} 
 	    GROUP BY
-	        b.book_id, b.title, b.author, b.likes, b.category_id, b.genre_id, b.book_cover_image
+	        b.book_id, b.title, b.author, b.likes, b.category_id, b.genre_id, b.book_cover_image,b.age
 	    <choose>
 	        <when test="filter == 'views'">
 	            ORDER BY views
@@ -191,9 +194,9 @@
 	</select>
 	
 	<select id="findViews" resultType="com.jam.repository.model.Book">
-	
 	 SELECT b.book_id,
             b.title,
+            b.age,
             b.author,
             b.likes,
             b.category_id,
@@ -210,7 +213,7 @@
 	    AND view_day= day(CURRENT_DATE)
 	     group by b.book_id,b.created_at,
 	            b.title, b.author, b.likes,
-	            b.category_id, b.genre_id, b.book_cover_image
+	            b.category_id, b.genre_id, b.book_cover_image,b.age
 	    ORDER BY views
 	    <if test="order == 'ASC'">
 	        ASC

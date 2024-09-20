@@ -990,7 +990,7 @@ FROM
     story_tb s;
 
     INSERT INTO banner_tb (`title`, `image_path`) VALUES ('이미지1', 'banner/banner.jpg');
-
+-- 당일 유저당 조회
 insert into book_views_rating_tb (book_id, view_year, view_month, view_day, views, rating, user_id)
 values(1,YEAR(CURRENT_DATE),month(CURRENT_DATE),day(CURRENT_DATE),1,2.5,11);
 insert into book_views_rating_tb (book_id, view_year, view_month, view_day, views, rating, user_id)
@@ -1009,3 +1009,13 @@ insert into book_views_rating_tb (book_id, view_year, view_month, view_day, view
 values(5,YEAR(CURRENT_DATE),month(CURRENT_DATE),day(CURRENT_DATE),1,3,21);
 insert into book_views_rating_tb (book_id, view_year, view_month, view_day, views, rating, user_id)
 values(5,YEAR(CURRENT_DATE),month(CURRENT_DATE),day(CURRENT_DATE),1,4.5,20);
+insert into book_views_rating_tb (book_id, view_year, view_month, view_day, views, rating, user_id)
+values(11,YEAR(CURRENT_DATE),month(CURRENT_DATE),day(CURRENT_DATE),1,2.5,27);
+insert into book_views_rating_tb (book_id, view_year, view_month, view_day, views, rating, user_id)
+values(11,YEAR(CURRENT_DATE),month(CURRENT_DATE),day(CURRENT_DATE),1,3.5,24);
+insert into book_views_rating_tb (book_id, view_year, view_month, view_day, views, rating, user_id)
+values(11,YEAR(CURRENT_DATE),month(CURRENT_DATE),day(CURRENT_DATE),1,2.5,16);
+insert into book_views_rating_tb (book_id, view_year, view_month, view_day, views, rating, user_id)
+values(1,YEAR(CURRENT_DATE),month(CURRENT_DATE),day(CURRENT_DATE),1,3.5,19);
+insert into book_views_rating_tb (book_id, view_year, view_month, view_day, views, rating, user_id)
+values(15,YEAR(CURRENT_DATE),month(CURRENT_DATE),day(CURRENT_DATE),1,2.5,9);
