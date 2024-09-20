@@ -9,23 +9,28 @@
 
     <!-- 책의 이야기 목록을 페이징 처리하여 출력하는 영역 -->
     <div class="story-list">
-        <c:forEach var="story" items="${storyMap[bookId]}">
-            <div class="story--content">
-                <a href="/write/storyContents?storyId=${story.storyId}">
-                    <c:choose>
-                        <c:when test="${story.number == 0}">
-                            <p class="story--part">프롤로그</p>
-                        </c:when>
-                        <c:otherwise>
-                            <p class="story--part">${story.number}화</p>
-                        </c:otherwise>
-                    </c:choose>
-                    <p class="story--title">${story.title}</p>
-                    <p class="story--other">${story.createdAt}</p>
-                    <p class="story--other">${story.views}</p>
-                </a>
-            </div>
-        </c:forEach>
+        <c:if test="${not empty storyMap[bookId]}">
+            <c:forEach var="story" items="${storyMap[bookId]}">
+                <div class="story--content">
+                    <a href="/write/storyContents?storyId=${story.storyId}">
+                        <c:choose>
+                            <c:when test="${story.number == 0}">
+                                <p class="story--part">프롤로그</p>
+                            </c:when>
+                            <c:otherwise>
+                                <p class="story--part">${story.number}화</p>
+                            </c:otherwise>
+                        </c:choose>
+                        <p class="story--title">${story.title}</p>
+                        <p class="story--other">${story.createdAt}</p>
+                        <p class="story--other">${story.views}</p>
+                    </a>
+                </div>
+            </c:forEach>
+        </c:if>
+        <c:if test="${empty storyMap[bookId]}">
+            <p>이야기가 없습니다.</p>
+        </c:if>
     </div>
 
     <!-- 페이징 버튼 (오른쪽) -->

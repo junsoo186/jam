@@ -10,10 +10,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
+import com.jam.dto.MainBannerDTO;
 import com.jam.repository.model.Book;
 import com.jam.repository.model.Category;
 import com.jam.repository.model.Genre;
+import com.jam.repository.model.MainBanner;
 import com.jam.repository.model.User;
+import com.jam.service.MainBannerService;
 import com.jam.service.WriterService;
 import com.jam.utils.Define;
 
@@ -25,6 +28,7 @@ import lombok.RequiredArgsConstructor;
 public class MainCotroller {
 	
 	private final WriterService writerService;
+	private final MainBannerService mainBannerService;
 	
 	
 	
@@ -38,18 +42,43 @@ public class MainCotroller {
 		List<Book>bookList=writerService.readAllBookList();
         List<Category> categoryList = writerService.findAllCategory();
         List<Genre> genreList= writerService.findAllGenre();
+
+        
 		model.addAttribute("bookList",bookList);
 		model.addAttribute("categoryList",categoryList);
 		model.addAttribute("genreList",genreList);
 		return "/index";
 	}
 	
-	
 	/**
-	 * 
+	 * 배너 페이징 비동기처리
+	 * @param page
+	 * @param size
 	 * @return
 	 */
-    // 비동기로 카테고리 목록을 반환하는 API
+    @GetMapping("/api/main-banners")
+    @ResponseBody
+    public MainBannerDTO getMainBanners(
+            @RequestParam(name = "page" ,defaultValue = "1") int page, 
+            @RequestParam(name = "size" ,defaultValue = "3") int size) {
+    	
+		List<MainBanner> mainBannerList=mainBannerService.readAllMainBanner(page,size);
+		MainBannerDTO mainBannerDTO=new MainBannerDTO(); 
+		int sumCount=mainBannerService.countAllBanner();
+		
+		for (MainBanner mainBanner : mainBannerList) {
+			 mainBanner.setImagePath(mainBanner.setUpUserImage());
+		}
+		mainBannerDTO.setMainBannerList(mainBannerList);
+		mainBannerDTO.setTotalBanners(sumCount);
+        return mainBannerDTO;
+    }
+
+	
+	/**
+	 *  카테고리-비동기로 카테고리 목록을 반환하는 API
+	 * @return
+	 */
     @GetMapping("/api/categories")
     @ResponseBody
     public List<Category> getCategories() {
@@ -60,7 +89,7 @@ public class MainCotroller {
     }
     
     /**
-     * @todo 1 스크립트 쿼리스트링 구조 생각 2쿼리문 작성 3 로직구성 4.데이터 받아오기 5.스크립트 작성
+     * 카테고리별 정렬
      * @param categoryId
      * @return
      */
@@ -82,7 +111,10 @@ public class MainCotroller {
 
 
     
-    
+    /**
+     * 장르
+     * @return
+     */
     @GetMapping("/api/genres")
     @ResponseBody
     public List<Genre> getGenre(){
@@ -90,7 +122,7 @@ public class MainCotroller {
     	return genreList;
     }
     /**
-     * 
+     * 장르별 정렬
      * @param genreId
      * @param filter
      * @param order
@@ -110,6 +142,11 @@ public class MainCotroller {
     	return bookList;  // 카테고리 ID가 일치하는 책 목록 반환
     	
     }
+    
+    /**
+     * 요일 
+     * @return
+     */
     @GetMapping("/api/serial")
     @ResponseBody
     public List<String> getWeek(){
@@ -139,7 +176,19 @@ public class MainCotroller {
     }
     
 
-    
+    /**
+     *  당일 views 정렬
+     * @param order
+     * @return
+     */
+    @GetMapping("/api/bookDayViews")
+    @ResponseBody
+    public List<Book> getBookDayViews(@RequestParam("order") String order){
+    	
+    	List<Book> bookList=writerService.readTodayViews(order);
+    	
+    	return bookList;
+    }
 
     
     

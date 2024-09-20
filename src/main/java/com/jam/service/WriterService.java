@@ -16,6 +16,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.jam.dto.BookDTO;
 import com.jam.dto.StoryDTO;
+import com.jam.dto.UserDTO;
+import com.jam.repository.interfaces.BannerRepository;
 import com.jam.repository.interfaces.BookRepository;
 import com.jam.repository.interfaces.StoryRepository;
 import com.jam.repository.interfaces.TagRepository;
@@ -37,6 +39,7 @@ public class WriterService {
 	private final BookRepository bookRepository;
 	private final StoryRepository storyRepository;
 	private final TagRepository tagRepository;
+	
 	
 	@Value("${file.upload-dir}")
 	private String uploadDir;
@@ -573,5 +576,34 @@ public class WriterService {
 	            return bookRepository.findAllByOrderByViewsDesc();
 	        }
 	    }
+	
+	/**
+	 * views 증가 메서드
+	 * @param userId
+	 * @param bookId
+	 */
+	@Transactional
+	public void handleUserView(int userId, int bookId) {
+	    int count = bookRepository.checkUserViewExists(userId, bookId);
+	    if (count == 0) {
+	    	bookRepository.insertUserViewRecord(userId, bookId); // 조회 기록 추가
+	    } else {
+	    	System.out.println("이미 당일 증가 시킨 유저입니다");
+	    	
+	    }
+	}
+	
+	/**
+	 *  당일 views 순 정렬
+	 * @param order ->asc,desc
+	 * @return
+	 */
+	public List<Book> readTodayViews (String order ) {
+		List<Book> bookList=bookRepository.findViews(order);
+			for (Book book : bookList) {
+				book.setBookCoverImage(book.setUpUserImage());
+			}
+		return bookList;
+	}
 	
 }
