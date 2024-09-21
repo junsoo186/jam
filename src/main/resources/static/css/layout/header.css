@@ -3,6 +3,8 @@
 html, body {
     min-height: 100%;
     margin: 0;
+    font-family: 'GmarketSansMedium', Arial, sans-serif;
+    
 }
 
 body {
@@ -31,6 +33,7 @@ body {
 .top-staff {
     flex: 1;
     text-align: right; /* 관리자 페이지 링크를 오른쪽으로 정렬 */
+    
 }
 
 

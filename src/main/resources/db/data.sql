@@ -990,10 +990,9 @@ FROM
     story_tb s;
 
     INSERT INTO banner_tb (`title`, `image_path`) VALUES ('이미지1', 'banner/banner.jpg');
-<<<<<<< HEAD
+
     INSERT INTO banner_tb (`title`, `image_path`) VALUES ('이미지2', 'banner/banner2.jpg');
 
-=======
 -- 당일 유저당 조회
 insert into book_views_rating_tb (book_id, view_year, view_month, view_day, views, rating, user_id)
 values(1,YEAR(CURRENT_DATE),month(CURRENT_DATE),day(CURRENT_DATE),1,2.5,11);
@@ -1023,4 +1022,4 @@ insert into book_views_rating_tb (book_id, view_year, view_month, view_day, view
 values(1,YEAR(CURRENT_DATE),month(CURRENT_DATE),day(CURRENT_DATE),1,3.5,19);
 insert into book_views_rating_tb (book_id, view_year, view_month, view_day, views, rating, user_id)
 values(15,YEAR(CURRENT_DATE),month(CURRENT_DATE),day(CURRENT_DATE),1,2.5,9);
->>>>>>> dc7bb680eee282e8e38345acebe95fc4721923f2
+
