@@ -109,7 +109,6 @@
 		ASC
 	</select>
 
-<<<<<<< HEAD
 
 		<select id="countBook" resultType="int">
     		SELECT count(*)
@@ -118,8 +117,6 @@
 		</select>
 
 	
-=======
->>>>>>> bf62c47f8f6e927831dfab8ce03ba137de82ac16
 	<select id="AllBookListCategoryOrderBy" resultType="com.jam.repository.model.Book">
 	    SELECT
 	        b.book_id,
