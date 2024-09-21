@@ -18,9 +18,9 @@
 		<div class="top-area">
 			<section class="center-category">
 				<ul>
-					<li><img class="img-rank" src="/images/layout/rank.png"><a href="">랭킹</a>
+					<li><img class="img-rank" src="/images/layout/rank.png"><a href="/rank/ranking">랭킹</a>
 					<li>
-					<li><a href="">이벤트</a>
+					<li><a href="/event/list">이벤트</a>
 					<li>
 					<li><a href="">펀딩</a>
 					<li>

@@ -1,5 +1,3 @@
-
-
 CREATE TABLE `user_tb` (
     `user_id` int PRIMARY KEY AUTO_INCREMENT NOT NULL COMMENT 'auto',
     `nick_name` varchar(20) NOT NULL UNIQUE,
@@ -155,6 +153,7 @@ CREATE TABLE `event_tb` (
     `start_day` date NOT NULL COMMENT '이벤트 시작일',
     `end_day` date NOT NULL COMMENT '이벤트 종료일',
     `user_id` int NOT NULL COMMENT '외래 키, user_tb 참조, 당첨자 명',
+    `event_image` text comment '이벤트 이미지',
     FOREIGN KEY (`user_id`) REFERENCES `user_tb`(`user_id`)
 );
 
@@ -364,6 +363,15 @@ CREATE TABLE `main_banner_tb`(
 `event_id` int,
 FOREIGN KEY (`event_id`) REFERENCES `event_tb`(`event_id`)
 );
+
+CREATE TABLE banner_tb(
+banner_id int PRIMARY KEY AUTO_INCREMENT NOT NULL,
+title varchar(1000) COMMENT '베너 제목',
+content varchar(1000) COMMENT '베너 내용1',
+sub_content varchar(1000) COMMENT '베너 내용2',
+image_path varchar(2000) COMMENT '이미지 경로'
+);
+
 -- project_tb에 reward_id에 대한 외래 키 추가
 ALTER TABLE `project_tb`
 ADD CONSTRAINT fk_project_reward FOREIGN KEY (`reward_id`) REFERENCES `reward_tb`(`reward_id`);
@@ -377,6 +385,7 @@ CREATE TABLE `score_tb`(
     `created_at` timestamp
 );
 
+<<<<<<< HEAD
 CREATE TABLE banner_tb(
 banner_id int PRIMARY KEY AUTO_INCREMENT NOT NULL,
 title varchar(1000) COMMENT '베너 제목',
@@ -397,6 +406,8 @@ FOREIGN KEY (`book_id`) REFERENCES `book_tb`(`book_id`),
 FOREIGN KEY (`story_id`) REFERENCES `story_tb`(`story_id`)
 );
 
+=======
+>>>>>>> bf62c47f8f6e927831dfab8ce03ba137de82ac16
 
 
 -- fk 순환구조라 오류생김

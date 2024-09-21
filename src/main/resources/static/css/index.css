@@ -5,13 +5,6 @@ main{
 }
 
 
-/* a 링크 */
-    a { text-decoration: none; color: black; }
-    a:visited { text-decoration: none; }
-    a:hover { text-decoration: none; }
-    a:focus { text-decoration: none; }
-    a:hover, a:active { text-decoration: none; }
-/* 추가 CSS 스타일링 */
 
 /* 카테고리 필터 스타일 */
 .category--area--filter, 

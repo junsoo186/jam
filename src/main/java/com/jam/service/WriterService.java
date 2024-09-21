@@ -576,6 +576,17 @@ public class WriterService {
 		return new String[]{mFile.getOriginalFilename(), uploadFileName};
 	}
 
+	/**
+	 * 랭킹
+	 * @return
+	 */
+	 public List<Book> getBooksSortedBy(String sortBy) {
+	        if (sortBy.equals("likes")) {
+	            return bookRepository.findAllByOrderByLikesDesc();
+	        } else {
+	            return bookRepository.findAllByOrderByViewsDesc();
+	        }
+	    }
 	
 	/**
 	 * views 증가 메서드
