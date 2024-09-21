@@ -12,7 +12,7 @@
 	<%@ include file="/WEB-INF/view/layout/header.jsp"%>
 
 	<main>
-		<form action="/user/userModify1212" method="post" enctype="multipart/form-data">
+		<form action="/user/userModify1212" method="post" enctype="multipart/form-data" class="form-group">
 			<input type="hidden" name="userId" value="${principal.userId}"> <input type="hidden" name="createdAt" value="${principal.createdAt}"> <input type="hidden"
 				name="profileImg" value="${principal.profileImg}">
 

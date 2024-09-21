@@ -81,18 +81,15 @@ public class StaffController {
 		List<Report> allReports = reportService.findAllReports();
 
 		// 책 신고 데이터만 필터링
-		List<Report> bookReports = allReports.stream()
-				.filter(report -> report.getBookId() != null)
+		List<Report> bookReports = allReports.stream().filter(report -> report.getBookId() != null)
 				.collect(Collectors.toList());
 
 		// 프로젝트 신고 데이터만 필터링
-		List<Report> projectReports = allReports.stream()
-				.filter(report -> report.getProjectId() != null)
+		List<Report> projectReports = allReports.stream().filter(report -> report.getProjectId() != null)
 				.collect(Collectors.toList());
 
 		// 사용자 신고 데이터만 필터링
-		List<Report> userReports = allReports.stream()
-				.filter(report -> report.getReportUserId() != null)
+		List<Report> userReports = allReports.stream().filter(report -> report.getReportUserId() != null)
 				.collect(Collectors.toList());
 
 		// 데이터를 JSON 형태로 반환
@@ -330,14 +327,10 @@ public class StaffController {
 
 	@PostMapping("insert")
 	public String insert(@RequestParam("noticeTitle") String noticeTitle,
-			@RequestParam("noticeContent") String noticeContent,
-			@SessionAttribute("principal") User principal) {
+			@RequestParam("noticeContent") String noticeContent, @SessionAttribute("principal") User principal) {
 
-		NoticeDTO notice = NoticeDTO.builder()
-				.userId(principal.getUserId())
-				.noticeTitle(noticeTitle)
-				.noticeContent(noticeContent)
-				.build();
+		NoticeDTO notice = NoticeDTO.builder().userId(principal.getUserId()).noticeTitle(noticeTitle)
+				.noticeContent(noticeContent).build();
 		noticeService.Insertnotice(notice);
 		return "redirect:/staff?page=notice";
 	}
