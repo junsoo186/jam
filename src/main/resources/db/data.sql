@@ -125,39 +125,44 @@ INSERT INTO user_alert_history_tb ( alert_id,user_id,period_date) VALUES ( 4,24,
 INSERT INTO user_alert_history_tb ( alert_id,user_id,period_date) VALUES ( 5,28,'2024-10-05');
 
 INSERT INTO `event_tb` (
-    `event_title`, `event_content`, `start_day`, `end_day`, `user_id`
+    `event_title`, `event_content`, `start_day`, `end_day`, `user_id`,`event_image`
 ) VALUES (
-    '회원가입 웰컴 반값 이벤트1', '회원가입 후 첫 코인 구매 시 50% 할인 혜택을 제공합니다.', 
+    '회원가입 웰컴 반값 이벤트!', '회원가입 후 첫 코인 구매 시 50% 할인 혜택을 제공합니다.', 
     '2024-09-01', 
     '2024-12-31', 
-    4  -- user_tb에서 user_id 101번 사용자가 이벤트를 관리
+    4 , -- user_tb에서 user_id 101번 사용자가 이벤트를 관리
+    'event/event-detail1.jpg'
+    
 );
 INSERT INTO `event_tb` (
-    `event_title`, `event_content`, `start_day`, `end_day`, `user_id`
+    `event_title`, `event_content`, `start_day`, `end_day`, `user_id`,`event_image`
 ) VALUES (
-    '회원가입 웰컴 반값 이벤트2', 
+    '잼코인 랜덤 뽑기!', 
     '회원가입 후 첫 코인 구매 시 50% 할인 혜택을 제공합니다.', 
     '2024-09-01', 
     '2024-12-31',
-    5 -- user_tb에서 user_id 101번 사용자가 이벤트를 관리
+    5, -- user_tb에서 user_id 101번 사용자가 이벤트를 관리
+     'event/event-detail2.jpg'
 );
 INSERT INTO `event_tb` (
-    `event_title`, `event_content`, `start_day`, `end_day`, `user_id`
+    `event_title`, `event_content`, `start_day`, `end_day`, `user_id`,`event_image`
 ) VALUES (
-    '회원가입 웰컴 반값 이벤트3', 
+    '2024 ! 천하제일 쩀 대회!', 
     '회원가입 후 첫 코인 구매 시 50% 할인 혜택을 제공합니다.', 
-    '2024-09-01', 
-    '2024-12-31',
-    6  -- user_tb에서 user_id 101번 사용자가 이벤트를 관리
+    '2024-08-01', 
+    '2024-09-15',
+    6,  -- user_tb에서 user_id 101번 사용자가 이벤트를 관리
+     'event/event-detail3.jpg'
 );
 INSERT INTO `event_tb` (
-    `event_title`, `event_content`, `start_day`, `end_day`, `user_id`
+    `event_title`, `event_content`, `start_day`, `end_day`, `user_id`,`event_image`
 ) VALUES (
     '회원가입 웰컴 반값 이벤트4', 
     '회원가입 후 첫 코인 구매 시 50% 할인 혜택을 제공합니다.', 
     '2024-09-01', 
-    '2024-12-31',
-    3  -- user_tb에서 user_id 101번 사용자가 이벤트를 관리
+    '2024-9-10',
+    3,  -- user_tb에서 user_id 101번 사용자가 이벤트를 관리
+     'event/event-detail3.jpg'
 );
 
 
@@ -168,20 +173,20 @@ INSERT INTO `main_banner_tb` (
 VALUES (
     '회원가입 웰컴 반값 이벤트1', 
     '회원가입 후 첫 코인 구매 시 50% 할인 혜택을 제공합니다.', 
-    '기간한정 이벤트', 'banner/bannerimg1.jpg',1  );
+    '기간한정 이벤트', 'mainbanner/bannerimg1.jpg',1  );
 
 INSERT INTO `main_banner_tb` (
 `title` ,`content`,`sub_content`,`image_path`,`event_id`) 
 VALUES (
     '회원가입 웰컴 반값 이벤트2', 
     '회원가입 후 첫 코인 구매 시 50% 할인 혜택을 제공합니다.', 
-    '기간한정 이벤트',  'banner/bannerimg2.jpg', 2 );
+    '기간한정 이벤트',  'mainbanner/bannerimg2.jpg', 2 );
 INSERT INTO `main_banner_tb` (
 `title` ,`content`,`sub_content`,`image_path`,`event_id`) 
 VALUES (
     '회원가입 웰컴 반값 이벤트3', 
     '회원가입 후 첫 코인 구매 시 50% 할인 혜택을 제공합니다.', 
-    '기간한정 이벤트',  'banner/bannerimg3.jpg', 3);
+    '기간한정 이벤트',  'mainbanner/bannerimg3.jpg', 3);
 
 
 
@@ -1364,6 +1369,38 @@ FROM
     story_tb s;
 
     INSERT INTO banner_tb (`title`, `image_path`) VALUES ('이미지1', 'banner/banner.jpg');
+
+    INSERT INTO banner_tb (`title`, `image_path`) VALUES ('이미지2', 'banner/banner2.jpg');
+
+-- 당일 유저당 조회
+insert into book_views_rating_tb (book_id, view_year, view_month, view_day, views, rating, user_id)
+values(1,YEAR(CURRENT_DATE),month(CURRENT_DATE),day(CURRENT_DATE),1,2.5,11);
+insert into book_views_rating_tb (book_id, view_year, view_month, view_day, views, rating, user_id)
+values(1,YEAR(CURRENT_DATE),month(CURRENT_DATE),day(CURRENT_DATE),1,3.5,17);
+insert into book_views_rating_tb (book_id, view_year, view_month, view_day, views, rating, user_id)
+values(1,YEAR(CURRENT_DATE),month(CURRENT_DATE),day(CURRENT_DATE),1,4.5,10);
+insert into book_views_rating_tb (book_id, view_year, view_month, view_day, views, rating, user_id)
+values(4,YEAR(CURRENT_DATE),month(CURRENT_DATE),day(CURRENT_DATE),1,3.5,15);
+insert into book_views_rating_tb (book_id, view_year, view_month, view_day, views, rating, user_id)
+values(4,YEAR(CURRENT_DATE),month(CURRENT_DATE),day(CURRENT_DATE),1,4.5,14);
+insert into book_views_rating_tb (book_id, view_year, view_month, view_day, views, rating, user_id)
+values(4,YEAR(CURRENT_DATE),month(CURRENT_DATE),day(CURRENT_DATE),1,1.5,13);
+insert into book_views_rating_tb (book_id, view_year, view_month, view_day, views, rating, user_id)
+values(5,YEAR(CURRENT_DATE),month(CURRENT_DATE),day(CURRENT_DATE),1,2.5,23);
+insert into book_views_rating_tb (book_id, view_year, view_month, view_day, views, rating, user_id)
+values(5,YEAR(CURRENT_DATE),month(CURRENT_DATE),day(CURRENT_DATE),1,3,21);
+insert into book_views_rating_tb (book_id, view_year, view_month, view_day, views, rating, user_id)
+values(5,YEAR(CURRENT_DATE),month(CURRENT_DATE),day(CURRENT_DATE),1,4.5,20);
+insert into book_views_rating_tb (book_id, view_year, view_month, view_day, views, rating, user_id)
+values(11,YEAR(CURRENT_DATE),month(CURRENT_DATE),day(CURRENT_DATE),1,2.5,27);
+insert into book_views_rating_tb (book_id, view_year, view_month, view_day, views, rating, user_id)
+values(11,YEAR(CURRENT_DATE),month(CURRENT_DATE),day(CURRENT_DATE),1,3.5,24);
+insert into book_views_rating_tb (book_id, view_year, view_month, view_day, views, rating, user_id)
+values(11,YEAR(CURRENT_DATE),month(CURRENT_DATE),day(CURRENT_DATE),1,2.5,16);
+insert into book_views_rating_tb (book_id, view_year, view_month, view_day, views, rating, user_id)
+values(1,YEAR(CURRENT_DATE),month(CURRENT_DATE),day(CURRENT_DATE),1,3.5,19);
+insert into book_views_rating_tb (book_id, view_year, view_month, view_day, views, rating, user_id)
+values(15,YEAR(CURRENT_DATE),month(CURRENT_DATE),day(CURRENT_DATE),1,2.5,9);
 
 
 -- 펀딩 히스토리 테이블 삽입

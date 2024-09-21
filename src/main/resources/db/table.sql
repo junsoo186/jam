@@ -159,6 +159,7 @@ CREATE TABLE `event_tb` (
     `start_day` date NOT NULL COMMENT '이벤트 시작일',
     `end_day` date NOT NULL COMMENT '이벤트 종료일',
     `user_id` int NOT NULL COMMENT '외래 키, user_tb 참조, 당첨자 명',
+    `event_image` text comment '이벤트 이미지',
     FOREIGN KEY (`user_id`) REFERENCES `user_tb`(`user_id`)
 );
 
@@ -417,7 +418,6 @@ CREATE TABLE `book_comment_tb` (
     `user_id` int NOT NULL COMMENT '외래 키, user_tb 참조',
     `comment` text NOT NULL COMMENT '북 댓글',
     `created_at` timestamp NULL DEFAULT current_timestamp COMMENT '댓글 작성 시간',
-    `likes` int NULL DEFAULT 0,
     FOREIGN KEY (`book_id`) REFERENCES `book_tb`(`book_id`),
     FOREIGN KEY (`user_id`) REFERENCES `user_tb`(`user_id`)
 );
@@ -444,11 +444,23 @@ CREATE TABLE `score_tb`(
 );
 
 CREATE TABLE banner_tb(
-    banner_id int PRIMARY KEY AUTO_INCREMENT NOT NULL,
-    title varchar(1000) COMMENT '베너 제목',
-    content varchar(1000) COMMENT '베너 내용1',
-    sub_content varchar(1000) COMMENT '베너 내용2',
-    image_path varchar(2000) COMMENT '이미지 경로'
+banner_id int PRIMARY KEY AUTO_INCREMENT NOT NULL,
+title varchar(1000) COMMENT '베너 제목',
+content varchar(1000) COMMENT '베너 내용1',
+sub_content varchar(1000) COMMENT '베너 내용2',
+image_path varchar(2000) COMMENT '이미지 경로'
+);
+
+CREATE TABLE likes_tb(
+`likes_id`int PRIMARY KEY AUTO_INCREMENT NOT NULL,
+`comment_id` int COMMENT '댓글 ID',
+`book_id`int COMMENT '책 ID',
+`user_id`int COMMENT '유저 ID',
+`story_id` int COMMENT '회차 ID',
+FOREIGN KEY (`comment_id`) REFERENCES `book_comment_tb`(`comment_id`),
+FOREIGN KEY (`user_id`) REFERENCES `user_tb`(`user_id`),
+FOREIGN KEY (`book_id`) REFERENCES `book_tb`(`book_id`),
+FOREIGN KEY (`story_id`) REFERENCES `story_tb`(`story_id`)
 );
 
 -- fk 순환구조라 오류생김

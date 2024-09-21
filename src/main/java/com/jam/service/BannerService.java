@@ -21,20 +21,16 @@ public class BannerService {
 	private String uploadDir;
 
 
-    public List<Banner> findAll(int page, int size){
+    public List<Banner> findAll(){
 
-		int limit = size;
-		int offset = (page - 1) * size;
+		
         List<Banner> bannerList = new ArrayList<>();
-        bannerList = bannerRepository.selectAllBanner(limit,offset);
+
+        bannerList = bannerRepository.selectAllBanner();
         return bannerList;
 
     }
 
-	public int countTotalBanners(){
-		int totalPages = bannerRepository.countBanner();
-		return totalPages ;
-	}
 
 
     // private String[] uploadFile(MultipartFile mFile) {

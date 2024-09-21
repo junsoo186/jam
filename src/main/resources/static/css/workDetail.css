@@ -1,193 +1,187 @@
 @charset "UTF-8";
 
-.container {
-	width: 80%;
-	margin: 0 auto;
-	padding: 20px;
-	background-color: #f9f9f9;
-	border: 1px solid #ddd;
-	border-radius: 8px;
-}
-
-.novel-details {
+.top--container{
 	display: flex;
-	flex-direction: row;
-	gap: 20px;
-	padding: 20px;
-	background-color: #fefefe;
-	border-radius: 8px;
-	border: 1px solid #ccc;
-}
-
-.book-cover-section {
-	flex: 1;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-}
-
-.book-cover {
 	width: 100%;
-	max-width: 200px;
-	height: auto;
-}
+	height: 100%;
+	margin-bottom: 10px;
 
-.cover-image {
-	width: 100%;
-	height: auto;
-	display: block;
-}
 
-.details-section {
-	flex: 2;
 }
-
-.buttons-section {
-	display: flex;
-	gap: 10px;
-	margin-top: 20px;
-}
-
-.story-list-section {
-	margin-top: 40px;
-	display: flex;
-	flex-wrap: wrap;
-	gap: 20px;
-	padding: 20px;
-	background-color: #f8b878;
+.book--cover img {
+	width:230px;
+	height:345px;
 	border-radius: 10px;
-	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-	justify-content: flex-start;
+} 
+.book-detail{
+	display: flex;
+	flex-direction:column;
+	margin-left: 15px;
 }
+.book-score , .book-author{
+	display: flex;	
+}
+.age-box{
+margin-left: 10px;	
+width: 22px;
+height: 22px;
+border-radius: 3px;
+color: white;
+text-align: center; 
+line-height: 22px;
+}
+.tags{
+	display: flex;
+	padding: 0;
+    list-style-type: none;
+}
+.tag-box{
+	background-color: pink;
+	border-radius: 5px;
+}
+.tag-box a{
+	color: rgb(45, 45, 45);
+	font-size: 12px;
+	padding:2px;
+}
+.book-text{
+	background-color: #f6f6f6;
+	width: 950px;
+	height: 195px;
+	border: solid 1px #eaecf2;
+	border-radius: 5px;
+	display: flex;
+    align-items: center;
+	
+}
+.title-heart{
+	display: flex;
+	justify-content: space-between;
+}
+/* 수정중 */
 
-.story-container {
-    width: 80px;  /* 책 모양의 너비 */
-    height: 160px; /* 책 모양의 높이 */
-    background-color: #007bff;
-    border-radius: 25px;
+.heart-container {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 2px solid gray; /* 원을 회색 선으로 표시 */
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    padding: 10px;
-    text-align: center;
-    color: white;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    transform-origin: left center; /* 책이 왼쪽에서 펼쳐지도록 설정 */
-    overflow: hidden;
-    position: relative;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
-.story-container:hover {
-	transform: translateY(-5px); /* 살짝 위로 이동 */
-	box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* 그림자 강도 증가 */
+.heart {
+    width: 25px;
+    height: 25px;
+    fill: none; /* 하트 내부는 투명 */
+    stroke: gray; /* 하트는 회색 선으로 표시 */
+    stroke-width: 2px;
+    transition: fill 0.3s ease, stroke 0.3s ease;
 }
 
-.story-container.open {
-    transform: scale(1.1) rotateY(-20deg); /* 펼쳐진 책의 효과 */
-    transition: transform 0.5s ease;
+.heart-container.active {
+    border-color: pink; /* 클릭 후 원의 색상도 핑크로 변경 */
 }
 
-.story-title {
-	font-size: 14px;
+.heart-container.active .heart {
+    fill: pink; /* 클릭 후 하트가 핑크색으로 채워짐 */
+    stroke: pink; /* 클릭 후 하트 선 색상도 핑크로 변경 */
+}
+
+.heart-container:hover {
+    background-color: lightgray; /* 호버 시 배경색 변경 */
+}
+.main--content{
+	display: flex;
+	margin-top: 15px;
+}
+.buy--all{
+	margin-left : 10px;
+	height: 25px;
+	width: 70px;
+	background-color:#ff4d6d ;
+	border-radius: 5px;
+	color: white;
+	text-align: center;
+	
+}
+.story--list{
+	margin-top: 10px;
+	margin-right: 10px;
+	width: 800px;
+}
+.story-nav{
+	display: flex;
+	width: 100%;
+	justify-content: space-between;
+
+}
+.story--header{
+	border-bottom: solid 3px #333333 ;
+}
+
+.story-with-button{
+ padding-left: 10px;
+ border-bottom: solid 1px #f6f6f6;
+}
+.story{
+	border-left:solid 3px #333333;
+	padding: 10px;
+}
+
+
+
+.story--part a{
+	color: #333333;
+}
+
+.funding--content{
+	width:380px ;
+}
+.funding-box{
+	margin-top: 10px;
+	border:solid 1px #dcdced;
+	min-height:390px ;
+	background-color: #f3f3f9;
+
+}
+.comments--content{
+	margin-top: 40px;
+	width: 100%;
+	display: flex;
+	justify-content: flex-start;
+	flex-direction: column;
+}
+.comments--option{
+	display: flex;
+	justify-content: flex-end;
+	border-bottom: solid 3px #333333;
+	width: 800px;
+}
+.option a{
+	color: black;
+}
+.write--box{
+	width: 800px;
+	height: 75px;
+	margin-top: 10px;
+	display: flex;
+}
+
+.write--box textarea{
+	width: 600px;
+}
+.write--box button{
+	width: 200px;
+	color: white;
 	font-weight: bold;
-	color: white;
-	margin-bottom: 5px; /* 제목과 EP 사이의 간격 */
-	transition: opacity 0.5s ease; /* 애니메이션이 열릴 때 서서히 보이도록 */
-	opacity: 1;
-	transform: none; /* 제목이 회전하지 않도록 설정 */
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	width: 100%;
-	text-align: center;
-	text-decoration: none;
+	background-color: #ff4d6d;
+	border: none;
+	
 }
-
-.story-container.open .story-title {
-	opacity: 1; /* 책이 열릴 때 타이틀이 서서히 보이도록 */
-}
-
-.story-meta {
+.option a{
 	font-size: 12px;
-	color: #e0e0e0; /* 더 연한 색상 */
-	margin-bottom: 10px;
-}
-
-.story-actions {
-	display: flex;
-	gap: 10px;
-	margin-top: auto;
-	width: 100%;
-	justify-content: center; /* 버튼을 중앙 정렬 */
-}
-
-.story-actions .btn {
-	padding: 5px 10px;
-	background-color: #0056b3;
-	color: white;
-	border: none;
-	border-radius: 5px;
-	cursor: pointer;
-	font-size: 12px;
-	width: 100%; /* 버튼을 전체 너비로 */
-	transition: background-color 0.3s ease; /* 배경색 변경 애니메이션 */
-}
-
-.story-actions .btn:hover {
-	background-color: #003d80;
-}
-
-.story-title:hover {
-	text-decoration: underline; /* 마우스를 올리면 밑줄 표시 */
-	color: #e0e0e0; /* hover 시 더 연한 색상 */
-}
-
-/* 상단 버튼 섹션 스타일링 */
-.button-section {
-	display: flex;
-	justify-content: flex-start; /* 버튼을 왼쪽 정렬 */
-	margin-bottom: 20px; /* 스토리 리스트와의 간격 */
-	gap: 10px; /* 버튼 사이의 간격 */
-}
-
-.button-section .btn {
-	padding: 10px 20px; /* 버튼 크기 조정 */
-	background-color: #0056b3;
-	color: white;
-	border: none;
-	border-radius: 5px;
-	cursor: pointer;
-	text-align: center;
-	font-size: 16px;
-	width: auto; /* 버튼 너비 자동 조정 */
-	transition: background-color 0.3s ease; /* 배경색 변경 애니메이션 */
-}
-
-.button-section .btn:hover {
-	background-color: #003d80;
-}
-
-/* 일반 버튼 스타일링 */
-.btn {
-	padding: 10px 15px;
-	background-color: #007bff;
-	color: white;
-	border: none;
-	border-radius: 5px;
-	cursor: pointer;
-	text-decoration: none;
-	display: inline-block;
-	text-align: center;
-	transition: background-color 0.3s ease; /* 배경색 변경 애니메이션 */
-}
-
-.btn:hover {
-	background-color: #0056b3;
-}
-
-form {
-	display: inline;
+	color: #d1d1d1;
 }

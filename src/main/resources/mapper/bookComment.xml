@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jam.repository.interfaces.BookCommentRepository">
+
+
+<select id="selectCommentsByCriteria" resultType="com.jam.repository.model.BookComment">
+    SELECT bc.*, 
+           u.nick_name,  <!-- 댓글 작성자의 닉네임 -->
+           u.profile_img, <!-- 댓글 작성자의 프로필 이미지 -->
+           (SELECT COUNT(*) FROM likes_tb l WHERE l.comment_id = bc.comment_id) AS like_count
+    FROM book_comment_tb bc
+    JOIN user_tb u ON bc.user_id = u.user_id  <!-- user_tb와 조인 -->
+    WHERE bc.book_id = #{param1}  <!-- bookId는 첫 번째 파라미터 -->
+    <choose>
+        <when test="param2 == 'newest'">
+            ORDER BY bc.created_at DESC  <!-- 최신순 -->
+        </when>
+        <when test="param2 == 'oldest'">
+            ORDER BY bc.created_at ASC   <!-- 오래된 순 -->
+        </when>
+        <when test="param2 == 'likes'">
+            ORDER BY like_count DESC     <!-- 좋아요 순 -->
+        </when>
+        <otherwise>
+            ORDER BY bc.created_at DESC  <!-- 기본값: 최신순 -->
+        </otherwise>
+    </choose>
+</select>
+<insert id="insertComment" parameterType="com.jam.dto.BookCommentDto">
+    INSERT INTO book_comment_tb (book_id, user_id, comment, created_at)
+    VALUES (#{bookId}, #{userId}, #{comment}, NOW())
+</insert>
+
+
+
+</mapper>
