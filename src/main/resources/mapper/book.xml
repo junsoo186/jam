@@ -408,4 +408,31 @@
 		total_views DESC -- 총 조회수로 정렬
 	</select>
 
+	<select id="searchBooks"
+		resultType="com.jam.repository.model.Book">
+		SELECT
+		b.book_id,
+		b.title,
+		b.author,
+		b.likes,
+		b.category_id,
+		b.genre_id,
+		b.book_cover_image,
+		GROUP_CONCAT(DISTINCT t.tag_name ORDER BY t.tag_name ASC) AS tagNames
+	FROM
+		book_tb b
+	LEFT JOIN book_tag_tb bt ON
+		b.book_id = bt.book_id
+	LEFT JOIN tag_tb t ON
+		bt.tag_id = t.tag_id
+	WHERE
+		(b.author LIKE CONCAT('%', #{searchTerm}, '%')
+		OR b.title LIKE CONCAT('%', #{searchTerm}, '%')
+		OR t.tag_name LIKE CONCAT('%', #{searchTerm}, '%'))
+	GROUP BY
+		b.book_id
+	ORDER BY
+		b.title ASC
+	</select>
+
 </mapper>

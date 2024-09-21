@@ -81,6 +81,8 @@ public interface BookRepository {
 	// 당일 userId 로 views+1 증가
 	public void insertUserViewRecord(int userId, int bookId);
 
+	public List<Book> searchBooks(String searchTerm);
+
 
 	
 	

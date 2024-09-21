@@ -21,17 +21,18 @@
                                 <c:forEach var="list" items="${books}">
                                     <div class="nav--story">
                                         <div class="book--title">${list.title}</div>
-            
+
                                         <div>찜</div>
                                         <div>별점</div>
                                     </div>
-            
+
                                     <!-- 책 영역 시작 -->
                                     <div class="book--area novel-${list.bookId} s-inv" onmouseenter="showDetails(this)"
-                                         onmouseleave="hideDetails(this)">
+                                        onmouseleave="hideDetails(this)">
                                         <div class="left-section"
-                                             onclick="navigateToDetail(${list.bookId}, ${principal.userId})">
-                                            <img src="${pageContext.request.contextPath}${list.bookCoverImage}" class="img--cover">
+                                            onclick="navigateToDetail(${list.bookId}, ${principal.userId})">
+                                            <img src="${pageContext.request.contextPath}${list.bookCoverImage}"
+                                                class="img--cover">
                                             <div class="overlay">
                                                 <div class="overlay-content">
                                                     <p>저자: ${list.author}</p>
@@ -39,12 +40,12 @@
                                                 </div>
                                             </div>
                                         </div>
-            
+
                                         <!-- 이야기 목록과 페이지네이션 영역 -->
                                         <div id="story-list-${list.bookId}" class="story-list-container"
-                                             data-book-id="${list.bookId}"
-                                             data-current-page="${currentPageMap[list.bookId]}"
-                                             data-total-pages="${totalPagesMap[list.bookId]}">
+                                            data-book-id="${list.bookId}"
+                                            data-current-page="${currentPageMap[list.bookId]}"
+                                            data-total-pages="${totalPagesMap[list.bookId]}">
                                         </div>
                                     </div>
                                 </c:forEach>
@@ -55,5 +56,5 @@
                         </c:otherwise>
                     </c:choose>
                 </div>
-            </section>            
+            </section>
         </main>
