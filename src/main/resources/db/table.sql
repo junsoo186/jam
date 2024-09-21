@@ -365,6 +365,15 @@ CREATE TABLE `main_banner_tb`(
 `event_id` int,
 FOREIGN KEY (`event_id`) REFERENCES `event_tb`(`event_id`)
 );
+
+CREATE TABLE banner_tb(
+banner_id int PRIMARY KEY AUTO_INCREMENT NOT NULL,
+title varchar(1000) COMMENT '베너 제목',
+content varchar(1000) COMMENT '베너 내용1',
+sub_content varchar(1000) COMMENT '베너 내용2',
+image_path varchar(2000) COMMENT '이미지 경로'
+);
+
 -- project_tb에 reward_id에 대한 외래 키 추가
 ALTER TABLE `project_tb`
 ADD CONSTRAINT fk_project_reward FOREIGN KEY (`reward_id`) REFERENCES `reward_tb`(`reward_id`);
