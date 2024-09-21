@@ -8,6 +8,7 @@ import java.util.Map;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -29,9 +30,11 @@ import com.jam.repository.model.RefundRequest;
 import com.jam.repository.model.User;
 import com.jam.service.FundingService;
 import com.jam.service.UserService;
+import com.jam.utils.Define;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import com.jam.handler.exception.DataDeliveryException;
 
 @Controller
 @RequestMapping("/pay")
@@ -52,6 +55,11 @@ public class PaymentController {
     @GetMapping("/toss")
     public String tosspay() {
         User principal = (User) session.getAttribute("principal"); // 유저 세션 가져옴
+        
+        if(principal.getEmail() == null || principal.getEmail().isEmpty() || principal == null) {
+			throw new DataDeliveryException(Define.ENTER_YOUR_LOGIN, HttpStatus.BAD_REQUEST);
+		}
+        
         System.out.println("payController /toss : " + principal);
         return "/payment/tossTest";
     }
@@ -287,8 +295,14 @@ public class PaymentController {
             userService.saveRefundRequest(refundRequest); // 유저가 환불클릭하면 관리자가 요청?
 
             userService.pointAuditWait(paymentKey); // 심사중으로 변경
+            
+            
+            int userId = user.getUserId();
+            // 유저의 결제 리스트 가져오기
+            List<AccountHistoryDTO> payList = userService.findPayList(userId);
+            List<Funding> fundingList = fundingService.findFundingByUserId(userId);
 
-            return "redirect:/"; // 환불 성공 시 refund_request_tb 데이터
+            return "redirect:/paylist"; // 환불 성공 시 refund_request_tb 데이터
 
         } else {
 
