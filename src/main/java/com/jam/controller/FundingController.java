@@ -238,7 +238,6 @@ public class FundingController {
 
 			// 저장된 파일의 URL 생성
 			String fileUrl = "/images/uploads/" + fileName;
-			System.out.println("fileUrl" + fileUrl);
 			// CKEditor에서 요구하는 응답 형식
 			response.put("uploaded", true);
 			response.put("url", fileUrl);
