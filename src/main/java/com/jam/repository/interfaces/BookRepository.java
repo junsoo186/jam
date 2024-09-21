@@ -29,12 +29,10 @@ public interface BookRepository {
 	// TODO - 페이징 처리 추가
 	// 책 리스트
 	public List<Book> AllBookList();
-<<<<<<< HEAD
+
 	public int countBook(int userId);
 	
-=======
 
->>>>>>> bf62c47f8f6e927831dfab8ce03ba137de82ac16
 	// 책 리스트(요일 있는 모든값)
 	public List<Book> AllBookSerial(@Param("filter") String filter, @Param("order") String order);
 
