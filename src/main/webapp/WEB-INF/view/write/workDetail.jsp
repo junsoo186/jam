@@ -77,7 +77,14 @@
 					<c:forEach var="story" items="${storyList}">
 						<a href="/write/storyContents?storyId=${story.storyId}">
 						<div class="story-with-button">
-							
+							<c:choose>
+								<c:when test="${story.cost == 0}">
+									<p class="free">무료</p>
+								</c:when>
+								<c:otherwise>
+									<p class="pay">${story.cost}JAM</p>
+								</c:otherwise>
+							</c:choose>
 							<c:choose>
 								<c:when test="${story.number == 0}">
 									<div class="story">

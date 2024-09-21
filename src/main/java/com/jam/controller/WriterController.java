@@ -247,7 +247,12 @@ public class WriterController {
 	 */
 	@GetMapping("/storyContents")
 	public String handleStoryContents(Model model, @RequestParam(name = "storyId") Integer storyId) {
+		User principal = (User) session.getAttribute("principal");
 		Story storyContent = writerService.outputStoryContentByStoryId(storyId);
+		
+		// if(principal.getPoint()<storyContent.getCost()){
+				
+		// }
 		if (storyContent == null) {
 			model.addAttribute("storyContent", null);
 		} else {

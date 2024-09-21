@@ -185,3 +185,27 @@ line-height: 22px;
 	font-size: 12px;
 	color: #d1d1d1;
 }
+.free{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 60px;
+	height: 30px;
+	background-color: skyblue;
+	font-size: 12px;
+	font-weight: bolder;
+	color: white;
+	border-radius: 5px;
+}
+.pay{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 60px;
+	height: 30px;
+	background-color: #ff4d6d;
+	font-size: 12px;
+	font-weight: bolder;
+	color: white;
+	border-radius: 5px;
+}

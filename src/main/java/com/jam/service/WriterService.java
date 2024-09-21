@@ -230,6 +230,7 @@ public class WriterService {
 	public Integer createStory(StoryDTO storyDTO, Integer bookId, Integer principalId) {
 		int result = 0;
 	    Story story = new Story();
+		
 	    String directoryPath = "src/main/resources/static/contentText/";
 	    String storyPath = directoryPath + storyDTO.getTitle() + ".txt";
 
