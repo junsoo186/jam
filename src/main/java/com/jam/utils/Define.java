@@ -32,4 +32,8 @@ public class Define {
 	
 	//Q&A
 
+	// Funding
+	public static final String FAIL_TO_CREATE_FUNDING = "펀딩 생성 실패";
+	
+
 }

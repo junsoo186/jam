@@ -11,6 +11,7 @@
 <link rel="stylesheet" href="/css/layout/headerIcon.css">
 <link rel="stylesheet" href="/css/sidebar.css">
 <link rel="stylesheet" href="/css/common.css">
+<link rel="stylesheet" href="font/GmarketSansMedium.css" />
 </head>
 <body>
 	<header>
@@ -18,13 +19,9 @@
 		<div class="top-area">
 			<section class="center-category">
 				<ul>
+					<li><img class="img-rank" src="/images/layout/rank.png"><a href="/rank/ranking">랭킹</a>
 					<li>
-						<img class="img-rank" src="/images/layout/rank.png"><a
-						href="">랭킹</a>
-					<li>
-					
-					<li>
-						<a href="">이벤트</a>
+					<li><a href="/event/list">이벤트</a>
 					<li>
 
 					<li>

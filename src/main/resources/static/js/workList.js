@@ -58,31 +58,9 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
-/*페이징 처리 스크립트 */
 
 
-
-document.addEventListener("DOMContentLoaded", function () {
-    const banners = document.querySelectorAll('.banner-img'); // 모든 배너 이미지 요소 가져오기
-    let currentBannerIndex = 0;
-    const slideInterval = 3000; // 3초 간격으로 슬라이드
-
-    // 첫 번째 배너만 처음에 표시
-    if (banners.length > 0) {
-        banners[currentBannerIndex].style.display = 'block';
+    // 
+    function navigateToDetail(bookId) {
+        window.location.href = "/write/workDetail?bookId=" + bookId;
     }
-
-    function showNextBanner() {
-        // 현재 배너 숨기기
-        banners[currentBannerIndex].style.display = 'none';
-
-        // 다음 배너로 이동, 마지막 배너 이후에는 첫 번째 배너로 돌아가게 설정
-        currentBannerIndex = (currentBannerIndex + 1) % banners.length;
-
-        // 다음 배너 표시
-        banners[currentBannerIndex].style.display = 'block';
-    }
-
-    // 3초마다 배너 자동 전환
-    setInterval(showNextBanner, slideInterval);
-});

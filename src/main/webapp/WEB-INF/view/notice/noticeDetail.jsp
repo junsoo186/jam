@@ -11,7 +11,7 @@
 			<div class="card-header">
 				<b>공지사항</b>
 			</div>
-			<div class="mb-3">제목: ${notice.noticeTitle}</div>
+			
 			<div class="mb-3">내용: ${notice.noticeContent}</div>
 			<div class="mb-3">작성일: ${notice.createdAt}</div>
 

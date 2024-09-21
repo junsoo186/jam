@@ -9,22 +9,30 @@ import java.util.Map;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.jam.dto.BookCommentDto;
 import com.jam.dto.BookDTO;
 import com.jam.dto.StoryDTO;
 import com.jam.repository.model.Banner;
 import com.jam.repository.model.Book;
+import com.jam.repository.model.BookComment;
 import com.jam.repository.model.Category;
 import com.jam.repository.model.Genre;
 import com.jam.repository.model.Story;
 import com.jam.repository.model.Tag;
 import com.jam.repository.model.User;
 import com.jam.service.BannerService;
+import com.jam.service.BookCommentsService;
 import com.jam.service.WriterService;
+import com.jam.utils.Define;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -37,6 +45,8 @@ public class WriterController {
 
 	private final WriterService writerService;
 	private final BannerService bannerService;
+	private final BookCommentsService bookCommentsService;
+
 	// private final BennerService bennerService; 
 	private final HttpSession session;
 
@@ -49,75 +59,80 @@ public class WriterController {
 	 * @return
 	 */
 	@GetMapping("/workList")
-	public String handleWorkList(
-		@RequestParam(name = "bookId", required = false) Integer bookId, 
-		@RequestParam(name = "page", defaultValue = "1") int page,
-		@RequestParam(name = "size", defaultValue = "4") int size,
-		@RequestParam(name = "bannerpage", defaultValue = "1") int bannerpage,
-		@RequestParam(name = "bannersize", defaultValue = "1") int bannersize,
-		Model model,
-		HttpServletRequest request) {
-	
-		// 세션에서 사용자 정보 가져오기
-		User principal = (User) request.getSession().getAttribute("principal");
-		List<Book> bookList = writerService.readAllBookListByprincipalId(principal.getUserId());
-	
-		// 책 이미지 설정
-		for (Book book : bookList) {
-			String bookImg = book.setUpUserImage();
-			book.setBookCoverImage(bookImg);
-		}
-	
-		// 배너 페이징 처리
-		List<Banner> bannerList = bannerService.findAll(bannerpage, bannersize);
-		for (Banner banner : bannerList) {
-			String bannerImg = banner.setUpBannerImage();
-			banner.setImagePath(bannerImg);
-		}
-	
-		// bookId가 없으면 첫 번째 책을 선택
-		if (bookId == null && !bookList.isEmpty()) {
-			bookId = bookList.get(0).getBookId();
-		}
-	
-		int totalRecords = 0;
-		int totalPages = 0;
-		Map<Integer, List<Story>> storyMap = new HashMap<>();
-	
-		if (bookId != null) {
-			totalRecords = writerService.countStoriesByBookId(bookId);
-			totalPages = (int) Math.ceil((double) totalRecords / size);
-	
-			// 이야기 목록 가져오기
-			List<Story> storyList = writerService.findAllStoryByBookIdPage(bookId, page, size);
-			storyMap.put(bookId, storyList != null ? storyList : new ArrayList<>());
-		}
-	
-		// 배너 총 개수와 총 페이지 수 계산
-		int totalBannerRecords = bannerService.countTotalBanners();  // 배너의 총 개수
-		int totalBannerPages = (int) Math.ceil((double) totalBannerRecords / bannersize);
-	
-		// 모델에 데이터 추가
-		model.addAttribute("banner", bannerList);
-		model.addAttribute("bookList", bookList);
-		model.addAttribute("storyMap", storyMap);
-		model.addAttribute("currentPage", page);
-		model.addAttribute("totalPages", totalPages);
-		model.addAttribute("size", size);
-		model.addAttribute("bookId", bookId);
-	
-		// 배너 페이징 정보
-		model.addAttribute("currentBannerPage", bannerpage);
-		model.addAttribute("totalBannerPages", totalBannerPages);
-		model.addAttribute("bannersize", bannersize);
-	
-		// AJAX 요청에 대한 처리
-		if ("XMLHttpRequest".equals(request.getHeader("X-Requested-With"))) {
-			return "write/workListPartial"; // Partial View 반환
-		}
-	
-		return "write/workList";
-	}
+public String handleWorkList(
+    @RequestParam(name = "bookId", required = false) Integer bookId, 
+    @RequestParam(name = "page", defaultValue = "1") int page,
+    @RequestParam(name = "size", defaultValue = "4") int size,
+    @RequestParam(name = "bookPage", defaultValue = "1") int bookPage,
+    @RequestParam(name = "bookSize", defaultValue = "4") int bookSize,
+    Model model,
+    HttpServletRequest request) {
+
+    // 세션에서 사용자 정보 가져오기
+    User principal = (User) request.getSession().getAttribute("principal");
+
+    // 책의 총 개수와 총 페이지 수 계산
+    int totalBookRecords = writerService.countBook(principal.getUserId());
+    int totalBookPages = (int) Math.ceil((double) totalBookRecords / bookSize);
+
+    // 책 목록 가져오기 (페이징 적용)
+    List<Book> bookList = writerService.readAllBookListByprincipalId(principal.getUserId(), bookPage, bookSize);
+
+    // 책 이미지 설정
+    for (Book book : bookList) {	
+        String bookImg = book.setUpUserImage();
+        book.setBookCoverImage(bookImg);
+    }
+
+    // 배너 페이징 처리 없이 전체 가져오기
+    List<Banner> bannerList = bannerService.findAll();
+    for (Banner banner : bannerList) {
+        String bannerImg = banner.setUpBannerImage();
+        banner.setImagePath(bannerImg);
+    }
+
+    // bookId가 없으면 첫 번째 책을 선택
+    if (bookId == null && !bookList.isEmpty()) {
+        bookId = bookList.get(0).getBookId();
+    }
+
+    int totalRecords = 0;
+    int totalPages = 0;
+    Map<Integer, List<Story>> storyMap = new HashMap<>();
+
+    if (bookId != null) {
+        // 이야기의 총 개수와 총 페이지 수 계산
+        totalRecords = writerService.countStoriesByBookId(bookId);
+        totalPages = (int) Math.ceil((double) totalRecords / size);
+
+        // 이야기 목록 가져오기 (페이징 적용)
+        List<Story> storyList = writerService.findAllStoryByBookIdPage(bookId, page, size);
+        storyMap.put(bookId, storyList != null ? storyList : new ArrayList<>());
+    }
+
+    // 모델에 책 관련 데이터 추가
+    model.addAttribute("bookList", bookList);
+    model.addAttribute("currentBookPage", bookPage);
+    model.addAttribute("totalBookPages", totalBookPages);
+    model.addAttribute("bookSize", bookSize);
+
+    // 모델에 배너 데이터 추가
+    model.addAttribute("banner", bannerList);
+
+    // 모델에 이야기 관련 데이터 추가
+    model.addAttribute("storyMap", storyMap);
+    model.addAttribute("currentPage", page);
+    model.addAttribute("totalPages", totalPages);
+    model.addAttribute("size", size);
+    model.addAttribute("bookId", bookId);
+
+    // AJAX 요청에 대한 처리
+    if ("XMLHttpRequest".equals(request.getHeader("X-Requested-With"))) {
+        return "write/workListPartial"; // Partial View 반환
+    }
+
+    return "write/workList";
+}
 	// TODO - 전체 작품 리스트 추가
 
 	/**
@@ -248,26 +263,93 @@ public class WriterController {
 	 * @return
 	 */
 	@GetMapping("/workDetail")
-	public String handleWorkDetail(Model model, @RequestParam("bookId") Integer bookId) {
-		List<Story> storyList = writerService.findAllStoryByBookId(bookId);
-		User principal = (User) session.getAttribute("principal");
-		Book bookDetail = writerService.detailBook(bookId); // bookId로 책의 상세 정보를 가져옴
-		String bookImg = bookDetail.setUpUserImage(); // 책의 이미지 경로를 설정
-		bookDetail.setBookCoverImage(bookImg); // 설정한 이미지 경로를 Book 객체에 저장
+public String handleWorkDetail(Model model, 
+                               @RequestParam("bookId") Integer bookId,
+                               @RequestParam(name = "page", defaultValue = "1") int page,
+                               @RequestParam(name = "size", defaultValue = "10") int size,
+							   @RequestParam(name = "sortBy", defaultValue = "newest") String sortBy) {
+    int totalRecords = 0;
+    int totalPages = 0;
+    
+    // 책 관련 정보
+    List<Story> storyList = writerService.findAllStoryByBookIdPage(bookId, page, size);
+    User principal = (User) session.getAttribute("principal");
+    Book bookDetail = writerService.detailBook(bookId); // 책의 상세 정보 가져오기
+    String bookImg = bookDetail.setUpUserImage(); // 책 이미지 설정
+    bookDetail.setBookCoverImage(bookImg); // 설정된 이미지 저장
+    
+    totalRecords = writerService.countStoriesByBookId(bookId); // 총 스토리 개수 계산
+    totalPages = (int) Math.ceil((double) totalRecords / size); // 총 페이지 계산
+    
+    // 배너 관련 정보
+    List<Banner> bannerList = bannerService.findAll();
+    for (Banner banner : bannerList) {
+        String bannerImg = banner.setUpBannerImage();
+        banner.setImagePath(bannerImg);
+    }
+    
+    // 댓글 조회
+   
+	List<BookComment> commentList = bookCommentsService.getCommentsByCriteria(bookId, sortBy);
+    model.addAttribute("commentList", commentList);
+    // 모델에 데이터 추가
+    model.addAttribute("currentPage", page);
+    model.addAttribute("totalPages", totalPages);
+    model.addAttribute("size", size);
+    model.addAttribute("bookId", bookId);
+    model.addAttribute("bookDetail", bookDetail);
+    model.addAttribute("principalId", principal.getUserId());
+    model.addAttribute("banner", bannerList);
+    
+    // 댓글 리스트 추가
+    if (commentList == null || commentList.isEmpty()) {
+        model.addAttribute("commentList", null); // 댓글 없을 시
+    } else {
+        model.addAttribute("commentList", commentList); // 댓글 있을 시
+    }
+    
+    // 스토리 리스트 추가
+    if (storyList == null) {
+        model.addAttribute("storyList", null);
+    } else {
+        model.addAttribute("storyList", storyList);
+    }
+    
+    return "write/workDetail";
+}
 
-		model.addAttribute("bookId", bookId);
-		model.addAttribute("bookDetail", bookDetail);
-		model.addAttribute("principalId", principal.getUserId());
+@PostMapping("/comment")
+public @ResponseBody Map<String, Object> handleCommentInsert(
+    @ModelAttribute BookCommentDto bookCommentDto,
+    @SessionAttribute(Define.PRINCIPAL) User principal) {
+    
+    Map<String, Object> response = new HashMap<>();
+    int result = bookCommentsService.writeComment(bookCommentDto, principal.getUserId());
+    
+    if (result > 0) {
+        response.put("success", true);
+    } else {
+        response.put("success", false);
+    }
+    
+    return response; // JSON 형태로 응답 반환
+}
 
-		// 디버깅을 위해 각 Story 객체의 userId를 출력
 
-		if (storyList == null) {
-			model.addAttribute("storyList", null);
-		} else {
-			model.addAttribute("storyList", storyList);
-		}
-		return "write/workDetail";
-	}
+@GetMapping("/workDetail/comments")
+public @ResponseBody List<BookComment> getComments(
+    @RequestParam("bookId") int bookId,
+    @RequestParam(name = "sortBy", defaultValue = "newest") String sortBy) {
+    
+    List<BookComment> commentList = bookCommentsService.getCommentsByCriteria(bookId, sortBy);
+    
+    return commentList; // JSON으로 댓글 목록 반환
+}
+
+
+
+
+
 
 	/**
 	 * 작품 수정 페이지 이동

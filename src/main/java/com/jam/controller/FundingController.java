@@ -106,7 +106,6 @@ public class FundingController {
 		fundingService.insertProject(project, rewards, mFiles);
 
 		// 생성된 projectId를 반환
-		System.out.println("projectId : " + project.getProjectId());
 		Map<String, Object> response = new HashMap<>();
 		response.put("projectId", project.getProjectId());
 
@@ -120,16 +119,20 @@ public class FundingController {
 	 */
 	@GetMapping("/fundingList")
 	@ResponseBody
-    public List<Project> getProjects(@RequestParam(value = "page", defaultValue = "1") int page,
-	@RequestParam(value = "size", defaultValue = "16") int size) {
-        return fundingService.getPagedProjects(page, size);  // 페이지 번호와 사이즈에 맞게 프로젝트 목록을 가져옴
-    }
+	public List<Project> getProjects(@RequestParam(value = "page", defaultValue = "1") int page,
+			@RequestParam(value = "size", defaultValue = "16") int size) {
+		List<Project> fundinList = fundingService.getPagedProjects(page, size); // 페이지 번호와 사이즈에 맞게 프로젝트 목록을 가져옴
+		for (Project project : fundinList) {
+			String mainImg = project.setUpMainImage();
+			project.setMainImg(mainImg);
+		}
+		return fundinList;
+	}
 
 	@GetMapping("/projects")
 	public String handleProjectList() {
 		return "funding/fundingList";
 	}
-	
 
 	/**
 	 * 
@@ -237,7 +240,7 @@ public class FundingController {
 			Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
 			// 저장된 파일의 URL 생성
-			String fileUrl = "/images/uploads/" + fileName;
+			String fileUrl = "/images/funding/" + fileName;
 			// CKEditor에서 요구하는 응답 형식
 			response.put("uploaded", true);
 			response.put("url", fileUrl);
@@ -361,14 +364,7 @@ public class FundingController {
 		}
 		fundingService.usePointByFunding(principal.getUserId(), totalAmount);
 
-		return "redirect:/funding/checkoutComplete";
-	}
-
-	// 결제 완료 페이지 (옵션)
-	@GetMapping("/checkoutComplete")
-	public String checkoutComplete() {
-
-		return "funding/checkoutComplete"; // 결제 완료 페이지로 이동
+		return "redirect:/funding/fundingDetail";
 	}
 
 	@PostMapping("/cancelFunding")
@@ -376,7 +372,7 @@ public class FundingController {
 		Integer fundingId = (Integer) requestData.get("fundingId");
 		Integer totalAmount = (Integer) requestData.get("totalAmount");
 		User principal = (User) session.getAttribute("principal");
-		
+
 		// 펀딩 취소 로직 실행
 		try {
 			fundingService.cancelFunding(fundingId, totalAmount, principal.getUserId()); // 서비스에서 취소 처리

@@ -10,11 +10,8 @@ import com.jam.repository.model.Banner;
 @Mapper
 public interface BannerRepository {
 
-    public List<Banner> selectAllBanner(@Param("limit")int limit, 
-	@Param("offset")int offset);
+    public List<Banner> selectAllBanner();
 
-
-    public int countBanner();
 
 
 } 

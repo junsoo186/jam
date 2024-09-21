@@ -1,35 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/view/layout/header.jsp"%>
 
-
-
 <link rel="stylesheet" href="/css/workList.css">
-
-<link rel="stylesheet" href="/css/toggleSwitch.css">    
-
-<section>
-	<div class="area--btn--top">
-		<form action="workInsert" method="get">
-			<button type="submit" id="btnInsert" class="btn--insert">신규 작품 등록</button>
-		</form>
-	</div>
-
-	<div class="area--navbar--top">
-		<a href="#myWorks">작품관리</a> <a href="#supportManagement">후원관리</a> <a href="#workStatistics">정산</a> <a href="#settlement">펀딩관리</a>
-	</div>
-	
-	<div class="toggle-container">
-	        <div class="toggle-button" id="supporterButton" onclick="toggleButton('supporter')">
-	            <span>유저</span>
-	        </div>
-	        
-	        <div class="toggle-button" id="makerButton" onclick="toggleButton('maker')">
-	            <span>작가</span>
-       	   </div>
-    	</div>
-	
-</section>
-
+<link rel="stylesheet" href="/css/banner.css">
+<link rel="stylesheet" href="/css/layout/page.css">
 <main>
     <section class="top--nav--area">
         <div class="navbar">
@@ -41,10 +15,10 @@
     </section>
 
     <section class="top--banner--area">
-        <c:forEach items="${banner}" var="bannerItem">
-            <div class="banner--content">
-                <img src="${bannerItem.imagePath}" alt="banner image" class="banner-img" style="display: none;" />
-            </div>    
+        <c:forEach items="${banner}" var="bannerItem" varStatus="status">
+            <div class="banner--content" style="display: ${status.index == 0 ? 'block' : 'none'};">
+                <img src="${bannerItem.imagePath}" alt="배너 이미지" class="banner-img" />
+            </div>
         </c:forEach>
     </section>
 
@@ -73,24 +47,39 @@
                                 </a>
                                 <div class="book--title">${list.title}</div>
                             
-                              <div>찜</div>
-                              <div>별점</div>
-
+                                <div class="star-rating">
+                                    <c:forEach var="i" begin="1" end="5">
+                                        <div class="star">
+                                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                <path class="${i <= list.bookTotalScore ? 'filled' : 'empty'}"
+                                                d="M12 .587l3.668 7.429 8.2 1.191-5.934 5.781 1.4 8.161L12 18.896l-7.334 3.863 1.4-8.161L.132 9.207l8.2-1.191z"/>
+                                            </svg>
+                                        </div>
+                                    </c:forEach>
+                                </div>
+                                <div class="likes-container">
+                                    <div class="likes--shap">
+                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                                        </svg>
+                                    </div>
+                                    ${list.likes} 
+                                </div>
                             </div>
 
-                            <!-- 책 영역 시작 -->
                             <div class="book--area novel-${list.bookId} s-inv" onmouseenter="showDetails(this)" onmouseleave="hideDetails(this)">
                                 <div class="left-section" onclick="navigateToDetail(${list.bookId}, ${principal.userId})">
                                     <img src="${pageContext.request.contextPath}${list.bookCoverImage}" class="img--cover">
+
                                     <div class="overlay">
                                         <div class="overlay-content">
                                             <p>저자: ${list.author}</p>
                                             <p>제목: ${list.title}</p>
+                                            <div>${list.tagNames}</div>
                                         </div>
                                     </div>    
                                 </div>
 
-                                <!-- 이야기 목록과 페이지네이션 영역 -->
                                 <div id="story-list-${list.bookId}" 
                                      class="story-list-container"
                                      data-book-id="${list.bookId}" 
@@ -100,6 +89,23 @@
                             </div>
                         </c:forEach>
                     </div>
+
+
+                <div class="flex--page">
+                    <div class="pagination">
+                        <c:if test="${currentBookPage > 1}">
+                            <a href="?bookPage=${currentBookPage - 1}&bookSize=${bookSize}">&laquo; 이전</a>
+                        </c:if>
+
+                        <c:forEach var="i" begin="1" end="${totalBookPages}">
+                            <a href="?bookPage=${i}&bookSize=${bookSize}" class="${i == currentBookPage ? 'active' : ''}">${i}</a>
+                        </c:forEach>
+
+                        <c:if test="${currentBookPage < totalBookPages}">
+                            <a href="?bookPage=${currentBookPage + 1}&bookSize=${bookSize}">다음 &raquo;</a>
+                        </c:if>
+                    </div>
+                </div>
                 </c:when>
                 <c:otherwise>
                     <p>작성한 책 내역이 존재하지 않습니다.</p>
@@ -108,63 +114,7 @@
         </div>
     </section>
 </main>
-    
 
 <script type="text/javascript" src="/js/workList.js"></script>
-
-<script type="text/javascript">
-		
-
-            var principalEmail = "<c:out value='${principal != null ? principal.email : ""}' />";
-            
-            function toggleButton(selected) {
-                const supporterButton = document.getElementById('supporterButton');
-                const makerButton = document.getElementById('makerButton');
-
-                if (selected === 'supporter') {
-                    supporterButton.classList.add('active');
-                    makerButton.classList.remove('active');
-                    
-               		// 서포터(작가) 버튼 클릭 시 서버의 컨트롤러 경로로 이동
-                    window.location.href = '/user/myPage'; // 컨트롤러 경로로 리다이렉트
-                                        
-                    // 선택된 상태를 로컬 스토리지에 저장
-                    localStorage.setItem('selectedButton', 'supporter');
-                    
-                } else {
-                    makerButton.classList.add('active');
-                    supporterButton.classList.remove('active');
-                    
-                 	// 서포터(작가) 버튼 클릭 시 서버의 컨트롤러 경로로 이동
-                    window.location.href = '/write/workList'; // 컨트롤러 경로로 리다이렉트
-                    
-                    // 선택된 상태를 로컬 스토리지에 저장
-                    localStorage.setItem('selectedButton', 'maker');
-                    
-                    
-                }
-            }
-            
-          // 페이지 로드 시 로컬 스토리지에서 선택된 버튼 상태를 불러와 유지
-            window.onload = function() {
-                const selectedButton = localStorage.getItem('selectedButton');
-                const supporterButton = document.getElementById('supporterButton');
-                const makerButton = document.getElementById('makerButton');
-                
-                // 로그인된 사용자의 email이 있을 경우 "유저" 버튼을 활성화
-                if (!selectedButton && principalEmail !== "") {
-                    supporterButton.classList.add('active');
-                    makerButton.classList.remove('active');
-                    sessionStorage.setItem('selectedButton', 'supporter'); // 기본값으로 저장
-                } else if (selectedButton === 'supporter') {
-                    supporterButton.classList.add('active');
-                    makerButton.classList.remove('active');
-                } else if (selectedButton === 'maker') {
-                    makerButton.classList.add('active');
-                    supporterButton.classList.remove('active');
-                }
-            }    
-            
-</script>
-
+<script type="text/javascript" src="/js/banner.js"></script>
 <%@ include file="/WEB-INF/view/layout/footer.jsp"%>

@@ -72,6 +72,17 @@ public class WriterService {
 		return bookDTO.getBookId();
 	}
 
+	public int countBook(Integer userId){
+		Integer count = bookRepository.countBook(userId);
+		return count != null ? count : 0;
+
+	}
+
+
+
+
+
+
 	/**
 	 * 전체 책 리스트
 	 * 
@@ -155,12 +166,12 @@ public class WriterService {
 	 * @param principalId // 현재 사용자
 	 * @return
 	 */
-	public List<Book> readAllBookListByprincipalId(Integer principalId) {
+	public List<Book> readAllBookListByprincipalId(Integer principalId,int page, int size) {
 		List<Book> books = new ArrayList<Book>();
-		// TODO - 페이징 추가
-		// TODO - 오류 처리
+		int limit = size;
+		int offset = (page - 1) * size;
 		try {
-			books = bookRepository.findAllBookListByUserId(principalId);
+			books = bookRepository.findAllBookListByUserId(principalId,limit,offset);
 		} catch (Exception e) {
 
 		}
@@ -570,4 +581,45 @@ public class WriterService {
 		return book;
 	}
 
+	/**
+	 * 랭킹
+	 * @return
+	 */
+	 public List<Book> getBooksSortedBy(String sortBy) {
+	        if (sortBy.equals("likes")) {
+	            return bookRepository.findAllByOrderByLikesDesc();
+	        } else {
+	            return bookRepository.findAllByOrderByViewsDesc();
+	        }
+	    }
+	
+	/**
+	 * views 증가 메서드
+	 * @param userId
+	 * @param bookId
+	 */
+	@Transactional
+	public void handleUserView(int userId, int bookId) {
+	    int count = bookRepository.checkUserViewExists(userId, bookId);
+	    if (count == 0) {
+	    	bookRepository.insertUserViewRecord(userId, bookId); // 조회 기록 추가
+	    } else {
+	    	System.out.println("이미 당일 증가 시킨 유저입니다");
+	    	
+	    }
+	}
+	
+	/**
+	 *  당일 views 순 정렬
+	 * @param order ->asc,desc
+	 * @return
+	 */
+	public List<Book> readTodayViews (String order ) {
+		List<Book> bookList=bookRepository.findViews(order);
+			for (Book book : bookList) {
+				book.setBookCoverImage(book.setUpUserImage());
+			}
+		return bookList;
+	}
+	
 }
