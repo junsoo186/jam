@@ -9,17 +9,23 @@
 		title, author_comment, author, serial_day, introduction,
 		category_id,
 		genre_id, age, book_cover_image)
-		VALUES (#{userId}, #{title}, #{authorComment},
+		VALUES (#{userId}, #{title},
+		#{authorComment},
 		#{author}, #{serialDay},
-		#{introduction}, #{categoryId}, #{genreId},
+		#{introduction},
+		#{categoryId}, #{genreId},
 		#{age}, #{bookCoverImage})
 	</insert>
-	
-	
-	<insert id="insertBookId" parameterType="com.jam.repository.model.Book"
-        useGeneratedKeys="true" keyProperty="bookId">
-	
+
+
+	<insert id="insertBookId"
+		parameterType="com.jam.repository.model.Book" useGeneratedKeys="true"
+		keyProperty="bookId">
+
 	</insert>
+
+
+	<!--  카테고리,장르,요일 별 정렬 -->
 	
 	<select id="findSerialDay" resultType="com.jam.repository.model.Book">
     SELECT DISTINCT serial_day
@@ -36,8 +42,6 @@
             ELSE 8 -- 잘못된 요일 또는 기타 값을 처리하는 경우
         END;
 
-
-	
 	</select>
 	
 	
@@ -47,6 +51,7 @@
 	b.user_id,
 	b.author,
 	b.title,
+	b.age,
 	b.book_cover_image,
 	b.likes,
 	b.age,
@@ -55,7 +60,7 @@
 	 from book_tb as b
 	 left join
 	 book_views_rating_tb vr on  vr.book_id = b.book_id
-	group by  b.book_id,b.user_id,b.author,b.title,b.book_cover_image,b.likes,b.age,b.serial_day
+	group by  b.book_id,b.user_id,b.author,b.title,b.book_cover_image,b.likes,b.age,b.serial_day,b.age
 	<choose>
 	        <when test="filter == 'views'">
 	            ORDER BY views
@@ -75,6 +80,7 @@
 	            DESC
 	        </when>
 	    </choose>
+
 	</select>
 
 	<select id="AllBookList"
@@ -87,24 +93,28 @@
 		b.category_id,
 		b.genre_id,
 		b.book_cover_image,
-		GROUP_CONCAT(DISTINCT t.tag_name ORDER BY t.tag_name ASC) AS tagNames
+		GROUP_CONCAT(DISTINCT t.tag_name ORDER
+		BY t.tag_name ASC) AS tagNames
 		FROM
 		book_tb b
-		LEFT JOIN book_tag_tb bt ON b.book_id = bt.book_id
+		LEFT JOIN book_tag_tb bt ON
+		b.book_id = bt.book_id
 		LEFT
 		JOIN tag_tb t ON bt.tag_id = t.tag_id
-		GROUP BY
+		GROUP
+		BY
 		b.book_id
 		ORDER BY
 		b.title
 		ASC
 	</select>
-	
+
 	<select id="AllBookListCategoryOrderBy" resultType="com.jam.repository.model.Book">
 	    SELECT
 	        b.book_id,
 	        b.title,
 	        b.author,
+	        b.age,
 	        b.likes,
 	        sum(vr.views) as views,
 	        b.category_id,
@@ -122,7 +132,7 @@
 	    WHERE
 	        b.category_id = #{categoryId}  <!-- 파라미터로 카테고리 필터링 -->
 	    GROUP BY
-	        b.book_id, b.title, b.author, b.likes, b.category_id, b.genre_id, b.book_cover_image
+	        b.book_id, b.title, b.author, b.likes, b.category_id, b.genre_id, b.book_cover_image,b.age
 	    <choose>
 	        <when test="filter == 'views'">
 	            ORDER BY views
@@ -150,6 +160,7 @@
 	        b.book_id,
 	        b.title,
 	        b.author,
+	        b.age,
 	        b.likes,
 	        sum(vr.views) as views,
 	        b.category_id,
@@ -167,7 +178,7 @@
 	    WHERE
 	        b.genre_id = #{genreId} 
 	    GROUP BY
-	        b.book_id, b.title, b.author, b.likes, b.category_id, b.genre_id, b.book_cover_image
+	        b.book_id, b.title, b.author, b.likes, b.category_id, b.genre_id, b.book_cover_image,b.age
 	    <choose>
 	        <when test="filter == 'views'">
 	            ORDER BY views
@@ -189,7 +200,39 @@
 	    </choose>
 	</select>
 	
-
+	<select id="findViews" resultType="com.jam.repository.model.Book">
+	 SELECT b.book_id,
+            b.title,
+            b.age,
+            b.author,
+            b.likes,
+            b.category_id,
+            b.genre_id,
+            b.book_cover_image,
+            b.created_at,
+            sum(vr.views) as views
+   	 FROM book_tb as b
+     LEFT JOIN   
+     	book_views_rating_tb as vr on vr.book_id=b.book_id
+     WHERE 
+		view_year = YEAR(CURRENT_DATE)
+	    AND view_month = MONTH(CURRENT_DATE)
+	    AND view_day= day(CURRENT_DATE)
+	     group by b.book_id,b.created_at,
+	            b.title, b.author, b.likes,
+	            b.category_id, b.genre_id, b.book_cover_image,b.age
+	    ORDER BY views
+	    <if test="order == 'ASC'">
+	        ASC
+	    </if>
+	    <if test="order == 'DESC'">
+	        DESC
+	    </if>
+	</select>
+	
+	
+	
+	<!-- 정렬 -->
 
 	<select id="findAllBookListByUserId"
 		resultType="com.jam.repository.model.Book">
@@ -197,14 +240,16 @@
 		b.book_id,
 		b.user_id,
 		b.title,
-		b.author,	
+		b.author,
 		b.likes,
 		b.author_comment,
 		b.book_cover_image,
-		GROUP_CONCAT(DISTINCT t.tag_name ORDER BY t.tag_name ASC) AS tagNames
+		GROUP_CONCAT(DISTINCT t.tag_name
+		ORDER BY t.tag_name ASC) AS tagNames
 		FROM
 		book_tb b
-		LEFT JOIN book_tag_tb bt ON b.book_id = bt.book_id
+		LEFT JOIN book_tag_tb
+		bt ON b.book_id = bt.book_id
 		LEFT
 		JOIN tag_tb t ON bt.tag_id = t.tag_id
 		WHERE
@@ -224,8 +269,8 @@
 		b.title,
 		b.author,
 		b.author_comment,
-		c.category_name, 
-		g.genre_name, 
+		c.category_name,
+		g.genre_name,
 		b.age,
 		b.likes,
 		b.serial_day,
@@ -236,19 +281,21 @@
 		FROM
 		book_tb b
 		LEFT JOIN
-		category_tb c ON b.category_id = c.category_id 
+		category_tb c ON b.category_id = c.category_id
 		LEFT JOIN
-		genre_tb g ON b.genre_id = g.genre_id 
+		genre_tb g ON b.genre_id = g.genre_id
 		LEFT JOIN
-		book_tag_tb bt ON b.book_id = bt.book_id
+		book_tag_tb bt
+		ON b.book_id = bt.book_id
 		LEFT JOIN
-		tag_tb t ON bt.tag_id = t.tag_id
+		tag_tb t ON
+		bt.tag_id = t.tag_id
 		WHERE
 		b.book_id = #{bookId}
 		GROUP BY
 		b.book_id,
-		c.category_name, 
-		g.genre_name 
+		c.category_name,
+		g.genre_name
 		ORDER BY
 		b.title ASC;
 	</select>
@@ -265,6 +312,8 @@
     AND view_day = DAY(CURRENT_DATE)
 	</select>
 	
+	
+	<!--  update 로 +1 증가시키는건데 아직 사용안함 -->
 	<update id="updateViews">	
 	UPDATE book_views_rating_tb 
 	SET views = views + 1
@@ -277,6 +326,12 @@
 	</insert>
 
 	<!-- 끝 -->
+	
+	
+	
+	
+	
+	
 
 	<update id="updateBook">
 		UPDATE book_tb
@@ -306,13 +361,42 @@
 	<delete id="deleteBook">
 		delete book_tb where book_id = #{bookId}
 	</delete>
-	
+
 	<select id="findAllCategory"
-	resultType="com.jam.repository.model.Category">
+		resultType="com.jam.repository.model.Category">
 		select * from category_tb;
 	</select>
 	<select id="findAllGenre"
-	resultType="com.jam.repository.model.Genre">
+		resultType="com.jam.repository.model.Genre">
 		select * from genre_tb;
 	</select>
+
+	<!-- 랭킹 -->
+
+	<!-- 조회수 기준으로 책의 총 조회수로 정렬 -->
+	<select id="findAllByOrderByViewsDesc"
+		resultType="com.jam.repository.model.Book">
+		SELECT
+		b.book_id,
+		b.title,
+		b.author,
+		b.book_cover_image,
+		SUM(v.views) AS total_views, -- 책의 모든 회차 조회수를 합산
+		SUM(b.likes) AS total_likes, -- 책의 모든 회차 좋아요 수를 합산
+		c.category_name AS category,
+		g.genre_name AS genre
+		FROM
+		book_tb b
+		JOIN
+		book_views_rating_tb v ON b.book_id = v.book_id
+		JOIN
+		category_tb c ON b.category_id = c.category_id
+		JOIN
+		genre_tb g ON b.genre_id = g.genre_id
+		GROUP BY
+		b.book_id, b.title, b.author, c.category_name, g.genre_name
+		ORDER BY
+		total_views DESC -- 총 조회수로 정렬
+	</select>
+
 </mapper>

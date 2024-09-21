@@ -1,0 +1,61 @@
+@charset "UTF-8";
+
+/* 전체 컨테이너 */
+.event-detail-container {
+    width: 720px; /* 가로 크기 */
+    margin: 0 auto; /* 가운데 정렬 */
+    padding: 20px;
+}
+
+/* 이벤트 배너 */
+.event-detail-banner {
+    position: relative;
+    text-align: center;
+}
+
+.event-detail-banner img {
+    width: 100%;
+    height: auto;
+}
+
+.event-detail-text {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    color: white;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+/* 이벤트 상세 내용 */
+.event-detail-content {
+    margin-top: 30px;
+}
+
+.event-detail-content h2 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.event-detail-content p {
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+/* 이미지 스타일 */
+.event-images {
+    margin-top: 20px;
+}
+
+.event-images img {
+    width: 100%;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+/* 스크롤 가능하게 */
+body {
+    height: 3000px; /* 세로 크기 */
+    overflow-y: scroll; /* 세로 스크롤 활성화 */
+    background-color: #f9f9f9; /* 페이지 배경색 */
+}

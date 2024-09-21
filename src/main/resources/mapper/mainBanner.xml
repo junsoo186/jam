@@ -18,5 +18,10 @@
 		LIMIT #{limit} OFFSET #{offset}
 	</select>
 
+	<select id="countAllMainBanner"
+		resultType="int">
+		select count(*)
+		from main_banner_tb
+	</select>
 
 </mapper>

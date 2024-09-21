@@ -1,6 +1,7 @@
+@charset "UTF-8";
 /* 전체 컨테이너 */
 .container {
-    max-width: 1000px;
+    max-width: 1200px;
     width: 80%;
     margin: 40px auto;
     padding: 20px;
@@ -17,6 +18,7 @@ h2 {
     color: #333;
     text-align: center;
 }
+
 
 /* 버튼 스타일 */
 .btn {
@@ -199,25 +201,166 @@ body {
 }
 
 /* 이벤트 리스트 */
-.event-list {
-    margin: 50px 0;
-}
 
+/* 이벤트 항목 그리드 레이아웃 */
 .event-items {
     display: flex;
     flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+/* 이벤트 카드 스타일 */
+.event-item {
+    background-color: white;
+    width: 300px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.event-item:hover {
+    transform: translateY(-10px);
+}
+
+/* 썸네일 이미지 스타일 */
+.thumbnail-image {
+    width: 100%;
+    height: 180px;
+    object-fit: cover; /* 이미지 비율을 유지하며 잘라냄 */
+}
+
+/* 이벤트 정보 스타일 */
+.event-info {
+    padding: 15px;
+}
+
+.title--box{
+margin: 50px;
+padding-bottom:30px;
+border-bottom: 1px solid #909090;
+
+}
+
+.event-info h3 {
+    font-size: 15px;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.event-info p {
+    font-size: 14px;
+    color: #777;
+    margin-bottom: 10px;
+}
+
+.btn-detail {
+    display: inline-block;
+    color: #ff4d6d;
+    background-color:white;
+    padding: 10px 15px;
+    border-radius: 50px;
+    border:1px solid #ff4d6d;
+    text-decoration: none;
+    margin-top: 10px;
+    font-size: 13px;
+}
+
+.btn-detail:hover {
+    background-color: #ff4d6d;
+    color: white;
+}
+
+/* 페이지 하단 */
+.bottom--page--area {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.pagination {
+    list-style: none;
+    padding: 0;
+}
+
+.pagination .page--item {
+    display: inline-block;
+    margin: 0 5px;
+}
+
+.pagination .page--link {
+    padding: 8px 12px;
+    font-size: 14px;
+    color: #333;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.pagination .page--item.active .page--link {
+    background-color: #ff4d6d;
+    color: white;
+}
+
+p.endDay{
+	color: #ff4d6d;
+	font-weight: bold;
+}
+
+.thumbnail-image {
+    width: 100%;               /* 100% 너비로 표시 */
+    height: 200px;             /* 고정된 높이로 표시 */
+    object-fit: cover;         /* 비율을 유지하며, 이미지가 잘리더라도 전체 영역을 채움 */
+    object-position: top center;      /* 이미지의 상단 부분을 보여줌 */
+}
+
+.title--box {
+    display: flex;
+    align-items: center; /* 버튼과 h2를 세로로 맞춤 */
+    justify-content: flex-start; /* 왼쪽 정렬 */
+    gap: 15px; /* h2와 버튼 사이의 간격 */
+    margin-bottom: 20px;
+}
+
+.title--box h2 {
+    margin: 0;
+    padding-right: 20px; /* h2와 버튼 사이에 간격 추가 */
+}
+
+.btn-filter {
+    padding: 8px 16px;
+    color: #ff4d6d;  /* 색상 앞에 # 추가 */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.btn-filter:hover {
+    background-color: #ff4d6d;
+    color: white;
 }
 
 .event-item {
-    background-color: white;
-    margin: 20px;
-    padding: 20px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    width: 30%;
-    text-align: center;
+    margin-bottom: 20px;
 }
 
-.event-item img {
-    width: 100%;
-    height: auto;
+/* 진행 중인 이벤트는 처음에 모두 표시 */
+.active-event {
+    display: block;
+}
+
+/* 마감된 이벤트는 기본적으로 표시되지 않음 */
+.ended-event {
+    display: none;
+    
+}
+
+.btn-filter{
+	border-radius: 50px;
+	background-color: #f9f9f9;
+	border: 1px solid #ff4d6d;
+	
+	
 }

@@ -42,6 +42,11 @@ public class Book {
     private Integer views;
     private String serialDay;
 
+    
+    private int totalViews;  // 책의 총 조회수를 저장하는 필드
+    private int totalLikes;  // 책의 총 좋아요 수를 저장하는 필드
+    
+    
     // tagNames를 List<String>으로 변환하는 메서드
     public List<String> getTagNamesList() {
         if (tagNames != null && !tagNames.isEmpty()) {

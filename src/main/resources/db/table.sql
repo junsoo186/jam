@@ -1,5 +1,3 @@
-
-
 CREATE TABLE `user_tb` (
     `user_id` int PRIMARY KEY AUTO_INCREMENT NOT NULL COMMENT 'auto',
     `nick_name` varchar(20) NOT NULL UNIQUE,
@@ -155,6 +153,7 @@ CREATE TABLE `event_tb` (
     `start_day` date NOT NULL COMMENT '이벤트 시작일',
     `end_day` date NOT NULL COMMENT '이벤트 종료일',
     `user_id` int NOT NULL COMMENT '외래 키, user_tb 참조, 당첨자 명',
+    `event_image` text comment '이벤트 이미지',
     FOREIGN KEY (`user_id`) REFERENCES `user_tb`(`user_id`)
 );
 
@@ -387,6 +386,13 @@ CREATE TABLE `score_tb`(
     `created_at` timestamp
 );
 
+CREATE TABLE banner_tb(
+banner_id int PRIMARY KEY AUTO_INCREMENT NOT NULL,
+title varchar(1000) COMMENT '베너 제목',
+content varchar(1000) COMMENT '베너 내용1',
+sub_content varchar(1000) COMMENT '베너 내용2',
+image_path varchar(2000) COMMENT '이미지 경로'
+);
 
 
 
