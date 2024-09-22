@@ -903,6 +903,8 @@ INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, content
 VALUES (17, 17, 9, '유료', '9화: 최후의 선택', '2024-01-09', 'src/main/resources/static/contentText/최후의 선택2.txt', 200, 920);
 
 
+
+
 --   18   Book Information 
 INSERT INTO book_tb (user_id, title, author_comment, author, category_id, genre_id, introduction, age,likes,serial_day,book_cover_image) 
 VALUES (26, '별빛 아래의 서약', '별빛 아래에서 맺은 사랑과 모험 이야기', '작가 R', 3, 7, '별빛 숲에서 사랑을 찾고 마법적 서약을 맺은 연인의 이야기',
@@ -938,6 +940,68 @@ VALUES (18, 26, 8, '유료', '8화: 위험한 선택', '2023-12-10', 'src/main/r
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
 VALUES (18, 26, 9, '유료', '9화: 최후의 사랑', '2023-12-17', 'src/main/resources/static/contentText/최후의 사랑.txt', 200, 800);
 
+
+
+--------------------------
+-- 19
+
+INSERT INTO book_tb (user_id, title, author_comment, author, category_id, genre_id, introduction, age, likes, serial_day, book_cover_image) 
+VALUES (27, '천사와 악마의 사랑', '달빛 아래에서 이루어진 소원과 여정 이야기', '작가 L', 3, 7, '달빛 숲에서 펼쳐지는 소원과 모험의 이야기',
+		 '15', 25, '월요일', 'cover/19.jpeg');
+-- story_tb 테이블에 데이터 삽입
+INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views) 
+VALUES (19, 27, 0, '프롤로그', '달빛의 소원', '2023-11-20', 'src/main/resources/static/contentText/미지의 시작.txt', 0, 930);
+
+INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views) 
+VALUES (19, 27, 1, '1화', '다가오는 어둠', '2023-11-20', 'src/main/resources/static/contentText/다가오는 어둠.txt', 200, 430);
+
+INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views) 
+VALUES (19, 27, 2, '2화', '진실과 거짓', '2023-11-20', 'src/main/resources/static/contentText/진실과 거짓.txt', 200, 560);
+
+INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views) 
+VALUES (19, 27, 3, '3화', '감정의 소용돌이', '2023-11-20', 'src/main/resources/static/contentText/감정의 소용돌이.txt', 200, 780);
+
+-- 20
+
+INSERT INTO book_tb (user_id, title, author_comment, author, category_id, genre_id, introduction, age, likes, serial_day, book_cover_image) 
+VALUES (28, '시골에서 펼쳐지는 우정의 힐링스토리', '이 이야기는 바쁜 도시 생활에서 벗어나 시골에서 우정을 찾고 마음의 평화를 찾는 두 사람의 이야기입니다', '작가 OP', 3, 7, '준호와 수지가 시골 마을에서 함께하면서 서로의 우정을 다시 발견하고, 자연 속에서 마음의 치유를 경험하는 힐링 스토리',
+		 '15', 25, '월요일', 'cover/20.jpeg');
+		 
+		 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views) 
+VALUES (20, 28, 0, '프롤로그', '달빛의 소원', '2023-11-20', 'src/main/resources/static/contentText/미지의 시작.txt', 0, 930);
+
+INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views) 
+VALUES (20, 28, 1, '1화', '다가오는 어둠', '2023-11-20', 'src/main/resources/static/contentText/다가오는 어둠.txt', 200, 430);
+
+INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views) 
+VALUES (20, 28, 2, '2화', '진실과 거짓', '2023-11-20', 'src/main/resources/static/contentText/진실과 거짓.txt', 200, 560);
+
+INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views) 
+VALUES (20, 28, 3, '3화', '감정의 소용돌이', '2023-11-20', 'src/main/resources/static/contentText/감정의 소용돌이.txt', 200, 780);
+
+-- 21
+
+INSERT INTO book_tb (user_id, title, author_comment, author, category_id, genre_id, introduction, age, likes, serial_day, book_cover_image) 
+VALUES (29, '시골에서 펼쳐지는 우정의 힐링스토리', '이 이야기는 바쁜 도시 생활에서 벗어나 시골에서 우정을 찾고 마음의 평화를 찾는 두 사람의 이야기입니다', '작가 OP', 3, 7, '준호와 수지가 시골 마을에서 함께하면서 서로의 우정을 다시 발견하고, 자연 속에서 마음의 치유를 경험하는 힐링 스토리',
+		 '15', 25, '월요일', 'cover/21.jpeg');
+
+-- 22
+
+INSERT INTO book_tb (user_id, title, author_comment, author, category_id, genre_id, introduction, age, likes, serial_day, book_cover_image) 
+VALUES (30, '시골에서 펼쳐지는 우정의 힐링스토리', '이 이야기는 바쁜 도시 생활에서 벗어나 시골에서 우정을 찾고 마음의 평화를 찾는 두 사람의 이야기입니다', '작가 OP', 3, 7, '준호와 수지가 시골 마을에서 함께하면서 서로의 우정을 다시 발견하고, 자연 속에서 마음의 치유를 경험하는 힐링 스토리',
+		 '15', 25, '월요일', 'cover/22.jpeg');
+
+-- 23
+
+INSERT INTO book_tb (user_id, title, author_comment, author, category_id, genre_id, introduction, age, likes, serial_day, book_cover_image) 
+VALUES (31, '시골에서 펼쳐지는 우정의 힐링스토리', '이 이야기는 바쁜 도시 생활에서 벗어나 시골에서 우정을 찾고 마음의 평화를 찾는 두 사람의 이야기입니다', '작가 OP', 3, 7, '준호와 수지가 시골 마을에서 함께하면서 서로의 우정을 다시 발견하고, 자연 속에서 마음의 치유를 경험하는 힐링 스토리',
+		 '15', 25, '월요일', 'cover/23.jpeg');
+		 
+-- 24
+
+INSERT INTO book_tb (user_id, title, author_comment, author, category_id, genre_id, introduction, age, likes, serial_day, book_cover_image) 
+VALUES (32, '시골에서 펼쳐지는 우정의 힐링스토리', '이 이야기는 바쁜 도시 생활에서 벗어나 시골에서 우정을 찾고 마음의 평화를 찾는 두 사람의 이야기입니다', '작가 OP', 3, 7, '준호와 수지가 시골 마을에서 함께하면서 서로의 우정을 다시 발견하고, 자연 속에서 마음의 치유를 경험하는 힐링 스토리',
+		 '15', 25, '월요일', 'cover/24.jpeg');
 -- 북태그
 insert into book_tag_tb (book_id, tag_id) values (1,1);
 insert into book_tag_tb (book_id, tag_id) values (1,2);
