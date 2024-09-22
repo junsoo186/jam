@@ -1183,6 +1183,140 @@ VALUES (18, 26, 1, '프롤로그', '별빛의 약속', '2023-10-15',
 
 그들은 함께 별빛 아래에서 서약을 하게 되지만, 이 서약은 곧 강력한 마법의 구속으로 변해 그들의 자유를 앗아간다. 그들은 서로를 사랑하면서도, 별빛의 서약에서 벗어나기 위해 힘을 합쳐야 한다. 그들의 여정은 위험으로 가득 차 있으며, 진정한 사랑과 희생의 의미를 깨닫게 된다.');
  
+ --   50 Book Information 
+INSERT INTO book_tb (book_id, user_id, title, author_comment, author, category_id, genre_id, introduction, age,likes,serial_day,book_cover_image) 
+VALUES (50, 30, '음유시인', '그들의 노래는 여전히 울려 퍼진다.', '작가C', 1, 2, '그들의 노래는 여전히  울려 퍼진다.', '15', 25, '월요일','cover/18.png');
+
+INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents ,cost ,views)
+VALUES (50, 30, 0, '프롤로그', '잃어버린 별들의 노래', '2023-10-15','src/main/resources/static/contentText/밤의 시작.txt', 0 , 874);
+
+INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents ,cost ,views)
+VALUES (50, 30, 1, '유료', '별들이 사라진 하늘', '2023-10-15','src/main/resources/static/contentText/밤의 시작.txt', 200, 874);
+
+INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents ,cost ,views)
+VALUES (50, 30, 2, '유료', '잃어버린 별들의 노래', '2023-10-15','src/main/resources/static/contentText/밤의 시작.txt', 200, 874);
+
+INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents ,cost ,views)
+VALUES (50, 30, 3, '유료', '은하 속에 숨겨진 멜로디', '2023-10-15','src/main/resources/static/contentText/밤의 시작.txt', 200, 874);
+
+--   51 Book Information 
+INSERT INTO book_tb (book_id, user_id, title, author_comment, author, category_id, genre_id, introduction, age,likes,serial_day,book_cover_image) 
+VALUES (51,30, '잃어버린 별들의 노래', '그들의 노래는 여전히 밤하늘에 울려 퍼진다.', '작가12', 1, 2, '그들의 노래는 여전히 밤하늘에 울려 퍼진다.', '15', 25, '월요일','cover/19.png');
+
+INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents ,cost ,views)
+VALUES (51, 30, 0, '프롤로그', '잃어버린 별들의 노래', '2023-10-15','src/main/resources/static/contentText/밤의 시작.txt', 0 , 874);
+
+INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents ,cost ,views)
+VALUES (51, 30, 1, '유료', '별들이 사라진 하늘', '2023-10-15','src/main/resources/static/contentText/밤의 시작.txt', 200, 874);
+
+INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents ,cost ,views)
+VALUES (51, 30, 2, '유료', '잃어버린 별들의 노래', '2023-10-15','src/main/resources/static/contentText/밤의 시작.txt', 200, 874);
+
+INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents ,cost ,views)
+VALUES (51, 30, 3, '유료', '은하 속에 숨겨진 멜로디', '2023-10-15','src/main/resources/static/contentText/밤의 시작.txt', 200, 874);
+
+--   52 Book Information 
+INSERT INTO book_tb (book_id, user_id, title, author_comment, author, category_id, genre_id, introduction, age,likes,serial_day,book_cover_image) 
+VALUES (52, 31, '바람 속의 속삭임', '그들의 노래는 여전히 밤하늘에 울려 퍼진다.', '바람', 1, 2, '그들의 노래는 여전히 밤하늘에 울려 퍼진다.', '15', 25, '화요일','cover/20.png');
+
+INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents ,cost ,views)
+VALUES (52, 31, 0, '프롤로그', '바람 속의 속삭임', '2023-10-15','src/main/resources/static/contentText/밤의 시작.txt', 0 , 874);
+
+INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents ,cost ,views)
+VALUES (52, 31, 1, '유료', '속삭이는 바람의 비밀', '2023-10-15','src/main/resources/static/contentText/밤의 시작.txt', 200, 874);
+
+INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents ,cost ,views)
+VALUES (52, 31, 2, '유료', '바람에 실린 첫 번째 이야기', '2023-10-15','src/main/resources/static/contentText/밤의 시작.txt', 200, 874);
+
+INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents ,cost ,views)
+VALUES (52, 31, 3, '유료', '침묵 속에서 들려온 소리', '2023-10-15','src/main/resources/static/contentText/밤의 시작.txt', 200, 874);
+
+INSERT INTO book_tb (book_id, user_id, title, author_comment, author, category_id, genre_id, introduction, age, likes, serial_day, book_cover_image) 
+VALUES (53, 32, '어둠 속의 한 줄기 빛', '어둠 속에서도 희망은 빛난다.', '밤하늘', 1, 2, '그들의 노래는 여전히 밤하늘에 울려 퍼진다.', '15', 25, '화요일', 'cover/19.png');
+
+-- 53 Story Information
+INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
+VALUES (53, 32, 0, '프롤로그', '어둠 속의 한 줄기 빛', '2023-10-15', 'src/main/resources/static/contentText/빛의 시작.txt', 0, 874);
+
+INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
+VALUES (53, 32, 1, '유료', '희망을 좇는 빛', '2023-10-15', 'src/main/resources/static/contentText/빛의 시작.txt', 200, 874);
+
+INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
+VALUES (53, 32, 2, '유료', '빛의 기억', '2023-10-15', 'src/main/resources/static/contentText/빛의 시작.txt', 200, 874);
+
+INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
+VALUES (53, 32, 3, '유료', '어둠 속에 남은 빛', '2023-10-15', 'src/main/resources/static/contentText/빛의 시작.txt', 200, 874);
+
+-- 54 Book Information 
+INSERT INTO book_tb (book_id, user_id, title, author_comment, author, category_id, genre_id, introduction, age, likes, serial_day, book_cover_image) 
+VALUES (54, 33, '달빛에 물든 기억', '기억은 달빛 아래 선명해진다.', '달빛아래', 1, 2, '그들의 노래는 여전히 밤하늘에 울려 퍼진다.', '15', 25, '수요일', 'cover/28.png');
+
+-- 54 Story Information
+INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
+VALUES (54, 33, 0, '프롤로그', '달빛에 물든 기억', '2023-10-15', 'src/main/resources/static/contentText/기억의 시작.txt', 0, 874);
+
+INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
+VALUES (54, 33, 1, '유료', '달빛 속의 잔상', '2023-10-15', 'src/main/resources/static/contentText/기억의 시작.txt', 200, 874);
+
+INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
+VALUES (54, 33, 2, '유료', '흐려진 기억', '2023-10-15', 'src/main/resources/static/contentText/기억의 시작.txt', 200, 874);
+
+INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
+VALUES (54, 33, 3, '유료', '사라져가는 기억', '2023-10-15', 'src/main/resources/static/contentText/기억의 시작.txt', 200, 874);
+
+-- 55 Book Information 
+INSERT INTO book_tb (book_id, user_id, title, author_comment, author, category_id, genre_id, introduction, age, likes, serial_day, book_cover_image) 
+VALUES (55, 34, '바람에 실린 속삭임', '바람은 비밀을 품고 있다.', '바밀', 1, 2, '그들의 노래는 여전히 밤하늘에 울려 퍼진다.', '15', 25, '수요일', 'cover/21.png');
+
+-- 55 Story Information
+INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
+VALUES (55, 34, 0, '프롤로그', '바람에 실린 속삭임', '2023-10-15', 'src/main/resources/static/contentText/바람의 이야기.txt', 0, 874);
+
+INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
+VALUES (55, 34, 1, '유료', '바람이 전하는 이야기', '2023-10-15', 'src/main/resources/static/contentText/바람의 이야기.txt', 200, 874);
+
+INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
+VALUES (55, 34, 2, '유료', '숨겨진 바람의 속삭임', '2023-10-15', 'src/main/resources/static/contentText/바람의 이야기.txt', 200, 874);
+
+INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
+VALUES (55, 34, 3, '유료', '바람 속의 비밀', '2023-10-15', 'src/main/resources/static/contentText/바람의 이야기.txt', 200, 874);
+
+-- 56 Book Information 
+INSERT INTO book_tb (book_id, user_id, title, author_comment, author, category_id, genre_id, introduction, age, likes, serial_day, book_cover_image) 
+VALUES (56, 35, '추억 속의 별빛', '별빛 아래에 숨겨진 추억.', '추억속', 1, 2, '그들의 노래는 여전히 밤하늘에 울려 퍼진다.', '15', 25, '목요일', 'cover/22.png');
+
+-- 56 Story Information
+INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
+VALUES (56, 35, 0, '프롤로그', '추억 속의 별빛', '2023-10-15', 'src/main/resources/static/contentText/별빛의 이야기.txt', 0, 874);
+
+INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
+VALUES (56, 35, 1, '유료', '별빛에 물든 이야기', '2023-10-15', 'src/main/resources/static/contentText/별빛의 이야기.txt', 200, 874);
+
+INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
+VALUES (56, 35, 2, '유료', '사라진 별빛', '2023-10-15', 'src/main/resources/static/contentText/별빛의 이야기.txt', 200, 874);
+
+INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
+VALUES (56, 35, 3, '유료', '별빛의 속삭임', '2023-10-15', 'src/main/resources/static/contentText/별빛의 이야기.txt', 200, 874);
+
+-- 57 Book Information 
+INSERT INTO book_tb (book_id, user_id, title, author_comment, author, category_id, genre_id, introduction, age, likes, serial_day, book_cover_image) 
+VALUES (57, 36, '희망을 좇는 별', '희망은 밤하늘에 빛난다.', '희망의날개', 1, 2, '그들의 노래는 여전히 밤하늘에 울려 퍼진다.', '15', 25, '목요일', 'cover/23.png');
+
+-- 57 Story Information
+INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
+VALUES (57, 36, 0, '프롤로그', '희망을 좇는 별', '2023-10-15', 'src/main/resources/static/contentText/희망의 이야기.txt', 0, 874);
+
+INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
+VALUES (57, 36, 1, '유료', '희망의 빛', '2023-10-15', 'src/main/resources/static/contentText/희망의 이야기.txt', 200, 874);
+
+INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
+VALUES (57, 36, 2, '유료', '사라지는 희망', '2023-10-15', 'src/main/resources/static/contentText/희망의 이야기.txt', 200, 874);
+
+INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
+VALUES (57, 36, 3, '유료', '밤하늘의 희망', '2023-10-15', 'src/main/resources/static/contentText/희망의 이야기.txt', 200, 874);
+
+
+--  
 -- 프로젝트 테이블 삽입
 INSERT INTO project_tb (user_id, book_id, title, oneline_comment, contents, goal, date_end, staff_agree, project_successful)
 VALUES (1, 1, '임시프로젝트타이틀1', '한줄 소개 1', '내용입니다', 20000, '2024-09-09', 'Y', 'N'),
