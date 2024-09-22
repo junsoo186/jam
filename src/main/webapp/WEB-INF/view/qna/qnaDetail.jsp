@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <%@ include file="/WEB-INF/view/layout/header.jsp"%>
 <meta charset="UTF-8">
-<link rel="stylesheet" href="/css/noticeInsert.css">
+<link rel="stylesheet" href="/css/qnaDetail.css">
 
 <main>
 <div class="container p-5">
@@ -10,18 +10,11 @@
 		<div class="card-header">
 			<b>QnA 상세보기</b>
 		</div>
-		<div class="mb-3">제목: ${qna.title}</div>
-		<div class="mb-3">작성자: ${qna.userName}</div>
-		<div class="mb-3">내용: ${qna.questionContent}</div>
-		<div class="mb-3">작성일: ${qna.createdAt}</div>
-		<c:choose>
-			<c:when test="${qna.answerContent != null}">
-				<div class="mb-3">답변: ${qna.answerContent}</div>
-			</c:when>
-			<c:otherwise>
-				<div class="mb-3">답변: 아직 답변이 없습니다.</div>
-			</c:otherwise>
-		</c:choose>
+		<div class="the-title"> ${qna.title}</div>
+	
+		<div class="content"> ${qna.questionContent}</div>
+		<div class="date">작성일: ${qna.createdAt}</div>
+	
 		
 		<!-- 버튼 부분  -->
 		<form action="/qna/delete" method="post" class="d-inline">
@@ -40,10 +33,17 @@
 		</form>
 		</c:otherwise>
 		</c:choose>
-		
-
-
 
 	</div>
+	<c:choose>
+		<c:when test="${qna.answerContent != null}">
+			<div class="answer"> ${qna.answerContent}</div>
+		</c:when>
+		<c:otherwise>
+			<div class="answer"> 아직 답변이 없습니다.</div>
+		</c:otherwise>
+	</c:choose>
 </div>
+
 </main>
+<%@ include file="/WEB-INF/view/layout/footer.jsp" %>

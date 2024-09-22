@@ -1,6 +1,120 @@
 @charset "UTF-8";
-.content--area{
+/* 전체 컨테이너 스타일 */
+.container {
+    width: 1200px;
+    margin: 0 auto; /* 중앙 정렬 */
+    padding: 20px; /* 패딩 추가 */
+}
+
+/* 카드 스타일 */
+.card {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 부드러운 그림자 */
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+/* 카드 헤더 스타일 */
+.card-header {
+    font-size: 24px;
+    font-weight: bold;
+    background-color: rgba(237, 115, 155, 0.8); /* 투명도 추가된 배경색 */
+    color: white;
+    padding: 10px;
+    border-radius: 10px 10px 0 0; /* 상단 좌우 모서리 둥글게 */
+    text-align: center; /* 중앙 정렬 */
+}
+
+
+.mb-3 {
+    margin-bottom: 15px;
+    font-size: 18px; 
+	
+}
+
+.qna-title {	
+    font-weight: bold;
+    font-size: 20px;
+    color: #333; /* 제목에 진한 색상 */
+    border-bottom: 1px solid #ddd; /* 제목과 내용을 구분하는 경계선 */
+    padding-bottom: 10px; /* 제목과 경계선 사이 여백 */
+    margin-bottom: 20px; /* 제목과 내용 사이 여백 */
+}
+
+.qna-content {
+    font-size: 18px;
+    line-height: 1.6; /* 내용의 줄 간격을 넉넉하게 */
+    color: #555; /* 내용을 약간 연한 색상으로 */
+}
+
+/* 답변 부분 스타일 */
+.qna-answer {
+    background-color: #f9f9f9; /* 답변 부분을 구분하는 배경색 */
+    padding: 15px;
+    border-radius: 5px;
+    margin-top: 20px;
+    border: 1px solid #ddd; /* 답변 구분용 경계선 */
+}
+
+/* 버튼 스타일 */
+.btn-primary {
+    background-color:#f06292; /* 버튼 배경색 */
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px; /* 버튼 둥근 모서리 */
+    cursor: pointer;
+    transition: background-color 0.3s; /* 호버 시 색상 전환 */
+    width: 100%; /* 버튼이 전체 너비 차지 */
+    margin-bottom: 10px; /* 버튼 간격 */
+	color: white;
+}
+
+.btn-primary:hover {
+    background-color: rgb(222, 78, 126); /* 마우스를 올렸을 때 색상 변경 */
+}
+
+/* 양식 안의 버튼을 인라인으로 표시 */
+.d-inline {
+    display: inline-block;
+    margin-right: 10px;
+}
+.answer{
 	display: flex;
-	flex-direction: column;
-	padding: 15px;
+	justify-content: center;
+	align-items: center;
+	min-height: 150px;
+	background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 부드러운 그림자 */
+    padding: 20px;
+    margin-bottom: 20px;
+}
+	
+ 
+
+.content{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border:solid 1px #ababab;
+	min-height: 300px;
+	border-radius: 5px;
+	margin-bottom: 10px;
+}
+.date{
+	font-size: 12px;
+	margin-bottom: 10px;
+	color: #ff6b6b;
+}
+.the-title{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-top: 15px;
+	margin-bottom: 15px;
+	font-size: 20px;
+	color: #555;
+
 }

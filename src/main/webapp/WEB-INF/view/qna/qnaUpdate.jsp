@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/view/layout/header.jsp"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<link rel="stylesheet" href="/css/noticeInsert.css">
+    <link rel="stylesheet" href="/css/qnaWrite.css">
 
 <div class="container p-5">
     <div class="card">
