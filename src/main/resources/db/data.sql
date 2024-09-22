@@ -171,9 +171,9 @@ INSERT INTO `event_tb` (
 INSERT INTO `main_banner_tb` (
 `title` ,`content`,`sub_content`,`image_path`,`event_id`) 
 VALUES (
-    '회원가입 웰컴 반값 이벤트1', 
-    '회원가입 후 첫 코인 구매 시 50% 할인 혜택을 제공합니다.', 
-    '기간한정 이벤트', 'mainbanner/bannerimg1.jpg',1  );
+    '100% 당첨 잼코인 랜덤뽑기!', 
+    '최대 500 잼코인! , 거기다가 할인쿠폰도 30%까지!', 
+    '기간한정 이벤트', 'mainbanner/이벤트상단배너2.jpg',1  );
 
 INSERT INTO `main_banner_tb` (
 `title` ,`content`,`sub_content`,`image_path`,`event_id`) 
