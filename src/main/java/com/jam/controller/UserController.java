@@ -44,6 +44,18 @@ public class UserController {
 	private final HttpSession session;
 	private final UserService userService;
 
+
+	
+
+	@GetMapping("/getPoint")
+    public ResponseEntity<Integer> getUserPoint() {
+    
+		User principal = (User) session.getAttribute("principal");
+        Integer point= userService.searchPoint(principal.getUserId());
+
+        return new ResponseEntity<>(point, HttpStatus.OK);
+    }
+
 	// 회원가입 JSP 버튼 테스트
 	@PostMapping("/messageTest")
 	public String emailProc(@RequestParam(name = "checkNickName") String checkNickName) {
@@ -601,5 +613,8 @@ public class UserController {
 		
 		return "redirect:/";
 	}
+
+
+	
 	
 }

@@ -2,6 +2,35 @@
  * 
  */
 
+document.addEventListener("DOMContentLoaded", function() {
+    function updatePoint() {
+        fetch('/user/getPoint')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                // 포인트 값이 null 또는 undefined일 경우 0으로 처리
+                const point = data || 0;
+                // 포인트 값을 화면에 업데이트
+                const pointElement = document.querySelector('.num');
+                if (pointElement) {
+                    pointElement.innerText = new Intl.NumberFormat().format(point) + " JAM";
+                } else {
+                    console.error('Cannot find the element with class "num".');
+                }
+            })
+            .catch(error => console.error('Error fetching point:', error));
+    }
+
+    // 페이지 로드 시 최초로 포인트 업데이트
+    updatePoint();
+
+    // 10초마다 포인트 업데이트
+    setInterval(updatePoint, 1000); // 10초(10000ms)마다 주기적으로 호출
+});
 /*사이드바 관련 스크립트 시작*/
 
 document.addEventListener("DOMContentLoaded", function() {
@@ -85,6 +114,5 @@ document.getElementById("check-event-status-button").addEventListener("click", f
 
 
 /*사이드바 관련 스크립트 종료*/
-
 
 /*사이드바 관련 스크립트 종료*/

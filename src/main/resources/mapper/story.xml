@@ -41,7 +41,11 @@
 		LEFT JOIN book_tb as b ON s.book_id = b.book_id
 	</select>
 
-
+	<update id="updatePoint">
+		UPDATE user_de_tb
+		SET point = #{totalAmount}
+		WHERE user_id = #{userId}
+	</update>
 
 
 
@@ -58,7 +62,7 @@
 
 	<select id="outputStoryContentByStoryId"
 		resultType="com.jam.repository.model.Story">
-		select story_id, book_id, title, contents, number
+		select story_id, book_id, title, contents, number,cost,USER_ID  
 		from
 		story_tb
 		where story_id =

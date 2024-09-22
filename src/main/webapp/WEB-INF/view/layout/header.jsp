@@ -107,9 +107,11 @@
 									<img class="pencil-icon" src="/images/layout/write.png">
 								</a>
 								<li><a href="/user/myPage">내 정보</a></li>
-								<li><a href="/pay/toss" class="numcolor"><div class="num"><fmt:formatNumber value="${principal.point}" pattern="#,###" />
-											JAM</div>
-										</a></li>
+								<li>
+									<a href="/pay/toss" class="numcolor">
+										<div class="num">${principal.point} JAM</div> <!-- 여기에 JS가 값을 업데이트 -->
+									</a>
+								</li>
 									
 								<li><a href="/chatPage" id="chat-link">채팅</a></li>
 								<li><a href="/qna/list"> Q&A</a></li>

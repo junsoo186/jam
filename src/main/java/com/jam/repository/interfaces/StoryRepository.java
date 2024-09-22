@@ -21,7 +21,7 @@ public interface StoryRepository {
 	
 	public int countStoriesByBookId( @Param("bookId") Integer bookId);
 
-
+	public void updatePoint(@Param("userId") Integer userId, @Param("totalAmount") int totalAmount);
 	public Story outputStoryContentByStoryId(@Param("storyId") Integer storyId); // 소설
 																				// 내용
 																				// 출력

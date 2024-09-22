@@ -30,6 +30,7 @@ import com.jam.repository.model.Tag;
 import com.jam.repository.model.User;
 import com.jam.service.BannerService;
 import com.jam.service.BookCommentsService;
+import com.jam.service.UserService;
 import com.jam.service.WriterService;
 import com.jam.utils.Define;
 
@@ -45,6 +46,7 @@ public class WriterController {
 	private final WriterService writerService;
 	private final BannerService bannerService;
 	private final BookCommentsService bookCommentsService;
+	
 
 	// private final BennerService bennerService;
 	private final HttpSession session;
@@ -245,22 +247,36 @@ public class WriterController {
 	 * 
 	 * @return
 	 */
-	@GetMapping("/storyContents")
-	public String handleStoryContents(Model model, @RequestParam(name = "storyId") Integer storyId) {
-		User principal = (User) session.getAttribute("principal");
+
+	 
+	@GetMapping("/storyContents")	
+	public String handleStoryContents(Model model, 
+									  @RequestParam(name = "storyId") Integer storyId) {
+	
 		Story storyContent = writerService.outputStoryContentByStoryId(storyId);
-		
-		// if(principal.getPoint()<storyContent.getCost()){
-				
-		// }
+		User principal = (User) session.getAttribute("principal");
+		int cost = storyContent.getCost();
+		if(principal.getPoint()<cost){
+			return"pay/toss";
+		}else{
 		if (storyContent == null) {
 			model.addAttribute("storyContent", null);
 		} else {
+		
+
+
+			//writerService.usePointByStory(storyContent.getUserId(),remainingPoint);
+
 			model.addAttribute("storyContent", storyContent);
+			
+			
+		
 		}
+	}
+	int remainingPoint = principal.getPoint() - cost;
+	writerService.usePointByStory(principal.getUserId(),remainingPoint);
 		return "write/storyContents";
 	}
-
 	/**
 	 * 작품 자세히 보기 페이지 이동
 	 * 

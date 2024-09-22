@@ -76,7 +76,11 @@ public class WriterService {
 
 	}
 
+	@Transactional
+	public void usePointByStory(Integer userId, int totalAmount) {
+		storyRepository.updatePoint(userId, totalAmount);
 
+	}
 
 
 
