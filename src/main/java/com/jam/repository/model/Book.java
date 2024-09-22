@@ -58,7 +58,7 @@ public class Book {
     
     public String setUpUserImage() {
 		if (bookCoverImage == null) {
-			return "/images/cover/winterCover.jpg";
+			return "/images/cover/booknone.jpg";
 		} else {
 			return "/images/" + bookCoverImage;
 		}

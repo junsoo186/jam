@@ -51,6 +51,8 @@ line-height: 22px;
 	border-radius: 5px;
 	display: flex;
     align-items: center;
+	margin-left: 15px;
+    margin-top: 32px;
 	
 }
 .title-heart{
@@ -95,6 +97,7 @@ line-height: 22px;
 .main--content{
 	display: flex;
 	margin-top: 15px;
+	width: 100%;
 }
 .buy--all{
 	margin-left : 10px;
@@ -137,10 +140,15 @@ line-height: 22px;
 }
 
 .funding--content{
-	width:380px ;
+	margin-top: 10px;
+	display: flex;
+	flex-direction: column;
+	width: 380px;
+	margin-left: 5px;
 }
 .funding-box{
 	margin-top: 10px;
+	margin-bottom: 10px;
 	border:solid 1px #dcdced;
 	min-height:390px ;
 	background-color: #f3f3f9;

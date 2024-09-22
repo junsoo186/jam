@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.jam.dto.BookCommentDto;
 import com.jam.dto.BookDTO;
+import com.jam.dto.PurchaseDTO;
 import com.jam.dto.StoryDTO;
 import com.jam.repository.model.Banner;
 import com.jam.repository.model.Book;
@@ -30,6 +31,7 @@ import com.jam.repository.model.Tag;
 import com.jam.repository.model.User;
 import com.jam.service.BannerService;
 import com.jam.service.BookCommentsService;
+import com.jam.service.PurchaseService;
 import com.jam.service.UserService;
 import com.jam.service.WriterService;
 import com.jam.utils.Define;
@@ -46,6 +48,7 @@ public class WriterController {
 	private final WriterService writerService;
 	private final BannerService bannerService;
 	private final BookCommentsService bookCommentsService;
+	private final PurchaseService purchaseService;
 	
 
 	// private final BennerService bennerService;
@@ -249,34 +252,80 @@ public class WriterController {
 	 */
 
 	 
-	@GetMapping("/storyContents")	
-	public String handleStoryContents(Model model, 
-									  @RequestParam(name = "storyId") Integer storyId) {
-	
-		Story storyContent = writerService.outputStoryContentByStoryId(storyId);
-		User principal = (User) session.getAttribute("principal");
-		int cost = storyContent.getCost();
-		if(principal.getPoint()<cost){
-			return"pay/toss";
-		}else{
-		if (storyContent == null) {
-			model.addAttribute("storyContent", null);
-		} else {
-		
-
-
-			//writerService.usePointByStory(storyContent.getUserId(),remainingPoint);
-
-			model.addAttribute("storyContent", storyContent);
-			
-			
-		
-		}
-	}
-	int remainingPoint = principal.getPoint() - cost;
-	writerService.usePointByStory(principal.getUserId(),remainingPoint);
-		return "write/storyContents";
-	}
+	 @GetMapping("/storyContents")
+	 public String handleStoryContents(Model model, @RequestParam(name = "storyId") Integer storyId) {
+		 Story storyContent = writerService.outputStoryContentByStoryId(storyId);
+		 User principal = (User) session.getAttribute("principal");
+		 int cost = storyContent.getCost();
+		 int userId = principal.getUserId();
+		 int bookId = storyContent.getBookId();
+	 
+		 String purchaseStatus = "notPurchased"; // 기본값 설정
+	 
+		 // 무료 회차는 바로 콘텐츠를 보여줌
+		 if (cost == 0) {
+			 purchaseStatus = "free";
+			 model.addAttribute("storyContent", storyContent);
+			 model.addAttribute("purchaseStatus", purchaseStatus); // purchaseStatus를 모델에 추가
+			 return "write/storyContents";
+		 }
+	 
+		 // 구매 여부 확인
+		 purchaseStatus = purchaseService.checkPurchaseStatus(userId, bookId, storyId);
+		 
+		 // 구매한 경우
+		 if ("buy".equals(purchaseStatus)) {
+			 model.addAttribute("storyContent", storyContent);
+			 model.addAttribute("purchaseStatus", "buy");  // 구매 상태를 모델에 추가
+			 return "write/storyContents";
+		 }
+	 
+		 // 포인트가 부족하면 결제 페이지로 이동
+		 if (principal.getPoint() < cost) {
+			 return "pay/toss";
+		 }
+	 
+		 // 구매 확인을 위해 model에 추가
+		 model.addAttribute("storyContent", storyContent);
+		 model.addAttribute("cost", cost);
+		 model.addAttribute("purchaseStatus", "notPurchased"); // 아직 구매하지 않은 상태 추가
+	 
+		 return "write/confirmPurchase";
+	 }
+	 @PostMapping("/completePurchase")
+	 public String completePurchase(@RequestParam("storyId") Integer storyId, 
+									@RequestParam("bookId") Integer bookId, 
+									@RequestParam("cost") int cost, 
+									HttpSession session, Model model) {
+		 User principal = (User) session.getAttribute("principal");
+		 int userId = principal.getUserId();
+	 
+		 // 구매 확인 후 구매 로직 진행
+		 try {
+			 PurchaseDTO purchaseDTO = new PurchaseDTO();
+			 purchaseDTO.setUserId(userId);
+			 purchaseDTO.setBookId(bookId);
+			 purchaseDTO.setStoryId(storyId);
+			 purchaseService.insertPurchase(purchaseDTO);
+		 } catch (IllegalStateException e) {
+			 return "redirect:/error";
+		 }
+	 
+		 // 포인트 차감 로직
+		 int remainingPoint = principal.getPoint() - cost;
+		 writerService.usePointByStory(userId, remainingPoint);
+	 
+		 // principal 객체의 포인트 값을 업데이트하고 세션에 반영
+		 principal.setPoint(remainingPoint);
+		 session.setAttribute("principal", principal);
+	 
+		 // 구매 후 바로 콘텐츠를 보여줌
+		 Story storyContent = writerService.outputStoryContentByStoryId(storyId);
+		 model.addAttribute("storyContent", storyContent);
+		 model.addAttribute("purchaseStatus", "buy"); // 구매 상태 추가
+		 
+		 return "write/storyContents";
+	 }
 	/**
 	 * 작품 자세히 보기 페이지 이동
 	 * 

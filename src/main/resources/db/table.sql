@@ -463,9 +463,22 @@ FOREIGN KEY (`book_id`) REFERENCES `book_tb`(`book_id`),
 FOREIGN KEY (`story_id`) REFERENCES `story_tb`(`story_id`)
 );
 
+
+
+
 -- fk 순환구조라 오류생김
 -- reward_tb에 project_id에 대한 외래 키 추가
 -- ALTER TABLE
 --     `reward_tb`
 -- ADD
 --     CONSTRAINT fk_reward_project FOREIGN KEY (`project_id`) REFERENCES `project_tb`(`project_id`);
+CREATE TABLE purchase_tb (
+    purchase_id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT,
+    book_id INT,  -- 책 아이디 추가
+    story_id INT,
+    purchase_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES user_tb(user_id) ON DELETE CASCADE,
+    FOREIGN KEY (book_id) REFERENCES book_tb(book_id) ON DELETE CASCADE,
+    FOREIGN KEY (story_id) REFERENCES story_tb(story_id) ON DELETE CASCADE
+);

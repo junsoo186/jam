@@ -44,7 +44,7 @@ public class Project {
 
   public String setUpMainImage() {
     if (mainImg == null) {
-      return "https://picsum.photos/id/40/400/400";
+      return "/images/project/projectnone.jpg";
     } else {
       return "/images/funding/" + mainImg;
     }

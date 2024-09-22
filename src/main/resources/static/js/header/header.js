@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", function() {
     updatePoint();
 
     // 10초마다 포인트 업데이트
-    setInterval(updatePoint, 1000); // 10초(10000ms)마다 주기적으로 호출
+    setInterval(updatePoint, 10000); 
 });
 /*사이드바 관련 스크립트 시작*/
 

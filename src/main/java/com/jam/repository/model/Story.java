@@ -28,4 +28,5 @@ public class Story {
 	private Integer cost;
 	private Integer views;
 	private String contents;
+	private String purchaseStatus;
 }
