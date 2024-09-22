@@ -11,7 +11,7 @@
 				<link rel="stylesheet" href="/css/layout/headerIcon.css">
 				<link rel="stylesheet" href="/css/sidebar.css">
 				<link rel="stylesheet" href="/css/common.css">
-				<link rel="stylesheet" href="font/GmarketSansMedium.css" />
+				<link rel="stylesheet" href="/font/GmarketSansMedium.css" />
 			</head>
 
 			<body>
@@ -101,20 +101,19 @@
 
 
 						<div class="sidebar">
-							<ul>
+							<ul class="sidebar-area">
 
 								<a href="/write/workList" class="nav-link">
 									<img class="pencil-icon" src="/images/layout/write.png">
 								</a>
 								<li><a href="/user/myPage">내 정보</a></li>
-								<li><a href="#">보유 JAM:
-										<fmt:formatNumber value="${principal.point}" pattern="#,###" />
-									</a></li>
-								<li><a href="/pay/toss">JAM 충전하기</a></li>
-								<li><a href="#">설정</a></li>
+								<li><a href="/pay/toss" class="numcolor"><div class="num"><fmt:formatNumber value="${principal.point}" pattern="#,###" />
+											JAM</div>
+										</a></li>
+									
 								<li><a href="/chatPage" id="chat-link">채팅</a></li>
 								<li><a href="/qna/list"> Q&A</a></li>
-								<li><a href="/user/logout">로그아웃</a></li>
+								<a href="/user/logout"><li class="logout">로그아웃</li></a>
 								<br>
 								<c:if test="${principal.role eq 'admin'}">
 									<li><a href="/staff">관리자 페이지</a></li>
