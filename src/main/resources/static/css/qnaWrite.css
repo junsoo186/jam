@@ -1,0 +1,80 @@
+@charset "UTF-8";
+
+/* 전체 컨테이너 스타일 */
+.container {
+    width: 1200px;
+    margin: 0 auto; /* 중앙 정렬 */
+    padding: 20px; /* 패딩 추가 */
+}
+
+/* 카드 스타일 */
+.card {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 부드러운 그림자 */
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+/* 카드 헤더 스타일 */
+.card-header {
+    font-size: 24px;
+    font-weight: bold;
+    background-color: rgba(237, 115, 155, 0.8); /* 배경색에 투명도 추가 */
+    color: white;
+    padding: 15px;
+    border-radius: 10px 10px 0 0; /* 상단 좌우 모서리를 둥글게 */
+    text-align: center; /* 중앙 정렬 */
+}
+
+/* 카드 본문 스타일 */
+.card-body {
+    padding: 20px;
+}
+
+/* 입력 필드 스타일 */
+.form-control {
+    width: 100%; /* 입력 필드 전체 너비 차지 */
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ddd; /* 얇은 경계선 */
+    border-radius: 5px; /* 둥근 모서리 */
+    margin-bottom: 15px; /* 입력 필드 간격 */
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1); /* 입력 필드 내부 그림자 */
+    transition: border-color 0.3s, box-shadow 0.3s; /* 포커스 시 전환 효과 */
+}
+
+.form-control:focus {
+    border-color: #ff6b6b; /* 포커스 시 경계선 색상 변경 */
+    box-shadow: 0 0 5px rgba(255, 107, 107, 0.5); /* 포커스 시 그림자 추가 */
+    outline: none;
+}
+
+/* 텍스트 영역 스타일 */
+textarea.form-control {
+    resize: none; /* 사용자가 크기를 조정하지 못하게 설정 */
+}
+
+/* 버튼 스타일 */
+.btn-primary {
+    background-color: #f06292; /* 버튼 배경색 */
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px; /* 둥근 모서리 */
+    cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.3s; /* 호버 시 전환 효과 */
+    width: 100%; /* 버튼 전체 너비 차지 */
+    margin-top: 10px;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #ff4081; /* 호버 시 색상 변경 */
+    box-shadow: 0 5px 15px rgba(255, 61, 61, 0.3); /* 호버 시 그림자 추가 */
+}
+
+/* 폼 내부 요소 간 간격 */
+.mb-3 {
+    margin-bottom: 20px; /* 각 입력 필드 및 요소 간의 하단 여백 */
+}
