@@ -352,7 +352,7 @@ public class FundingController {
 			Model model) {
 
 		User principal = (User) session.getAttribute("principal");
-		Integer projectId = (Integer)session.getAttribute("projectId");
+		Integer projectId = (Integer) session.getAttribute("projectId");
 
 		// 각각의 리워드와 수량에 대해 처리
 		for (int i = 0; i < rewardIds.size(); i++) {
@@ -372,17 +372,16 @@ public class FundingController {
 	}
 
 	@PostMapping("/cancelFunding")
-	public ResponseEntity<String> cancelFunding(@RequestBody Map<String, Object> requestData) {
-		Integer fundingId = (Integer) requestData.get("fundingId");
-		Integer totalAmount = (Integer) requestData.get("totalAmount");
+	public String cancelFunding(@RequestParam("fundingId") Integer fundingId,
+			@RequestParam("totalAmount") Integer totalAmount) {
 		User principal = (User) session.getAttribute("principal");
 
 		// 펀딩 취소 로직 실행
 		try {
 			fundingService.cancelFunding(fundingId, totalAmount, principal.getUserId()); // 서비스에서 취소 처리
-			return ResponseEntity.ok("펀딩 취소 성공");
+			return "redirect:/pay/paylist";
 		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("펀딩 취소 실패");
+			return "redirect:/errorPage";
 		}
 	}
 
