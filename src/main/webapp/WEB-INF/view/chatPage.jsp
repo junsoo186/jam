@@ -15,7 +15,7 @@
 
 </head>
 <body>
-  <h1>채팅방: ${roomId}</h1>
+  <h1></h1>
   
 
      <div id="messages"></div>
