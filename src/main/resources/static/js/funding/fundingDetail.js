@@ -93,6 +93,10 @@ document.addEventListener('DOMContentLoaded', function () {
         totalAmountInput.value = cartTotal;
         console.log(`Submitting checkout form with totalAmount=${cartTotal}`);
 
+        // 히든 필드에 있는 projectId 값을 출력
+        const projectIdInput = document.getElementById('projectIdInput');
+        console.log("Project ID:", projectIdInput.value);
+
         // 히든 필드 값 출력
         console.log("Total Amount:", totalAmountInput.value);
 

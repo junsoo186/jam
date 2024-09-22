@@ -297,6 +297,7 @@ public class FundingController {
 	@PostMapping("/checkout")
 	public String processCheckout(@RequestParam("totalAmount") int totalAmount,
 			@RequestParam("rewardIds") List<String> rewardIdsStr, @RequestParam("quantities") List<Integer> quantities,
+			@RequestParam("projectId") int projectId,
 			HttpSession session) {
 
 		List<Integer> rewardIds = rewardIdsStr.stream().map(Integer::parseInt).collect(Collectors.toList());
@@ -304,11 +305,13 @@ public class FundingController {
 		System.out.println("totalAmount" + totalAmount);
 		System.out.println("rewards : " + rewardIds.toString());
 		System.out.println("quantities : " + quantities.toString());
+		System.out.println("projectId : " + projectId);
 
 		// 세션에 데이터 저장
 		session.setAttribute("totalAmount", totalAmount);
 		session.setAttribute("rewardIds", rewardIds);
 		session.setAttribute("quantities", quantities);
+		session.setAttribute("projectId", projectId);
 
 		return "redirect:/funding/checkoutPage";
 	}
@@ -349,6 +352,7 @@ public class FundingController {
 			Model model) {
 
 		User principal = (User) session.getAttribute("principal");
+		Integer projectId = (Integer)session.getAttribute("projectId");
 
 		// 각각의 리워드와 수량에 대해 처리
 		for (int i = 0; i < rewardIds.size(); i++) {
@@ -364,7 +368,7 @@ public class FundingController {
 		}
 		fundingService.usePointByFunding(principal.getUserId(), totalAmount);
 
-		return "redirect:/funding/fundingDetail";
+		return "redirect:/funding/fundingDetail?projectId=" + projectId;
 	}
 
 	@PostMapping("/cancelFunding")

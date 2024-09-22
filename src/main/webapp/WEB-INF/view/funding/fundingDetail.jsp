@@ -90,6 +90,7 @@
                                     <form id="checkoutForm" action="/funding/checkout" method="post">
                                         <!-- 총 결제 금액을 서버로 전달 -->
                                         <input type="hidden" id="totalAmountInput" name="totalAmount" value="0" />
+                                        <input type="hidden" id="projectIdInput" name="projectId" value="${project.projectId}" />
 
                                         <!-- 리워드 항목을 동적으로 추가할 컨테이너 -->
                                         <div id="cartItemsInputs">

@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -243,7 +242,6 @@ public class FundingService {
 	}
 
 	public boolean insertRewardByUserId(Integer userId, Integer rewardId) {
-		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException("Unimplemented method 'insertRewardByUserId'");
 	}
 
@@ -265,7 +263,6 @@ public class FundingService {
 	@Transactional
 	public void usePointByFunding(Integer userId, int totalAmount) {
 		fundingRepository.updatePoint(userId, totalAmount);
-
 	}
 
 	/**
@@ -319,9 +316,9 @@ public class FundingService {
 		if (page < 1) {
 			page = 1;
 		}
-	
+
 		int offset = (page - 1) * size;
-	
+
 		return projectRepository.findAllProject(size, offset);
 	}
 
@@ -329,8 +326,8 @@ public class FundingService {
 		return projectRepository.getTotalProjectCount();
 	}
 
-    public void updateProjectState(String state, Integer projectId) {
-        projectRepository.updateProjectState(state, projectId);
-    }
-	
+	public void updateProjectState(String state, Integer projectId) {
+		projectRepository.updateProjectState(state, projectId);
+	}
+
 }
