@@ -1063,7 +1063,7 @@ insert into book_tag_tb (book_id, tag_id) values (1,3);
  
  --   50 Book Information 
 INSERT INTO book_tb (book_id, user_id, title, author_comment, author, category_id, genre_id, introduction, age,likes,serial_day,book_cover_image) 
-VALUES (50, 30, '음유시인', '그들의 노래는 여전히 울려 퍼진다.', '작가C', 1, 2, '그들의 노래는 여전히  울려 퍼진다.', '15', 25, '월요일','cover/18.png');
+VALUES (50, 30, '음유시인', '그들의 노래는 여전히 울려 퍼진다.', '작가C', 1, 2, '그들의 노래는 여전히  울려 퍼진다.', '15', 25, '월요일','cover/26.png');
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents ,cost ,views)
 VALUES (50, 30, 0, '프롤로그', '잃어버린 별들의 노래', '2023-10-15','src/main/resources/static/contentText/밤의 시작.txt', 0 , 874);
@@ -1079,7 +1079,7 @@ VALUES (50, 30, 3, '유료', '은하 속에 숨겨진 멜로디', '2023-10-15','
 
 --   51 Book Information 
 INSERT INTO book_tb (book_id, user_id, title, author_comment, author, category_id, genre_id, introduction, age,likes,serial_day,book_cover_image) 
-VALUES (51,30, '잃어버린 별들의 노래', '그들의 노래는 여전히 밤하늘에 울려 퍼진다.', '작가12', 1, 2, '그들의 노래는 여전히 밤하늘에 울려 퍼진다.', '15', 25, '월요일','cover/19.png');
+VALUES (51,30, '잃어버린 별들의 노래', '그들의 노래는 여전히 밤하늘에 울려 퍼진다.', '작가12', 1, 2, '그들의 노래는 여전히 밤하늘에 울려 퍼진다.', '15', 25, '월요일','cover/25.png');
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents ,cost ,views)
 VALUES (51, 30, 0, '프롤로그', '잃어버린 별들의 노래', '2023-10-15','src/main/resources/static/contentText/밤의 시작.txt', 0 , 874);
@@ -1095,7 +1095,7 @@ VALUES (51, 30, 3, '유료', '은하 속에 숨겨진 멜로디', '2023-10-15','
 
 --   52 Book Information 
 INSERT INTO book_tb (book_id, user_id, title, author_comment, author, category_id, genre_id, introduction, age,likes,serial_day,book_cover_image) 
-VALUES (52, 31, '바람 속의 속삭임', '그들의 노래는 여전히 밤하늘에 울려 퍼진다.', '바람', 1, 2, '그들의 노래는 여전히 밤하늘에 울려 퍼진다.', '15', 25, '화요일','cover/20.png');
+VALUES (52, 31, '바람 속의 속삭임', '그들의 노래는 여전히 밤하늘에 울려 퍼진다.', '바람', 1, 2, '그들의 노래는 여전히 밤하늘에 울려 퍼진다.', '15', 25, '화요일','cover/27.png');
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents ,cost ,views)
 VALUES (52, 31, 0, '프롤로그', '바람 속의 속삭임', '2023-10-15','src/main/resources/static/contentText/밤의 시작.txt', 0 , 874);
@@ -1110,7 +1110,7 @@ INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, content
 VALUES (52, 31, 3, '유료', '침묵 속에서 들려온 소리', '2023-10-15','src/main/resources/static/contentText/밤의 시작.txt', 200, 874);
 
 INSERT INTO book_tb (book_id, user_id, title, author_comment, author, category_id, genre_id, introduction, age, likes, serial_day, book_cover_image) 
-VALUES (53, 32, '어둠 속의 한 줄기 빛', '어둠 속에서도 희망은 빛난다.', '밤하늘', 1, 2, '그들의 노래는 여전히 밤하늘에 울려 퍼진다.', '15', 25, '화요일', 'cover/19.png');
+VALUES (53, 32, '어둠 속의 한 줄기 빛', '어둠 속에서도 희망은 빛난다.', '밤하늘', 1, 2, '그들의 노래는 여전히 밤하늘에 울려 퍼진다.', '15', 25, '화요일', 'cover/28.png');
 
 -- 53 Story Information
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
@@ -1127,7 +1127,7 @@ VALUES (53, 32, 3, '유료', '어둠 속에 남은 빛', '2023-10-15', 'src/main
 
 -- 54 Book Information 
 INSERT INTO book_tb (book_id, user_id, title, author_comment, author, category_id, genre_id, introduction, age, likes, serial_day, book_cover_image) 
-VALUES (54, 33, '달빛에 물든 기억', '기억은 달빛 아래 선명해진다.', '달빛아래', 1, 2, '그들의 노래는 여전히 밤하늘에 울려 퍼진다.', '15', 25, '수요일', 'cover/28.png');
+VALUES (54, 33, '달빛에 물든 기억', '기억은 달빛 아래 선명해진다.', '달빛아래', 1, 2, '그들의 노래는 여전히 밤하늘에 울려 퍼진다.', '15', 25, '수요일', 'cover/29.png');
 
 -- 54 Story Information
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
@@ -1144,7 +1144,7 @@ VALUES (54, 33, 3, '유료', '사라져가는 기억', '2023-10-15', 'src/main/r
 
 -- 55 Book Information 
 INSERT INTO book_tb (book_id, user_id, title, author_comment, author, category_id, genre_id, introduction, age, likes, serial_day, book_cover_image) 
-VALUES (55, 34, '바람에 실린 속삭임', '바람은 비밀을 품고 있다.', '바밀', 1, 2, '그들의 노래는 여전히 밤하늘에 울려 퍼진다.', '15', 25, '수요일', 'cover/21.png');
+VALUES (55, 34, '바람에 실린 속삭임', '바람은 비밀을 품고 있다.', '바밀', 1, 2, '그들의 노래는 여전히 밤하늘에 울려 퍼진다.', '15', 25, '수요일', 'cover/30.png');
 
 -- 55 Story Information
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
@@ -1161,7 +1161,7 @@ VALUES (55, 34, 3, '유료', '바람 속의 비밀', '2023-10-15', 'src/main/res
 
 -- 56 Book Information 
 INSERT INTO book_tb (book_id, user_id, title, author_comment, author, category_id, genre_id, introduction, age, likes, serial_day, book_cover_image) 
-VALUES (56, 35, '추억 속의 별빛', '별빛 아래에 숨겨진 추억.', '추억속', 1, 2, '그들의 노래는 여전히 밤하늘에 울려 퍼진다.', '15', 25, '목요일', 'cover/22.png');
+VALUES (56, 35, '추억 속의 별빛', '별빛 아래에 숨겨진 추억.', '추억속', 1, 2, '그들의 노래는 여전히 밤하늘에 울려 퍼진다.', '15', 25, '목요일', 'cover/31.png');
 
 -- 56 Story Information
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
