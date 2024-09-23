@@ -18,6 +18,12 @@ function searchBooks(query) {
                     bookImage.src = book.bookCoverImage || '/images/default_cover.jpg';
                     const textContainer = document.createElement('div');
                     textContainer.textContent = `${book.title} by ${book.author} ${tagText}`;
+
+                    // 클릭 이벤트 추가
+                    listItem.addEventListener('click', () => {
+                        window.location.href = `/write/workDetail?bookId=${book.bookId}`;
+                    });
+
                     listItem.appendChild(bookImage);
                     listItem.appendChild(textContainer);
                     resultsList.appendChild(listItem);
