@@ -82,21 +82,21 @@ h1 {
 }
 
 /* 선택된 버튼 배경 */
-.btn--day--views::before,
+/* .btn--day--views::before,
 .btn--day--likes::before {
 	content: '';
 	position: absolute;
 	width: 70px;
 	height: 40px;
 	background-color: #f06292;
-	/* 선택된 버튼 색상 */
+	선택된 버튼 색상
 	border-radius: 25px;
 	transition: transform 0.5s ease, width 0.5s ease;
 	z-index: 0;
-	/* 배경은 버튼 아래 */
+	배경은 버튼 아래
 	transform: translateX(-30px);
-	/* 처음에 왼쪽에 위치 */
-}
+	처음에 왼쪽에 위치
+} */
 
 .btn--day--views button.active,
 .btn--day--likes button.active {
@@ -226,6 +226,7 @@ h1 {
     z-index: 0;
     transition: transform 0.3s ease;
     left: 0;
+    transform: translateX(615px);  /* 처음에 왼쪽에 위치 */
 }
 
 .btn--day--views.active,
@@ -234,5 +235,5 @@ h1 {
 }
 
 .btn--area.active-right::before {
-    transform: translateX(100%);
+    transform: translateX(710px);
 }
