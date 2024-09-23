@@ -1021,7 +1021,7 @@ VALUES (22, 30, 3, '3화', '방과 후 활동', '2023-5-20', 'src/main/resources
 -- 23
 
 INSERT INTO book_tb (user_id, title, author_comment, author, category_id, genre_id, introduction, age, likes, serial_day, book_cover_image) 
-VALUES (31, '꿈의 마법 세계', '드림 매직', '작가 한', 2, 10, '엘라는 언제나 꿈을 꾸는 것을 좋아했다',
+VALUES (31, '꿈의 마법 세계', '드림 매직 꿈속에서 펼쳐지는 한 소녀의 마법 견습 이야기', '작가 한', 2, 10, '엘라는 언제나 꿈을 꾸는 것을 좋아했다',
 		 '15', 671, '월요일', 'cover/23.jpeg');
 		 
 		 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views) 
