@@ -49,7 +49,10 @@ document.addEventListener('DOMContentLoaded', function() {
 	function loadContent(url) {
 		var xhr = new XMLHttpRequest();
 		xhr.open('GET', url, true);
+<<<<<<< HEAD
 
+=======
+>>>>>>> sub-dev
 		xhr.onload = function() {
 			if (xhr.status === 200) {
 				document.getElementById('content').innerHTML = xhr.responseText;
@@ -340,7 +343,11 @@ document.addEventListener('DOMContentLoaded', function() {
 			}
 		});
 	}
+<<<<<<< HEAD
 	
+=======
+
+>>>>>>> sub-dev
 	function bindDonationModalEvents() {
 		// 모달 관련 변수들
 		const modal = document.getElementById('donationModal');
@@ -396,6 +403,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // 채팅 페이지 연결 
 
+<<<<<<< HEAD
    document.addEventListener('DOMContentLoaded', function() {
         var chatLink = document.getElementById('chat-link');
 
@@ -406,3 +414,154 @@ document.addEventListener('DOMContentLoaded', function() {
             window.open('/chatPage', 'chatWindow', 'width=400,height=600');
         });
     });
+=======
+document.addEventListener('DOMContentLoaded', function() {
+	var chatLink = document.getElementById('chat-link');
+
+	chatLink.addEventListener('click', function(event) {
+		event.preventDefault();
+
+		// 창 열기
+		window.open('/chatPage', 'chatWindow', 'width=400,height=600');
+	});
+});
+
+// 이벤트 수정 모달 이벤트 바인딩 함수
+function bindEventUpdateModalEvents() {
+	var eventUpdateModal = document.getElementById('eventUpdateModal');
+	var closeEventUpdateModalBtn = document.querySelector('#eventUpdateModal .close');
+
+	// 수정 버튼을 클릭할 때마다 해당 이벤트 ID로 모달을 엽니다.
+	document.querySelectorAll('.edit-event-btn').forEach(button => {
+		button.addEventListener('click', function() {
+			var eventId = this.getAttribute('data-event-id');
+
+			// 서버에서 해당 이벤트 정보를 가져와 모달에 채우기
+			fetch(`/staffEvent/detail/${eventId}`)
+				.then(response => response.json())
+				.then(data => {
+					// 모달 내 폼에 데이터 채우기
+					document.getElementById('update-event-id').value = data.eventId;
+					document.getElementById('update-event-title').value = data.eventTitle;
+					document.getElementById('update-event-description').value = data.eventContent;
+					document.getElementById('update-start-day').value = data.startDay;
+					document.getElementById('update-end-day').value = data.endDay;
+
+					// 수정 모달 열기
+					eventUpdateModal.style.display = 'flex';
+				})
+				.catch(error => console.error('Error fetching event data:', error));
+		});
+	});
+
+	// 수정 모달 닫기 이벤트
+	if (closeEventUpdateModalBtn) {
+		closeEventUpdateModalBtn.addEventListener('click', function() {
+			eventUpdateModal.style.display = 'none';
+		});
+	}
+
+	window.addEventListener('click', function(event) {
+		if (event.target == eventUpdateModal) {
+			eventUpdateModal.style.display = 'none';
+		}
+	});
+}
+
+window.onload = function() {
+	bindEventModalEvents(); // 기존 이벤트 등록 모달 바인딩 함수
+	bindEventUpdateModalEvents(); // 새로운 이벤트 수정 모달 바인딩 함수
+};
+
+
+// ranking
+function toggleActiveButton(type) {
+    const viewsButton = document.getElementById('viewsButton');
+    const likesButton = document.getElementById('likesButton');
+    const btnArea = document.getElementById('btnArea');
+
+    // 조회수 버튼을 클릭했을 경우
+    if (type === 'views') {
+        viewsButton.classList.add('active');
+        likesButton.classList.remove('active');
+        btnArea.classList.remove('active-right'); // 원래 위치로 배경 이동
+        sortBooks('views'); // 조회수 기준으로 정렬
+    }
+    
+    // 좋아요 버튼을 클릭했을 경우
+    else if (type === 'likes') {
+        likesButton.classList.add('active');
+        viewsButton.classList.remove('active');
+        btnArea.classList.add('active-right'); // 좋아요 버튼으로 배경 이동
+        sortBooks('likes'); // 좋아요 기준으로 정렬
+    }
+}
+
+// 책 정렬 함수
+function sortBooks(criteria) {
+    // 책 리스트 가져오기
+    const bookList = document.getElementById('bookList');
+    const books = Array.from(bookList.getElementsByTagName('li'));
+
+    // 정렬 기준에 따라 정렬
+    books.sort(function(a, b) {
+        const aValue = parseInt(a.getAttribute('data-' + criteria));
+        const bValue = parseInt(b.getAttribute('data-' + criteria));
+
+        // 내림차순 정렬
+        return bValue - aValue;
+    });
+
+    // 정렬된 결과를 다시 화면에 추가
+    books.forEach(function(book) {
+        bookList.appendChild(book);
+    });
+}
+
+
+ /* function sortBooks(criteria) {
+            // 책 리스트 가져오기
+            const bookList = document.getElementById('bookList');
+            const books = Array.from(bookList.getElementsByTagName('li'));
+
+            // 정렬 기준에 따라 정렬
+            books.sort(function(a, b) {
+                const aValue = parseInt(a.getAttribute('data-' + criteria));
+                const bValue = parseInt(b.getAttribute('data-' + criteria));
+
+                // 내림차순 정렬
+                return bValue - aValue;
+            });
+
+            // 정렬된 결과를 다시 화면에 추가
+            books.forEach(function(book) {
+                bookList.appendChild(book);
+            });
+        }
+        
+        
+// 버튼 클릭 시 정렬 효과를 적용하고 버튼 스타일을 변경하는 함수
+function toggleActiveButton(clickedButton) {
+    const buttons = document.querySelectorAll('.btn--area button');
+    buttons.forEach(button => {
+        if (button === clickedButton) {
+            button.classList.add('active');  // 클릭된 버튼 활성화
+        } else {
+            button.classList.remove('active');  // 나머지 버튼 비활성화
+        }
+    });
+}
+
+// 각 버튼 클릭 시 실행될 코드
+document.getElementById('categoryViewsButton').onclick = function() {
+    sortBooks('views');  // 조회수 기준으로 정렬
+    toggleActiveButton(this);  // 버튼 활성화 효과 적용
+};
+
+document.getElementById('categoryLikesButton').onclick = function() {
+    sortBooks('likes');  // 좋아요 기준으로 정렬
+    toggleActiveButton(this);  // 버튼 활성화 효과 적용
+};
+        
+        */
+>>>>>>> sub-dev

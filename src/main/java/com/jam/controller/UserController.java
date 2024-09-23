@@ -10,7 +10,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,10 +28,13 @@ import com.jam.dto.signInDTO;
 import com.jam.dto.signUpDTO;
 import com.jam.repository.model.User;
 import com.jam.service.UserService;
+import com.jam.utils.Define;
 import com.jam.utils.googleOauth;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+
+import com.jam.handler.exception.DataDeliveryException;
 
 @Controller
 @RequestMapping("/user")
@@ -41,6 +43,18 @@ public class UserController {
 
 	private final HttpSession session;
 	private final UserService userService;
+
+
+	
+
+	@GetMapping("/getPoint")
+    public ResponseEntity<Integer> getUserPoint() {
+    
+		User principal = (User) session.getAttribute("principal");
+        Integer point= userService.searchPoint(principal.getUserId());
+
+        return new ResponseEntity<>(point, HttpStatus.OK);
+    }
 
 	// 회원가입 JSP 버튼 테스트
 	@PostMapping("/messageTest")
@@ -95,6 +109,14 @@ public class UserController {
 	@PostMapping("/sign-in")
 	public String signProc(signInDTO dto) {
 		
+		if(dto.getEmail() == null || dto.getEmail().isEmpty()) {
+			throw new DataDeliveryException(Define.ENTER_YOUR_USERNAME, HttpStatus.BAD_REQUEST);
+		}
+		
+		if(dto.getPassword() == null || dto.getPassword().isEmpty()) {
+			throw new DataDeliveryException(Define.ENTER_YOUR_PASSWORD, HttpStatus.BAD_REQUEST);
+		}
+		
 		// 사용자 인증 로직
 		User principal = userService.login(dto); // 로그인 시도 및 User 객체 반환
 		// 세션에 사용자 정보를 등록
@@ -102,7 +124,7 @@ public class UserController {
 		String profileImg = principal.setUpUserImage();
 		principal.setProfileImg(profileImg);
 		session.setAttribute("principal", principal);
-		System.out.println("principal : " + principal);
+		System.out.println("principal : " + principal);		
 		return "redirect:/"; // 로그인 성공 시 메인 페이지로 리다이렉트
 	}
 
@@ -525,7 +547,7 @@ public class UserController {
 	/**
 	 * 마이페이지 회원정보 수정 페이지 이동
 	 */
-	@GetMapping("/myProfileModify")
+	@GetMapping("/profileSetting")
 	public String getDetailMyPage() {
 		
 //		User user2 = (User)session.getAttribute("principal"); // 세션값 변경준비
@@ -591,5 +613,8 @@ public class UserController {
 		
 		return "redirect:/";
 	}
+
+
+	
 	
 }

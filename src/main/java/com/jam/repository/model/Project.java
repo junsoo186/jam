@@ -2,7 +2,6 @@ package com.jam.repository.model;
 
 import java.sql.Date;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
@@ -45,9 +44,9 @@ public class Project {
 
   public String setUpMainImage() {
     if (mainImg == null) {
-      return "https://picsum.photos/id/40/400/400";
+      return "/images/project/projectnone.jpg";
     } else {
-      return "/images/uploads/" + mainImg;
+      return "/images/funding/" + mainImg;
     }
   }
 }

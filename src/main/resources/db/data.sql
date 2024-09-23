@@ -125,41 +125,68 @@ INSERT INTO user_alert_history_tb ( alert_id,user_id,period_date) VALUES ( 4,24,
 INSERT INTO user_alert_history_tb ( alert_id,user_id,period_date) VALUES ( 5,28,'2024-10-05');
 
 INSERT INTO `event_tb` (
-    `event_title`, `event_content`, `start_day`, `end_day`, `user_id`
+    `event_title`, `event_content`, `start_day`, `end_day`, `user_id`,`event_image`
 ) VALUES (
-    '회원가입 웰컴 반값 이벤트1', '회원가입 후 첫 코인 구매 시 50% 할인 혜택을 제공합니다.', 
+    '회원가입 웰컴 반값 이벤트!', '회원가입 후 첫 코인 구매 시 50% 할인 혜택을 제공합니다.', 
     '2024-09-01', 
     '2024-12-31', 
-    4  -- user_tb에서 user_id 101번 사용자가 이벤트를 관리
+    4 , -- user_tb에서 user_id 101번 사용자가 이벤트를 관리
+    'event/event-detail1.jpg'
+    
 );
 INSERT INTO `event_tb` (
-    `event_title`, `event_content`, `start_day`, `end_day`, `user_id`
+    `event_title`, `event_content`, `start_day`, `end_day`, `user_id`,`event_image`
 ) VALUES (
-    '회원가입 웰컴 반값 이벤트2', 
+    '잼코인 랜덤 뽑기!', 
     '회원가입 후 첫 코인 구매 시 50% 할인 혜택을 제공합니다.', 
     '2024-09-01', 
     '2024-12-31',
-    5 -- user_tb에서 user_id 101번 사용자가 이벤트를 관리
+    5, -- user_tb에서 user_id 101번 사용자가 이벤트를 관리
+     'event/event-detail2.jpg'
 );
 INSERT INTO `event_tb` (
-    `event_title`, `event_content`, `start_day`, `end_day`, `user_id`
+    `event_title`, `event_content`, `start_day`, `end_day`, `user_id`,`event_image`
 ) VALUES (
-    '회원가입 웰컴 반값 이벤트3', 
+    '2024 ! 천하제일 쩀 대회!', 
     '회원가입 후 첫 코인 구매 시 50% 할인 혜택을 제공합니다.', 
-    '2024-09-01', 
-    '2024-12-31',
-    6  -- user_tb에서 user_id 101번 사용자가 이벤트를 관리
+    '2024-08-01', 
+    '2024-09-15',
+    6,  -- user_tb에서 user_id 101번 사용자가 이벤트를 관리
+     'event/event-detail3.jpg'
 );
 INSERT INTO `event_tb` (
-    `event_title`, `event_content`, `start_day`, `end_day`, `user_id`
+    `event_title`, `event_content`, `start_day`, `end_day`, `user_id`,`event_image`
 ) VALUES (
     '회원가입 웰컴 반값 이벤트4', 
     '회원가입 후 첫 코인 구매 시 50% 할인 혜택을 제공합니다.', 
     '2024-09-01', 
-    '2024-12-31',
-    3  -- user_tb에서 user_id 101번 사용자가 이벤트를 관리
+    '2024-9-10',
+    3,  -- user_tb에서 user_id 101번 사용자가 이벤트를 관리
+     'event/event-detail3.jpg'
 );
 
+
+-- 메인배너 테이블
+
+INSERT INTO `main_banner_tb` (
+`title` ,`content`,`sub_content`,`image_path`,`event_id`) 
+VALUES (
+    '100% 당첨 잼코인 랜덤뽑기!', 
+    '최대 500 잼코인! , 거기다가 할인쿠폰도 30%까지!', 
+    '기간한정 이벤트', 'mainbanner/이벤트상단배너2.jpg',1  );
+
+INSERT INTO `main_banner_tb` (
+`title` ,`content`,`sub_content`,`image_path`,`event_id`) 
+VALUES (
+    '신인 작가분들을 모집합니다!', 
+    '작품을 만들고 싶으신 모든 작가분들을 모십니다!', 
+    '기간한정 이벤트',  'mainbanner/bannerimg2.jpg', 2 );
+INSERT INTO `main_banner_tb` (
+`title` ,`content`,`sub_content`,`image_path`,`event_id`) 
+VALUES (
+    '회원가입 웰컴 반값 이벤트', 
+    '회원가입 후 첫 코인 구매 시 50% 할인 혜택을 제공합니다.', 
+    '기간한정 이벤트',  'mainbanner/이벤트 상단배너1.jpg', 3);
 
 
 
@@ -254,67 +281,67 @@ values (1, '미라클 마트: 밤의 마법사"', '평범한 대학생 김도현
 
 -- 1 스토리 테이블 생성 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost , views ) 
-VALUES (1, 1, 0, '프롤로그', '프롤로그: 뜻밖의 알바 면접', '2023-05-03', '',0,1231);
+VALUES (1, 1, 0, '프롤로그', '프롤로그: 뜻밖의 알바 면접', '2023-05-03', 'src/main/resources/static/contentText/뜻밖의 알바 면접.txt',0,1231);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents , cost , views) 
-VALUES (1, 1, 1, '유료', '1화: 밤의 손님', '2023-05-10', '',200,1151);
+VALUES (1, 1, 1, '유료', '밤의 손님', '2023-05-10', 'src/main/resources/static/contentText/밤의 손님.txt',200,1151);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents , cost , views) 
-VALUES (1, 1, 2, '유료', '2화: 숨겨진 마법 도서관', '2023-05-17', '',200,1200);
+VALUES (1, 1, 2, '유료', '숨겨진 마법 도서관', '2023-05-17', 'src/main/resources/static/contentText/숨겨진 마법 도서관.txt',200,1200);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents , cost , views) 
-VALUES (1, 1, 3, '유료', '3화: 불의 시험', '2023-05-24', '',200,1189);
+VALUES (1, 1, 3, '유료', '불의 시험', '2023-05-24', 'src/main/resources/static/contentText/불의 시험.txt',200,1189);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost , views ) 
-VALUES (1, 1, 4, '유료', '4화: 시간의 미궁', '2023-05-31', '',200,1354);
+VALUES (1, 1, 4, '유료', '시간의 미궁', '2023-05-31', 'src/main/resources/static/contentText/시간의 미궁.txt',200,1354);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost , views ) 
-VALUES (1, 1, 5, '유료', '5화: 별빛의 지팡이', '2023-06-07', '',200,1278);
+VALUES (1, 1, 5, '유료', '별빛의 지팡이', '2023-06-07', 'src/main/resources/static/contentText/별빛의 지팡이.txt',200,1278);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost , views ) 
-VALUES (1, 1, 6, '유료', '6화: 그림자의 숲', '2023-06-14', '',200,1025);
+VALUES (1, 1, 6, '유료', '그림자의 숲', '2023-06-14', 'src/main/resources/static/contentText/그림자의 숲.txt',200,1025);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost , views ) 
-VALUES (1, 1, 7, '유료', '7화: 불의 정령과의 계약', '2023-06-21', '',200,1037);
+VALUES (1, 1, 7, '유료', '불의 정령과의 계약', '2023-06-21', 'src/main/resources/static/contentText/불의 정령과의 계약.txt',200,1037);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost , views ) 
-VALUES (1, 1, 8, '유료', '8화: 시간 도둑을 잡아라', '2023-06-28', '',200,978);
+VALUES (1, 1, 8, '유료', '시간 도둑을 잡아라', '2023-06-28', 'src/main/resources/static/contentText/시간 도둑을 잡아라.txt',200,978);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost , views ) 
-VALUES (1, 1, 9, '유료', '9화: 바다의 심장', '2023-07-05', '',200,900);
+VALUES (1, 1, 9, '유료', '바다의 심장', '2023-07-05', 'src/main/resources/static/contentText/바다의 심장.txt',200,900);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost , views ) 
-VALUES (1, 1, 10, '유료', '10화: 하늘을 나는 빗자루', '2023-07-12', '',200,1121);
+VALUES (1, 1, 10, '유료', '하늘을 나는 빗자루', '2023-07-12', 'src/main/resources/static/contentText/하늘을 나는 빗자루.txt',200,1121);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost , views ) 
-VALUES (1, 1, 11, '유료', '11화: 얼음의 성', '2023-07-19', '',200,1234);
+VALUES (1, 1, 11, '유료', '얼음의 성', '2023-07-19', 'src/main/resources/static/contentText/얼음의 성.txt',200,1234);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost , views ) 
-VALUES (1, 1, 12, '유료', '12화: 불꽃의 의식', '2023-07-26', '',200,1287);
+VALUES (1, 1, 12, '유료', '불꽃의 의식', '2023-07-26', 'src/main/resources/static/contentText/불꽃의 의식.txt',200,1287);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost , views ) 
-VALUES (1, 1, 13, '유료', '13화: 어둠의 동굴', '2023-08-02', '',200,1315);
+VALUES (1, 1, 13, '유료', '어둠의 동굴', '2023-08-02', 'src/main/resources/static/contentText/어둠의 동굴.txt',200,1315);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost , views ) 
-VALUES (1, 1, 14, '유료', '14화: 시간의 마법사', '2023-08-09', '',200,1379);
+VALUES (1, 1, 14, '유료', '시간의 마법사', '2023-08-09', 'src/main/resources/static/contentText/시간의 마법사.txt',200,1379);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost , views ) 
-VALUES (1, 1, 15, '유료', '15화: 대지의 영혼', '2023-08-16', '',200,1442);
+VALUES (1, 1, 15, '유료', '대지의 영혼', '2023-08-16', 'src/main/resources/static/contentText/대지의 영혼.txt',200,1442);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost , views ) 
-VALUES (1, 1, 16, '유료', '16화: 바람의 제단', '2023-08-23', '',200,1498);
+VALUES (1, 1, 16, '유료', '바람의 제단', '2023-08-23', 'src/main/resources/static/contentText/바람의 제단.txt',200,1498);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost , views ) 
-VALUES (1, 1, 17, '유료', '17화: 신비의 호수', '2023-08-30', '',200,1457);
+VALUES (1, 1, 17, '유료', '신비의 호수', '2023-08-30', 'src/main/resources/static/contentText/신비의 호수.txt',200,1457);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost , views ) 
-VALUES (1, 1, 18, '유료', '18화: 불사의 산', '2023-09-06', '',200,1521);
+VALUES (1, 1, 18, '유료', '불사의 산', '2023-09-06', 'src/main/resources/static/contentText/불사의 산.txt',200,1521);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost , views ) 
-VALUES (1, 1, 19, '유료', '19화: 마법의 탑', '2023-09-13', '',200,1502);
+VALUES (1, 1, 19, '유료', '마법의 탑', '2023-09-13', 'src/main/resources/static/contentText/마법의 탑.txt',200,1502);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost , views ) 
-VALUES (1, 1, 20, '유료', '20화: 미라클 마트의 비밀', '2023-09-20', '',200,1458);
+VALUES (1, 1, 20, '유료', '미라클 마트의 비밀', '2023-09-20', 'src/main/resources/static/contentText/미라클 마트의 비밀.txt',200,1458);
 
 -- ------2
 insert into book_tb (user_id,title,author_comment,author,category_id , genre_id,
@@ -330,37 +357,37 @@ VALUES (12, '신비의 연금술사와 황금의 약속', '연금술과 판타�
 			'작가 B', 3, 5, '잃어버린 여동생을 찾기 위해 다른 세계로 모험을 떠나는 청년의 이야기', '19',325,'일요일','cover/3.png');
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost , views)
-VALUES (3, 12, 0, '프롤로그', '신비의 연금술사와 황금의 약속 - 프롤로그', '2023-10-15','',0,1458);
+VALUES (3, 12, 0, '프롤로그', '신비의 연금술사와 황금의 약속 - 프롤로그', '2023-10-15','src/main/resources/static/contentText/신비의연금술사와황금의약속프롤로그.txt',0,1458);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views) 
-VALUES (3, 12, 1, '유료', '1화: 신비한 만남', '2023-10-22', '', 200, 900);
+VALUES (3, 12, 1, '유료', '신비한 만남', '2023-10-22', 'src/main/resources/static/contentText/신비한만남.txt', 200, 900);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views) 
-VALUES (3, 12, 2, '유료', '2화: 새로운 동료', '2023-10-29', '', 200, 920);
+VALUES (3, 12, 2, '유료', '새로운 동료', '2023-10-29', 'src/main/resources/static/contentText/새로운동료.txt', 200, 920);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views) 
-VALUES (3, 12, 3, '유료', '3화: 위험한 숲 속의 그림자', '2023-11-05', '', 200, 940);
+VALUES (3, 12, 3, '유료', '위험한 숲 속의 그림자', '2023-11-05', 'src/main/resources/static/contentText/위험한숲속의그림자.txt', 200, 940);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views) 
-VALUES (3, 12, 4, '유료', '4화: 마법사의 성', '2023-11-12', '', 200, 960);
+VALUES (3, 12, 4, '유료', '마법사의 성', '2023-11-12', 'src/main/resources/static/contentText/마법사의성.txt', 200, 960);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views) 
-VALUES (3, 12, 5, '유료', '5화: 마법의 도서관', '2023-11-19', '', 200, 980);
+VALUES (3, 12, 5, '유료', '마법의 도서관', '2023-11-19', 'src/main/resources/static/contentText/마법의도서관.txt', 200, 980);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views) 
-VALUES (3, 12, 6, '유료', '6화: 마법의 시험', '2023-11-26', '', 200, 1000);
+VALUES (3, 12, 6, '유료', '마법의 시험', '2023-11-26', 'src/main/resources/static/contentText/마법의시험.txt', 200, 1000);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views) 
-VALUES (3, 12, 7, '유료', '7화: 어둠의 동굴', '2023-12-03', '', 200, 1020);
+VALUES (3, 12, 7, '유료', '어둠의 동굴', '2023-12-03', 'src/main/resources/static/contentText/어둠의동굴.txt', 200, 1020);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views) 
-VALUES (3, 12, 8, '유료', '8화: 불의 정령과의 계약', '2023-12-10', '', 200, 1040);
+VALUES (3, 12, 8, '유료', '불의 정령과의 계약', '2023-12-10', 'src/main/resources/static/contentText/불의정령과의계약.txt', 200, 1040);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views) 
-VALUES (3, 12, 9, '유료', '9화: 얼음의 미로', '2023-12-17', '', 200, 1060);
+VALUES (3, 12, 9, '유료', '얼음의 미로', '2023-12-17', 'src/main/resources/static/contentText/얼음의미로.txt', 200, 1060);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views) 
-VALUES (3, 12, 10, '유료', '10화: 신비로운 마법의 숲', '2023-12-24', '', 200, 1080);
+VALUES (3, 12, 10, '유료', '신비로운 마법의 숲', '2023-12-24', 'src/main/resources/static/contentText/신비로운마법의숲2.txt', 200, 1080);
 
 
 -- Book Information SQL
@@ -370,37 +397,37 @@ VALUES (21, '바람의 여정과 잃어버린 왕국', '바람 마법을 사용�
 
 -- Story Information SQL
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents,cost , views)
-VALUES (4, 21, 0, '프롤로그', '바람의 속삭임', '2024-07-10','',0 , 740);
+VALUES (4, 21, 0, '프롤로그', '바람의 속삭임', '2024-07-10','src/main/resources/static/contentText/바람의 속삭임2.txt',0 , 740);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views) 
-VALUES (4, 21, 1, '유료', '1화: 시작의 바람', '2024-07-17', '', 200, 620);
+VALUES (4, 21, 1, '유료', '시작의 바람', '2024-07-17', 'src/main/resources/static/contentText/시작의 바람.txt', 200, 620);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views) 
-VALUES (4, 21, 2, '유료', '2화: 폭풍의 흔적', '2024-07-24', '', 200, 650);
+VALUES (4, 21, 2, '유료', '폭풍의 흔적', '2024-07-24', 'src/main/resources/static/contentText/폭풍의 흔적.txt', 200, 650);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views) 
-VALUES (4, 21, 3, '유료', '3화: 산속의 정령', '2024-08-07', '', 200, 670);
+VALUES (4, 21, 3, '유료', '산속의 정령', '2024-08-07', 'src/main/resources/static/contentText/산속의 정령.txt', 200, 670);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views) 
-VALUES (4, 21, 4, '유료', '4화: 모래 폭풍의 사막', '2024-08-14', '', 200, 690);
+VALUES (4, 21, 4, '유료', '모래 폭풍의 사막', '2024-08-14', 'src/main/resources/static/contentText/모래 폭풍의 사막.txt', 200, 690);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views) 
-VALUES (4, 21, 5, '유료', '5화: 마지막 유물', '2024-08-21', '', 200, 710);
+VALUES (4, 21, 5, '유료', '마지막 유물', '2024-08-21', 'src/main/resources/static/contentText/마지막 유물.txt', 200, 710);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views) 
-VALUES (4, 21, 6, '유료', '6화: 사원의 시험', '2024-08-28', '', 200, 730);
+VALUES (4, 21, 6, '유료', '사원의 시험', '2024-08-28', 'src/main/resources/static/contentText/사원의 시험.txt', 200, 730);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views) 
-VALUES (4, 21, 7, '유료', '7화: 어둠의 계곡', '2024-09-04', '', 200, 750);
+VALUES (4, 21, 7, '유료', '어둠의 계곡', '2024-09-04', 'src/main/resources/static/contentText/어둠의 계곡.txt', 200, 750);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views) 
-VALUES (4, 21, 8, '유료', '8화: 에일라스의 부활', '2024-09-11', '', 200, 770);
+VALUES (4, 21, 8, '유료', '에일라스의 부활', '2024-09-11', 'src/main/resources/static/contentText/에일라스의 부활.txt', 200, 770);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views) 
-VALUES (4, 21, 9, '유료', '9화: 새로운 위협', '2024-09-18', '', 200, 790);
+VALUES (4, 21, 9, '유료', '새로운 위협', '2024-09-18', 'src/main/resources/static/contentText/새로운 위협.txt', 200, 790);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views) 
-VALUES (4, 21, 10, '유료', '10화: 바람의 선택', '2024-09-25', '', 200, 810);
+VALUES (4, 21, 10, '유료', '바람의 선택', '2024-09-25', 'src/main/resources/static/contentText/바람의 선택.txt', 200, 810);
 
 -- 5 Book Information SQL
 INSERT INTO book_tb (user_id, title, author_comment, author, category_id, genre_id, introduction, age,likes,serial_day,book_cover_image) 
@@ -408,34 +435,34 @@ VALUES (18, '어둠의 성에서 온 초대장', '저주받은 성과 그곳에 
 						'어둠의 성에서 열리는 신비로운 연회에 초대된 사람들의 이야기', '15',50,'토요일','cover/5.png');
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents,cost ,views)
-VALUES (5, 18, 0, '프롤로그', '어둠 속의 초대', '2023-11-04','', 200 ,153);
+VALUES (5, 18, 0, '프롤로그', '어둠 속의 초대', '2023-11-04','src/main/resources/static/contentText/어둠 속의 초대.txt', 200 ,153);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (5, 18, 1, '유료', '1화: 성의 초대장', '2023-11-11', '', 200, 160);
+VALUES (5, 18, 1, '유료', '성의 초대장', '2023-11-11', 'src/main/resources/static/contentText/성의 초대장.txt', 200, 160);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (5, 18, 2, '유료', '2화: 비밀의 열쇠', '2023-11-18', '', 200, 210);
+VALUES (5, 18, 2, '유료', '비밀의 열쇠', '2023-11-18', 'src/main/resources/static/contentText/비밀의 열쇠.txt', 200, 210);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (5, 18, 3, '유료', '3화: 그림자의 위협', '2023-11-25', '', 200, 130);
+VALUES (5, 18, 3, '유료', '그림자의 위협', '2023-11-25', 'src/main/resources/static/contentText/그림자의 위협.txt', 200, 130);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (5, 18, 4, '유료', '4화: 고대의 계약', '2023-12-02', '', 200, 100);
+VALUES (5, 18, 4, '유료', '고대의 계약', '2023-12-02', 'src/main/resources/static/contentText/고대의 계약.txt', 200, 100);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (5, 18, 5, '유료', '5화: 영혼의 속삭임', '2023-12-09', '', 200, 180);
+VALUES (5, 18, 5, '유료', '영혼의 속삭임', '2023-12-09', 'src/main/resources/static/contentText/영혼의 속삭임.txt', 200, 180);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (5, 18, 6, '유료', '6화: 연회의 비밀', '2023-12-16', '', 200, 120);
+VALUES (5, 18, 6, '유료', '연회의 비밀', '2023-12-16', 'src/main/resources/static/contentText/연회의 비밀.txt', 200, 120);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (5, 18, 7, '유료', '7화: 의식의 밤', '2023-12-23', '', 200, 140);
+VALUES (5, 18, 7, '유료', '의식의 밤', '2023-12-23', 'src/main/resources/static/contentText/의식의 밤.txt', 200, 140);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (5, 18, 8, '유료', '8화: 그림자의 결투', '2024-12-30', '', 200, 200);
+VALUES (5, 18, 8, '유료', '그림자의 결투', '2024-12-30', 'src/main/resources/static/contentText/그림자의 결투.txt', 200, 200);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (5, 18, 9, '유료', '9화: 저주의 종말', '2024-01-06', '', 200, 180);
+VALUES (5, 18, 9, '유료', '저주의 종말', '2024-01-06', 'src/main/resources/static/contentText/저주의 종말.txt', 200, 180);
 
 
 
@@ -445,34 +472,34 @@ VALUES (28, '붉은 달의 비밀', '금지된 숲과 마법, 그리고 치명�
 						'19',550,'수요일','cover/6.png');
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day,contents,cost ,views)
-VALUES (6, 28, 0, '프롤로그', '붉은 달의 저주', '2022-08-03','',0,882);
+VALUES (6, 28, 0, '프롤로그', '붉은 달의 저주', '2022-08-03','src/main/resources/static/contentText/붉은달의저주.txt',0,882);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (6, 28, 1, '유료', '1화: 붉은 달의 유혹', '2022-08-10', '', 200, 690);
+VALUES (6, 28, 1, '유료', '붉은 달의 유혹', '2022-08-10', '', 200, 690);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (6, 28, 2, '유료', '2화: 숲의 비밀', '2022-08-17', '', 200, 500);
+VALUES (6, 28, 2, '유료', '숲의 비밀', '2022-08-17', 'src/main/resources/static/contentText/숲의비밀.txt', 200, 500);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (6, 28, 3, '유료', '3화: 마법의 유물', '2022-08-24', '', 200, 710);
+VALUES (6, 28, 3, '유료', '마법의 유물', '2022-08-24', 'src/main/resources/static/contentText/마법의유물.txt', 200, 710);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (6, 28, 4, '유료', '4화: 금단의 사랑', '2022-08-31', '', 200, 600);
+VALUES (6, 28, 4, '유료', '금단의 사랑', '2022-08-31', 'src/main/resources/static/contentText/마법의유물.txt', 200, 600);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (6, 28, 5, '유료', '5화: 그림자 속의 진실', '2022-09-07', '', 200, 780);
+VALUES (6, 28, 5, '유료', '그림자 속의 진실', '2022-09-07', 'src/main/resources/static/contentText/그림자속의진실.txt', 200, 780);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (6, 28, 6, '유료', '6화: 붉은 달의 밤', '2022-09-14', '', 200, 670);
+VALUES (6, 28, 6, '유료', '붉은 달의 밤', '2022-09-14', 'src/main/resources/static/contentText/붉은달의밤.txt', 200, 670);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (6, 28, 7, '유료', '7화: 운명의 선택', '2022-09-21', '', 200, 900);
+VALUES (6, 28, 7, '유료', '운명의 선택', '2022-09-21', 'src/main/resources/static/contentText/운명의선택.txt', 200, 900);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (6, 28, 8, '유료', '8화: 사랑과 희생', '2022-09-28', '', 200, 850);
+VALUES (6, 28, 8, '유료', '사랑과 희생', '2022-09-28', 'src/main/resources/static/contentText/사랑과희생.txt', 200, 850);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (6, 28, 9, '유료', '9화: 최후의 결전', '2022-10-05', '', 200, 600);
+VALUES (6, 28, 9, '유료', '최후의 결전', '2022-10-05', 'src/main/resources/static/contentText/최후의결전.txt', 200, 600);
 
 
 
@@ -482,34 +509,34 @@ VALUES (15, '밤의 연금술사', '금단의 연금술을 탐구하는 두 사�
 	'19',80,'금요일','cover/7.png');
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents ,cost ,views)
-VALUES (7, 15, 0, '프롤로그', '밤의 시작', '2024-05-03','',0,560);
+VALUES (7, 15, 0, '프롤로그', '밤의 시작', '2024-05-03','src/main/resources/static/contentText/밤의 시작.txt',0,560);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (7, 15, 1, '유료', '1화: 금기의 시작', '2024-05-10', '', 200, 650);
+VALUES (7, 15, 1, '유료', '금기의 시작', '2024-05-10', 'src/main/resources/static/contentText/금기의 시작.txt', 200, 650);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (7, 15, 2, '유료', '2화: 금단의 서', '2024-05-17', '', 200, 700);
+VALUES (7, 15, 2, '유료', '금단의 서', '2024-05-17', 'src/main/resources/static/contentText/금단의 서.txt', 200, 700);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (7, 15, 3, '유료', '3화: 금단의 비밀', '2024-05-24', '', 200, 520);
+VALUES (7, 15, 3, '유료', '금단의 비밀', '2024-05-24', 'src/main/resources/static/contentText/금단의 비밀.txt', 200, 520);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (7, 15, 4, '유료', '4화: 마법의 서', '2024-05-31', '', 200, 620);
+VALUES (7, 15, 4, '유료', '마법의 서', '2024-05-31', 'src/main/resources/static/contentText/마법의 서.txt', 200, 620);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (7, 15, 5, '유료', '5화: 시험의 날', '2024-06-07', '', 200, 680);
+VALUES (7, 15, 5, '유료', '시험의 날', '2024-06-07', 'src/main/resources/static/contentText/시험의 날.txt', 200, 680);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (7, 15, 6, '유료', '6화: 어둠의 힘', '2024-06-14', '', 200, 760);
+VALUES (7, 15, 6, '유료', '어둠의 힘', '2024-06-14', 'src/main/resources/static/contentText/어둠의 힘.txt', 200, 760);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (7, 15, 7, '유료', '7화: 힘의 대가', '2024-06-21', '', 200, 720);
+VALUES (7, 15, 7, '유료', '힘의 대가', '2024-06-21', 'src/main/resources/static/contentText/힘의 대가.txt', 200, 720);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (7, 15, 8, '유료', '8화: 어둠의 진실', '2024-06-28', '', 200, 640);
+VALUES (7, 15, 8, '유료', '어둠의 진실', '2024-06-28', 'src/main/resources/static/contentText/어둠의 진실.txt', 200, 640);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (7, 15, 9, '유료', '9화: 최후의 결단', '2024-07-05', '', 200, 580);
+VALUES (7, 15, 9, '유료', '최후의 결단', '2024-07-05', 'src/main/resources/static/contentText/최후의 결단.txt', 200, 580);
 
 
 
@@ -519,34 +546,34 @@ VALUES (10, '빛의 수호자와 마법의 샘', '마법의 세계에서 빛을 
 	'15',100,'목요일','cover/8.png');
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents ,cost ,views)
-VALUES (8, 10, 0, '프롤로그', '마법의 시작', '2023-05-16','' ,0 ,632);
+VALUES (8, 10, 0, '프롤로그', '마법의 시작', '2023-05-16','src/main/resources/static/contentText/마법의 시작.txt' ,0 ,632);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (8, 10, 1, '유료', '1화: 마법의 첫 걸음', '2024-05-23', '', 200, 680);
+VALUES (8, 10, 1, '유료', '마법의 첫 걸음', '2024-05-23', 'src/main/resources/static/contentText/마법의 첫 걸음.txt', 200, 680);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (8, 10, 2, '유료', '2화: 숨겨진 샘물', '2024-05-30', '', 200, 456);
+VALUES (8, 10, 2, '유료', '숨겨진 샘물', '2024-05-30', 'src/main/resources/static/contentText/숨겨진 샘물.txt', 200, 456);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (8, 10, 3, '유료', '3화: 수호자의 비밀', '2024-06-06', '', 200, 816);
+VALUES (8, 10, 3, '유료', '수호자의 비밀', '2024-06-06', 'src/main/resources/static/contentText/수호자의 비밀.txt', 200, 816);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (8, 10, 4, '유료', '4화: 어둠의 그림자', '2024-06-13', '', 200, 722);
+VALUES (8, 10, 4, '유료', '어둠의 그림자', '2024-06-13', 'src/main/resources/static/contentText/어둠의 그림자.txt', 200, 722);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (8, 10, 5, '유료', '5화: 빛의 부활', '2024-06-20', '', 200, 471);
+VALUES (8, 10, 5, '유료', '빛의 부활', '2024-06-20', 'src/main/resources/static/contentText/빛의 부활.txt', 200, 471);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (8, 10, 6, '유료', '6화: 샘물을 지키는 자', '2024-06-27', '', 200, 630);
+VALUES (8, 10, 6, '유료', '샘물을 지키는 자', '2024-06-27', 'src/main/resources/static/contentText/샘물을 지키는 자.txt', 200, 630);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (8, 10, 7, '유료', '7화: 잃어버린 마법', '2024-07-04', '', 200, 820);
+VALUES (8, 10, 7, '유료', '잃어버린 마법', '2024-07-04', 'src/main/resources/static/contentText/잃어버린 마법.txt', 200, 820);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (8, 10, 8, '유료', '8화: 힘의 근원', '2024-07-11', '', 200, 550);
+VALUES (8, 10, 8, '유료', '힘의 근원', '2024-07-11', 'src/main/resources/static/contentText/힘의 근원.txt', 200, 550);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (8, 10, 9, '유료', '9화: 최후의 시험', '2024-07-18', '', 200, 700);
+VALUES (8, 10, 9, '유료', '최후의 시험', '2024-07-18', 'src/main/resources/static/contentText/최후의 시험.txt', 200, 700);
 
 
 
@@ -556,34 +583,34 @@ INSERT INTO book_tb (user_id, title, author_comment, author, category_id, genre_
 VALUES (20, '그림자의 연인', '귀족 사회의 어둠과 마법의 사랑 이야기', '작가 I', 3, 7, '아름다움과 금단의 마법에 얽힌 위험한 사랑 이야기', '19',23,'토요일','cover/9.png');
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents ,cost ,views )
-VALUES (9, 20, 0, '프롤로그', '어둠 속의 매혹', '2023-11-03','', 0, 849);
+VALUES (9, 20, 0, '프롤로그', '어둠 속의 매혹', '2023-11-03','src/main/resources/static/contentText/어둠속의매혹.txt', 0, 849);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (9, 20, 1, '유료', '1화: 그림자의 부름', '2023-11-10', '', 200, 900);
+VALUES (9, 20, 1, '유료', '그림자의 부름', '2023-11-10', 'src/main/resources/static/contentText/그림자의 부름.txt', 200, 900);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (9, 20, 2, '유료', '2화: 금지된 사랑', '2023-11-17', '', 200, 800);
+VALUES (9, 20, 2, '유료', '금지된 사랑', '2023-11-17', 'src/main/resources/static/contentText/금지된 사랑.txt', 200, 800);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (9, 20, 3, '유료', '3화: 어둠 속의 춤', '2023-11-24', '', 200, 700);
+VALUES (9, 20, 3, '유료', '어둠 속의 춤', '2023-11-24', 'src/main/resources/static/contentText/어둠 속의 춤.txt', 200, 700);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (9, 20, 4, '유료', '4화: 비밀의 연인', '2023-12-01', '', 200, 850);
+VALUES (9, 20, 4, '유료', '비밀의 연인', '2023-12-01', 'src/main/resources/static/contentText/비밀의 연인.txt', 200, 850);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (9, 20, 5, '유료', '5화: 마법의 대가', '2023-12-08', '', 200, 870);
+VALUES (9, 20, 5, '유료', '마법의 대가', '2023-12-08', 'src/main/resources/static/contentText/마법의 대가.txt', 200, 870);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (9, 20, 6, '유료', '6화: 심연으로의 초대', '2023-12-15', '', 200, 880);
+VALUES (9, 20, 6, '유료', '심연으로의 초대', '2023-12-15', 'src/main/resources/static/contentText/심연으로의 초대.txt', 200, 880);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (9, 20, 7, '유료', '7화: 그림자의 운명', '2023-12-22', '', 200, 920);
+VALUES (9, 20, 7, '유료', '그림자의 운명', '2023-12-22', 'src/main/resources/static/contentText/그림자의 운명.txt', 200, 920);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (9, 20, 8, '유료', '8화: 진실과 거짓', '2023-12-29', '', 200, 940);
+VALUES (9, 20, 8, '유료', '진실과 거짓', '2023-12-29', 'src/main/resources/static/contentText/진실과 거짓.txt', 200, 940);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (9, 20, 9, '유료', '9화: 최후의 선택', '2024-01-05', '', 200, 870);
+VALUES (9, 20, 9, '유료', '최후의 선택', '2024-01-05', 'src/main/resources/static/contentText/최후의 선택.txt', 200, 870);
 
 -- 10  Book Information 
 INSERT INTO book_tb (user_id, title, author_comment, author, category_id, genre_id, introduction, age,likes,serial_day,book_cover_image) 
@@ -591,34 +618,34 @@ VALUES (14, '시간의 미로 속에서', '시간을 초월한 모험과 비밀�
 			'15',15,'금요일','cover/10.png');
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents ,cost ,views)
-VALUES (10, 14, 0, '프롤로그', '미로의 입구', '2024-01-15','', 0 ,564);
+VALUES (10, 14, 0, '프롤로그', '미로의 입구', '2024-01-15','src/main/resources/static/contentText/미로의입구2.txt', 0 ,564);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (10, 14, 1, '유료', '1화: 시간의 문', '2024-01-22', '', 200, 600);
+VALUES (10, 14, 1, '유료', '시간의 문', '2024-01-22', 'src/main/resources/static/contentText/시간의문2.txt', 200, 600);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (10, 14, 2, '유료', '2화: 잃어버린 기억', '2024-01-29', '', 200, 500);
+VALUES (10, 14, 2, '유료', '잃어버린 기억', '2024-01-29', 'src/main/resources/static/contentText/잃어버린기억2.txt', 200, 500);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (10, 14, 3, '유료', '3화: 과거와의 대면', '2024-02-05', '', 200, 450);
+VALUES (10, 14, 3, '유료', '과거와의 대면', '2024-02-05', 'src/main/resources/static/contentText/과거와의대면2.txt', 200, 450);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (10, 14, 4, '유료', '4화: 미로 속의 미로', '2024-02-12', '', 200, 580);
+VALUES (10, 14, 4, '유료', '미로 속의 미로', '2024-02-12', 'src/main/resources/static/contentText/미로속의미로2.txt', 200, 580);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (10, 14, 5, '유료', '5화: 운명의 전환', '2024-02-19', '', 200, 600);
+VALUES (10, 14, 5, '유료', '운명의 전환', '2024-02-19', 'src/main/resources/static/contentText/운명의전환2.txt', 200, 600);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (10, 14, 6, '유료', '6화: 시간의 수수께끼', '2024-02-26', '', 200, 650);
+VALUES (10, 14, 6, '유료', '시간의 수수께끼', '2024-02-26', 'src/main/resources/static/contentText/시간의수수께끼2.txt', 200, 650);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (10, 14, 7, '유료', '7화: 과거의 그림자', '2024-03-04', '', 200, 580);
+VALUES (10, 14, 7, '유료', '과거의 그림자', '2024-03-04', 'src/main/resources/static/contentText/과거의그림자2.txt', 200, 580);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (10, 14, 8, '유료', '8화: 새로운 시간대', '2024-03-11', '', 200, 640);
+VALUES (10, 14, 8, '유료', '새로운 시간대', '2024-03-11', 'src/main/resources/static/contentText/새로운시간대2.txt', 200, 640);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (10, 14, 9, '유료', '9화: 마지막 퍼즐', '2024-03-18', '', 200, 520);
+VALUES (10, 14, 9, '유료', '마지막 퍼즐', '2024-03-18', 'src/main/resources/static/contentText/마지막퍼즐2.txt', 200, 520);
 
 -- 11  Book Information 
 INSERT INTO book_tb (user_id, title, author_comment, author, category_id, genre_id, introduction, age,likes,serial_day,book_cover_image) 
@@ -626,34 +653,34 @@ VALUES (18, '얼어붙은 대지의 심장', '끝없는 겨울을 끝내기 위�
 			'15',10,'월요일','cover/11.png');
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents ,cost ,views)
-VALUES (11, 18, 0, '프롤로그', '얼어붙은 심장', '2023-08-29','' , 0 ,932);
+VALUES (11, 18, 0, '프롤로그', '얼어붙은 심장', '2023-08-29','src/main/resources/static/contentText/얼어붙은 심장.txt' , 0 ,932);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (11, 18, 1, '유료', '1화: 겨울의 저주', '2023-09-05', '', 200, 980);
+VALUES (11, 18, 1, '유료', '겨울의 저주', '2023-09-05', 'src/main/resources/static/contentText/겨울의 저주.txt', 200, 980);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (11, 18, 2, '유료', '2화: 얼어붙은 심장', '2023-09-12', '', 200, 840);
+VALUES (11, 18, 2, '유료', '얼린 심장', '2023-09-12', 'src/main/resources/static/contentText/얼린 심장.txt', 200, 840);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (11, 18, 3, '유료', '3화: 눈 속의 진실', '2023-09-19', '', 200, 920);
+VALUES (11, 18, 3, '유료', '눈 속의 진실', '2023-09-19', 'src/main/resources/static/contentText/눈 속의 진실.txt', 200, 920);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (11, 18, 4, '유료', '4화: 설산의 전설', '2023-09-26', '', 200, 880);
+VALUES (11, 18, 4, '유료', '설산의 전설', '2023-09-26', 'src/main/resources/static/contentText/설산의 전설.txt', 200, 880);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (11, 18, 5, '유료', '5화: 얼음의 전사', '2023-10-03', '', 200, 890);
+VALUES (11, 18, 5, '유료', '얼음의 전사', '2023-10-03', 'src/main/resources/static/contentText/얼음의 전사.txt', 200, 890);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (11, 18, 6, '유료', '6화: 희생의 서사시', '2023-10-10', '', 200, 950);
+VALUES (11, 18, 6, '유료', '희생의 서사시', '2023-10-10', 'src/main/resources/static/contentText/희생의 서사시.txt', 200, 950);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (11, 18, 7, '유료', '7화: 대지의 울음', '2023-10-17', '', 200, 900);
+VALUES (11, 18, 7, '유료', '대지의 울음', '2023-10-17', 'src/main/resources/static/contentText/대지의 울음.txt', 200, 900);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (11, 18, 8, '유료', '8화: 불의 도전', '2023-10-24', '', 200, 860);
+VALUES (11, 18, 8, '유료', '불의 도전', '2023-10-24', 'src/main/resources/static/contentText/불의 도전.txt', 200, 860);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (11, 18, 9, '유료', '9화: 저주의 파괴', '2023-10-31', '', 200, 920);
+VALUES (11, 18, 9, '유료', '저주의 파괴', '2023-10-31', 'src/main/resources/static/contentText/저주의 파괴.txt', 200, 920);
 
 
 
@@ -664,34 +691,34 @@ VALUES (22, '밤의 정원사', '어둠 속의 정원과 그곳에 숨겨진 치
 							'19',20,'화요일','cover/12.png');
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents ,cost ,views)
-VALUES (12, 22, 0, '프롤로그', '정원의 속삭임', '2024-02-09','', 0 ,821);
+VALUES (12, 22, 0, '프롤로그', '정원의 속삭임', '2024-02-09','src/main/resources/static/contentText/정원의 속삭임.txt', 0 ,821);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (12, 22, 1, '유료', '1화: 정원의 비밀', '2024-02-16', '', 200, 870);
+VALUES (12, 22, 1, '유료', '정원의 비밀', '2024-02-16', 'src/main/resources/static/contentText/정원의 비밀.txt', 200, 870);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (12, 22, 2, '유료', '2화: 어둠의 정원사', '2024-02-23', '', 200, 810);
+VALUES (12, 22, 2, '유료', '어둠의 정원사', '2024-02-23', 'src/main/resources/static/contentText/어둠의 정원사.txt', 200, 810);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (12, 22, 3, '유료', '3화: 치명적인 유혹', '2024-03-01', '', 200, 780);
+VALUES (12, 22, 3, '유료', '치명적인 유혹', '2024-03-01', 'src/main/resources/static/contentText/치명적인 유혹.txt', 200, 780);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (12, 22, 4, '유료', '4화: 숨겨진 진실', '2024-03-08', '', 200, 850);
+VALUES (12, 22, 4, '유료', '숨겨진 진실', '2024-03-08', 'src/main/resources/static/contentText/숨겨진 진실.txt', 200, 850);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (12, 22, 5, '유료', '5화: 밤의 꽃', '2024-03-15', '', 200, 790);
+VALUES (12, 22, 5, '유료', '밤의 꽃', '2024-03-15', 'src/main/resources/static/contentText/밤의 꽃.txt', 200, 790);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (12, 22, 6, '유료', '6화: 정원의 수호자', '2024-03-22', '', 200, 830);
+VALUES (12, 22, 6, '유료', '정원의 수호자', '2024-03-22', 'src/main/resources/static/contentText/정원의 수호자.txt', 200, 830);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (12, 22, 7, '유료', '7화: 그림자 속의 비밀', '2024-03-29', '', 200, 800);
+VALUES (12, 22, 7, '유료', '그림자 속의 비밀', '2024-03-29', 'src/main/resources/static/contentText/그림자 속의 비밀.txt', 200, 800);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (12, 22, 8, '유료', '8화: 최후의 시련', '2024-04-05', '', 200, 870);
+VALUES (12, 22, 8, '유료', '최후의 시련', '2024-04-05', 'src/main/resources/static/contentText/최후의 시련.txt', 200, 870);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (12, 22, 9, '유료', '9화: 정원의 부활', '2024-04-12', '', 200, 800);
+VALUES (12, 22, 9, '유료', '정원의 부활', '2024-04-12', 'src/main/resources/static/contentText/정원의 부활.txt', 200, 800);
 
 
 --   13    Book Information
@@ -700,34 +727,34 @@ VALUES (13, '용의 숨결 속으로', '용들과의 싸움과 평화를 찾아 
 			'15',150,'목요일','cover/13.png');
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents ,cost ,views)
-VALUES (13, 13, 0, '프롤로그', '용의 울부짖음', '2023-12-11','', 0 ,437);
+VALUES (13, 13, 0, '프롤로그', '용의 울부짖음', '2023-12-11','src/main/resources/static/contentText/용의 울부짖음.txt', 0 ,437);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (13, 13, 1, '유료', '1화: 용의 알', '2023-12-18', '', 200, 430);
+VALUES (13, 13, 1, '유료', '용의 알', '2023-12-18', 'src/main/resources/static/contentText/용의 알.txt', 200, 430);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (13, 13, 2, '유료', '2화: 폭주의 서막', '2023-12-25', '', 200, 470);
+VALUES (13, 13, 2, '유료', '폭주의 서막', '2023-12-25', 'src/main/resources/static/contentText/폭주의 서막.txt', 200, 470);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (13, 13, 3, '유료', '3화: 왕국의 위기', '2024-01-01', '', 200, 410);
+VALUES (13, 13, 3, '유료', '왕국의 위기', '2024-01-01', 'src/main/resources/static/contentText/왕국의 위기.txt', 200, 410);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (13, 13, 4, '유료', '4화: 평화의 갈림길', '2024-01-08', '', 200, 420);
+VALUES (13, 13, 4, '유료', '평화의 갈림길', '2024-01-08', 'src/main/resources/static/contentText/평화의 갈림길.txt', 200, 420);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (13, 13, 5, '유료', '5화: 용과의 만남', '2024-01-15', '', 200, 460);
+VALUES (13, 13, 5, '유료', '용과의 만남', '2024-01-15', 'src/main/resources/static/contentText/용과의 만남.txt', 200, 460);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (13, 13, 6, '유료', '6화: 왕국의 구원자', '2024-01-22', '', 200, 490);
+VALUES (13, 13, 6, '유료', '왕국의 구원자', '2024-01-22', 'src/main/resources/static/contentText/왕국의 구원자.txt', 200, 490);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (13, 13, 7, '유료', '7화: 불의 시험', '2024-01-29', '', 200, 480);
+VALUES (13, 13, 7, '유료', '불의 시험', '2024-01-29', 'src/main/resources/static/contentText/불의 시험2.txt', 200, 480);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (13, 13, 8, '유료', '8화: 새로운 용의 탄생', '2024-02-05', '', 200, 450);
+VALUES (13, 13, 8, '유료', '새로운 용의 탄생', '2024-02-05', 'src/main/resources/static/contentText/새로운 용의 탄생.txt', 200, 450);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (13, 13, 9, '유료', '9화: 마지막 전투', '2024-02-12', '', 200, 440);
+VALUES (13, 13, 9, '유료', '마지막 전투', '2024-02-12', 'src/main/resources/static/contentText/마지막 전투.txt', 200, 440);
 
 
 
@@ -739,34 +766,34 @@ VALUES (24, '밤의 연회', '어둠 속의 연회에서 벌어지는 위험한 
 		'19',44,'금요일','cover/14.png');
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents ,cost ,views)
-VALUES (14, 24, 0, '프롤로그', '어둠의 서곡', '2024-03-18','' , 0 , 812);
+VALUES (14, 24, 0, '프롤로그', '어둠의 서곡', '2024-03-18','src/main/resources/static/contentText/어둠의 서곡.txt' , 0 , 812);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (14, 24, 1, '유료', '1화: 연회의 초대장', '2024-03-25', '', 200, 780);
+VALUES (14, 24, 1, '유료', '연회의 초대장', '2024-03-25', 'src/main/resources/static/contentText/연회의 초대장.txt', 200, 780);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (14, 24, 2, '유료', '2화: 어둠의 음모', '2024-04-01', '', 200, 820);
+VALUES (14, 24, 2, '유료', '어둠의 음모', '2024-04-01', 'src/main/resources/static/contentText/어둠의 음모.txt', 200, 820);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (14, 24, 3, '유료', '3화: 비밀의 요원', '2024-04-08', '', 200, 800);
+VALUES (14, 24, 3, '유료', '비밀의 요원', '2024-04-08', 'src/main/resources/static/contentText/비밀의 요원.txt', 200, 800);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (14, 24, 4, '유료', '4화: 도시의 비밀', '2024-04-15', '', 200, 850);
+VALUES (14, 24, 4, '유료', '도시의 비밀', '2024-04-15', 'src/main/resources/static/contentText/도시의 비밀.txt', 200, 850);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (14, 24, 5, '유료', '5화: 연회의 소리', '2024-04-22', '', 200, 830);
+VALUES (14, 24, 5, '유료', '연회의 소리', '2024-04-22', 'src/main/resources/static/contentText/연회의 소리.txt', 200, 830);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (14, 24, 6, '유료', '6화: 어둠의 전조', '2024-04-29', '', 200, 810);
+VALUES (14, 24, 6, '유료', '어둠의 전조', '2024-04-29', 'src/main/resources/static/contentText/어둠의 전조.txt', 200, 810);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (14, 24, 7, '유료', '7화: 위험한 유혹', '2024-05-06', '', 200, 840);
+VALUES (14, 24, 7, '유료', '위험한 유혹', '2024-05-06', 'src/main/resources/static/contentText/위험한 유혹.txt', 200, 840);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (14, 24, 8, '유료', '8화: 최후의 연회', '2024-05-13', '', 200, 790);
+VALUES (14, 24, 8, '유료', '최후의 연회', '2024-05-13', 'src/main/resources/static/contentText/최후의 연회.txt', 200, 790);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (14, 24, 9, '유료', '9화: 비밀의 폭로', '2024-05-20', '', 200, 800);
+VALUES (14, 24, 9, '유료', '비밀의 폭로', '2024-05-20', 'src/main/resources/static/contentText/비밀의 폭로.txt', 200, 800);
 
 
 
@@ -776,34 +803,34 @@ VALUES (16, '불멸의 전사', '전설적인 힘을 가진 전사가 세상의 
 			'15',57,'일요일','cover/15.png');
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents ,cost ,views)
-VALUES (15, 16, 0, '프롤로그', '전설의 검', '2024-04-21','' ,0 ,1100);
+VALUES (15, 16, 0, '프롤로그', '전설의 검', '2024-04-21','src/main/resources/static/contentText/전설의 검.txt' ,0 ,1100);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (15, 16, 1, '유료', '1화: 전사의 서약', '2024-04-28', '', 200, 1050);
+VALUES (15, 16, 1, '유료', '전사의 서약', '2024-04-28', 'src/main/resources/static/contentText/전사의 서약.txt', 200, 1050);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (15, 16, 2, '유료', '2화: 전설의 시작', '2024-05-05', '', 200, 1030);
+VALUES (15, 16, 2, '유료', '전설의 시작', '2024-05-05', 'src/main/resources/static/contentText/전설의 시작.txt', 200, 1030);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (15, 16, 3, '유료', '3화: 불멸의 힘', '2024-05-12', '', 200, 1080);
+VALUES (15, 16, 3, '유료', '불멸의 힘', '2024-05-12', 'src/main/resources/static/contentText/불멸의 힘.txt', 200, 1080);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (15, 16, 4, '유료', '4화: 전사의 시험', '2024-05-19', '', 200, 1120);
+VALUES (15, 16, 4, '유료', '전사의 시험', '2024-05-19', 'src/main/resources/static/contentText/전사의 시험.txt', 200, 1120);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (15, 16, 5, '유료', '5화: 힘의 갈림길', '2024-05-26', '', 200, 1090);
+VALUES (15, 16, 5, '유료', '힘의 갈림길', '2024-05-26', 'src/main/resources/static/contentText/힘의 갈림길.txt', 200, 1090);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (15, 16, 6, '유료', '6화: 새로운 적', '2024-06-02', '', 200, 1150);
+VALUES (15, 16, 6, '유료', '새로운 적', '2024-06-02', 'src/main/resources/static/contentText/새로운 적.txt', 200, 1150);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (15, 16, 7, '유료', '7화: 전사의 운명', '2024-06-09', '', 200, 1070);
+VALUES (15, 16, 7, '유료', '전사의 운명', '2024-06-09', 'src/main/resources/static/contentText/전사의 운명.txt', 200, 1070);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (15, 16, 8, '유료', '8화: 불멸의 비밀', '2024-06-16', '', 200, 1100);
+VALUES (15, 16, 8, '유료', '불멸의 비밀', '2024-06-16', 'src/main/resources/static/contentText/불멸의 비밀.txt', 200, 1100);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (15, 16, 9, '유료', '9화: 최후의 전투', '2024-06-23', '', 200, 1060);
+VALUES (15, 16, 9, '유료', '최후의 전투', '2024-06-23', 'src/main/resources/static/contentText/최후의 전투.txt', 200, 1060);
 
 --   16    Book Information 
 INSERT INTO book_tb (user_id, title, author_comment, author, category_id, genre_id, introduction, age,likes,serial_day,book_cover_image) 
@@ -811,34 +838,34 @@ VALUES (19, '검은 바다의 지배자', '전설의 바다에서 보물을 찾�
 			'15',250,'화요일','cover/16.png');
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents ,cost ,views)
-VALUES (16, 19, 0, '프롤로그', '바다의 부름', '2024-01-11','',0 ,681 );
+VALUES (16, 19, 0, '프롤로그', '바다의 부름', '2024-01-11','src/main/resources/static/contentText/바다의 부름.txt',0 ,681 );
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (16, 19, 1, '유료', '1화: 바다의 속삭임', '2024-01-18', '', 200, 720);
+VALUES (16, 19, 1, '유료', '바다의 속삭임', '2024-01-18', 'src/main/resources/static/contentText/바다의 속삭임.txt', 200, 720);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (16, 19, 2, '유료', '2화: 항해의 시작', '2024-01-25', '', 200, 650);
+VALUES (16, 19, 2, '유료', '항해의 시작', '2024-01-25', 'src/main/resources/static/contentText/항해의 시작.txt', 200, 650);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (16, 19, 3, '유료', '3화: 보물의 비밀', '2024-02-01', '', 200, 630);
+VALUES (16, 19, 3, '유료', '보물의 비밀', '2024-02-01', 'src/main/resources/static/contentText/보물의 비밀.txt', 200, 630);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (16, 19, 4, '유료', '4화: 해적의 습격', '2024-02-08', '', 200, 700);
+VALUES (16, 19, 4, '유료', '해적의 습격', '2024-02-08', 'src/main/resources/static/contentText/해적의 습격.txt', 200, 700);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (16, 19, 5, '유료', '5화: 바다의 전설', '2024-02-15', '', 200, 690);
+VALUES (16, 19, 5, '유료', '바다의 전설', '2024-02-15', 'src/main/resources/static/contentText/바다의 전설.txt', 200, 690);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (16, 19, 6, '유료', '6화: 용감한 항해자', '2024-02-22', '', 200, 710);
+VALUES (16, 19, 6, '유료', '용감한 항해자', '2024-02-22', 'src/main/resources/static/contentText/용감한 항해자.txt', 200, 710);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (16, 19, 7, '유료', '7화: 위험한 폭풍', '2024-02-29', '', 200, 680);
+VALUES (16, 19, 7, '유료', '위험한 폭풍', '2024-02-29', 'src/main/resources/static/contentText/위험한 폭풍.txt', 200, 680);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (16, 19, 8, '유료', '8화: 검은 바다의 심연', '2024-03-07', '', 200, 660);
+VALUES (16, 19, 8, '유료', '검은 바다의 심연', '2024-03-07', 'src/main/resources/static/contentText/검은 바다의 심연.txt', 200, 660);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (16, 19, 9, '유료', '9화: 최후의 항해', '2024-03-14', '', 200, 690);
+VALUES (16, 19, 9, '유료', '최후의 항해', '2024-03-14', 'src/main/resources/static/contentText/최후의 항해.txt', 200, 690);
 
 --   17  Book Information 
 INSERT INTO book_tb (user_id, title, author_comment, author, category_id, genre_id, introduction, age,likes,serial_day,book_cover_image) 
@@ -846,34 +873,36 @@ VALUES (17, '황혼의 성벽', '어둠의 세계와 싸우는 수호자의 이�
 			'19',22,'목요일','cover/17.png');
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents ,cost ,views)
-VALUES (17, 17, 0, '프롤로그', '성벽의 균열', '2023-11-07','', 0 ,991);
+VALUES (17, 17, 0, '프롤로그', '성벽의 균열', '2023-11-07','src/main/resources/static/contentText/성벽의 균열.txt', 0 ,991);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (17, 17, 1, '유료', '1화: 성벽의 수호자', '2023-11-14', '', 200, 970);
+VALUES (17, 17, 1, '유료', '성벽의 수호자', '2023-11-14', 'src/main/resources/static/contentText/성벽의 수호자.txt', 200, 970);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (17, 17, 2, '유료', '2화: 어둠의 침략', '2023-11-21', '', 200, 990);
+VALUES (17, 17, 2, '유료', '어둠의 침략', '2023-11-21', 'src/main/resources/static/contentText/어둠의 침략.txt', 200, 990);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (17, 17, 3, '유료', '3화: 빛의 전사', '2023-11-28', '', 200, 950);
+VALUES (17, 17, 3, '유료', '빛의 전사', '2023-11-28', 'src/main/resources/static/contentText/빛의 전사.txt', 200, 950);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (17, 17, 4, '유료', '4화: 성벽을 넘어서', '2023-12-05', '', 200, 930);
+VALUES (17, 17, 4, '유료', '성벽을 넘어서', '2023-12-05', 'src/main/resources/static/contentText/성벽을 넘어서.txt', 200, 930);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (17, 17, 5, '유료', '5화: 마지막 방어', '2023-12-12', '', 200, 940);
+VALUES (17, 17, 5, '유료', '마지막 방어', '2023-12-12', 'src/main/resources/static/contentText/마지막 방어.txt', 200, 940);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (17, 17, 6, '유료', '6화: 적과의 대치', '2023-12-19', '', 200, 910);
+VALUES (17, 17, 6, '유료', '적과의 대치', '2023-12-19', 'src/main/resources/static/contentText/적과의 대치.txt', 200, 910);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (17, 17, 7, '유료', '7화: 전사의 부활', '2023-12-26', '', 200, 880);
+VALUES (17, 17, 7, '유료', '전사의 부활', '2023-12-26', 'src/main/resources/static/contentText/전사의 부활.txt', 200, 880);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (17, 17, 8, '유료', '8화: 성벽의 숨결', '2024-01-02', '', 200, 930);
+VALUES (17, 17, 8, '유료', '성벽의 숨결', '2024-01-02', 'src/main/resources/static/contentText/성벽의 숨결.txt', 200, 930);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (17, 17, 9, '유료', '9화: 최후의 선택', '2024-01-09', '', 200, 920);
+VALUES (17, 17, 9, '유료', '최후의 선택', '2024-01-09', 'src/main/resources/static/contentText/최후의 선택2.txt', 200, 920);
+
+
 
 
 --   18   Book Information 
@@ -882,41 +911,155 @@ VALUES (26, '별빛 아래의 서약', '별빛 아래에서 맺은 사랑과 모
 			'15',13,'토요일','cover/18.png');
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents ,cost ,views)
-VALUES (18, 26, 0, '프롤로그', '별빛의 약속', '2023-10-15','', 0 , 874);
+VALUES (18, 26, 0, '프롤로그', '별빛의 약속2', '2023-10-15','src/main/resources/static/contentText/별빛의 서약.txt', 0 , 874);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (18, 26, 1, '유료', '1화: 별빛의 서약', '2023-10-22', '', 200, 800);
+VALUES (18, 26, 1, '유료', '별빛의 서약', '2023-10-22', 'src/main/resources/static/contentText/별빛의 서약.txt', 200, 800);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (18, 26, 2, '유료', '2화: 사랑과 모험', '2023-10-29', '', 200, 860);
+VALUES (18, 26, 2, '유료', '사랑과 모험', '2023-10-29', 'src/main/resources/static/contentText/사랑과 모험.txt', 200, 860);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (18, 26, 3, '유료', '3화: 마법적 서약', '2023-11-05', '', 200, 810);
+VALUES (18, 26, 3, '유료', '마법적 서약', '2023-11-05', 'src/main/resources/static/contentText/마법적 서약.txt', 200, 810);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (18, 26, 4, '유료', '4화: 별빛 숲의 비밀', '2023-11-12', '', 200, 780);
+VALUES (18, 26, 4, '유료', '별빛 숲의 비밀', '2023-11-12', 'src/main/resources/static/contentText/별빛 숲의 비밀.txt', 200, 780);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (18, 26, 5, '유료', '5화: 영원의 맹세', '2023-11-19', '', 200, 820);
+VALUES (18, 26, 5, '유료', '영원의 맹세', '2023-11-19', 'src/main/resources/static/contentText/영원의 맹세.txt', 200, 820);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (18, 26, 6, '유료', '6화: 마법의 유대', '2023-11-26', '', 200, 790);
+VALUES (18, 26, 6, '유료', '마법의 유대', '2023-11-26', 'src/main/resources/static/contentText/마법의 유대.txt', 200, 790);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (18, 26, 7, '유료', '7화: 별빛 속의 진실', '2023-12-03', '', 200, 810);
+VALUES (18, 26, 7, '유료', '별빛 속의 진실', '2023-12-03', 'src/main/resources/static/contentText/별빛 속의 진실.txt', 200, 810);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (18, 26, 8, '유료', '8화: 위험한 선택', '2023-12-10', '', 200, 830);
+VALUES (18, 26, 8, '유료', '위험한 선택', '2023-12-10', 'src/main/resources/static/contentText/위험한 선택.txt', 200, 830);
 
 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
-VALUES (18, 26, 9, '유료', '9화: 최후의 사랑', '2023-12-17', '', 200, 800);
+VALUES (18, 26, 9, '유료', '최후의 사랑', '2023-12-17', 'src/main/resources/static/contentText/최후의 사랑.txt', 200, 800);
 
+
+
+--------------------------
+-- 19
+
+INSERT INTO book_tb (user_id, title, author_comment, author, category_id, genre_id, introduction, age, likes, serial_day, book_cover_image) 
+VALUES (27, '천사와 악마의 사랑', '달빛 아래에서 이루어진 소원과 여정 이야기', '작가 L', 3, 7, '달빛 숲에서 펼쳐지는 소원과 모험의 이야기',
+		 '15', 25, '월요일', 'cover/19.jpeg');
+-- story_tb 테이블에 데이터 삽입
+INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views) 
+VALUES (19, 27, 0, '프롤로그', '달빛의 소원', '2023-5-20', 'src/main/resources/static/contentText/미지의 시작.txt', 0, 930);
+
+INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views) 
+VALUES (19, 27, 1, '1화', '다가오는 어둠', '2023-6-20', 'src/main/resources/static/contentText/다가오는 어둠.txt', 200, 430);
+
+INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views) 
+VALUES (19, 27, 2, '2화', '진실과 거짓', '2023-7-20', 'src/main/resources/static/contentText/진실과 거짓.txt', 200, 560);
+
+INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views) 
+VALUES (19, 27, 3, '3화', '감정의 소용돌이', '2023-8-20', 'src/main/resources/static/contentText/감정의 소용돌이.txt', 200, 780);
+
+-- 20
+
+INSERT INTO book_tb (user_id, title, author_comment, author, category_id, genre_id, introduction, age, likes, serial_day, book_cover_image) 
+VALUES (28, '시골에서 펼쳐지는 우정의 힐링스토리', '이 이야기는 바쁜 도시 생활에서 벗어나 시골에서 우정을 찾고 마음의 평화를 찾는 두 사람의 이야기입니다', '작가 OP', 1, 8, '준호와 수지가 시골 마을에서 함께하면서 서로의 우정을 다시 발견하고, 자연 속에서 마음의 치유를 경험하는 힐링 스토리',
+		 '15', 105, '월요일', 'cover/20.jpeg');
+		 
+		 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views) 
+VALUES (20, 28, 0, '프롤로그', '시골 마을로의 귀향', '2023-3-11', 'src/main/resources/static/contentText/시골 마을로의 귀향.txt', 0, 1231);
+
+INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views) 
+VALUES (20, 28, 1, '1화', '추억의 산책', '2023-3-20', 'src/main/resources/static/contentText/추억의 산책.txt', 200, 1240);
+
+INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views) 
+VALUES (20, 28, 2, '2화', '농사 체험', '2023-4-10', 'src/main/resources/static/contentText/농사 체험.txt', 200, 1423);
+
+INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views) 
+VALUES (20, 28, 3, '3화', '저녁 식사와 이야기', '2023-5-20', 'src/main/resources/static/contentText/저녁 식사와 이야기.txt', 200, 1521);
+
+-- 21
+
+INSERT INTO book_tb (user_id, title, author_comment, author, category_id, genre_id, introduction, age, likes, serial_day, book_cover_image) 
+VALUES (29, '거짓의 미로', '저택의 미로', '에도가와 코난', 3, 1, '파티가 시작되면서 저택은....',
+		 '15', 25, '월요일', 'cover/22.jpeg');
+		 
+		 	 
+		 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views) 
+VALUES (21, 29, 0, '프롤로그', '거짓의 미로', '2023-3-11', 'src/main/resources/static/contentText/거짓의 미로.txt', 0, 2641);
+
+INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views) 
+VALUES (21, 29, 1, '1화', '숨겨진 서신', '2023-3-20', 'src/main/resources/static/contentText/숨겨진 서신.txt', 200, 1932);
+
+INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views) 
+VALUES (21, 29, 2, '2화', '미로 속의 그림자', '2023-4-10', 'src/main/resources/static/contentText/미로 속의 그림자.txt', 200, 3204);
+
+INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views) 
+VALUES (21, 29, 3, '3화', '사라진 사람들', '2023-5-20', 'src/main/resources/static/contentText/사라진 사람들.txt', 200, 3817);
+
+
+-- 22
+
+INSERT INTO book_tb (user_id, title, author_comment, author, category_id, genre_id, introduction, age, likes, serial_day, book_cover_image) 
+VALUES (30, '공중정원', '정원에서 펼쳐지는 학생간의 풋풋한 이야기', '노랭이', 1, 8, '공중정원에서 펼쳐지는 세남녀간의 러브스토리',
+		 '15', 25, '월요일', 'cover/21.jpeg');
+		 
+		  INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views) 
+VALUES (22, 30, 0, '프롤로그', '학교안의 비밀의숲', '2023-3-11', 'src/main/resources/static/contentText/시골 마을로의 귀향.txt', 0, 2641);
+
+INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views) 
+VALUES (22, 30, 1, '1화', '공중정원 벤치', '2023-3-20', 'src/main/resources/static/contentText/추억의 산책.txt', 200, 1932);
+
+INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views) 
+VALUES (22, 30, 2, '2화', '학교안의 루머', '2023-4-10', 'src/main/resources/static/contentText/농사 체험.txt', 200, 3204);
+
+INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views) 
+VALUES (22, 30, 3, '3화', '방과 후 활동', '2023-5-20', 'src/main/resources/static/contentText/저녁 식사와 이야기.txt', 200, 3817);
+
+
+-- 23
+
+INSERT INTO book_tb (user_id, title, author_comment, author, category_id, genre_id, introduction, age, likes, serial_day, book_cover_image) 
+VALUES (31, '꿈의 마법 세계', '드림 매직 꿈속에서 펼쳐지는 한 소녀의 마법 견습 이야기', '작가 한', 2, 10, '엘라는 언제나 꿈을 꾸는 것을 좋아했다',
+		 '15', 671, '월요일', 'cover/23.jpeg');
+		 
+		 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views) 
+VALUES (23, 31, 0, '프롤로그', '꿈의 마법 세계', '2023-3-11', 'src/main/resources/static/contentText/꿈의 마법 세계.txt', 0, 4641);
+
+INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views) 
+VALUES (23, 31, 1, '1화', '꿈의 마법 세계2', '2023-3-20', 'src/main/resources/static/contentText/꿈의 마법 세계2.txt', 200, 5932);
+
+INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views) 
+VALUES (23, 31, 2, '2화', '첫 번째 시험', '2023-4-10', 'src/main/resources/static/contentText/첫 번째 시험.txt', 200, 3204);
+
+INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views) 
+VALUES (23, 31, 3, '3화', '바람의 마법사와의 만남', '2023-5-20', 'src/main/resources/static/contentText/바람의 마법사와의 만남.txt', 200, 3817);
+		 
+-- 24
+
+INSERT INTO book_tb (user_id, title, author_comment, author, category_id, genre_id, introduction, age, likes, serial_day, book_cover_image) 
+VALUES (32, '세 계절 이야기', '세 자매의 계절 이야기', '작가 김', 2, 8, '세 자매의 계절을 겪으면서 생겨나는 힐링 스토리',
+		 '15', 12, '월요일', 'cover/24.jpeg');
+		 
+		 	 INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views) 
+VALUES (24, 32, 0, '프롤로그', '봄', '2023-3-11', 'src/main/resources/static/contentText/꿈의 마법 세계.txt', 0, 1641);
+
+INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views) 
+VALUES (24, 32, 1, '1화', '여름', '2023-3-20', 'src/main/resources/static/contentText/꿈의 마법 세계2.txt', 200, 332);
+
+INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views) 
+VALUES (24, 32, 2, '2화', '가을', '2023-4-10', 'src/main/resources/static/contentText/첫 번째 시험.txt', 200, 204);
+
+INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views) 
+VALUES (24, 32, 3, '3화', '그리고 겨울', '2023-5-20', 'src/main/resources/static/contentText/바람의 마법사와의 만남.txt', 200, 117);
 -- 북태그
 insert into book_tag_tb (book_id, tag_id) values (1,1);
 insert into book_tag_tb (book_id, tag_id) values (1,2);
 insert into book_tag_tb (book_id, tag_id) values (1,3);
 
 
+<<<<<<< HEAD
 -- 스토리 테이블 생성
 insert into story_tb (book_id,user_id,number,type,title,upload_day,contents)
 					values(1,1,1,'프롤로그','뜻밖의 알바 면접','2000-05-03',
@@ -1284,8 +1427,144 @@ VALUES
 (3, '프로젝트 3 리워드 내용', 20000),
 (4, '프로젝트 4 리워드 내용', 25000),
 (5, '프로젝트 5 리워드 내용', 30000);
- 
+=======
 
+>>>>>>> sub-dev
+ 
+ --   50 Book Information 
+INSERT INTO book_tb (book_id, user_id, title, author_comment, author, category_id, genre_id, introduction, age,likes,serial_day,book_cover_image) 
+VALUES (50, 30, '음유시인', '그들의 노래는 여전히 울려 퍼진다.', '작가C', 1, 2, '그들의 노래는 여전히  울려 퍼진다.', '15', 25, '월요일','cover/26.png');
+
+INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents ,cost ,views)
+VALUES (50, 30, 0, '프롤로그', '잃어버린 별들의 노래', '2023-10-15','src/main/resources/static/contentText/밤의 시작.txt', 0 , 874);
+
+INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents ,cost ,views)
+VALUES (50, 30, 1, '유료', '별들이 사라진 하늘', '2023-10-15','src/main/resources/static/contentText/밤의 시작.txt', 200, 874);
+
+INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents ,cost ,views)
+VALUES (50, 30, 2, '유료', '잃어버린 별들의 노래', '2023-10-15','src/main/resources/static/contentText/밤의 시작.txt', 200, 874);
+
+INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents ,cost ,views)
+VALUES (50, 30, 3, '유료', '은하 속에 숨겨진 멜로디', '2023-10-15','src/main/resources/static/contentText/밤의 시작.txt', 200, 874);
+
+--   51 Book Information 
+INSERT INTO book_tb (book_id, user_id, title, author_comment, author, category_id, genre_id, introduction, age,likes,serial_day,book_cover_image) 
+VALUES (51,30, '잃어버린 별들의 노래', '그들의 노래는 여전히 밤하늘에 울려 퍼진다.', '작가12', 1, 2, '그들의 노래는 여전히 밤하늘에 울려 퍼진다.', '15', 25, '월요일','cover/25.png');
+
+INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents ,cost ,views)
+VALUES (51, 30, 0, '프롤로그', '잃어버린 별들의 노래', '2023-10-15','src/main/resources/static/contentText/밤의 시작.txt', 0 , 874);
+
+INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents ,cost ,views)
+VALUES (51, 30, 1, '유료', '별들이 사라진 하늘', '2023-10-15','src/main/resources/static/contentText/밤의 시작.txt', 200, 874);
+
+INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents ,cost ,views)
+VALUES (51, 30, 2, '유료', '잃어버린 별들의 노래', '2023-10-15','src/main/resources/static/contentText/밤의 시작.txt', 200, 874);
+
+INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents ,cost ,views)
+VALUES (51, 30, 3, '유료', '은하 속에 숨겨진 멜로디', '2023-10-15','src/main/resources/static/contentText/밤의 시작.txt', 200, 874);
+
+--   52 Book Information 
+INSERT INTO book_tb (book_id, user_id, title, author_comment, author, category_id, genre_id, introduction, age,likes,serial_day,book_cover_image) 
+VALUES (52, 31, '바람 속의 속삭임', '그들의 노래는 여전히 밤하늘에 울려 퍼진다.', '바람', 1, 2, '그들의 노래는 여전히 밤하늘에 울려 퍼진다.', '15', 25, '화요일','cover/27.png');
+
+INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents ,cost ,views)
+VALUES (52, 31, 0, '프롤로그', '바람 속의 속삭임', '2023-10-15','src/main/resources/static/contentText/밤의 시작.txt', 0 , 874);
+
+INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents ,cost ,views)
+VALUES (52, 31, 1, '유료', '속삭이는 바람의 비밀', '2023-10-15','src/main/resources/static/contentText/밤의 시작.txt', 200, 874);
+
+INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents ,cost ,views)
+VALUES (52, 31, 2, '유료', '바람에 실린 첫 번째 이야기', '2023-10-15','src/main/resources/static/contentText/밤의 시작.txt', 200, 874);
+
+INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents ,cost ,views)
+VALUES (52, 31, 3, '유료', '침묵 속에서 들려온 소리', '2023-10-15','src/main/resources/static/contentText/밤의 시작.txt', 200, 874);
+
+INSERT INTO book_tb (book_id, user_id, title, author_comment, author, category_id, genre_id, introduction, age, likes, serial_day, book_cover_image) 
+VALUES (53, 32, '어둠 속의 한 줄기 빛', '어둠 속에서도 희망은 빛난다.', '밤하늘', 1, 2, '그들의 노래는 여전히 밤하늘에 울려 퍼진다.', '15', 25, '화요일', 'cover/28.png');
+
+-- 53 Story Information
+INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
+VALUES (53, 32, 0, '프롤로그', '어둠 속의 한 줄기 빛', '2023-10-15', 'src/main/resources/static/contentText/빛의 시작.txt', 0, 874);
+
+INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
+VALUES (53, 32, 1, '유료', '희망을 좇는 빛', '2023-10-15', 'src/main/resources/static/contentText/빛의 시작.txt', 200, 874);
+
+INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
+VALUES (53, 32, 2, '유료', '빛의 기억', '2023-10-15', 'src/main/resources/static/contentText/빛의 시작.txt', 200, 874);
+
+INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
+VALUES (53, 32, 3, '유료', '어둠 속에 남은 빛', '2023-10-15', 'src/main/resources/static/contentText/빛의 시작.txt', 200, 874);
+
+-- 54 Book Information 
+INSERT INTO book_tb (book_id, user_id, title, author_comment, author, category_id, genre_id, introduction, age, likes, serial_day, book_cover_image) 
+VALUES (54, 33, '달빛에 물든 기억', '기억은 달빛 아래 선명해진다.', '달빛아래', 1, 2, '그들의 노래는 여전히 밤하늘에 울려 퍼진다.', '15', 25, '수요일', 'cover/29.png');
+
+-- 54 Story Information
+INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
+VALUES (54, 33, 0, '프롤로그', '달빛에 물든 기억', '2023-10-15', 'src/main/resources/static/contentText/기억의 시작.txt', 0, 874);
+
+INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
+VALUES (54, 33, 1, '유료', '달빛 속의 잔상', '2023-10-15', 'src/main/resources/static/contentText/기억의 시작.txt', 200, 874);
+
+INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
+VALUES (54, 33, 2, '유료', '흐려진 기억', '2023-10-15', 'src/main/resources/static/contentText/기억의 시작.txt', 200, 874);
+
+INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
+VALUES (54, 33, 3, '유료', '사라져가는 기억', '2023-10-15', 'src/main/resources/static/contentText/기억의 시작.txt', 200, 874);
+
+-- 55 Book Information 
+INSERT INTO book_tb (book_id, user_id, title, author_comment, author, category_id, genre_id, introduction, age, likes, serial_day, book_cover_image) 
+VALUES (55, 34, '바람에 실린 속삭임', '바람은 비밀을 품고 있다.', '바밀', 1, 2, '그들의 노래는 여전히 밤하늘에 울려 퍼진다.', '15', 25, '수요일', 'cover/30.png');
+
+-- 55 Story Information
+INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
+VALUES (55, 34, 0, '프롤로그', '바람에 실린 속삭임', '2023-10-15', 'src/main/resources/static/contentText/바람의 이야기.txt', 0, 874);
+
+INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
+VALUES (55, 34, 1, '유료', '바람이 전하는 이야기', '2023-10-15', 'src/main/resources/static/contentText/바람의 이야기.txt', 200, 874);
+
+INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
+VALUES (55, 34, 2, '유료', '숨겨진 바람의 속삭임', '2023-10-15', 'src/main/resources/static/contentText/바람의 이야기.txt', 200, 874);
+
+INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
+VALUES (55, 34, 3, '유료', '바람 속의 비밀', '2023-10-15', 'src/main/resources/static/contentText/바람의 이야기.txt', 200, 874);
+
+-- 56 Book Information 
+INSERT INTO book_tb (book_id, user_id, title, author_comment, author, category_id, genre_id, introduction, age, likes, serial_day, book_cover_image) 
+VALUES (56, 35, '추억 속의 별빛', '별빛 아래에 숨겨진 추억.', '추억속', 1, 2, '그들의 노래는 여전히 밤하늘에 울려 퍼진다.', '15', 25, '목요일', 'cover/31.png');
+
+-- 56 Story Information
+INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
+VALUES (56, 35, 0, '프롤로그', '추억 속의 별빛', '2023-10-15', 'src/main/resources/static/contentText/별빛의 이야기.txt', 0, 874);
+
+INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
+VALUES (56, 35, 1, '유료', '별빛에 물든 이야기', '2023-10-15', 'src/main/resources/static/contentText/별빛의 이야기.txt', 200, 874);
+
+INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
+VALUES (56, 35, 2, '유료', '사라진 별빛', '2023-10-15', 'src/main/resources/static/contentText/별빛의 이야기.txt', 200, 874);
+
+INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
+VALUES (56, 35, 3, '유료', '별빛의 속삭임', '2023-10-15', 'src/main/resources/static/contentText/별빛의 이야기.txt', 200, 874);
+
+-- 57 Book Information 
+INSERT INTO book_tb (book_id, user_id, title, author_comment, author, category_id, genre_id, introduction, age, likes, serial_day, book_cover_image) 
+VALUES (57, 36, '희망을 좇는 별', '희망은 밤하늘에 빛난다.', '희망의날개', 1, 2, '그들의 노래는 여전히 밤하늘에 울려 퍼진다.', '15', 25, '목요일', 'cover/23.png');
+
+-- 57 Story Information
+INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
+VALUES (57, 36, 0, '프롤로그', '희망을 좇는 별', '2023-10-15', 'src/main/resources/static/contentText/희망의 이야기.txt', 0, 874);
+
+INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
+VALUES (57, 36, 1, '유료', '희망의 빛', '2023-10-15', 'src/main/resources/static/contentText/희망의 이야기.txt', 200, 874);
+
+INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
+VALUES (57, 36, 2, '유료', '사라지는 희망', '2023-10-15', 'src/main/resources/static/contentText/희망의 이야기.txt', 200, 874);
+
+INSERT INTO story_tb (book_id, user_id, number, type, title, upload_day, contents, cost, views)
+VALUES (57, 36, 3, '유료', '밤하늘의 희망', '2023-10-15', 'src/main/resources/static/contentText/희망의 이야기.txt', 200, 874);
+
+
+--  
 -- 프로젝트 테이블 삽입
 INSERT INTO project_tb (user_id, book_id, title, oneline_comment, contents, goal, date_end, staff_agree, project_successful)
 VALUES (1, 1, '임시프로젝트타이틀1', '한줄 소개 1', '내용입니다', 20000, '2024-09-09', 'Y', 'N'),
@@ -1294,6 +1573,14 @@ VALUES (1, 1, '임시프로젝트타이틀1', '한줄 소개 1', '내용입니�
        (4, 4, '임시프로젝트타이틀4', '한줄 소개 4', '내용입니다', 30000, '2024-09-05', 'Y', 'N'),
        (5, 5, '임시프로젝트타이틀5', '한줄 소개 5', '내용입니다', 10000, '2024-11-09', 'Y', 'N');
 
+-- 리워드 테이블 삽입
+INSERT INTO reward_tb (project_id, reward_content, reward_point)
+VALUES 
+(1, '프로젝트 1 리워드 내용', 10000),
+(2, '프로젝트 2 리워드 내용', 15000),
+(3, '프로젝트 3 리워드 내용', 20000),
+(4, '프로젝트 4 리워드 내용', 25000),
+(5, '프로젝트 5 리워드 내용', 30000);
 
 -- 리워드 테이블 삽입
 INSERT INTO reward_tb (project_id, reward_content, reward_point, reward_quantity)
@@ -1312,8 +1599,9 @@ VALUES
 (2, 2, 'N', 1, '67890', '부산시', '수영구 민락동 456번지', 'B동 202호'),
 (3, 3, 'N', 2, '23456', '부산시', '동래구 명륜동 789번지', 'C동 303호'),
 (4, 4, 'N', 1, '34567', '부산시', '서구 암남동 101번지', 'D동 404호'),
-(5, 5, 'N', 1, '45678', '부산시', '동구 초량동 123번지', 'E동 505호');
+(5, 5, 'N', 1, '45678', '부산시', '동구 초량동 123번지', 'E동 505호');  
 
+<<<<<<< HEAD
 -- 펀딩 히스토리 테이블 삽입
 INSERT INTO funding_history_tb (project_id)
 VALUES (1), (2), (3), (4), (5);
@@ -1326,14 +1614,25 @@ VALUES
 (4, NULL, 'tviva20240913154805sCY49', 2500, '오배송', 'PENDING', '2024-09-13 16:10:00.000000', NULL, NULL),
 (1, 1, 'tviva20240913154806sCY50', 1000, '취소 요청', 'APPROVED', '2024-09-13 16:20:00.000000', '2024-09-13 17:00:00.000000', NULL),
 (2, 1, 'tviva20240913154807sCY51', 3000, '상품 불만족', 'REJECTED', '2024-09-13 16:30:00.000000', NULL, '2024-09-13 18:00:00.000000');
+=======
+INSERT INTO refund_request_tb (user_id, staff_id, payment_key, refund_amount, refund_reason, status, created_at, approved_at, rejected_at, point, method) 
+VALUES 
+(1, NULL, 'tviva20240913154802sCY46', 1000, '환불', 'PENDING', '2024-09-13 15:48:44.159782', NULL, NULL, 0, '간편결제'),
+(2, NULL, 'tviva20240913154803sCY47', 2000, '제품 불만', 'PENDING', '2024-09-13 15:50:00.000000', NULL, NULL, 0, '간편결제'),
+(3, NULL, 'tviva20240913154804sCY48', 1500, '배송 지연', 'PENDING', '2024-09-13 16:00:00.000000', NULL, NULL, 0, '간편결제'),
+(4, NULL, 'tviva20240913154805sCY49', 2500, '오배송', 'PENDING', '2024-09-13 16:10:00.000000', NULL, NULL, 0, '간편결제'),
+(1, 1, 'tviva20240913154806sCY50', 1000, '취소 요청', 'APPROVED', '2024-09-13 16:20:00.000000', '2024-09-13 17:00:00.000000', NULL, 0, '간편결제'),
+(2, 1, 'tviva20240913154807sCY51', 3000, '상품 불만족', 'REJECTED', '2024-09-13 16:30:00.000000', NULL, '2024-09-13 18:00:00.000000', 0, '간편결제');
+
+>>>>>>> sub-dev
 -- user_tb에서 랜덤한 user_id를 가져오되, view_day, view_month, view_year에 중복되지 않도록 설정
 INSERT INTO book_views_rating_tb (book_id, view_year, view_month, view_day, views, rating, user_id)
 SELECT 
     s.book_id,
-    EXTRACT(YEAR FROM s.upload_day) AS view_year,      -- story_tb의 upload_day에서 연도 추출
-    EXTRACT(MONTH FROM s.upload_day) AS view_month,    -- story_tb의 upload_day에서 월 추출
-    EXTRACT(DAY FROM s.upload_day) AS view_day,        -- story_tb의 upload_day에서 일 추출
-    s.views,                                           -- story_tb의 views 값을 가져옴
+    EXTRACT(YEAR FROM s.upload_day) AS view_year,     
+    EXTRACT(MONTH FROM s.upload_day) AS view_month,    
+    EXTRACT(DAY FROM s.upload_day) AS view_day,        
+    s.views,                                           
     ROUND(1 + (RAND() * 4), 1) AS rating,              -- 1.0 ~ 5.0 사이의 랜덤 평점 생성 (소수점 한 자릿수까지)
     (SELECT u.user_id FROM user_tb u 
      WHERE NOT EXISTS (SELECT 1 FROM book_views_rating_tb bvr 
@@ -1345,6 +1644,48 @@ SELECT
 FROM
     story_tb s;
 
+<<<<<<< HEAD
+=======
+    INSERT INTO banner_tb (`title`, `image_path`) VALUES ('이미지1', 'banner/banner.jpg');
+
+    INSERT INTO banner_tb (`title`, `image_path`) VALUES ('이미지2', 'banner/banner2.jpg');
+
+-- 당일 유저당 조회
+insert into book_views_rating_tb (book_id, view_year, view_month, view_day, views, rating, user_id)
+values(1,YEAR(CURRENT_DATE),month(CURRENT_DATE),day(CURRENT_DATE),1,2.5,11);
+insert into book_views_rating_tb (book_id, view_year, view_month, view_day, views, rating, user_id)
+values(1,YEAR(CURRENT_DATE),month(CURRENT_DATE),day(CURRENT_DATE),1,3.5,17);
+insert into book_views_rating_tb (book_id, view_year, view_month, view_day, views, rating, user_id)
+values(1,YEAR(CURRENT_DATE),month(CURRENT_DATE),day(CURRENT_DATE),1,4.5,10);
+insert into book_views_rating_tb (book_id, view_year, view_month, view_day, views, rating, user_id)
+values(4,YEAR(CURRENT_DATE),month(CURRENT_DATE),day(CURRENT_DATE),1,3.5,15);
+insert into book_views_rating_tb (book_id, view_year, view_month, view_day, views, rating, user_id)
+values(4,YEAR(CURRENT_DATE),month(CURRENT_DATE),day(CURRENT_DATE),1,4.5,14);
+insert into book_views_rating_tb (book_id, view_year, view_month, view_day, views, rating, user_id)
+values(4,YEAR(CURRENT_DATE),month(CURRENT_DATE),day(CURRENT_DATE),1,1.5,13);
+insert into book_views_rating_tb (book_id, view_year, view_month, view_day, views, rating, user_id)
+values(5,YEAR(CURRENT_DATE),month(CURRENT_DATE),day(CURRENT_DATE),1,2.5,23);
+insert into book_views_rating_tb (book_id, view_year, view_month, view_day, views, rating, user_id)
+values(5,YEAR(CURRENT_DATE),month(CURRENT_DATE),day(CURRENT_DATE),1,3,21);
+insert into book_views_rating_tb (book_id, view_year, view_month, view_day, views, rating, user_id)
+values(5,YEAR(CURRENT_DATE),month(CURRENT_DATE),day(CURRENT_DATE),1,4.5,20);
+insert into book_views_rating_tb (book_id, view_year, view_month, view_day, views, rating, user_id)
+values(11,YEAR(CURRENT_DATE),month(CURRENT_DATE),day(CURRENT_DATE),1,2.5,27);
+insert into book_views_rating_tb (book_id, view_year, view_month, view_day, views, rating, user_id)
+values(11,YEAR(CURRENT_DATE),month(CURRENT_DATE),day(CURRENT_DATE),1,3.5,24);
+insert into book_views_rating_tb (book_id, view_year, view_month, view_day, views, rating, user_id)
+values(11,YEAR(CURRENT_DATE),month(CURRENT_DATE),day(CURRENT_DATE),1,2.5,16);
+insert into book_views_rating_tb (book_id, view_year, view_month, view_day, views, rating, user_id)
+values(1,YEAR(CURRENT_DATE),month(CURRENT_DATE),day(CURRENT_DATE),1,3.5,19);
+insert into book_views_rating_tb (book_id, view_year, view_month, view_day, views, rating, user_id)
+values(15,YEAR(CURRENT_DATE),month(CURRENT_DATE),day(CURRENT_DATE),1,2.5,9);
+
+
+-- 펀딩 히스토리 테이블 삽입
+INSERT INTO funding_history_tb (project_id)
+VALUES (1), (2), (3), (4), (5);
+
+>>>>>>> sub-dev
 -- 결제 테이블 샘플데이터 
 INSERT INTO `account_history_tb` 
 (`user_id`, `deposit`, `point`, `after_balance`, `payment_key`, `status`, `refund_reason`)
@@ -1373,3 +1714,31 @@ INSERT INTO `account_history_tb`
 (`user_id`, `deposit`, `point`, `after_balance`, `payment_key`, `status`, `refund_reason`)
 VALUES 
 (5, 300000, 15000, 315000, 'pay_key_005', 'APPROVED', NULL);
+<<<<<<< HEAD
+=======
+
+INSERT INTO `user_alert_list_tb` (`alert_content`) VALUES 
+('비속어 사용 경고'),
+('도배 행위 경고'),
+('부적절한 내용 경고'),
+('스팸 행위 경고'),
+('기타 경고');
+
+INSERT INTO `user_alert_history_tb` (`alert_id`, `user_id`, `period_date`) VALUES 
+(1, 1, '2024-09-01'),
+(2, 2, '2024-09-05'),
+(3, 3, '2024-09-10'),
+(4, 4, '2024-09-12'),
+(5, 5, '2024-09-15');
+
+INSERT INTO `report_tb` (`alert_id`, `user_id`, `report_user_id`, `project_id`, `book_id`, `period_content`, `processing`) VALUES 
+(1, 1, 2, NULL, 1, '부적절한 리뷰 작성으로 신고합니다.', 'N'),
+(2, 2, 3, 1, NULL, '도배로 인한 신고입니다.', 'N'),
+(3, 3, 4, NULL, 2, '부적절한 게시물로 신고합니다.', 'Y'),
+(4, 4, 5, 2, NULL, '스팸 행위로 신고합니다.', 'Y'),
+(5, 5, 1, NULL, 3, '기타 이유로 신고합니다.', 'N');
+
+INSERT INTO `report_history_tb` (`report_id`, `user_id`, `alert_id`, `period_days`) VALUES 
+(3, 1, 3, 7),
+(4, 2, 4, 0);
+>>>>>>> sub-dev

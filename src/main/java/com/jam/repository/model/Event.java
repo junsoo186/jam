@@ -26,5 +26,19 @@ public class Event {
 	private int userId;
 	private int limit;
 	private int offset;
+<<<<<<< HEAD
 
+=======
+	private String eventImage;
+
+	
+	 public String setUploadEventImage() {
+			if (eventImage == null) {
+				return "/images/cover/winterCover.jpg";
+			} else {
+				return "/images/" + eventImage;
+			}
+		}
+	    
+>>>>>>> sub-dev
 }

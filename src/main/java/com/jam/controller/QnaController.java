@@ -3,6 +3,7 @@ package com.jam.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.convert.ReadingConverter;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,26 +16,27 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.jam.dto.QnaDTO;
 import com.jam.handler.exception.UnAuthorizedException;
+import com.jam.repository.model.Banner;
 import com.jam.repository.model.Qna;
 import com.jam.repository.model.User;
+import com.jam.service.BannerService;
 import com.jam.service.QnaService;
 import com.jam.utils.Define;
 
 import jakarta.servlet.http.HttpSession;
+import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequestMapping("/qna")
+@RequiredArgsConstructor
 public class QnaController {
 	private final QnaService qnaService;
 	private final HttpSession session;
+	private final BannerService bannerService;
 	
 	
 	// 생성자 
-	@Autowired
-	public QnaController(HttpSession session,QnaService qnaService) {
-		this.session = session;
-		this.qnaService = qnaService;
-	}
+	
 	
 	
 	/**
@@ -52,6 +54,14 @@ public class QnaController {
 			 				Model model) {
 		// 사용자 인증 -추후 전체 인증 만들면 삭제 예정
 		User principal = (User)session.getAttribute("principal");
+		// 배너 관련 정보
+		List<Banner> bannerList = bannerService.findAll();
+		for (Banner banner : bannerList) {
+			String bannerImg = banner.setUpBannerImage();
+			banner.setImagePath(bannerImg);
+		}
+
+
 		if(principal == null ) {
 			throw new UnAuthorizedException("인증된 사용자가 아닙니다.", HttpStatus.UNAUTHORIZED);
 		}
@@ -60,7 +70,7 @@ public class QnaController {
 		List<Qna> qnaList = qnaService.selectAllQna( page,  size);
 		
 		
-		
+		model.addAttribute("banner", bannerList);
 		model.addAttribute("qnaList",qnaList);
 		model.addAttribute("currentPage", page);
 		model.addAttribute("totalPages", totalPages);

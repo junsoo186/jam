@@ -9,6 +9,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const userInfo = document.getElementById('userInfo');
     const percentageElement = document.getElementById('percentage'); // 퍼센트 표시 요소
     const remainingTimeElement = document.getElementById('remainingTime'); // 남은 시간 표시 요소
+    const currentDate = new Date(); // 클라이언트의 현재 시간
+
 
     let userId = 0;
     let userPoint = 0;
@@ -90,6 +92,10 @@ document.addEventListener('DOMContentLoaded', function () {
         // 총 결제 금액을 히든 필드에 설정
         totalAmountInput.value = cartTotal;
         console.log(`Submitting checkout form with totalAmount=${cartTotal}`);
+
+        // 히든 필드에 있는 projectId 값을 출력
+        const projectIdInput = document.getElementById('projectIdInput');
+        console.log("Project ID:", projectIdInput.value);
 
         // 히든 필드 값 출력
         console.log("Total Amount:", totalAmountInput.value);
@@ -255,6 +261,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 return; // 로그인하지 않으면 리워드 선택 불가
             }
 
+            // 펀딩 종료 여부 확인
+            const remainingTimeText = remainingTimeElement.textContent;
+            if (remainingTimeText === '펀딩 종료') {
+                alert('펀딩이 종료되어 리워드를 선택할 수 없습니다.');
+                return; // 펀딩이 종료되면 리워드 선택 불가
+            }
+
             const rewardContent = this.getAttribute('data-reward-content');
             const rewardPoint = parseInt(this.getAttribute('data-reward-point'), 10);
             const rewardId = this.getAttribute('data-reward-id');
@@ -265,6 +278,7 @@ document.addEventListener('DOMContentLoaded', function () {
             addCartItem(rewardContent, rewardPoint, rewardId);
         });
     });
+
 
     // 1초마다 남은 시간을 갱신
     const timerInterval = setInterval(displayRemainingTime, 1000);

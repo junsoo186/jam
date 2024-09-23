@@ -44,7 +44,8 @@ CREATE TABLE `book_tb` (
     `likes` int NULL DEFAULT 0 COMMENT '좋아요',
     `age` ENUM('전체', '7', '12', '15', '19') NOT NULL COMMENT '등급 표시제',
     `serial_day` varchar(10) NULL DEFAULT '비 정기 연재' COMMENT '연재 방식',
-
+    `book_total_score` int NULL COMMENT '총점수',
+    `views` int NULL DEFAULT 0,
     FOREIGN KEY (`user_id`) REFERENCES `user_tb`(`user_id`),
     FOREIGN KEY (`category_id`) REFERENCES `category_tb`(`category_id`),
     FOREIGN KEY (`genre_id`) REFERENCES `genre_tb`(`genre_id`)
@@ -76,22 +77,28 @@ CREATE TABLE `story_tb` (
     FOREIGN KEY (`user_id`) REFERENCES `user_tb`(`user_id`)
 );
 
-
 -- 뷰,평점 테이블
 CREATE TABLE `book_views_rating_tb` (
-    `view_id` int PRIMARY KEY AUTO_INCREMENT NOT NULL,                    -- 고유 조회 기록 ID
-    `book_id` int not null,       				   -- 책 ID (외래 키)     
+    `view_id` int PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    -- 고유 조회 기록 ID
+    `book_id` int not null,
+    -- 책 ID (외래 키)     
     `view_year` int,
-	`view_month` INT,                              -- 조회  월
-    `view_day` INT,   						       -- 조회 일
-    `views`  int  DEFAULT 0, -- default값필요                  -- 해당 날짜의 조회수
-    `rating` double  null, -- default이 있으면 오류가능성
-    `user_id` int not null ,       -- 조회한 사용자 (선택적)        
-    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- 조회 기록 생성 시각,
-        FOREIGN KEY (`user_id`) REFERENCES `user_tb`(`user_id`) ON DELETE CASCADE,
-		FOREIGN KEY (`book_id`) REFERENCES `book_tb`(`book_id`) ON DELETE CASCADE
+    `view_month` INT,
+    -- 조회  월
+    `view_day` INT,
+    -- 조회 일
+    `views` int DEFAULT 0,
+    -- default값필요                  -- 해당 날짜의 조회수
+    `rating` double null,
+    -- default이 있으면 오류가능성
+    `user_id` int not null,
+    -- 조회한 사용자 (선택적)        
+    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    -- 조회 기록 생성 시각,
+    FOREIGN KEY (`user_id`) REFERENCES `user_tb`(`user_id`) ON DELETE CASCADE,
+    FOREIGN KEY (`book_id`) REFERENCES `book_tb`(`book_id`) ON DELETE CASCADE
 );
-
 
 /* 유저 상세 정보  (테스트) */
 -- 이름(본명), 생일, 전화번호, 주소, 포인트(잔액)
@@ -152,6 +159,7 @@ CREATE TABLE `event_tb` (
     `start_day` date NOT NULL COMMENT '이벤트 시작일',
     `end_day` date NOT NULL COMMENT '이벤트 종료일',
     `user_id` int NOT NULL COMMENT '외래 키, user_tb 참조, 당첨자 명',
+    `event_image` text comment '이벤트 이미지',
     FOREIGN KEY (`user_id`) REFERENCES `user_tb`(`user_id`)
 );
 
@@ -175,6 +183,7 @@ CREATE TABLE `event_winners_tb` (
     FOREIGN KEY (`event_id`) REFERENCES `event_tb`(`event_id`) ON DELETE CASCADE,
     FOREIGN KEY (`user_id`) REFERENCES `user_tb`(`user_id`) ON DELETE CASCADE
 );
+
 -- 토스페이먼츠 결제 성공 시 기록에 저장된다. (user_id, deposit, point, after_balance, created_at, payment_key, status)
 CREATE TABLE `account_history_tb` (
     `account_history_id` int PRIMARY KEY AUTO_INCREMENT NOT NULL,
@@ -187,8 +196,8 @@ CREATE TABLE `account_history_tb` (
     `payment_key` varchar(50) null comment '토스 환불에서 paymentkey, 결제가격, 환불이유가 필요',
     `status` VARCHAR(20) NOT NULL DEFAULT 'PENDING' COMMENT '요청 상태 (PENDING, APPROVED, REJECTED)',
     refund_reason VARCHAR(255) COMMENT '환불 사유',
-    event char(1),
-    method varchar(15)
+    event char(1) COMMENT '이벤트를 적용하여 결제했는지 여부를 확인 Y, N ',
+    method varchar(15) COMMENT '결제 api를 통해 어떤 방법으로 결제했는지 ex) 간편결제'
 );
 
 -- 환불 요청 테이블 (사용자가 환불요청 하면 관리자가 승인, 거절 할 수 있다.)
@@ -204,30 +213,30 @@ CREATE TABLE refund_request_tb (
     approved_at TIMESTAMP NULL COMMENT '관리자 승인 시간',
     rejected_at TIMESTAMP NULL COMMENT '관리자 거부 시간',
     point bigint not null comment '결제후 포인트 획득',
-    method varchar(10) not null comment '결제 방식',
+    method varchar(10) null comment '결제 방식',
     FOREIGN KEY (user_id) REFERENCES user_tb(user_id),
     FOREIGN KEY (staff_id) REFERENCES user_tb(user_id)
 );
 
 -- 충전 이벤트 유무를 확인할 수 있다. (만약 이벤트가 'Y' 이면 환불 불가 or 이벤트가 'N' 이라면 환불 가능)
 create table payment_tb(
-	payment_id int primary key auto_increment,
+    payment_id int primary key auto_increment,
     user_id int not null,
     price bigint not null,
-    point bigint not null ,
-    event char(1), -- 'Y' 'N'
+    point bigint not null,
+    event char(1),
+    -- 'Y' 'N'
     payment_key varchar(50) not null,
     FOREIGN KEY (user_id) REFERENCES user_tb(user_id),
     FOREIGN KEY (payment_key) REFERENCES account_history_tb(payment_key)
 );
-
 
 CREATE TABLE `reward_tb` (
     `reward_id` int PRIMARY KEY AUTO_INCREMENT NOT NULL,
     `project_id` int NOT NULL COMMENT '외래 키, project_tb 참조',
     `reward_content` text NOT NULL COMMENT '공지 사항 내용',
     `reward_point` int NOT NULL COMMENT '리워드 금액',
-    `reward_quantity` int NOT NULL DEFAULT 0 COMMENT '리워드 수량',
+    `reward_quantity` int NOT NULL DEFAULT -1 COMMENT '리워드 수량',
     -- 리워드 수량 추가
     FOREIGN KEY (`project_id`) REFERENCES `project_tb` (`project_id`)
 );
@@ -237,8 +246,12 @@ CREATE TABLE `funding_tb` (
     `user_id` int NOT NULL COMMENT '외래 키, 참여 user_tb 참조',
     `reward_id` int NOT NULL COMMENT '외래 키, 참여 reward_tb 참조',
     `created_at` timestamp NOT NULL DEFAULT current_timestamp,
+<<<<<<< HEAD
     `canceled_at` date DEFAULT NULL COMMENT '취소된 날짜, NULL 허용',
+=======
+>>>>>>> sub-dev
     `reward_quantity` int NOT NULL COMMENT '리워드 수량',
+    `canceled_at` date DEFAULT '2099-12-31' COMMENT '취소된 날짜, NULL 허용',
     `cancel_confirm` enum('N', 'Y') NULL DEFAULT 'N' COMMENT 'Y:N',
     `zipcode` varchar(10) NOT NULL COMMENT '우편번호',
     `basic_address` varchar(255) NOT NULL COMMENT '기본 주소',
@@ -246,15 +259,32 @@ CREATE TABLE `funding_tb` (
     `extra_address` varchar(255) COMMENT '참고 항목',
     FOREIGN KEY (`user_id`) REFERENCES `user_tb`(`user_id`) ON DELETE CASCADE,
     FOREIGN KEY (`reward_id`) REFERENCES `reward_tb`(`reward_id`) ON DELETE CASCADE
+<<<<<<< HEAD
     `canceled_At` DATE DEFAULT '2099-12-31' ,
     `confirm_success` enum('N','Y') NOT NULL DEFAULT 'N' COMMENT 'Y:N',
 		FOREIGN KEY (`reward_id`) REFERENCES `reward_tb`(`reward_id`),
        FOREIGN KEY (`user_id`) REFERENCES `user_tb`(`user_id`)
+=======
+>>>>>>> sub-dev
 );
 
+CREATE TABLE `funding_result_tb` (
+    `funding_result_id` INT PRIMARY KEY AUTO_INCREMENT NOT NULL COMMENT 'auto increment ID',
+    `project_id` INT NOT NULL COMMENT '펀딩된 프로젝트 ID, project_tb 참조',
+    `total_funding_amount` DECIMAL(15, 2) NOT NULL COMMENT '총 펀딩된 금액',
+    `total_backers` INT NOT NULL COMMENT '펀딩에 참여한 총 인원 수',
+    `funding_goal` DECIMAL(15, 2) NOT NULL COMMENT '펀딩 목표 금액',
+    `funding_status` VARCHAR(20) NOT NULL COMMENT '펀딩 상태 (성공, 실패, 취소)',
+    `is_refunded` BOOLEAN DEFAULT FALSE COMMENT '환불 여부',
+    `final_funding_date` DATETIME NOT NULL COMMENT '펀딩 종료 날짜',
+    `reward_distributed` BOOLEAN DEFAULT FALSE COMMENT '보상 지급 여부',
+    `refund_date` DATETIME DEFAULT NULL COMMENT '환불 날짜(있을 경우)',
+    CONSTRAINT fk_funding_project FOREIGN KEY (`project_id`) REFERENCES `project_tb`(`project_id`) ON DELETE CASCADE
+) COMMENT = '펀딩 결과 저장 테이블';
+
 CREATE TABLE `funding_history_tb` (
-    `funding_history_id` int PRIMARY KEY AUTO_INCREMENT NOT NULL COMMENT 'auto',
-    `project_id` int NOT NULL COMMENT '외래 키, project_tb 참조',
+    `id` int PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    `project_id` int NOT NULL,
     FOREIGN KEY (`project_id`) REFERENCES `project_tb`(`project_id`)
 );
 
@@ -275,21 +305,10 @@ CREATE TABLE `qna_tb` (
     `question_content` text COMMENT '질문 사항 내용',
     `answer_content` text COMMENT '질문 사항 내용',
     `created_at` timestamp NOT NULL DEFAULT current_timestamp,
-    FOREIGN KEY (`user_id`) REFERENCES `user_tb`(`user_id`)
-);
-
-CREATE TABLE `user_alert_list_tb` (
-    `alert_id` int PRIMARY KEY AUTO_INCREMENT NOT NULL,
-    `alert_content` varchar(50) NOT NULL COMMENT '경고 내용'
-);
-
-CREATE TABLE `user_alert_history_tb` (
-    `alert_history_id` int PRIMARY KEY AUTO_INCREMENT NOT NULL,
-    `alert_id` int NOT NULL COMMENT '외래 키, user_alert_list_tb 참조',
-    `user_id` int NOT NULL COMMENT '외래 키, staff_tb 참조',
-    `period_date` date NOT NULL COMMENT '경고 기간',
+    `staff_id` int NULL COMMENT '답변한 관리자 ID',
+    `answer_date` timestamp null COMMENT '답변 일자',
     FOREIGN KEY (`user_id`) REFERENCES `user_tb`(`user_id`),
-    FOREIGN KEY (`alert_id`) REFERENCES `user_alert_list_tb`(`alert_id`)
+    FOREIGN KEY (`staff_id`) REFERENCES `user_tb`(`user_id`)
 );
 
 CREATE TABLE `user_coupon_tb` (
@@ -327,30 +346,50 @@ CREATE TABLE `black_user_tb` (
     FOREIGN KEY (`user_id`) REFERENCES `user_tb`(`user_id`)
 );
 
+CREATE TABLE `user_alert_list_tb` (
+    `alert_id` INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    `alert_content` VARCHAR(50) NOT NULL COMMENT '경고 내용'
+);
+
+CREATE TABLE `user_alert_history_tb` (
+    `alert_history_id` INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    `alert_id` INT NOT NULL COMMENT '외래 키, user_alert_list_tb 참조',
+    `user_id` INT NOT NULL COMMENT '외래 키, user_tb 참조',
+    `period_date` DATE NOT NULL COMMENT '경고 기간',
+    `created_at` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (`user_id`) REFERENCES `user_tb`(`user_id`) ON DELETE CASCADE,
+    FOREIGN KEY (`alert_id`) REFERENCES `user_alert_list_tb`(`alert_id`) ON DELETE CASCADE
+);
+
 CREATE TABLE `report_tb` (
-    `report_id` int PRIMARY KEY AUTO_INCREMENT NOT NULL,
-    `alert_id` int NOT NULL COMMENT '외래 키, user_alert_list_tb 참조',
-    `user_id` int NOT NULL COMMENT '외래 키, user_tb 참조',
-    `report_user_id` int NULL COMMENT '신고 대상 유저 ID',
-    `project_id` int NULL COMMENT '신고 대상 프로젝트 ID',
-    `book_id` int NULL COMMENT '신고 대상 BookID',
-    `period_content` text NOT NULL,
-    `created_at` timestamp NULL DEFAULT current_timestamp,
-    `processing` enum('N', 'Y') NULL DEFAULT 'N' COMMENT 'Y:N',
-    FOREIGN KEY (`alert_id`) REFERENCES `user_alert_list_tb`(`alert_id`),
-    FOREIGN KEY (`user_id`) REFERENCES `user_tb`(`user_id`)
+    `report_id` INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    `alert_id` INT NOT NULL COMMENT '외래 키, user_alert_list_tb 참조',
+    `user_id` INT NOT NULL COMMENT '외래 키, user_tb 참조 (신고자)',
+    `report_user_id` INT NULL COMMENT '신고 대상 유저 ID',
+    `project_id` INT NULL COMMENT '신고 대상 프로젝트 ID',
+    `book_id` INT NULL COMMENT '신고 대상 책 ID',
+    `period_content` TEXT NOT NULL COMMENT '신고 내용',
+    `created_at` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+    `processing` ENUM('N', 'Y') NOT NULL DEFAULT 'N' COMMENT '신고 처리 상태 (N: 미처리, Y: 처리됨)',
+    FOREIGN KEY (`alert_id`) REFERENCES `user_alert_list_tb`(`alert_id`) ON DELETE CASCADE,
+    FOREIGN KEY (`user_id`) REFERENCES `user_tb`(`user_id`) ON DELETE CASCADE,
+    FOREIGN KEY (`report_user_id`) REFERENCES `user_tb`(`user_id`) ON DELETE SET NULL,
+    FOREIGN KEY (`project_id`) REFERENCES `project_tb`(`project_id`) ON DELETE SET NULL,
+    FOREIGN KEY (`book_id`) REFERENCES `book_tb`(`book_id`) ON DELETE SET NULL
 );
 
 CREATE TABLE `report_history_tb` (
-    `report_history_id` int PRIMARY KEY AUTO_INCREMENT NOT NULL,
-    `report_id` int NOT NULL COMMENT '외래 키, report_tb 참조',
-    `alert_id` int NOT NULL COMMENT '외래 키, user_alert_list_tb 참조',
-    `user_id` int NOT NULL COMMENT '외래 키, user_tb 참조',
-    `created_at` timestamp NULL DEFAULT current_timestamp,
-    FOREIGN KEY (`report_id`) REFERENCES `report_tb`(`report_id`),
-    FOREIGN KEY (`alert_id`) REFERENCES `user_alert_list_tb`(`alert_id`),
-    FOREIGN KEY (`user_id`) REFERENCES `user_tb`(`user_id`)
+    `report_history_id` INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    `report_id` INT NOT NULL COMMENT '외래 키, report_tb 참조',
+    `user_id` INT NOT NULL COMMENT '외래 키, user_tb 참조 (처리 담당자)',
+    `alert_id` INT NOT NULL COMMENT '외래 키, user_alert_list_tb 참조',
+    `period_days` INT NOT NULL COMMENT '처리 기간 (일 단위)',
+    `created_at` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP COMMENT '신고 처리 시간',
+    FOREIGN KEY (`report_id`) REFERENCES `report_tb`(`report_id`) ON DELETE CASCADE,
+    FOREIGN KEY (`alert_id`) REFERENCES `user_alert_list_tb`(`alert_id`) ON DELETE CASCADE,
+    FOREIGN KEY (`user_id`) REFERENCES `user_tb`(`user_id`) ON DELETE CASCADE
 );
+
 
 CREATE TABLE `story_comment_tb` (
     `comment_id` int PRIMARY KEY AUTO_INCREMENT NOT NULL,
@@ -390,11 +429,11 @@ CREATE TABLE `book_comment_tb` (
     `user_id` int NOT NULL COMMENT '외래 키, user_tb 참조',
     `comment` text NOT NULL COMMENT '북 댓글',
     `created_at` timestamp NULL DEFAULT current_timestamp COMMENT '댓글 작성 시간',
-    `likes` int NULL DEFAULT 0,
     FOREIGN KEY (`book_id`) REFERENCES `book_tb`(`book_id`),
     FOREIGN KEY (`user_id`) REFERENCES `user_tb`(`user_id`)
 );
 
+<<<<<<< HEAD
 CREATE TABLE `banner_tb`(
     `banner_id` int PRIMARY KEY AUTO_INCREMENT NOT NULL,
     `title` varchar(1000) COMMENT '베너 제목',
@@ -408,17 +447,70 @@ CREATE TABLE `banner_tb`(
 `image_path` varchar(2000) COMMENT '이미지 경로',
 `event_id` int,
 FOREIGN KEY (`event_id`) REFERENCES `event_tb`(`event_id`)
+=======
+CREATE TABLE `main_banner_tb`(
+    `main_banner_id` int PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    `title` varchar(1000) COMMENT '베너 제목',
+    `content` varchar(1000) COMMENT '베너 내용1',
+    `sub_content` varchar(1000) COMMENT '베너 내용2',
+    `image_path` varchar(2000) COMMENT '이미지 경로',
+    `event_id` int,
+    FOREIGN KEY (`event_id`) REFERENCES `event_tb`(`event_id`)
+>>>>>>> sub-dev
 );
 
 -- project_tb에 reward_id에 대한 외래 키 추가
 -- ALTER TABLE `project_tb`
 -- ADD CONSTRAINT fk_project_reward FOREIGN KEY (`reward_id`) REFERENCES `reward_tb`(`reward_id`);
+<<<<<<< HEAD
 ALTER TABLE `project_tb`
 ADD CONSTRAINT fk_project_reward FOREIGN KEY (`reward_id`) REFERENCES `reward_tb`(`reward_id`);
+=======
+CREATE TABLE `score_tb`(
+    `score_id` int PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    `user_id` int COMMENT '일반 사용자 ID',
+    `book_id` int COMMENT '책_ID',
+    `give_score` int,
+    `created_at` timestamp
+);
+
+CREATE TABLE banner_tb(
+banner_id int PRIMARY KEY AUTO_INCREMENT NOT NULL,
+title varchar(1000) COMMENT '베너 제목',
+content varchar(1000) COMMENT '베너 내용1',
+sub_content varchar(1000) COMMENT '베너 내용2',
+image_path varchar(2000) COMMENT '이미지 경로'
+);
+
+CREATE TABLE likes_tb(
+`likes_id`int PRIMARY KEY AUTO_INCREMENT NOT NULL,
+`comment_id` int COMMENT '댓글 ID',
+`book_id`int COMMENT '책 ID',
+`user_id`int COMMENT '유저 ID',
+`story_id` int COMMENT '회차 ID',
+FOREIGN KEY (`comment_id`) REFERENCES `book_comment_tb`(`comment_id`),
+FOREIGN KEY (`user_id`) REFERENCES `user_tb`(`user_id`),
+FOREIGN KEY (`book_id`) REFERENCES `book_tb`(`book_id`),
+FOREIGN KEY (`story_id`) REFERENCES `story_tb`(`story_id`)
+);
+
+>>>>>>> sub-dev
 
 
 
 -- fk 순환구조라 오류생김
 -- reward_tb에 project_id에 대한 외래 키 추가
--- ALTER TABLE `reward_tb`
--- ADD CONSTRAINT fk_reward_project FOREIGN KEY (`project_id`) REFERENCES `project_tb`(`project_id`);
+-- ALTER TABLE
+--     `reward_tb`
+-- ADD
+--     CONSTRAINT fk_reward_project FOREIGN KEY (`project_id`) REFERENCES `project_tb`(`project_id`);
+CREATE TABLE purchase_tb (
+    purchase_id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT,
+    book_id INT,  -- 책 아이디 추가
+    story_id INT,
+    purchase_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES user_tb(user_id) ON DELETE CASCADE,
+    FOREIGN KEY (book_id) REFERENCES book_tb(book_id) ON DELETE CASCADE,
+    FOREIGN KEY (story_id) REFERENCES story_tb(story_id) ON DELETE CASCADE
+);

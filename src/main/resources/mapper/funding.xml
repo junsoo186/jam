@@ -1,57 +1,90 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.jam.repository.interfaces.FundingRepository">
+<mapper
+	namespace="com.jam.repository.interfaces.FundingRepository">
 
-    <insert id="insertFunding" parameterType="com.jam.dto.FundingDTO"> INSERT INTO funding_tb (
-        user_id, reward_id, created_at, canceled_at, reward_quantity, cancel_confirm, zipcode,
-        basic_address, detailed_address, extra_address ) VALUES ( #{userId}, #{rewardId}, NOW(),
-        #{canceledAt}, #{rewardQuantity}, #{cancelConfirm}, #{zipcode}, #{basicAddress},
-        #{detailedAddress}, #{extraAddress}) </insert>
+	<insert id="insertFunding"
+		parameterType="com.jam.dto.FundingDTO"> INSERT INTO funding_tb (
+		user_id, reward_id, created_at,
+		canceled_at, reward_quantity, cancel_confirm,
+		zipcode,
+		basic_address,
+		detailed_address, extra_address ) VALUES ( #{userId}, #{rewardId},
+		NOW(),
+		#{canceledAt}, #{rewardQuantity}, #{cancelConfirm}, #{zipcode},
+		#{basicAddress},
+		#{detailedAddress}, #{extraAddress})
+	</insert>
 
-    <select id="findFundingByUserId" resultType="com.jam.repository.model.Funding"> SELECT
-        f.funding_id, f.created_at, r.reward_point, r.reward_content,
-        f.reward_quantity, CONCAT(f.basic_address, ' ', f.detailed_address, ' ',
-        IFNULL(f.extra_address, '')) AS shippingAddress, f.cancel_confirm, f.canceled_at  FROM funding_tb f JOIN reward_tb r ON f.reward_id = r.reward_id WHERE f.user_id =
-       #{userId} </select>
+	<select id="findFundingByUserId"
+		resultType="com.jam.repository.model.Funding"> SELECT
+		f.funding_id,
+		f.created_at,
+		r.reward_point,
+		r.reward_content,
+		f.reward_quantity,
+		CONCAT(f.basic_address, ' ', f.detailed_address, ' ', IFNULL(f.extra_address, '')) AS
+		shippingAddress,
+		f.cancel_confirm,
+		f.canceled_at,
+		r.project_id,
+		p.date_end,
+		-- 프로젝트 마감 여부 계산 (마감일이 현재보다 이전이면 'Y', 아니면 'N')
+		CASE
+		WHEN p.date_end &lt; CURDATE() THEN 'Y' -- 현재 날짜보다 이전이면 마감됨
+		ELSE 'N' -- 아직 마감되지 않음
+		END AS isClosed
+		FROM
+		funding_tb f
+		JOIN reward_tb r ON f.reward_id = r.reward_id
+		JOIN project_tb p ON r.project_id = p.project_id
+		WHERE
+		f.user_id = #{userId};
+	</select>
 
+<<<<<<< HEAD
+=======
+	<update id="updatePoint">
+		UPDATE user_de_tb
+		SET point = point - #{totalAmount}
+		WHERE user_id = #{userId}
+	</update>
+>>>>>>> sub-dev
 	
-	    <!-- FUNDING_TB 테이블의 모든 데이터를 조회하는 SELECT 쿼리 -->
-    <select id="selectAll" resultType="com.jam.repository.model.Funding">
-        SELECT * FROM FUNDING_TB;
+	<update id="updateCanceled">
+		update funding_tb
+		set cancel_confirm = 'Y'
+		where funding_id = #{fundingId}
+	</update>
+	
+	<update id="updatePointByRefund">
+		UPDATE user_de_tb
+		SET point = point + #{totalAmount}
+		WHERE user_id = #{userId}
+	</update> 
+
+	<select id="findByProjectId" parameterType="int" resultType="com.jam.repository.model.Funding">
+        SELECT * 
+        FROM funding_tb 
+        WHERE reward_id IN (
+            SELECT reward_id FROM reward_tb WHERE project_id = #{projectId}
+        )
     </select>
-    
-    
-      <!-- funding_id 개수를 세는 쿼리 -->
-    	<select id="countFundingIdById" resultType="int">
-        SELECT count(funding_id) FROM FUNDING_TB where funding_id=#{fundingId}
-    </select>
-      <!-- funding_id 모든개수를 세는 쿼리 -->
-    	<select id="countFundingId" resultType="int">
-        SELECT count(funding_id) FROM FUNDING_TB
-    </select>
-    
-    
-     <!-- FUNDING_TB 테이블에 데이터를 삽입하는 INSERT 쿼리 -->
-    <insert id="insertFunding" parameterType="com.jam.repository.model.Funding">
-        insert into funding_tb(user_id,reward_id) values(#{fundingId},#{rewardId}
-    </insert>
-    
-    
-    <!-- 사용자 ID에 따른 펀딩 정보 업데이트 -->
-    <update id="updateFundingByUserId">
-        UPDATE FUNDING_TB
-        SET
-            reward_id = #{funding.rewardId},
-            canceled_At = #{funding.canceledAt},
-            confirm_success = #{funding.confirmSuccess},
-            created_at = #{funding.createdAt}
-        WHERE
-            user_id = #{userId}  <!-- 사용자 ID로 특정 행 선택 -->
+
+    <update id="updateFundingStatus" parameterType="com.jam.repository.model.Funding">
+        UPDATE funding_tb
+        SET 
+            cancel_confirm = #{cancelConfirm}, 
+            canceled_at = #{canceledAt}
+        WHERE funding_id = #{fundingId}
     </update>
 
+<<<<<<< HEAD
 
 	<delete id="deleteFundingByUserId">
 	    DELETE FROM funding_tb WHERE user_id = #{userId};
 	</delete>
     
+=======
+>>>>>>> sub-dev
 </mapper>

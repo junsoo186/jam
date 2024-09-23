@@ -18,6 +18,7 @@ import lombok.ToString;
 @Data
 public class FundingDTO {
 
+<<<<<<< HEAD
 	private int fundingId; // Primary Key
 	private int userId; // Foreign key to user_tb
 	private int rewardId; // Foreign key to reward_tb
@@ -25,6 +26,15 @@ public class FundingDTO {
 	private Date canceledAt; // Date for cancellation
 	private String cancelConfirm; // Enum ('N', 'Y')
 	private int rewardQuantity; // Number of rewards selected
+=======
+    private int fundingId; // Primary Key
+    private int userId; // Foreign key to user_tb
+    private int rewardId; // Foreign key to reward_tb
+    private Timestamp createdAt; // Timestamp for creation time
+    private Timestamp canceledAt; // Date for cancellation
+    private String cancelConfirm; // Enum ('N', 'Y')
+    private int rewardQuantity; // Number of rewards selected
+>>>>>>> sub-dev
 
 	// Address fields
 	private String zipcode; // 우편번호
@@ -47,3 +57,5 @@ public class FundingDTO {
                 .build();
     }
 }
+
+

@@ -1,0 +1,149 @@
+@charset "UTF-8";
+
+@charset "UTF-8";
+
+.navbar {
+    display: flex;
+    font-weight: bold;
+    background-color: #fff;
+	width: 1200px;
+}
+.navbar a {
+    border: solid 1px #d4d4d8;
+    width: 300px;
+    height: 65px;
+    text-align: center;
+    display: flex;
+    text-decoration: none;
+    color: #333;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+
+
+.nav-menu {
+	display: flex;
+	justify-content: space-around;
+	background-color: #ff4d6d;
+	padding: 10px 0;
+	margin-bottom: 20px;
+}
+
+.nav-menu li {
+	list-style: none;
+}
+
+.nav-menu a {
+	color: white;
+	text-decoration: none;
+	font-weight: bold;
+}
+
+
+.profile-section {
+    display: flex;
+    min-height: 415px ;
+    gap: 20px;
+    padding: 20px;
+    width: 1200px;
+    box-sizing: border-box;
+    border: solid 1px #d4d4d8;
+    margin: 20px auto;
+    background-color: white;
+}
+
+.profile-info, .profile-image {
+	margin-left: 20px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 20px;
+}
+.text--area{
+	margin-left: 50px;
+}
+
+.profile-image {
+	width: 150px; /* 부모 요소의 너비 */
+	height: 150px; /* 부모 요소의 높이 */
+	border-radius: 50%; /* 둥근 모양을 유지 */
+	overflow: hidden; /* 이미지가 둥근 영역 안에 맞춰지도록 */
+	display: flex;
+	align-items: center; /* 이미지가 중앙에 위치하도록 수직 정렬 */
+	justify-content: center; /* 이미지가 중앙에 위치하도록 수평 정렬 */
+}
+
+.form-label {
+	font-weight: bold;
+	width: 150px;
+}
+
+.info-section {
+    margin-top: 80px;
+	background-color: #ffe6e6;
+	padding: 20px;
+	border-radius: 10px;
+	margin-bottom: 20px;
+	height: 360px;
+}
+
+.info-item {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border: solid 1px #d4d4d8;
+	height: 30px;
+	border-radius: 5px;
+	width: 200px;
+	
+}
+p{
+	margin-bottom: 0px;
+	font-weight: bolder;
+}
+.action-buttons {
+	display: flex;
+	justify-content: space-around;
+	padding-top: 10px;
+	
+}
+
+.action-buttons a {
+	background-color: #007bff;
+	color: white;
+	padding: 10px 20px;
+	text-decoration: none;
+	border-radius: 5px;
+}
+
+
+.toggle-container {
+	display: flex;
+	align-items: center;
+	background-color: #f2f3f5;
+	border-radius: 30px;
+	padding: 5px;
+	width: fit-content;
+}
+
+.toggle-button {
+	padding: 10px 20px;
+	border-radius: 30px;
+	cursor: pointer;
+	background-color: #f2f3f5;
+	color: #666;
+	font-weight: bold;
+	transition: background-color 0.3s, color 0.3s;
+}
+
+#supporterButton.active {
+	background-color: #00c8c8;
+	color: white;
+}
+
+#makerButton.active {
+	background-color: #333;
+	color: white;
+}

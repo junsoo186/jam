@@ -4,7 +4,7 @@ import org.springframework.http.HttpStatus;
 
 public class UnAuthorizedException extends RuntimeException {
 
-		private HttpStatus status;
+	private HttpStatus status;
 		
 	public UnAuthorizedException(String message,HttpStatus status ) {
 		super(message);

@@ -10,14 +10,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttribute;
 
-import com.jam.dto.NoticeDTO;
 import com.jam.repository.interfaces.NoticeRepository;
 import com.jam.repository.model.Notice;
-import com.jam.repository.model.User;
 import com.jam.service.NoticeService;
-import com.jam.utils.Define;
 
 import lombok.RequiredArgsConstructor;
 
@@ -52,7 +48,7 @@ public class NoticeController {
 		model.addAttribute("currentPage", page);
 		model.addAttribute("totalPages", totalPages);
 		model.addAttribute("size", size);
-		return "/notice";
+		return "/notice/list";
 	}
 
 	/**

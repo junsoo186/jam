@@ -1,163 +1,163 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <title>회원 관리</title>
-    <link rel="stylesheet" href="/css/signIn.css">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
-        main {
-            width: 80%;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #f9f9f9;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-        .nav-menu {
-            display: flex;
-            justify-content: space-around;
-            background-color: #f26230;
-            padding: 10px 0;
-            margin-bottom: 20px;
-        }
-        .nav-menu li {
-            list-style: none;
-        }
-        .nav-menu a {
-            color: white;
-            text-decoration: none;
-            font-weight: bold;
-        }
-        .nav-menu a:hover {
-            color: #ffdab9;
-        }
-        .profile-section {
-            background-color: #ffe6e6;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-        }
-        .profile-info, .profile-image {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 20px;
-        }
-       .profile-image {
-	        width: 150px;  /* 부모 요소의 너비 */
-	        height: 150px; /* 부모 요소의 높이 */
-	        border-radius: 50%; /* 둥근 모양을 유지 */
-	        overflow: hidden; /* 이미지가 둥근 영역 안에 맞춰지도록 */
-	        border: 2px solid #007bff; /* 선택적으로 테두리 추가 */
-	        display: flex;
-	        align-items: center; /* 이미지가 중앙에 위치하도록 수직 정렬 */
-	        justify-content: center; /* 이미지가 중앙에 위치하도록 수평 정렬 */
-        }
+<meta charset="UTF-8">
+<link rel="stylesheet" href="/css/user/myPage.css">
+	<%@ include file="/WEB-INF/view/layout/header.jsp"%>
 
-        .form-label {
-            font-weight: bold;
-            width: 150px;
-        }
-        .info-section {
-            background-color: #ffe6e6;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-        }
-        .info-item {
-            margin-bottom: 10px;
-        }
-        .action-buttons {
-            display: flex;
-            justify-content: space-around;
-            padding-top: 10px;
-        }
-        .action-buttons a {
-            background-color: #007bff;
-            color: white;
-            padding: 10px 20px;
-            text-decoration: none;
-            border-radius: 5px;
-        }
-        .action-buttons a:hover {
-            background-color: #0056b3;
-        }
-    </style>
-</head>
-<body>
 
-<%@ include file="/WEB-INF/view/layout/header.jsp"%>
+	<main>
 
-<main>
-    <!-- 네비게이션 메뉴 -->
-    <ul class="nav-menu">
-        <li><a href="#">회원 관리</a></li>
-        <li><a href="/pay/paylist">결제 내역</a></li>
-        <li><a href="#">차단 관리</a></li>
-        <li><a href="#">이벤트 내역</a></li>
-    </ul>
+		
+		<section class="top--nav--area-menu">
+			<div class="navbar">
+				<a href="#">회원 관리</a>
+				<a href="/pay/paylist">결제 내역</a>
+				<a href="#">차단 관리</a>
+				<a href="/write/workList">내 작품</a>
+				<a href="/user/profileSetting">회원 정보 수정</a>
+			</div>
+		</section>
 
-    <!-- 프로필 정보 섹션 -->
-    <div class="profile-section">
-        <div class="profile-info">
-        
-        <div class="profile-image">
-                <img alt="Profile Image" src="${principal.profileImg}">
-            </div>
-            <div>
-                <div class="info-item">닉네임: ${principal.nickName}</div>
-                <div class="info-item">이메일: ${principal.email}</div>
-                <div class="info-item">
-                전화번호:
-                <c:if test="${principal.phoneNumber eq null}">
+		
+			
+
+
+
+		<!-- 프로필 정보 섹션 -->
+		<section class="profile-section">
+			<div class="profile-info">
+
+				<div class="profile-image">
+					<img alt="Profile Image" src="${principal.profileImg}">
+				</div>
+				<div class="text--area">
+					<p style="margin-top: 70px;">닉네임<div class="info-item"> ${principal.nickName}</div></p>
+					<p>이메일<div class="info-item"> ${principal.email}</div></p>
+					<p>전화번호
+					<div class="info-item">
+						<c:if test="${principal.phoneNumber eq null}">
                 	정보없음
                 </c:if>
-                
-                <c:if test="${principal.phoneNumber ne null}">
+
+						<c:if test="${principal.phoneNumber ne null}">
                 	${principal.phoneNumber}
                 </c:if>
-                
-                
-                </div>
-                <div class="info-item">
-                    주소: 
-                    <c:if test="${principal.address eq null}">
+
+
+					</div>
+				</p>
+					<p>주소
+					<div class="info-item">
+						<c:if test="${principal.address eq null}">
                         정보없음
                     </c:if>
-                    <c:if test="${principal.address ne null}">
+						<c:if test="${principal.address ne null}">
                         ${principal.address}
                     </c:if>
-                </div>
-                <div class="info-item">
-                    생일: 
-                    <c:if test="${principal.birthDate eq null}">
+					</div>
+				</p>
+				<p>생일
+					<div class="info-item">
+						<c:if test="${principal.birthDate eq null}">
                         정보없음
                     </c:if>
-                    <c:if test="${principal.birthDate ne null}">
+						<c:if test="${principal.birthDate ne null}">
                         ${principal.birthDate}
                     </c:if>
-                </div>
-                <div class="info-item">
-                    포인트: 
-                    <c:if test="${principal.point eq null}">
+					</div>
+				</p>
+				<p>포인트
+					<div class="info-item">
+						<c:if test="${principal.point eq null}">
                         정보없음
                     </c:if>
-                    <c:if test="${principal.point ne null}">
+						<c:if test="${principal.point ne null}">
                         ${principal.point}
                     </c:if>
-                </div>
-            </div>
-        </div>
-        <div class="action-buttons">
-            <a href="/user/myProfileModify">수정하기</a>
-        </div>
-    </div>
+					</div>
+				</p>
+				</div>
+			</div>
+			<div class="action-buttons">
+			</div>
 
-    <!-- 펀딩 구분 섹션 -->
-    <div class="info-section">
-        <div class="info-item">
-            <a href="#">펀딩 사업자 등록
+			<div>
+				<div class="toggle-container">
+					<div class="toggle-button" id="supporterButton" onclick="toggleButton('supporter')">
+						<span>유저</span>
+					</div>
+					<div class="toggle-button" id="makerButton" onclick="toggleButton('maker')">
+						<span>작가</span>
+					</div>
+
+				</div>
+			</div>
+			<!-- 펀딩 구분 섹션 -->
+		<div class="info-section">
+			<div class="info-item">
+				<a href="#">펀딩 사업자 등록</a>
+
+			</div>
+		</div>
+		</section>
+
+		
+		
+
+	</main>
+	<script type="text/javascript">
+		var principalEmail = "<c:out value='${principal != null ? principal.email : "
+		"}' />";
+
+		function toggleButton(selected) {
+			const supporterButton = document.getElementById('supporterButton');
+			const makerButton = document.getElementById('makerButton');
+
+			if (selected === 'supporter') {
+				supporterButton.classList.add('active');
+				makerButton.classList.remove('active');
+
+				// 서포터(작가) 버튼 클릭 시 서버의 컨트롤러 경로로 이동
+				window.location.href = '/user/myPage'; // 컨트롤러 경로로 리다이렉트
+
+				// 선택된 상태를 로컬 스토리지에 저장
+				localStorage.setItem('selectedButton', 'supporter');
+
+			} else {
+				makerButton.classList.add('active');
+				supporterButton.classList.remove('active');
+
+				// 서포터(작가) 버튼 클릭 시 서버의 컨트롤러 경로로 이동
+				window.location.href = '/write/workList'; // 컨트롤러 경로로 리다이렉트
+
+				// 선택된 상태를 로컬 스토리지에 저장
+				localStorage.setItem('selectedButton', 'maker');
+
+			}
+		}
+
+		// 페이지 로드 시 로컬 스토리지에서 선택된 버튼 상태를 불러와 유지
+		window.onload = function() {
+			const selectedButton = localStorage.getItem('selectedButton');
+			const supporterButton = document.getElementById('supporterButton');
+			const makerButton = document.getElementById('makerButton');
+
+			// 로그인된 사용자의 email이 있을 경우 "유저" 버튼을 활성화
+			if (!selectedButton && principalEmail !== "") {
+				supporterButton.classList.add('active');
+				makerButton.classList.remove('active');
+				sessionStorage.setItem('selectedButton', 'supporter'); // 기본값으로 저장
+			} else if (selectedButton === 'supporter') {
+				supporterButton.classList.add('active');
+				makerButton.classList.remove('active');
+			} else if (selectedButton === 'maker') {
+				makerButton.classList.add('active');
+				supporterButton.classList.remove('active');
+			}
+		}
+	</script>

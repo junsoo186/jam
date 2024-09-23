@@ -1,0 +1,243 @@
+/* 전체 페이지 레이아웃 */
+body {
+	font-family: Arial, sans-serif;
+	margin: 0;
+	padding: 20px;
+}
+
+/* 제목 스타일 */
+h1 {
+	text-align: center;
+	color: #333;
+	margin-bottom: 30px;
+	font-size: 20px;
+}
+
+/* 전체 페이지 레이아웃 */
+body {
+	font-family: Arial, sans-serif;
+	margin: 0;
+	padding: 20px;
+}
+
+/* 제목 스타일 */
+h1 {
+	text-align: center;
+	color: #333;
+	margin-bottom: 30px;
+	font-size: 20px;
+}
+
+/* 카테고리 필터 스타일 */
+.category--area--filter,
+.genre--area--filter,
+.day--area--filter {
+	display: flex;
+	gap: 15px;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	justify-content: center;
+	/* 카테고리 버튼 중앙 정렬 */
+}
+
+/* 버튼 기본 스타일 */
+/* 버튼 영역 */
+.btn--area {
+	display: flex;
+	width: 100%;
+	justify-content: flex-end;
+}
+
+/* 버튼 스타일 */
+.btn--day--views,
+.btn--day--likes {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	
+	border-radius: 25px;
+	/* 원형으로 만들기 */
+	padding: 10px;
+	background-color: #f0f0f0;
+	/* 원의 배경색 */
+	position: relative;
+}
+
+.btn--day--views button,
+.btn--day--likes button {
+	position: relative;
+	z-index: 1;
+	/* 버튼 위에 배경이 덮이지 않게 설정 */
+	width: 80px;
+	height: 40px;
+	border: none;
+	color: black;
+	;
+	border-radius: 5px;
+	cursor: pointer;
+	background-color: transparent;
+	/* 기본 버튼 배경 투명 */
+	transition: color 0.3s ease;
+	font-family: 'GmarketSansMedium', Arial, sans-serif;
+}
+
+/* 선택된 버튼 배경 */
+/* .btn--day--views::before,
+.btn--day--likes::before {
+	content: '';
+	position: absolute;
+	width: 70px;
+	height: 40px;
+	background-color: #f06292;
+	선택된 버튼 색상
+	border-radius: 25px;
+	transition: transform 0.5s ease, width 0.5s ease;
+	z-index: 0;
+	배경은 버튼 아래
+	transform: translateX(-30px);
+	처음에 왼쪽에 위치
+} */
+
+.btn--day--views button.active,
+.btn--day--likes button.active {
+	color: white;
+}
+
+/* 애니메이션: 배경이 이동하는 효과 */
+.btn--day--views.active-before::before,
+.btn--day--likes.active-before::before {
+	transform: translateX(calc(30px + 0px));
+	/* 두 번째 버튼으로 이동하는 애니메이션 */
+	width: 70px;
+	border-radius: 25px;
+}
+
+.btn--day--views.active-after::before,
+.btn--day--likes.active-after::before {
+	transform: translateX(-30px);
+	/* 첫 번째 버튼으로 이동하는 애니메이션 */
+	width: 70px;
+	border-radius: 25px;
+}
+
+/* 선택된 버튼 스타일 */
+.btn--day--views.active,
+.btn--day--likes.active {
+	color: white;
+}
+
+
+
+
+/* 책 리스트 스타일 */
+#bookList {
+    list-style-type: none;
+    /* 기본 리스트 스타일 제거 */
+    padding: 0;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 한 줄에 4개의 칸 */
+    gap: 20px;
+    max-width: 1200px;
+}
+
+/* 책 아이템 스타일 */
+#bookList li {
+   
+    padding: 15px;
+    border-radius: 10px;
+   
+    font-size: 16px;
+    color: #333;
+  
+}
+
+
+/* 책 이미지 스타일 */
+.book-cover img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    /* 테두리 추가 */
+}
+
+/* 책 정보 영역 */
+.book-info {
+    margin-top: 10px;
+}
+
+/* 책 제목 스타일 */
+.book-title {
+    font-weight: bold;
+    font-size: 18px;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+/* 작가 정보 스타일 */
+.book-author {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 5px;
+}
+
+/* 조회수 및 좋아요 스타일 */
+.book-stats {
+    font-size: 12px;
+    color: #ff4d6d;
+}
+
+/* 버튼 스타일 */
+.btn--area {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    background-color: #f0f0f0;
+    border-radius: 25px;
+    padding: 5px;
+    width: fit-content;
+    margin: 0 auto;
+}
+
+.btn--day--views,
+.btn--day--likes {
+    position: relative;
+    z-index: 1;
+    width: 100px;
+    height: 40px;
+    border: none;
+    background-color: transparent;
+    color: black;
+    font-size: 16px;
+    font-family: 'GmarketSansMedium', Arial, sans-serif;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.btn--area::before {
+    content: '';
+    position: absolute;
+    width: 100px;
+    height: 40px;
+    background-color: #f06292;
+    border-radius: 25px;
+    transition: transform 0.5s ease, width 0.5s ease;
+    z-index: 0; /* 배경은 버튼 아래 */
+    transform: translateX(-50px);  /* 처음에 왼쪽에 위치 */
+}
+
+.btn--day--views.active,
+.btn--day--likes.active {
+    color: white;
+}
+
+.btn--area.active-right::before {
+    transform: translateX(50px);
+}
+.button-container{
+	    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+}

@@ -77,6 +77,17 @@ public class QnaService {
 		int result = qnaRepository.updateQ(qnaId,dto.getTitle(),dto.getQuestionContent());
 		return result;
 	}
+
+	public Qna findQnaByQnaId(Integer qnaId) {
+		return qnaRepository.findQnaByQnaId(qnaId);
+	}
 	
+	public void updateQnaAnswer(String answerContent, Integer staffId, Integer qnaId) {
+		qnaRepository.updateQnaAnswer(answerContent, staffId, qnaId);
+	}
+
+	public void deleteQnaAnswer(int qnaId) {
+		qnaRepository.deleteQnaAnswer(qnaId);
+	}
 	
 }

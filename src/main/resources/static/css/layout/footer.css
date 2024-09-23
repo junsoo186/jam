@@ -20,6 +20,10 @@ footer {
 
 }
 
+<<<<<<< HEAD
+.footer-logo img {
+    width: 100px;
+=======
 .footer-info {
     width: 70%;
     line-height: 1.6;
@@ -35,6 +39,7 @@ footer {
 .footer-social a:hover {
     color: #fff; /* 아이콘 hover 시 색상 변경 */
 }
+>>>>>>> 834ff0d546f865f12d767d930f5eaea093c34a41
 
 .footer-links {
     display: flex;
@@ -51,5 +56,31 @@ footer {
 }
 
 .footer-links a:hover {
+<<<<<<< HEAD
+    text-decoration: underline; 
+}
+
+.footer-social {
+    display: flex;
+    gap: 15px;
+}
+
+.footer-social a {
+    color: white;
+    font-size: 16px;
+}
+
+.footer-social a:hover {
+    color: #d1d4ff; 
+}
+
+.footer-bottom {
+    text-align: center;
+    padding: 10px 0;
+    font-size: 12px;
+    background-color: black;
+}
+=======
     color: #fff; /* 링크 hover 시 색상 변경 */
+>>>>>>> 834ff0d546f865f12d767d930f5eaea093c34a41
 }

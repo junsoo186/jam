@@ -2,11 +2,11 @@
 <%@ include file="/WEB-INF/view/layout/header.jsp"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<link rel="stylesheet" href="/css/noticeInsert.css">
+    <link rel="stylesheet" href="/css/qnaWrite.css">
 
 <div class="container p-5">
     <div class="card">
-        <div class="card-header"><b>문의 남기기</b></div>
+        <div class="card-header"><b>질문 수정</b></div>
         <div class="card-body">
             <!-- 폼 액션 URL 수정 -->
             <form action="/qna/update" method="post">
@@ -22,3 +22,4 @@
         </div>
     </div>
 </div>
+<%@ include file="/WEB-INF/view/layout/footer.jsp" %>

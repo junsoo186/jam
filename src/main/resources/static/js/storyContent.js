@@ -1,3 +1,9 @@
+// HTML 태그에서 <p>와 <i>를 제거하는 함수
+function sanitizeHTMLContent(content) {
+    // <p>와 <i> 태그를 없애고 그 안의 내용만 남깁니다.
+    return content.replace(/<\/?(p|i)[^>]*>/g, '');
+}
+
 // 요소의 표시 상태를 토글하는 함수
 function toggleDisplay(element) {
     if (element.style.display === "none" || element.style.opacity === "0") {
@@ -177,7 +183,7 @@ function initialize() {
     });
 
     // 텍스트를 이미지로 변환 후 페이지 추가
-    var content = storyContentContents.replace(/(\r\n|\n|\r)/gm, "<br>"); // JSP 파일에서 전달된 변수 사용
+    var content = sanitizeHTMLContent(storyContentContents.replace(/(\r\n|\n|\r)/gm, "<br>")); // JSP 파일에서 전달된 변수 사용
     content = content.replace(/(<br>\s*)+$/, '');
     var pages = splitContentIntoPages(content, 1000);
 

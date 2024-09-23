@@ -125,6 +125,8 @@
     refund_reason = #{refundReason}
 	WHERE payment_key = #{paymentKey}
 	</update>
+
+	
 	
 	<update id = "updaterefundReason">
 		UPDATE account_history_tb
@@ -151,22 +153,30 @@
     WHERE user_id = #{userId}
     <!-- order by created_at desc;  -->
 	</select>
+<<<<<<< HEAD
 	
 	<insert id="findRefundList">
 		insert into refund_request_tb (user_id, payment_key, refund_amount, refund_reason)
 		values(#{userId}, #{paymentKey}, #{refundAmount}, #{refundReason});
 	</insert>
+=======
+
+>>>>>>> sub-dev
 	<select id="findRefundList" resultType="com.jam.dto.RefundRequest">
 		insert into refund_request_tb (user_id, payment_key, refund_amount, refund_reason, point, method)
 		values(#{userId}, #{paymentKey}, #{refundAmount}, #{refundReason}, #{point}, #{method});
 		
 	</select>
+<<<<<<< HEAD
+=======
+
+>>>>>>> sub-dev
 	
 	<select id="selectRefundRequest" resultType="com.jam.repository.model.RefundRequest">
 		SELECT refund.*, u.email 
 		FROM refund_request_tb refund 
 		JOIN user_tb u ON u.user_id = refund.user_id
-		LIMIT #{pageSize} OFFSET #{page}
+		LIMIT #{pageSize} OFFSET #{offset}
 	</select>
 	
 	<update id="pointAudit">

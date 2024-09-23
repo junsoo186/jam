@@ -11,22 +11,35 @@ import java.util.Map;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.jam.dto.BookCommentDto;
 import com.jam.dto.BookDTO;
+import com.jam.dto.PurchaseDTO;
 import com.jam.dto.StoryDTO;
+<<<<<<< HEAD
+=======
+import com.jam.repository.model.Banner;
+>>>>>>> sub-dev
 import com.jam.repository.model.Book;
+import com.jam.repository.model.BookComment;
 import com.jam.repository.model.Category;
 import com.jam.repository.model.Genre;
-import com.jam.repository.model.Project;
 import com.jam.repository.model.Story;
 import com.jam.repository.model.Tag;
 import com.jam.repository.model.User;
-import com.jam.service.FundingService;
+import com.jam.service.BannerService;
+import com.jam.service.BookCommentsService;
+import com.jam.service.PurchaseService;
+import com.jam.service.UserService;
 import com.jam.service.WriterService;
+import com.jam.utils.Define;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -38,10 +51,13 @@ import lombok.RequiredArgsConstructor;
 public class WriterController {
 
 	private final WriterService writerService;
-	// private final BennerService bennerService; 
-	private final HttpSession session;
+	private final BannerService bannerService;
+	private final BookCommentsService bookCommentsService;
+	private final PurchaseService purchaseService;
+	
 
-	private final FundingService fundingService;
+	// private final BennerService bennerService;
+	private final HttpSession session;
 
 	// TODO - 검색 기능 추가
 
@@ -52,20 +68,88 @@ public class WriterController {
 	 * @return
 	 */
 	@GetMapping("/workList")
-public String handleWorkList(
-    @RequestParam(name = "bookId", required = false) Integer bookId, 
-    @RequestParam(name = "page", defaultValue = "1") int page,
-    @RequestParam(name = "size", defaultValue = "4") int size,
-    Model model,
-    HttpServletRequest request) {
+	public String handleWorkList(
+			@RequestParam(name = "bookId", required = false) Integer bookId,
+			@RequestParam(name = "page", defaultValue = "1") int page,
+			@RequestParam(name = "size", defaultValue = "4") int size,
+			@RequestParam(name = "bookPage", defaultValue = "1") int bookPage,
+			@RequestParam(name = "bookSize", defaultValue = "4") int bookSize,
+			Model model,
+			HttpServletRequest request) {
 
+<<<<<<< HEAD
 		if (bookList.isEmpty()) {
 			model.addAttribute("bookList", null);
 		} else {
 			model.addAttribute("bookList", bookList);
+=======
+		// 세션에서 사용자 정보 가져오기
+		User principal = (User) request.getSession().getAttribute("principal");
+
+		// 책의 총 개수와 총 페이지 수 계산
+		int totalBookRecords = writerService.countBook(principal.getUserId());
+		int totalBookPages = (int) Math.ceil((double) totalBookRecords / bookSize);
+
+		// 책 목록 가져오기 (페이징 적용)
+		List<Book> bookList = writerService.readAllBookListByprincipalId(principal.getUserId(), bookPage, bookSize);
+
+		// 책 이미지 설정
+		for (Book book : bookList) {
+			String bookImg = book.setUpUserImage();
+			book.setBookCoverImage(bookImg);
+>>>>>>> sub-dev
 		}
+
+		// 배너 페이징 처리 없이 전체 가져오기
+		List<Banner> bannerList = bannerService.findAll();
+		for (Banner banner : bannerList) {
+			String bannerImg = banner.setUpBannerImage();
+			banner.setImagePath(bannerImg);
+		}
+
+		// bookId가 없으면 첫 번째 책을 선택
+		if (bookId == null && !bookList.isEmpty()) {
+			bookId = bookList.get(0).getBookId();
+		}
+
+		int totalRecords = 0;
+		int totalPages = 0;
+		Map<Integer, List<Story>> storyMap = new HashMap<>();
+
+		if (bookId != null) {
+			// 이야기의 총 개수와 총 페이지 수 계산
+			totalRecords = writerService.countStoriesByBookId(bookId);
+			totalPages = (int) Math.ceil((double) totalRecords / size);
+
+			// 이야기 목록 가져오기 (페이징 적용)
+			List<Story> storyList = writerService.findAllStoryByBookIdPage(bookId, page, size);
+			storyMap.put(bookId, storyList != null ? storyList : new ArrayList<>());
+		}
+
+		// 모델에 책 관련 데이터 추가
+		model.addAttribute("bookList", bookList);
+		model.addAttribute("currentBookPage", bookPage);
+		model.addAttribute("totalBookPages", totalBookPages);
+		model.addAttribute("bookSize", bookSize);
+
+		// 모델에 배너 데이터 추가
+		model.addAttribute("banner", bannerList);
+
+		// 모델에 이야기 관련 데이터 추가
+		model.addAttribute("storyMap", storyMap);
+		model.addAttribute("currentPage", page);
+		model.addAttribute("totalPages", totalPages);
+		model.addAttribute("size", size);
+		model.addAttribute("bookId", bookId);
+
+		// AJAX 요청에 대한 처리
+		if ("XMLHttpRequest".equals(request.getHeader("X-Requested-With"))) {
+			return "write/workListPartial"; // Partial View 반환
+		}
+
 		return "write/workList";
 	}
+<<<<<<< HEAD
 	
     User principal = (User) request.getSession().getAttribute("principal");
     List<Book> bookList = writerService.readAllBookListByprincipalId(principal.getUserId());
@@ -106,6 +190,8 @@ public String handleWorkList(
 
     return "write/workList";
 }
+=======
+>>>>>>> sub-dev
 	// TODO - 전체 작품 리스트 추가
 
 	/**
@@ -134,7 +220,7 @@ public String handleWorkList(
 	 */
 	@PostMapping("/workInsert")
 	public String completedWorkProc(@RequestParam("bookCover") MultipartFile bookCover,
-	BookDTO bookDTO) {
+			BookDTO bookDTO) {
 		User principal = (User) session.getAttribute("principal");
 
 		// 유효성 검사 (생략)
@@ -186,7 +272,7 @@ public String handleWorkList(
 	 * @return
 	 */
 	@GetMapping("/storyInsert")
-	public String handleStoryInsert(@RequestParam(name="bookId") int bookId, Model model) {
+	public String handleStoryInsert(@RequestParam(name = "bookId") int bookId, Model model) {
 		model.addAttribute("bookId", bookId);
 		return "write/storyInsert";
 	}
@@ -219,46 +305,174 @@ public String handleWorkList(
 	 * 
 	 * @return
 	 */
-	@GetMapping("/storyContents")
-	public String handleStoryContents(Model model, @RequestParam(name = "storyId") Integer storyId) {
-		Story storyContent = writerService.outputStoryContentByStoryId(storyId);
-		if (storyContent == null) {
-			model.addAttribute("storyContent", null);
-		} else {
-			model.addAttribute("storyContent", storyContent);
-		}
-		return "write/storyContents";
-	}
 
+	 
+	 @GetMapping("/storyContents")
+	 public String handleStoryContents(Model model, @RequestParam(name = "storyId") Integer storyId) {
+		 Story storyContent = writerService.outputStoryContentByStoryId(storyId);
+		 User principal = (User) session.getAttribute("principal");
+		 int cost = storyContent.getCost();
+		 int userId = principal.getUserId();
+		 int bookId = storyContent.getBookId();
+	 
+		 String purchaseStatus = "notPurchased"; // 기본값 설정
+		 // 무료 회차는 바로 콘텐츠를 보여줌
+		 if (cost == 0) {
+			 purchaseStatus = "free";
+			 model.addAttribute("storyContent", storyContent);
+			 model.addAttribute("purchaseStatus", purchaseStatus); // purchaseStatus를 모델에 추가
+			 return "write/storyContents";
+		 }
+		 
+		 // 구매 여부 확인
+		 purchaseStatus = purchaseService.checkPurchaseStatus(userId, bookId, storyId);
+		 
+		 System.out.println(purchaseStatus);
+
+		 // 구매한 경우
+		 if ("buy".equals(purchaseStatus)) {
+			 model.addAttribute("storyContent", storyContent);
+			 model.addAttribute("purchaseStatus", "buy");  // 구매 상태를 모델에 추가
+			 return "write/storyContents";
+		 }
+	 
+		 // 포인트가 부족하면 결제 페이지로 이동
+		 if (principal.getPoint() < cost) {
+			 return "pay/toss";
+		 }
+	 
+		 // 구매 확인을 위해 model에 추가
+		 model.addAttribute("storyContent", storyContent);
+		 model.addAttribute("cost", cost);
+		 model.addAttribute("purchaseStatus", "notPurchased"); // 아직 구매하지 않은 상태 추가
+	 
+		 return "write/confirmPurchase";
+	 }
+	 @PostMapping("/completePurchase")
+	 public String completePurchase(@RequestParam("storyId") Integer storyId, 
+									@RequestParam("bookId") Integer bookId, 
+									@RequestParam("cost") int cost, 
+									HttpSession session, Model model) {
+		 User principal = (User) session.getAttribute("principal");
+		 int userId = principal.getUserId();
+	 
+		 // 구매 확인 후 구매 로직 진행
+		 try {
+			 PurchaseDTO purchaseDTO = new PurchaseDTO();
+			 purchaseDTO.setUserId(userId);
+			 purchaseDTO.setBookId(bookId);
+			 purchaseDTO.setStoryId(storyId);
+			 purchaseService.insertPurchase(purchaseDTO);
+		 } catch (IllegalStateException e) {
+			 return "redirect:/error";
+		 }
+	 
+		 // 포인트 차감 로직
+		 int remainingPoint = principal.getPoint() - cost;
+		 writerService.usePointByStory(userId, remainingPoint);
+	 
+		 // principal 객체의 포인트 값을 업데이트하고 세션에 반영
+		 principal.setPoint(remainingPoint);
+		 session.setAttribute("principal", principal);
+	 
+		 // 구매 후 바로 콘텐츠를 보여줌
+		 Story storyContent = writerService.outputStoryContentByStoryId(storyId);
+		 model.addAttribute("storyContent", storyContent);
+		 model.addAttribute("purchaseStatus", "buy"); // 구매 상태 추가
+		 
+		 return "write/storyContents";
+	 }
 	/**
 	 * 작품 자세히 보기 페이지 이동
 	 * 
 	 * @return
 	 */
 	@GetMapping("/workDetail")
-	public String handleWorkDetail(Model model, @RequestParam("bookId") Integer bookId) {
-		List<Story> storyList = writerService.findAllStoryByBookId(bookId);
+	public String handleWorkDetail(Model model,
+			@RequestParam("bookId") Integer bookId,
+			@RequestParam(name = "page", defaultValue = "1") int page,
+			@RequestParam(name = "size", defaultValue = "10") int size,
+			@RequestParam(name = "sortBy", defaultValue = "newest") String sortBy) {
+		int totalRecords = 0;
+		int totalPages = 0;
+
+		// 책 관련 정보
+		List<Story> storyList = writerService.findAllStoryByBookIdPage(bookId, page, size);
 		User principal = (User) session.getAttribute("principal");
-		Book bookDetail = writerService.detailBook(bookId); // bookId로 책의 상세 정보를 가져옴
-		String bookImg = bookDetail.setUpUserImage(); // 책의 이미지 경로를 설정
-		bookDetail.setBookCoverImage(bookImg); // 설정한 이미지 경로를 Book 객체에 저장
+		Book bookDetail = writerService.detailBook(bookId); // 책의 상세 정보 가져오기
+		String bookImg = bookDetail.setUpUserImage(); // 책 이미지 설정
+		bookDetail.setBookCoverImage(bookImg); // 설정된 이미지 저장
+		
+		for (Story story : storyList) {
+			String purchaseStatus = purchaseService.checkPurchaseStatus(principal.getUserId(), bookId, story.getStoryId());
+			story.setPurchaseStatus(purchaseStatus);
+		}
 
-		Project project = fundingService.findProjectByBookId(bookDetail.getBookId());
+		totalRecords = writerService.countStoriesByBookId(bookId); // 총 스토리 개수 계산
+		totalPages = (int) Math.ceil((double) totalRecords / size); // 총 페이지 계산
 
+		// 배너 관련 정보
+		List<Banner> bannerList = bannerService.findAll();
+		for (Banner banner : bannerList) {
+			String bannerImg = banner.setUpBannerImage();
+			banner.setImagePath(bannerImg);
+		}
+
+		// 댓글 조회
+
+		List<BookComment> commentList = bookCommentsService.getCommentsByCriteria(bookId, sortBy);
+		model.addAttribute("commentList", commentList);
+		// 모델에 데이터 추가
+		model.addAttribute("currentPage", page);
+		model.addAttribute("totalPages", totalPages);
+		model.addAttribute("size", size);
 		model.addAttribute("bookId", bookId);
 		model.addAttribute("bookDetail", bookDetail);
 		model.addAttribute("principalId", principal.getUserId());
-		model.addAttribute("project", project);
+		model.addAttribute("banner", bannerList);
 
+		// 댓글 리스트 추가
+		if (commentList == null || commentList.isEmpty()) {
+			model.addAttribute("commentList", null); // 댓글 없을 시
+		} else {
+			model.addAttribute("commentList", commentList); // 댓글 있을 시
+		}
 
-		// 디버깅을 위해 각 Story 객체의 userId를 출력
-
+		// 스토리 리스트 추가
 		if (storyList == null) {
 			model.addAttribute("storyList", null);
 		} else {
 			model.addAttribute("storyList", storyList);
 		}
+
 		return "write/workDetail";
+	}
+
+	@PostMapping("/comment")
+	public @ResponseBody Map<String, Object> handleCommentInsert(
+			@ModelAttribute BookCommentDto bookCommentDto,
+			@SessionAttribute(Define.PRINCIPAL) User principal) {
+
+		Map<String, Object> response = new HashMap<>();
+		int result = bookCommentsService.writeComment(bookCommentDto, principal.getUserId());
+
+		if (result > 0) {
+			response.put("success", true);
+		} else {
+			response.put("success", false);
+		}
+
+		return response; // JSON 형태로 응답 반환
+	}
+
+	@GetMapping("/workDetail/comments")
+	public @ResponseBody List<BookComment> getComments(
+			@RequestParam("bookId") int bookId,
+			@RequestParam(name = "sortBy", defaultValue = "newest") String sortBy) {
+
+		List<BookComment> commentList = bookCommentsService.getCommentsByCriteria(bookId, sortBy);
+
+		return commentList; // JSON으로 댓글 목록 반환
 	}
 
 	/**

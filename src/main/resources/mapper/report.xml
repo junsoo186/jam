@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jam.repository.interfaces.ReportRepository">
+
+    <!-- 모든 신고 조회 -->
+    <select id="findAllReports" resultType="com.jam.repository.model.Report">
+        SELECT 
+            r.report_id AS reportId,                 -- 신고 ID
+            r.alert_id AS alertId,                   -- 경고 ID
+            r.user_id AS userId,                     -- 신고한 유저 ID
+            r.report_user_id AS reportUserId,        -- 신고된 유저 ID
+            r.project_id AS projectId,               -- 신고된 프로젝트 ID
+            r.book_id AS bookId,                     -- 신고된 책 ID
+            r.period_content AS periodContent,       -- 신고 내용
+            r.created_at AS createdAt,               -- 신고 생성 시간
+            r.processing AS processing,              -- 신고 처리 상태 ('N', 'Y')
+            u.nick_name AS userName,                 -- 신고한 유저의 닉네임
+            a.alert_content AS alertContent,         -- 경고 내용
+            b.title AS bookTitle,                    -- 책 제목
+            b.author AS bookAuthor,                  -- 책 저자
+            p.title AS projectTitle,                 -- 프로젝트 제목
+
+            -- 신고 대상자의 닉네임
+            reported_user.nick_name AS reportedUserName,  -- 신고된 유저의 닉네임
+            
+            -- 유저의 누적 신고 횟수
+            (SELECT COUNT(*) 
+            FROM report_tb r2 
+            WHERE r2.user_id = r.user_id) AS userReportCount,
+
+            -- 프로젝트의 누적 신고 횟수
+            (SELECT COUNT(*) 
+            FROM report_tb r3 
+            WHERE r3.project_id = r.project_id) AS projectReportCount,
+
+            -- 책의 누적 신고 횟수
+            (SELECT COUNT(*) 
+            FROM report_tb r4 
+            WHERE r4.book_id = r.book_id) AS bookReportCount,
+
+            -- 신고 처리한 관리자의 닉네임
+            admin.nick_name AS adminName       -- 처리한 관리자의 닉네임
+
+        FROM 
+            report_tb r
+        JOIN 
+            user_tb u ON r.user_id = u.user_id                   -- 신고한 유저
+        JOIN 
+            user_alert_list_tb a ON r.alert_id = a.alert_id
+        LEFT JOIN 
+            project_tb p ON r.project_id = p.project_id
+        LEFT JOIN 
+            book_tb b ON r.book_id = b.book_id
+        LEFT JOIN
+            report_history_tb rh ON r.report_id = rh.report_id   -- 신고 처리 이력 조인
+        LEFT JOIN
+            user_tb admin ON rh.user_id = admin.user_id          -- 처리한 관리자의 닉네임을 가져오기 위해 user_tb와 다시 조인
+        LEFT JOIN
+            user_tb reported_user ON r.report_user_id = reported_user.user_id  -- 신고된 유저의 닉네임 조인
+        ORDER BY 
+            r.created_at DESC;
+    </select>
+
+    <!-- 특정 신고 조회 -->
+    <select id="findReportByReportId" resultType="com.jam.repository.model.Report">
+        SELECT 
+            r.report_id AS reportId,                 -- 신고 ID
+            r.alert_id AS alertId,                   -- 경고 ID
+            r.user_id AS userId,                     -- 신고한 유저 ID
+            r.report_user_id AS reportUserId,        -- 신고된 유저 ID
+            r.project_id AS projectId,               -- 신고된 프로젝트 ID
+            r.book_id AS bookId,                     -- 신고된 책 ID
+            r.period_content AS periodContent,       -- 신고 내용
+            r.created_at AS createdAt,               -- 신고 생성 시간
+            r.processing AS processing,              -- 신고 처리 상태 ('N', 'Y')
+            u.nick_name AS userName,                 -- 신고한 유저의 닉네임
+            a.alert_content AS alertContent,         -- 경고 내용
+            b.title AS bookTitle,                    -- 책 제목
+            b.author AS bookAuthor,                  -- 책 저자
+            p.title AS projectTitle,                 -- 프로젝트 제목
+            reported_user.nick_name AS reportedUserName,  -- 신고된 유저의 닉네임
+
+            -- 유저의 누적 신고 횟수
+            (SELECT COUNT(*) 
+            FROM report_tb r2 
+            WHERE r2.user_id = r.user_id) AS userReportCount,
+
+            -- 프로젝트의 누적 신고 횟수
+            (SELECT COUNT(*) 
+            FROM report_tb r3 
+            WHERE r3.project_id = r.project_id) AS projectReportCount,
+
+            -- 책의 누적 신고 횟수
+            (SELECT COUNT(*) 
+            FROM report_tb r4 
+            WHERE r4.book_id = r.book_id) AS bookReportCount,
+
+            -- 신고 처리한 관리자의 닉네임
+            admin.nick_name AS adminName,       -- 처리한 관리자의 닉네임
+            
+            -- 신고 처리된 경우 기간 확인 (예: 경고 처리 기간)
+            rh.period_days AS periodDate,       -- 신고 처리 기간
+
+            -- 신고 처리된 경우의 신고 처리 일자
+            rh.created_at AS processedAt        -- 신고가 처리된 일자
+
+        FROM 
+            report_tb r
+        JOIN 
+            user_tb u ON r.user_id = u.user_id                   -- 신고한 유저
+        JOIN 
+            user_alert_list_tb a ON r.alert_id = a.alert_id
+        LEFT JOIN 
+            project_tb p ON r.project_id = p.project_id           -- 프로젝트 테이블 조인 및 프로젝트 제목 가져오기
+        LEFT JOIN 
+            book_tb b ON r.book_id = b.book_id
+        LEFT JOIN
+            report_history_tb rh ON r.report_id = rh.report_id   -- 신고 처리 이력 조인 및 기간 처리 확인
+        LEFT JOIN
+            user_tb admin ON rh.user_id = admin.user_id          -- 처리한 관리자의 닉네임을 가져오기 위해 user_tb와 다시 조인
+        LEFT JOIN
+            user_tb reported_user ON r.report_user_id = reported_user.user_id  -- 신고된 유저의 닉네임 조인
+        WHERE 
+            r.report_id = #{reportId}
+    </select>
+
+    <!-- 신고 처리 업데이트 -->
+    <update id="updateReport">
+        UPDATE report_tb
+        SET 
+            processing = 'Y'
+        WHERE 
+            report_id = #{reportId};
+    </update>
+
+    <!-- 신고 처리 기록 삽입 -->
+    <insert id="insertReportHistory">
+        INSERT INTO report_history_tb (
+            report_id,
+            alert_id,
+            user_id,
+            period_days,
+            created_at
+        )
+        VALUES (
+            #{reportId},  -- 신고 ID
+            #{alertId},   -- 경고 ID
+            #{userId},    -- 처리한 관리자 ID
+            #{periodDays},  -- 처리 기간 (일 단위)
+            CURRENT_TIMESTAMP  -- 현재 시간으로 처리된 시간 기록
+        );
+    </insert>
+
+    <select id="findAllAlert" resultType="com.jam.repository.model.Alert">
+        SELECT * FROM user_alert_list_tb;
+    </select>
+
+</mapper>

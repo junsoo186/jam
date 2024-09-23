@@ -1,12 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-c
 <%@ include file="/WEB-INF/view/layout/header.jsp"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<link rel="stylesheet" type="text/css" href="/css/user/signIn.css">
+
 <main>
 
 	<section class="center--login--area">
 		<h1>로그인</h1>
+		     <img src="/images/layout/jam.png" alt="로그인 아이콘" class="login-icon">
 		<form action="/user/sign-in" method="post">
 			<div>
 				<label for="email"></label> <input type="email" id="email" name="email" required value="${email}" class="input--area" placeholder="이메일">
@@ -27,13 +29,14 @@ c
 			&response_type=code&scope=email profile"><img
 				alt="구글로그인이미지" src="/images/login/googlelogin.png" style="width: 50px; height: auto;"></a>
 		</div>
-	</section>
-
-	<div class="bottom--findsignup">
+			<div class="bottom--findsignup">
 		<a href="/user/sign-up">회원가입 |</a>
-		<a href="#" onclick="openEmailPopup(); return false;">아이디 찾기 | </a>
+		<a href="#" onclick="openEmailPopup(); return false;">아이디 찾기 |</a>
 		<a href="#" onclick="openPasswordPopup(); return false;">비밀번호 찾기</a>
 	</div>
+		
+	</section>
+
 
 
 	<script>

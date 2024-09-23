@@ -60,7 +60,7 @@ public interface UserRepository {
 	void findRefundList(RefundRequest refundRequest);
 	
 	// 환불을 신청한 모든 사람들을 조회한다.
-	public List<RefundRequest> selectRefundRequest(@Param("page") int page, @Param("pageSize") int pageSize);
+	public List<RefundRequest> selectRefundRequest(@Param("pageSize") int pageSize, @Param("offset") int offset);
 	
 	// 관리자가 유저의 포인트 환불에 대해 승인 할 수 있다.
 	public void pointAudit(RefundRequest dto);
@@ -83,10 +83,13 @@ public interface UserRepository {
 	public void updatePointByCheckout(@Param("userId") Integer userId, @Param("point") long point);
 
 	public void updatePointByRefund(@Param("userId") Integer userId, @Param("point") long point);
+<<<<<<< HEAD
 
 	public RefundRequest findPayDetailByRefundId(Integer refundId);
 
 	public int getTotalRefundRequestCount();
+=======
+>>>>>>> sub-dev
 	
 	// 관리자가 환불을 거절했을 시 상태값 refundReason(사유)를 업데이트 
 	public void updaterefundReason(@Param("refundReason") String refundReason, @Param("paymentKey") String paymentKey);
@@ -94,4 +97,12 @@ public interface UserRepository {
 	// 사용자가 포인트 구매를 하면 account_history_tb에 기록을 남기고,
 	// 포인트 적립 이벤트 테이블인 payment_tb에도 기록을 남긴다. event -> 'Y' or 'N'
 	public void InsertPaymentTB(@Param("userId") Integer userId, @Param("paymentKey") String paymentKey, @Param("price") long price, @Param("point") long point, @Param("event") char event);
+<<<<<<< HEAD
+=======
+
+	public RefundRequest findPayDetailByRefundId(Integer refundId);
+
+	public int getTotalRefundRequestCount();
+
+>>>>>>> sub-dev
 }

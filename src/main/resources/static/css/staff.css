@@ -10,6 +10,12 @@ body {
 	background-color: #f9f9f9;
 }
 
+.main-content {
+	margin-top: 100px;
+	margin-left: 150px;
+	padding-left: 150px;
+}
+
 /* 헤더 스타일 */
 .header {
 	background-color: #f4f4f4;
@@ -231,6 +237,7 @@ form button:hover {
 		opacity: 1;
 		transform: translateY(0);
 	}
+
 }
 
 /* 닫기 버튼 스타일 */
@@ -378,41 +385,52 @@ form button:hover {
 	border-color: #ccc;
 	background-color: #f9f9f9;
 }
+<<<<<<< HEAD
 /*페이징처리*/
+=======
+>>>>>>> sub-dev
 
+/*페이징처리*/
 .bottom--page--area {
-    margin-top: 30px;
-    text-align: center;
+	margin-top: 30px;
+	text-align: center;
 }
 
 .pagination {
-    list-style: none;
-    padding: 0;
+	list-style: none;
+	padding: 0;
 }
 
 .pagination .page--item {
-    display: inline-block;
-    margin: 0 5px;
+	display: inline-block;
+	margin: 0 5px;
 }
 
 .pagination .page--link {
-    display: inline-block;
-    padding: 8px 12px;
-    font-size: 14px;
-    border: 1px solid #E6E6E5;
-    color: #333;
-    border-radius: 4px;
-    transition: background-color 0.3s ease, color 0.3s ease;
-    text-decoration: none;
+	display: inline-block;
+	padding: 8px 12px;
+	font-size: 14px;
+	border: 1px solid #E6E6E5;
+	color: #333;
+	border-radius: 4px;
+	transition: background-color 0.3s ease, color 0.3s ease;
+	text-decoration: none;
 }
 
 .pagination .page--link:hover {
-    background-color: #E6E6E5;
-    color: 333;
+	background-color: #E6E6E5;
+	color: 333;
 }
 
 .pagination .page--item.active .page--link {
+<<<<<<< HEAD
     background-color: #E6E6E5;
     color: 333;
     border-color: #E6E6E5;
 }
+=======
+	background-color: #E6E6E5;
+	color: 333;
+	border-color: #E6E6E5;
+}
+>>>>>>> sub-dev

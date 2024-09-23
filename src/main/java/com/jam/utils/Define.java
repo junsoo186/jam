@@ -11,6 +11,7 @@ public class Define {
 	
 	//  User
 	public static final String ENTER_YOUR_LOGIN = "로그인 먼저 해주세요.";
+	public static final String ENTER_YOUR_LOGIN_FAIL = "로그인 실패 아이디 또는 비밀번호를 확인해 주세요.";
 	public static final String ENTER_YOUR_USERNAME = "username을 입력해 주세요.";
 	public static final String ENTER_YOUR_FULLNAME = "fullname을 입력해 주세요.";
 	public static final String ENTER_YOUR_ACCOUNT_NUMBER = "계좌번호를 입력해 주세요.";
@@ -31,5 +32,9 @@ public class Define {
 	// Book
 	
 	//Q&A
+
+	// Funding
+	public static final String FAIL_TO_CREATE_FUNDING = "펀딩 생성 실패";
+	
 
 }

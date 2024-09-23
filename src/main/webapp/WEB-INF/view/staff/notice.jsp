@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="ko">
+<%@ include file="/WEB-INF/view/staff/main.jsp" %>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,6 +12,7 @@
 </head>
 <body>
 
+<div class ="main-content" >
 
 	<h2>공지사항 페이지</h2>
 	
@@ -53,12 +55,13 @@
 
 
 			</c:forEach>
+			
 		</tbody>
 	</table>
 	
 	
-
-	<script type="text/javascript" src="/js/navigation.js"></script>
+	
+</div>
 
 
 </body>

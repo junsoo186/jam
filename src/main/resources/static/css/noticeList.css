@@ -1,85 +1,62 @@
 @charset "UTF-8";
-/* 전체 페이지 기본 스타일 */
-body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f9f9f9; /* 부드러운 회색 배경 */
-    color: #333; /* 기본 텍스트 색상 */
-    margin: 0;
-    padding: 0;
-}
-
-
-/* 컨테이너 스타일 */
-.container {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 50px;
-    background-color: #fff; /* 흰색 배경 */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
-    border-radius: 5px; /* 부드러운 모서리 */
-}
-
-/* 제목 스타일 */
-h1 {
-    font-size: 24px;
-    margin-bottom: 20px;
-    color: black; 
-}
-
-/* 테이블 스타일 */
 .table {
-    width: 100%;
+    width: 100%;  /* 테이블이 전체 너비를 차지하도록 설정 */
     margin-bottom: 20px;
-    border-collapse: collapse;
+    border-collapse: collapse; /* 경계선 사이에 간격이 없도록 설정 */
 }
-
-/* 테이블 헤더 스타일 */
-.table th {
-    background-color: #f5f5f5;
-    color: black;
-    padding: 10px;
-    text-align: left;
-    border-bottom: 2px solid #ff4081;
-}
-
-/* 테이블 데이터 셀 스타일 */
-.table td {
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
-    vertical-align: middle;
-}
-
-/* 테이블의 짝수 행 색상 변경 */
-.table-striped tbody tr:nth-of-type(odd) {
-    background-color: #f9f9f9;
-}
-.btn-insert{
-	float: right;
-	margin:10px;
-}
-
-
-/* 삭제, 새글 버튼 스타일 */
-.btn-danger,
-.btn-insert {
-    background-color: #ff4081;
-    border: none;
-    padding: 5px 10px;
+.titlle {
+    display: flex;
+    width: 100%;    
+    font-size: 20px;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(237, 115, 155, 0.8);
+    margin-bottom: 20px;
     color: white;
+    margin-right: 35px;
+}
+
+.table th, .table td {
+    padding: 15px;  /* 셀에 여백 추가 */
+    border-bottom: 1px solid #ddd;  /* 행 사이에 경계선 추가 */
+    text-align: center;  /* 텍스트를 가운데 정렬 */
+    font-size: 16px;  /* 글자 크기 설정 */
+    font-weight: bold; /* 테이블 헤더 글자를 굵게 */
+}
+.table a{
+    color: black;
+}
+/* 문의 남기기 버튼 스타일 */
+.btn-danger {
+    color: white;
+    font-weight: border;
+    background-color: #ff4081; /* 버튼 배경색 변경 */
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px; /* 둥근 모서리 추가 */
     cursor: pointer;
-    border-radius: 5px;
-    font-size: 14px;
+    transition: background-color 0.3s; /* 색상 전환 효과 추가 */
+    margin-bottom: 20px; /* 아래쪽에 여백 추가 */
 }
 
-/* 삭제 버튼 호버 효과 */
-.btn-danger:hover,
-.btn-insert:hover {
-    background-color: #ccc;
+.btn-danger:hover {
+    background-color: #ff4081; /* 마우스를 올렸을 때 색상 변경 */
 }
 
-/* 폼 스타일 */
-form.d-inline {
-    display: inline;
+/* 버튼 정렬 */
+.container {
+    width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    display: flex;
+    justify-content: center;  /* 버튼과 내용이 가운데로 정렬되도록 설정 */
+    align-items: center;
+    flex-direction: column;
 }
 
-
+.page-item.active .page-link {
+    background-color: #f06292; /* 원하는 배경색 */
+    color: white; /* 텍스트 색상 */
+    border-color: #f06292; /* 테두리 색상 */
+}

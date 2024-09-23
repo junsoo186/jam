@@ -90,6 +90,7 @@
                                     <form id="checkoutForm" action="/funding/checkout" method="post">
                                         <!-- 총 결제 금액을 서버로 전달 -->
                                         <input type="hidden" id="totalAmountInput" name="totalAmount" value="0" />
+                                        <input type="hidden" id="projectIdInput" name="projectId" value="${project.projectId}" />
 
                                         <!-- 리워드 항목을 동적으로 추가할 컨테이너 -->
                                         <div id="cartItemsInputs">
@@ -102,9 +103,7 @@
 
                                 <!-- 리워드 선택 영역 -->
                                 <c:forEach items="${rewards}" var="reward">
-                                    <button
-                                        class="reward-button ${reward.rewardQuantity == 0 || project.dateEnd < currentDate ? 'disabled' : ''}"
-                                        ${reward.rewardQuantity==0 || project.dateEnd < currentDate ? 'disabled' : '' }
+                                    <button class="reward-button ${reward.remainingQuantity == 0 ? 'disabled' : ''}"
                                         data-reward-id="${reward.rewardId}"
                                         data-reward-content="${reward.rewardContent}"
                                         data-reward-point="${reward.rewardPoint}"
@@ -112,6 +111,7 @@
                                         ${reward.userCount}명이 선택중!<br>
                                         ${reward.rewardContent}<br>
                                         <fmt:formatNumber value="${reward.rewardPoint}" pattern="#,###" /> 원<br>
+
                                         <c:choose>
                                             <c:when test="${reward.remainingQuantity == 0}">
                                                 <p class="funding--text--deadline">마감</p>
@@ -122,8 +122,6 @@
                                         </c:choose>
                                     </button>
                                 </c:forEach>
-
-                                <!-- 결제 버튼 -->
                                 <!-- 결제 버튼 -->
 
 
@@ -135,6 +133,23 @@
                     <div id="userInfo" data-user-point="${principal.point}" style="display: none;"
                         data-user-id="${principal != null ? principal.userId : ''}"></div>
 
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function () {
+                            const currentDate = new Date(); // 클라이언트의 현재 시간을 가져옴
+                            const dateEnd = new Date('${project.dateEnd}'); // 서버에서 제공하는 프로젝트 마감 시간을 사용
+
+                            // 모든 리워드 버튼을 가져옴
+                            document.querySelectorAll('.reward-button').forEach(button => {
+                                const remainingQuantity = parseInt(button.getAttribute('data-reward-quantity'), 10);
+
+                                // 프로젝트가 마감되었거나 리워드 수량이 0보다 작지만 -1은 제외
+                                if ((remainingQuantity < 0 && remainingQuantity !== -1) || dateEnd < currentDate) {
+                                    button.classList.add('disabled'); // 버튼 비활성화 스타일 추가
+                                    button.disabled = true; // 실제로 클릭을 방지
+                                }
+                            });
+                        });
+                    </script>
                     <script src="/js/funding/fundingDetail.js"></script>
                 </body>
 

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jam.repository.interfaces.PurchaseRepository">
+
+<insert id="insertPurchase" parameterType="com.jam.dto.PurchaseDTO">
+    INSERT INTO purchase_tb (user_id, book_id, story_id, purchase_date)
+    VALUES (#{userId}, #{bookId}, #{storyId}, NOW())
+</insert>
+
+<select id="isPurchaseExists" resultType="string">
+   SELECT CASE
+            WHEN COUNT(*) > 0 THEN 'buy'
+            ELSE 'not_buy'
+           END AS purchaseStatus
+    FROM purchase_tb
+    WHERE user_id = #{userId} AND book_id = #{bookId} AND story_id = #{storyId}
+</select>
+
+</mapper>

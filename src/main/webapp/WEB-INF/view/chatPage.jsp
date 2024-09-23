@@ -6,11 +6,17 @@
 <html>
 <head>
 <meta charset="UTF-8">
+
+<style type="text/css">
+
+
+</style> 
 <title>${nickname}님 채팅</title>
 
 </head>
 <body>
-
+  <h1></h1>
+  
 
      <div id="messages"></div>
         <div  class= " bottom--sendarea" style="display: flex; align-items: center;">
@@ -19,10 +25,14 @@
         </div>
   
     <script type="text/javascript">
-    const profileImg = '${profileImg}';
-    const userId = '${userId}';
-    const nickname = '${nickname}'; 
+    
+    const profileImg = '${profileImg}'; // 사용자 프로필 이미지 경로
+    const userId = '${userId}'; // 현재 사용자 ID
+    const nickname = '${nickname}'; // 현재 사용자 닉네임
+    const roomId = '${roomId}'; // 현재 채팅방 ID	
+   
     </script>
-    <script type="text/javascript" src="/js/chat.js"></script>
+     <script type="text/javascript" src="/js/chat.js"></script>
+    
 </body>
 </html>

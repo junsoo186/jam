@@ -14,22 +14,27 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.repository.query.Param;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.google.cloud.storage.Storage.PredefinedAcl;
 import com.jam.dto.EmailVerificationResult;
 import com.jam.dto.signInDTO;
 import com.jam.dto.signUpDTO;
 import com.jam.repository.interfaces.UserRepository;
 import com.jam.repository.model.AccountHistoryDTO;
+import com.jam.repository.model.RefundRequest;
 import com.jam.repository.model.User;
 import com.jam.utils.Define;
-import com.jam.repository.model.RefundRequest;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+import com.jam.handler.exception.DataDeliveryException;
 
 @Slf4j
 @Service
@@ -80,11 +85,13 @@ public class UserService {
         System.out.println("회원가입 서비스: " + dto.toString());
 
         if (result == 1) {
+        	
             System.out.println("회원가입 성공");
             return dto.getProfileImg();  // 성공하면 프로필 이미지 경로 반환
         } else {
             System.out.println("회원가입 실패");
-            return null;  // 실패하면 null 반환
+            throw new DataDeliveryException("회원가입 실패", HttpStatus.INTERNAL_SERVER_ERROR);  // 실패하면 null 반환
+            
         }
     }
 
@@ -98,12 +105,14 @@ public class UserService {
 		// 이메일로 유저를 조회
 		User user = userRepository.findEmail(dto.getEmail());
 		if (user == null) {
-			throw new IllegalArgumentException("User not found with the provided email.");
-		}
+			throw new DataDeliveryException(Define.ENTER_YOUR_LOGIN_FAIL, HttpStatus.BAD_REQUEST);
+			// throw new IllegalArgumentException("User not found with the provided email.");
+		}	
 
 		// 비밀번호 확인
 		if (!passwordEncoder.matches(dto.getPassword(), user.getPassword())) {
-			throw new IllegalArgumentException("Password is incorrect.");
+			throw new DataDeliveryException(Define.ENTER_YOUR_LOGIN_FAIL, HttpStatus.BAD_REQUEST);
+			// throw new IllegalArgumentException("Password is incorrect.");
 		}
 
 		return user;
@@ -376,8 +385,8 @@ public class UserService {
 	 * (테스트용)
 	 * @return
 	 */
-	public List<RefundRequest> selectRefundRequest(int page, int pageSize) {
-		List<RefundRequest> dto = userRepository.selectRefundRequest(page, pageSize);
+	public List<RefundRequest> selectRefundRequest(@Param("page") int page, @Param("pageSize") int pageSize) {
+		List<RefundRequest> dto = userRepository.selectRefundRequest(pageSize, page);
 		return dto;
 	}
 	

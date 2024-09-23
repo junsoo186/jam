@@ -105,7 +105,6 @@ public class FundingController {
 		fundingService.insertProject(project, rewards, mFiles);
 
 		// 생성된 projectId를 반환
-		System.out.println("projectId : " + project.getProjectId());
 		Map<String, Object> response = new HashMap<>();
 		response.put("projectId", project.getProjectId());
 
@@ -118,14 +117,19 @@ public class FundingController {
 	 * @return
 	 */
 	@GetMapping("/fundingList")
-	public String handleFundingList(Model model) {
-		List<Project> projects = fundingService.findAllProject();
-
-		for (Project project : projects) {
-			project.setMainImg(project.setUpMainImage()); // 바로 설정
+	@ResponseBody
+	public List<Project> getProjects(@RequestParam(value = "page", defaultValue = "1") int page,
+			@RequestParam(value = "size", defaultValue = "16") int size) {
+		List<Project> fundinList = fundingService.getPagedProjects(page, size); // 페이지 번호와 사이즈에 맞게 프로젝트 목록을 가져옴
+		for (Project project : fundinList) {
+			String mainImg = project.setUpMainImage();
+			project.setMainImg(mainImg);
 		}
-		model.addAttribute("projectList", projects);
+		return fundinList;
+	}
 
+	@GetMapping("/projects")
+	public String handleProjectList() {
 		return "funding/fundingList";
 	}
 
@@ -235,8 +239,7 @@ public class FundingController {
 			Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
 			// 저장된 파일의 URL 생성
-			String fileUrl = "/images/uploads/" + fileName;
-			System.out.println("fileUrl" + fileUrl);
+			String fileUrl = "/images/funding/" + fileName;
 			// CKEditor에서 요구하는 응답 형식
 			response.put("uploaded", true);
 			response.put("url", fileUrl);
@@ -293,6 +296,10 @@ public class FundingController {
 	@PostMapping("/checkout")
 	public String processCheckout(@RequestParam("totalAmount") int totalAmount,
 			@RequestParam("rewardIds") List<String> rewardIdsStr, @RequestParam("quantities") List<Integer> quantities,
+<<<<<<< HEAD
+=======
+			@RequestParam("projectId") int projectId,
+>>>>>>> sub-dev
 			HttpSession session) {
 
 		List<Integer> rewardIds = rewardIdsStr.stream().map(Integer::parseInt).collect(Collectors.toList());
@@ -300,11 +307,13 @@ public class FundingController {
 		System.out.println("totalAmount" + totalAmount);
 		System.out.println("rewards : " + rewardIds.toString());
 		System.out.println("quantities : " + quantities.toString());
+		System.out.println("projectId : " + projectId);
 
 		// 세션에 데이터 저장
 		session.setAttribute("totalAmount", totalAmount);
 		session.setAttribute("rewardIds", rewardIds);
 		session.setAttribute("quantities", quantities);
+		session.setAttribute("projectId", projectId);
 
 		return "redirect:/funding/checkoutPage";
 	}
@@ -345,6 +354,7 @@ public class FundingController {
 			Model model) {
 
 		User principal = (User) session.getAttribute("principal");
+		Integer projectId = (Integer) session.getAttribute("projectId");
 
 		// 각각의 리워드와 수량에 대해 처리
 		for (int i = 0; i < rewardIds.size(); i++) {
@@ -358,17 +368,37 @@ public class FundingController {
 					.extraAddress(extraAddress).build();
 			fundingService.insertFunding(funding);
 		}
+		fundingService.usePointByFunding(principal.getUserId(), totalAmount);
 
-		return "redirect:/funding/checkoutComplete";
+		return "redirect:/funding/fundingDetail?projectId=" + projectId;
 	}
 
-	// 결제 완료 페이지 (옵션)
-	@GetMapping("/checkoutComplete")
-	public String checkoutComplete() {
+	@PostMapping("/cancelFunding")
+	public String cancelFunding(@RequestParam("fundingId") Integer fundingId,
+			@RequestParam("totalAmount") Integer totalAmount) {
+		User principal = (User) session.getAttribute("principal");
 
-		return "funding/checkoutComplete"; // 결제 완료 페이지로 이동
+		// 펀딩 취소 로직 실행
+		try {
+			fundingService.cancelFunding(fundingId, totalAmount, principal.getUserId()); // 서비스에서 취소 처리
+			return "redirect:/pay/paylist";
+		} catch (Exception e) {
+			return "redirect:/errorPage";
+		}
 	}
 
+	@GetMapping("/funding")
+	@ResponseBody
+	public Project getMethodName(@RequestParam("bookId") Integer bookId) {
+		Project project = fundingService.getProjectBybookId(bookId);
+
+		String mainImg = project.getMainImg();
+		project.setMainImg(mainImg);
+
+		return project;
+	}
+
+<<<<<<< HEAD
 	@PostMapping("/list")
 	public String handleFunding() {
 		return "funding";
@@ -396,4 +426,6 @@ public class FundingController {
 		return "funding/fundingList";
 
 	}
+=======
+>>>>>>> sub-dev
 }
