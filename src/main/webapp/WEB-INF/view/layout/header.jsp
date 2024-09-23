@@ -4,7 +4,7 @@
 			<!DOCTYPE html>
 			<html>
 
-<<<<<<< HEAD
+
 				<div class="nav-item">
 					<c:choose>
 						<c:when test="${principal != null}">
@@ -47,7 +47,7 @@
 					<div class="search-tb">
 						<div class="search-td">
 							<input type="text" class="search-input" placeholder="작가 또는 작품 검색">
-=======
+
 			<head>
 				<meta charset="UTF-8">
 				<title>JAM</title>
