@@ -74,7 +74,7 @@
                 <c:forEach var="story" items="${storyList}">
 					<div class="story-with-button" 
 					style="cursor: pointer;" 
-					onclick="handleStoryClick(${story.storyId}, ${bookDetail.bookId}, ${story.cost},'${purchaseStatus != null ? purchaseStatus : ""}')">
+					onclick="handleStoryClick(${story.storyId}, ${bookDetail.bookId}, ${story.cost},'${story.purchaseStatus != null ? story.purchaseStatus : ""}')">
                         <c:choose>
                             <c:when test="${story.cost == 0}">
                                 <p class="free">무료</p>

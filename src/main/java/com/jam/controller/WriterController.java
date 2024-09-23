@@ -261,7 +261,6 @@ public class WriterController {
 		 int bookId = storyContent.getBookId();
 	 
 		 String purchaseStatus = "notPurchased"; // 기본값 설정
-	 
 		 // 무료 회차는 바로 콘텐츠를 보여줌
 		 if (cost == 0) {
 			 purchaseStatus = "free";
@@ -269,10 +268,12 @@ public class WriterController {
 			 model.addAttribute("purchaseStatus", purchaseStatus); // purchaseStatus를 모델에 추가
 			 return "write/storyContents";
 		 }
-	 
+		 
 		 // 구매 여부 확인
 		 purchaseStatus = purchaseService.checkPurchaseStatus(userId, bookId, storyId);
 		 
+		 System.out.println(purchaseStatus);
+
 		 // 구매한 경우
 		 if ("buy".equals(purchaseStatus)) {
 			 model.addAttribute("storyContent", storyContent);
@@ -346,6 +347,11 @@ public class WriterController {
 		Book bookDetail = writerService.detailBook(bookId); // 책의 상세 정보 가져오기
 		String bookImg = bookDetail.setUpUserImage(); // 책 이미지 설정
 		bookDetail.setBookCoverImage(bookImg); // 설정된 이미지 저장
+		
+		for (Story story : storyList) {
+			String purchaseStatus = purchaseService.checkPurchaseStatus(principal.getUserId(), bookId, story.getStoryId());
+			story.setPurchaseStatus(purchaseStatus);
+		}
 
 		totalRecords = writerService.countStoriesByBookId(bookId); // 총 스토리 개수 계산
 		totalPages = (int) Math.ceil((double) totalRecords / size); // 총 페이지 계산

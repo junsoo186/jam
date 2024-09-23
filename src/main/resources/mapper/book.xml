@@ -418,6 +418,7 @@
 		b.category_id,
 		b.genre_id,
 		b.book_cover_image,
+		sum(vr.views) as views,
 		GROUP_CONCAT(DISTINCT t.tag_name ORDER BY t.tag_name ASC) AS tagNames
 	FROM
 		book_tb b
@@ -425,6 +426,8 @@
 		b.book_id = bt.book_id
 	LEFT JOIN tag_tb t ON
 		bt.tag_id = t.tag_id
+	LEFT JOIN book_views_rating_tb vr ON 
+		vr.book_id = b.book_id
 	WHERE
 		(b.author LIKE CONCAT('%', #{searchTerm}, '%')
 		OR b.title LIKE CONCAT('%', #{searchTerm}, '%')
