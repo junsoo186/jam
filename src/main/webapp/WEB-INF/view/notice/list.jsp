@@ -4,11 +4,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <link rel="stylesheet" href="/css/noticeList.css">
+<link rel="stylesheet" href="/css/layout/page.css">
 
 <div class="container mt-5">
 	<h2>공지사항</h2>
-	<button type="button" onclick="window.location.href='insertForm';"
-		class="btn btn-insert">글쓰기</button>
 
 	<table class="table table-striped mt-3">
 		<thead>
@@ -17,39 +16,22 @@
 				<th>제목</th>
 				<th>작성자</th>
 				<th>작성일</th>
-				<th>작업</th>
+
 			</tr>
 		</thead>
-		<tbody>
-			<c:forEach var="notice" items="${noticeList}" varStatus="status">
-				<tr>
-					<td>${(currentPage -1)*size + status.index +1}</td>
-					<td><a href="/notice/detail/${notice.noticeId}">${notice.noticeTitle}</a></td>
-					<td>${notice.staffId}</td>
-					<td>${notice.createdAt}</td>
-					<td>
-						<form id="delete" method="post" action="/notice/delete">
-							<input type="hidden" name="noticeId" value="${notice.noticeId}">
-							<!-- 실제 noticeId 값을 여기에 설정해야 합니다 -->
-							<input type="hidden" name="action" value="delete">
-							<button type="button" onclick="confirmDelete()">삭제</button>
-							<!-- onclick 이벤트 핸들러 추가 -->
-						</form>
-
-						<form id="update" method="get" action="update/${notice.noticeId}">
-							<input type="hidden" name="noticeId" value="${notice.noticeId}">
-							<!-- 실제 noticeId 값을 여기에 설정해야 합니다 -->
-							<input type="hidden" name="action" value="update">
-							<button type="submit">수정</button>
-						</form>
-
-					</td>
-				</tr>
-			</c:forEach>
-		</tbody>
+			<tbody>
+			    <c:forEach var="notice" items="${noticeList}" varStatus="status">
+			        <tr style="${notice.noticeId%2== 1 ? '' : 'background-color: #dddddd4d;'}">
+			            <td>${(currentPage -1)*size + status.index + 1}</td>
+			            <td><a href="/notice/detail/${notice.noticeId}">${notice.noticeTitle}</a></td>
+			            <td>${notice.nickName}</td>
+			            <td>${notice.createdAt}</td>
+			        </tr>
+			    </c:forEach>
+			</tbody>
 	</table>
 	<div class="bottom--page--area">
-		<ul class="pagination">
+		<ul class="pagination" style="display: flex;">
 			<!-- Previous Page Link -->
 			<li class="page-item"><a class="page-link"
 				href="?type=${type}&page=${currentPage - 1}&size=${size}"
