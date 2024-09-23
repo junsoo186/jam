@@ -223,10 +223,9 @@ h1 {
     height: 40px;
     background-color: #f06292;
     border-radius: 25px;
-    z-index: 0;
-    transition: transform 0.3s ease;
-    left: 0;
-    transform: translateX(615px);  /* 처음에 왼쪽에 위치 */
+    transition: transform 0.5s ease, width 0.5s ease;
+    z-index: 0; /* 배경은 버튼 아래 */
+    transform: translateX(-50px);  /* 처음에 왼쪽에 위치 */
 }
 
 .btn--day--views.active,
@@ -235,5 +234,10 @@ h1 {
 }
 
 .btn--area.active-right::before {
-    transform: translateX(710px);
+    transform: translateX(50px);
+}
+.button-container{
+	    display: flex;
+    width: 100%;
+    justify-content: flex-end;
 }

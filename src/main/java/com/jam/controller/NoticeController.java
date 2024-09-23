@@ -48,7 +48,7 @@ public class NoticeController {
 		model.addAttribute("currentPage", page);
 		model.addAttribute("totalPages", totalPages);
 		model.addAttribute("size", size);
-		return "/notice";
+		return "/notice/list";
 	}
 
 	/**

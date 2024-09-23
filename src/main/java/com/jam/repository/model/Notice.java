@@ -20,5 +20,6 @@ public class Notice {
 	private String noticeContent; // 공지 사항 내용
 	private String comment; // 공지 사항 댓글
 	private Timestamp createdAt; // 작성시간 
+	private String nickName;
 	
 }

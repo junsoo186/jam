@@ -21,7 +21,9 @@
 	<!-- 게시글 조회 -->
 	<select id="findAll"
 		resultType="com.jam.repository.model.Notice">
-		SELECT * FROM notice_tb
+SELECT NOTICE_ID,n.USER_ID,NOTICE_TITLE,NOTICE_CONTENT ,COMMENT ,FORMATDATETIME(n.CREATED_AT, 'yyyy-MM-dd HH:mm') AS CREATED_AT, NICK_NAME
+FROM notice_tb n
+left join user_tb u on n.user_id=u.user_id
 		ORDER BY NOTICE_ID DESC
 		LIMIT #{limit} OFFSET
 		#{offset};
