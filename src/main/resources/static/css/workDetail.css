@@ -147,11 +147,14 @@ line-height: 22px;
 	margin-left: 5px;
 }
 .funding-box{
+	display: flex;
+	justify-content: center;
 	margin-top: 10px;
 	margin-bottom: 10px;
 	border:solid 1px #dcdced;
 	min-height:390px ;
 	background-color: #f3f3f9;
+	align-items: center;
 
 }
 .comments--content{
