@@ -31,7 +31,7 @@
 									<li>
 
 									<li>
-										<a href="/">공지</a>
+										<a href="/notice/list">공지</a>
 									<li>
 
 								</ul>
