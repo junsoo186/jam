@@ -18,7 +18,7 @@
 	<main>
 		<!-- 네비게이션 메뉴 -->
 		<ul class="nav-menu">
-			<li><a href="#">회원 관리</a></li>
+			<li><a href="/user/">회원 관리</a></li>
 			<li><a href="/pay/paylist">결제 내역</a></li>
 			<li><a href="#">차단 관리</a></li>
 			<li><a href="#">이벤트 내역</a></li>
@@ -81,6 +81,23 @@
 			<div class="action-buttons">
 			</div>
 		</div>
+		
+		<div class="recent-activity-section">
+    <h3>최근 활동</h3>
+    <ul>
+        <li><a href="#">스토리 제목 1</a>에 댓글을 남겼습니다.</li>
+        <li>포인트로 <a href="#">콘텐츠 2</a>를 구매했습니다.</li>
+        <li>결제 내역: 500포인트 결제</li>
+    </ul>
+</div>
+
+<div class="point-history-section">
+    <h3>포인트 내역</h3>
+    <ul>
+        <li>2023-09-01: 200포인트 적립</li>
+        <li>2023-09-05: 100포인트 사용</li>
+    </ul>
+</div>
 
 		<div>
 			<div class="toggle-container">
