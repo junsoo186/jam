@@ -10,19 +10,24 @@
 <link rel="stylesheet" href="/css/index.css">
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
     <link rel="stylesheet" href="font/GmarketSansMedium.css" />
+	<div class="back-ground"></div>
 <main>
 
  <!-- 1. 배너 Swiper -->
-    <div class="swiper-container banner-swiper-container">
-        <div class="swiper-wrapper">
-            <!-- 배너 슬라이드 내용 -->
-        </div>
-        <div class="swiper-button-prev banner-swiper-button-prev"></div>
-        <div class="swiper-button-next banner-swiper-button-next"></div>
-        <div class="swiper-pagination banner-swiper-pagination"></div>
-    </div>
+ <div class="swiper-container banner-swiper-container">
+	 <!-- 부모보다 넓게 적용할 배경색 요소 -->
+	 <div class="banner-swiper-wrapper-bg"></div>
+	 
+	 <div class="swiper-wrapper">
+		 <!-- 배너 슬라이드 내용 -->
+	 </div>
+	 <div class="swiper-button-prev banner-swiper-button-prev"></div>
+	 <div class="swiper-button-next banner-swiper-button-next"></div>
+	 <div class="swiper-pagination banner-swiper-pagination"></div>
+ </div>
+  
 
-
+    <!-- 1. 배너 Swiper -->
 
 	
 

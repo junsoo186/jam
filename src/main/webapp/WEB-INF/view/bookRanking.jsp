@@ -1,12 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <%@ include file="/WEB-INF/view/layout/header.jsp"%>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="/css/bookRanking.css">
 <main>
-<div class="button-container">
     <h1>랭킹</h1>
+<div class="button-container">
     <div class="btn--area" id="btnArea">
         <!-- 정렬 버튼 -->
         <button id="viewsButton" class="btn--day--views active" onclick="toggleActiveButton('views')">조회수</button>
