@@ -17,6 +17,10 @@
 		#{age}, #{bookCoverImage})
 	</insert>
 
+	<select id="findBookByBookId" parameterType="int" resultType="com.jam.repository.model.Book">
+  	SELECT * FROM book_tb WHERE book_id = #{bookId}
+	</select>
+
 
 	<insert id="insertBookId"
 		parameterType="com.jam.repository.model.Book" useGeneratedKeys="true"

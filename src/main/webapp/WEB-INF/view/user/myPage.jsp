@@ -6,39 +6,40 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<title>회원 관리</title>
-<!--  <link rel="stylesheet" href="/css/signIn.css"> -->
 <link rel="stylesheet" href="/css/user/myPage.css">
-</head>
-<body>
-
 	<%@ include file="/WEB-INF/view/layout/header.jsp"%>
 
 
 	<main>
-		<!-- 네비게이션 메뉴 -->
-		<ul class="nav-menu">
-			<li><a href="/user/">회원 관리</a></li>
-			<li><a href="/pay/paylist">결제 내역</a></li>
-			<li><a href="#">차단 관리</a></li>
-			<li><a href="#">이벤트 내역</a></li>
-			<li><a href="/user/profileSetting">회원 정보 수정</a></li>
+
+		
+		<section class="top--nav--area-menu">
+			<div class="navbar">
+				<a href="#">회원 관리</a>
+				<a href="/pay/paylist">결제 내역</a>
+				<a href="#">차단 관리</a>
+				<a href="/write/workList">내 작품</a>
+				<a href="/user/profileSetting">회원 정보 수정</a>
+			</div>
+		</section>
+
+		
 			
 
-		</ul>
+
 
 		<!-- 프로필 정보 섹션 -->
-		<div class="profile-section">
+		<section class="profile-section">
 			<div class="profile-info">
 
 				<div class="profile-image">
 					<img alt="Profile Image" src="${principal.profileImg}">
 				</div>
-				<div>
-					<div class="info-item">닉네임: ${principal.nickName}</div>
-					<div class="info-item">이메일: ${principal.email}</div>
+				<div class="text--area">
+					<p style="margin-top: 70px;">닉네임<div class="info-item"> ${principal.nickName}</div></p>
+					<p>이메일<div class="info-item"> ${principal.email}</div></p>
+					<p>전화번호
 					<div class="info-item">
-						전화번호:
 						<c:if test="${principal.phoneNumber eq null}">
                 	정보없음
                 </c:if>
@@ -49,8 +50,9 @@
 
 
 					</div>
+				</p>
+					<p>주소
 					<div class="info-item">
-						주소:
 						<c:if test="${principal.address eq null}">
                         정보없음
                     </c:if>
@@ -58,8 +60,9 @@
                         ${principal.address}
                     </c:if>
 					</div>
+				</p>
+				<p>생일
 					<div class="info-item">
-						생일:
 						<c:if test="${principal.birthDate eq null}">
                         정보없음
                     </c:if>
@@ -67,8 +70,9 @@
                         ${principal.birthDate}
                     </c:if>
 					</div>
+				</p>
+				<p>포인트
 					<div class="info-item">
-						포인트:
 						<c:if test="${principal.point eq null}">
                         정보없음
                     </c:if>
@@ -76,47 +80,35 @@
                         ${principal.point}
                     </c:if>
 					</div>
+				</p>
 				</div>
 			</div>
 			<div class="action-buttons">
 			</div>
-		</div>
-		
-		<div class="recent-activity-section">
-    <h3>최근 활동</h3>
-    <ul>
-        <li><a href="#">스토리 제목 1</a>에 댓글을 남겼습니다.</li>
-        <li>포인트로 <a href="#">콘텐츠 2</a>를 구매했습니다.</li>
-        <li>결제 내역: 500포인트 결제</li>
-    </ul>
-</div>
 
-<div class="point-history-section">
-    <h3>포인트 내역</h3>
-    <ul>
-        <li>2023-09-01: 200포인트 적립</li>
-        <li>2023-09-05: 100포인트 사용</li>
-    </ul>
-</div>
+			<div>
+				<div class="toggle-container">
+					<div class="toggle-button" id="supporterButton" onclick="toggleButton('supporter')">
+						<span>유저</span>
+					</div>
+					<div class="toggle-button" id="makerButton" onclick="toggleButton('maker')">
+						<span>작가</span>
+					</div>
 
-		<div>
-			<div class="toggle-container">
-				<div class="toggle-button" id="supporterButton" onclick="toggleButton('supporter')">
-					<span>유저</span>
-				</div>
-				<div class="toggle-button" id="makerButton" onclick="toggleButton('maker')">
-					<span>작가</span>
 				</div>
 			</div>
-		</div>
-
-		<!-- 펀딩 구분 섹션 -->
+			<!-- 펀딩 구분 섹션 -->
 		<div class="info-section">
 			<div class="info-item">
 				<a href="#">펀딩 사업자 등록</a>
 
 			</div>
 		</div>
+		</section>
+
+		
+		
+
 	</main>
 	<script type="text/javascript">
 		var principalEmail = "<c:out value='${principal != null ? principal.email : "

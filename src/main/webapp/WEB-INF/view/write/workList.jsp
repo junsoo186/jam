@@ -65,6 +65,9 @@
                                     </div>
                                     ${list.likes} 
                                 </div>
+                                <div class="funding-btn">
+                                    <a href="/funding/createFunding?bookId=${list.bookId}"> 펀딩 생성</a>
+                                </div>
                             </div>
 
                             <div class="book--area novel-${list.bookId} s-inv" onmouseenter="showDetails(this)" onmouseleave="hideDetails(this)">

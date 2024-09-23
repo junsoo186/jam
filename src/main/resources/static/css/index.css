@@ -5,7 +5,6 @@ main{
 }
 
 
-
 /* 카테고리 필터 스타일 */
 .category--area--filter, 
 .genre--area--filter,
@@ -257,10 +256,13 @@ h3 {
 }
 /* swiper 라이브러리*/
 .swiper-container {
+    position: relative;
     width: 70%; /* 전체 화면 너비 */
     height: 80%; /* 슬라이드의 고정된 높이 */
     overflow: hidden; /* 넘치는 부분을 숨김 */
+    z-index: 1; /* 배경 요소보다 앞에 오도록 설정 */
 }
+
 
 .swiper-slide {
 	left:200px;
@@ -324,38 +326,46 @@ h3 {
     cursor: pointer
 }
 /* 왼쪽/오른쪽 네비게이션 버튼의 위치 조정 */
-.banner-swiper-button-prev, .banner-swiper-button-next  {
-    top: 50%; /* 버튼의 수직 위치 */
-    transform: translateY(-50%); /* 가운데 정렬 */
-    width: 30px; /* 버튼 너비 (원하는 크기로 변경 가능) */
-    height: 30px; /* 버튼 높이 (원하는 크기로 변경 가능) */
+.banner-swiper-button-prev, .banner-swiper-button-next {
+    position: absolute; /* 부모 요소 기준으로 고정 */
+    top: 50%; /* 부모 요소의 가운데 위치 */
+    transform: translateY(-50%); /* 버튼을 세로로 가운데 정렬 */
+    width: 30px;
+    height: 30px;
 }
-.book-swiper-button-prev, .book-swiper-button-next  {
-    top: 30%; /* 버튼의 수직 위치 */
-    transform: translateY(-80%); /* 가운데 정렬 */
-    width: 30px; /* 버튼 너비 (원하는 크기로 변경 가능) */
-    height: 500px; /* 버튼 높이 (원하는 크기로 변경 가능) */
+
+.book-swiper-button-prev, .book-swiper-button-next {
+    position: absolute; /* 부모 요소 기준으로 고정 */
+    top: 30%; /* 부모 요소의 30% 위치 */
+    transform: translateY(-80%); /* 세로로 정렬 */
+    width: 30px;
+    height: 500px;
 }
 
 .swiper-button-next {
-    margin-right: 30vw; /* 화면 너비의 10% */
+    position: absolute; /* 부모 요소 기준으로 고정 */
+    right: 30px; /* 부모 요소의 오른쪽으로 고정 (필요에 따라 조정 가능) */
+    top: 50%; /* 세로 가운데 정렬 */
+    transform: translateY(-50%);
     border-radius: 50%; 
-  	box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* 약간의 그림자 효과 */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* 그림자 효과 */
     width: 60px!important;
     height: 60px!important;
     color: black!important;
 }
 
-/* 왼쪽 버튼 (가까이 배치) */
+/* 왼쪽 버튼 */
 .swiper-button-prev {
-   	margin-left: 30vw; /* 화면 너비의 10% */
+    position: absolute; /* 부모 요소 기준으로 고정 */
+    left: 30px; /* 부모 요소의 왼쪽으로 고정 (필요에 따라 조정 가능) */
+    top: 50%; /* 세로 가운데 정렬 */
+    transform: translateY(-50%);
     border-radius: 50%; 
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* 약간의 그림자 효과 */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* 그림자 효과 */
     width: 60px!important;
     height: 60px!important;
     color: black!important;
 }
-
 /* 배너 Swiper 버튼 */
 
 .banner-swiper-button-prev {

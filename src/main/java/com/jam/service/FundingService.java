@@ -330,4 +330,8 @@ public class FundingService {
 		projectRepository.updateProjectState(state, projectId);
 	}
 
+    public Project getProjectBybookId(Integer bookId) {
+        return projectRepository.findProjectByBookId(bookId);
+    }
+
 }
