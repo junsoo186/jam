@@ -26,7 +26,7 @@
                                     <div class="form--group--area">
                                         <label for="contents" class="form--label--area">프로젝트 설명:</label>
                                         <textarea id="editor" name="contents" class="form--textarea" rows="10" cols="80"
-                                            placeholder="프로젝트의 설명을 입력하세요" required></textarea>
+                                            placeholder="프로젝트의 설명을 입력하세요"></textarea>
                                     </div>
 
                                     <!-- 목표 금액 입력 -->
@@ -70,7 +70,7 @@
                                     <div class="form--group--area">
                                         <label for="author" class="form--label--area">작성자 이름:</label>
                                         <input type="text" id="author" name="author" class="form--input--text"
-                                            placeholder="${principal.nickName}" required>
+                                            value="${principal.nickName}" required>
                                     </div>
 
                                     <!-- 폼 제출 버튼 -->
@@ -92,25 +92,25 @@
                                             이름:</label>
                                         <input type="text" id="rewardContent-${status.index}"
                                             name="rewards[${status.index}].content" class="form--input--text"
-                                            value="${reward.rewardContent}" required>
+                                            value="${reward.rewardContent}" placeholder="리워드 내용을 입력하세요" required>
                                     </div>
+
                                     <div class="form--group--area">
                                         <label for="rewardPoint-${status.index}" class="form--label--area">리워드 금액
                                             (원):</label>
                                         <input type="number" id="rewardPoint-${status.index}"
                                             name="rewards[${status.index}].point" class="form--input--number" min="1"
-                                            step="1000" value="${reward.rewardPoint}" required>
+                                            step="1000" value="${reward.rewardPoint}" placeholder="리워드 금액을 입력하세요"
+                                            required>
                                     </div>
+
                                     <div class="form--group--area">
                                         <label for="rewardQuantity-${status.index}" class="form--label--area">리워드
                                             수량:</label>
                                         <input type="number" id="rewardQuantity-${status.index}"
                                             name="rewards[${status.index}].quantity" class="form--input--number" min="1"
-                                            value="${reward.rewardQuantity}" required>
+                                            value="${reward.rewardQuantity}" placeholder="리워드 수량을 입력하세요" required>
                                     </div>
-                                    <!-- 리워드 삭제 버튼 -->
-                                    <button type="button" class="btn--remove-reward"
-                                        data-reward-id="${status.index}">X</button>
                                 </div>
                             </div>
                         </div>

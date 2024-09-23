@@ -79,7 +79,7 @@
 	<select id="updateProjectState">
 		update project_tb
 		set staff_agree = #{state}
-		where projcet_id = #{projectId}
+		where project_id = #{projectId}
 	</select>
 
 </mapper>

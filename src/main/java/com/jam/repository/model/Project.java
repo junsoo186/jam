@@ -46,7 +46,7 @@ public class Project {
     if (mainImg == null) {
       return "/images/project/projectnone.jpg";
     } else {
-      return "/images/funding/" + mainImg;
+      return "/images/" + mainImg;
     }
   }
 }

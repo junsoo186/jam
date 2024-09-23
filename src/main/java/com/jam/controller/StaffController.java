@@ -206,7 +206,7 @@ public class StaffController {
 			String state = "N";
 			fundingService.updateProjectState(state, projectId);
 		}
-		return "redirect:/staff/content-management";
+		return "redirect:/staff/content-page";
 	}
 
 	/**

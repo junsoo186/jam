@@ -10,12 +10,16 @@ document.addEventListener('DOMContentLoaded', function () {
         fetch(`/funding/funding?bookId=${bookId}`) // 1개의 프로젝트만 불러옴
             .then(response => response.json())
             .then(data => {
-                if (data.length === 0) {
-                    console.error('No project data found.');
+                // project가 null이거나 없을 때
+                if (!data || Object.keys(data).length === 0) {
+                    const noProjectMessage = document.createElement('div');
+                    noProjectMessage.classList.add('no-project-message');
+                    noProjectMessage.innerText = '아직 프로젝트를 생성하지 않았습니다.';
+                    projectContainer.appendChild(noProjectMessage);
                     return;
                 }
 
-                const project = data; // 첫 번째 프로젝트만 가져옴
+                const project = data; // 프로젝트 데이터 가져옴
 
                 // projectId가 유효한지 확인
                 if (!project.projectId) {

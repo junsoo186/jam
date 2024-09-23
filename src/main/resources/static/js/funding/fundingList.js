@@ -22,7 +22,10 @@ document.addEventListener('DOMContentLoaded', function () {
                     return;
                 }
 
-                data.forEach((project, index) => {
+                // staffAgree가 'N'인 프로젝트 필터링
+                const filteredProjects = data.filter(project => project.staffAgree !== 'N');
+
+                filteredProjects.forEach((project, index) => {
                     // projectId가 유효한지 확인
                     if (!project.projectId) {
                         console.error('Invalid projectId for project:', project);
@@ -97,6 +100,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // 초기 데이터 로드
     fetchProjects(currentPage);
 });
+
 
 // 프로젝트 진행 상황을 계산하는 함수
 function calculateProgress(index, currentAmount, goalAmount, endDate, currentDate) {

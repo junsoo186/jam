@@ -21,9 +21,9 @@ public class Content {
 
     public String setUpImage() {
         if (img == null) {
-            return "https://picsum.photos/id/40/400/400";
+            return "/images/project/projectnone.jpg";
         } else {
-            return "/images/funding/" + img;
+            return "/images/" + img;
         }
     }
 }
