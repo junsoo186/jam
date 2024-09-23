@@ -4,6 +4,7 @@
 <link rel="stylesheet" href="/css/workDetail.css">
 <link rel="stylesheet" href="/css/banner.css">
 <link rel="stylesheet" href="/css/layout/page.css">
+<link rel="stylesheet" href="/css/funding/fundingList.css">
 
 <main>
     <div class="top--container">
@@ -139,7 +140,7 @@
 						<div style="font-size: 25px; font-weight: bold; color: #333333;">펀딩</div>
 						<div class="funding-box"></div>
 						<div style="font-size: 25px; font-weight: bold; color: #333333;">후원</div>
-						<div class="funding-box"></div>
+						<div class="donation-box"></div>
 					</div>
    		 </section>
 
@@ -226,5 +227,5 @@
 <script type="text/javascript" src="/js/banner.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="text/javascript" src="/js/comment.js"></script>
-
+<script src="/js/funding/funding.js"></script>
 <%@ include file="/WEB-INF/view/layout/footer.jsp"%>

@@ -385,4 +385,15 @@ public class FundingController {
 		}
 	}
 
+	@GetMapping("/funding")
+	@ResponseBody
+	public Project getMethodName(@RequestParam("bookId") Integer bookId) {
+		Project project = fundingService.getProjectBybookId(bookId);
+
+		String mainImg = project.getMainImg();
+		project.setMainImg(mainImg);
+
+		return project;
+	}
+
 }
