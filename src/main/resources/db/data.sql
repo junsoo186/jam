@@ -178,15 +178,15 @@ VALUES (
 INSERT INTO `main_banner_tb` (
 `title` ,`content`,`sub_content`,`image_path`,`event_id`) 
 VALUES (
-    '회원가입 웰컴 반값 이벤트2', 
-    '회원가입 후 첫 코인 구매 시 50% 할인 혜택을 제공합니다.', 
+    '신인 작가분들을 모집합니다!', 
+    '작품을 만들고 싶으신 모든 작가분들을 모십니다!', 
     '기간한정 이벤트',  'mainbanner/bannerimg2.jpg', 2 );
 INSERT INTO `main_banner_tb` (
 `title` ,`content`,`sub_content`,`image_path`,`event_id`) 
 VALUES (
-    '회원가입 웰컴 반값 이벤트3', 
+    '회원가입 웰컴 반값 이벤트', 
     '회원가입 후 첫 코인 구매 시 50% 할인 혜택을 제공합니다.', 
-    '기간한정 이벤트',  'mainbanner/bannerimg3.jpg', 3);
+    '기간한정 이벤트',  'mainbanner/이벤트 상단배너1.jpg', 3);
 
 
 
