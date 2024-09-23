@@ -7,7 +7,14 @@ body {
     margin: 0;
     padding: 0;
 }
-
+.funding-btn{
+    margin-left: 10px;
+    background-color: #f06292;
+    border-radius: 5px;
+}
+.funding-btn a{
+    color: white;
+}
 
 
 .href--btn {
