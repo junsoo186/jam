@@ -259,14 +259,20 @@ public class MainCotroller {
     }
 
     @GetMapping("/search-page")
-    public String getMethodName(@RequestParam("q") String searchTerm, Model model) {
+    @ResponseBody
+    public List<Book> getMethodName(@RequestParam("q") String searchTerm, Model model) {
         List<Book> books = searchService.searchBooks(searchTerm);
         for (Book book : books) {
             book.setBookCoverImage(book.setUpUserImage());
         }
-        model.addAttribute("books", books);
+        return books;
+    }
+
+    @GetMapping("/searchResult")
+    public String getMethodName() {
         return "layout/search";
     }
+    
 
     // @GetMapping("/search")
     // public String searchBooks(@RequestParam("q") String searchTerm, Model model)

@@ -72,7 +72,7 @@
 
 							<!-- 검색 관련 코드  -->
 							<div id="cover">
-								<form method="get" action="/search-page" class="search-form">
+								<form method="get" action="/searchResult" class="search-form">
 									<div class="search-tb">
 										<div class="search-td">
 											<input type="text" class="search-input" name="q" placeholder="작가 또는 작품 검색"
