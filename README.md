@@ -30,16 +30,31 @@
 
 ## ❓ 프로젝트 설계
 - ERD
+  ![ERD](https://github.com/user-attachments/assets/347a8291-ccb3-4ae4-9709-2baca124a9f2)
 - SITE MAP
+  ![Work_Breakdown_Structure](https://github.com/user-attachments/assets/18fc5b46-9f1e-4675-b416-ae1c6cb4b5ee)
 
+## 툴
+- <img src="https://img.shields.io/badge/SPRING BOOT-6DB33F?style=for-the-badge&logo=springboot&logoColor=white">
+- <img src="https://img.shields.io/badge/Eclipse-2C2255?style=for-the-badge&logo=eclipseide&logoColor=white">
+- <img src="https://img.shields.io/badge/Visual Studio Code-007ACC?style=flat-square&logo=Visual Studio Code&logoColor=white"/>
+- <img src="https://img.shields.io/badge/Git-F05032?style=flat-square&logo=git&logoColor=white"/>
+- <img src="https://img.shields.io/badge/GitHub-181717?style=flat-square&logo=GitHub&logoColor=white"/>
+- <img src="https://img.shields.io/badge/Figma-F24E1E?style=flat-square&logo=figma&logoColor=white"/>
+- <img src="https://img.shields.io/badge/Notion-000000?style=flat-square&logo=notion&logoColor=white"/>
+- <img src="https://img.shields.io/badge/Discord-5865F2?style=flat-square&logo=discord&logoColor=white"/>
 ## 🛠 기능
 
-- 회원 가입 및 로그인
-- 결제 기능
-- 채팅 문의
-- 책 읽기 
-- 댓글
-   
+- [회원 가입 및 로그인](https://github.com/user-attachments/assets/e8bbb909-d686-4487-ae54-4b00d0962852)
+  
+- [결제 기능](https://github.com/user-attachments/assets/54f4107a-25c7-4a64-a913-8618421f3cc8)
+- [채팅 문의](https://github.com/user-attachments/assets/df53d272-f211-4ecd-ae9d-8757a374b4ab)
+- [책 읽기](https://github.com/user-attachments/assets/a8e45bc2-5247-478e-8999-2f77682de9a3)
+- [펀딩](https://github.com/user-attachments/assets/381223ee-13fe-47b5-abc0-75360f37625b)
+- [댓글](https://github.com/user-attachments/assets/7c882f16-b0ff-41e7-bc8e-ea3fef5e8ae5)
+
+- [메인](https://github.com/user-attachments/assets/a8e45bc2-5247-478e-8999-2f77682de9a3)
+
   ※[ppt링크](https://www.miricanvas.com/v/13opkjy) 
 
 
