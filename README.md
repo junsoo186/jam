@@ -44,15 +44,19 @@
 - <img src="https://img.shields.io/badge/Notion-000000?style=flat-square&logo=notion&logoColor=white"/>
 - <img src="https://img.shields.io/badge/Discord-5865F2?style=flat-square&logo=discord&logoColor=white"/>
 ## 🛠 기능
-
+-[회원 가입 및 로그인]
 - [회원 가입 및 로그인](https://github.com/user-attachments/assets/e8bbb909-d686-4487-ae54-4b00d0962852)
-  
+ - [결제 기능] 
 - [결제 기능](https://github.com/user-attachments/assets/54f4107a-25c7-4a64-a913-8618421f3cc8)
+- [채팅 문의]
 - [채팅 문의](https://github.com/user-attachments/assets/df53d272-f211-4ecd-ae9d-8757a374b4ab)
+- [책 읽기]
 - [책 읽기](https://github.com/user-attachments/assets/a8e45bc2-5247-478e-8999-2f77682de9a3)
+- [펀딩]
 - [펀딩](https://github.com/user-attachments/assets/381223ee-13fe-47b5-abc0-75360f37625b)
+- [댓글]
 - [댓글](https://github.com/user-attachments/assets/7c882f16-b0ff-41e7-bc8e-ea3fef5e8ae5)
-
+- [메인]
 - [메인](https://github.com/user-attachments/assets/a8e45bc2-5247-478e-8999-2f77682de9a3)
 
   ※[ppt링크](https://www.miricanvas.com/v/13opkjy) 
