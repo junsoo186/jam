@@ -20,6 +20,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
 	private final AuthInterceptor authInterceptor;
 	
+
+
 	// @Override
 	// public void addInterceptors(InterceptorRegistry registry) {
 	// 	List<String> excludeList = new ArrayList<>();
@@ -28,7 +30,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 	// 	excludeList.add("/css/**");
 	// 	excludeList.add("/images/**");
 	// 	excludeList.add("/");	
-	// 	excludeList.add("/js/**");
+	// 	excludeList.add("/static/js/**");
 	// 	registry.addInterceptor(authInterceptor).addPathPatterns("/**").excludePathPatterns(excludeList);
 	// }
 	
