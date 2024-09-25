@@ -57,7 +57,7 @@
 - [댓글]
 - [댓글](https://github.com/user-attachments/assets/7c882f16-b0ff-41e7-bc8e-ea3fef5e8ae5)
 - [메인]
-- [메인](https://github.com/user-attachments/assets/a8e45bc2-5247-478e-8999-2f77682de9a3)
+- [메인](https://github.com/user-attachments/assets/9e2fd736-a232-49e9-893b-ddb9f46df4df)
 
   ※[ppt링크](https://www.miricanvas.com/v/13opkjy) 
 
